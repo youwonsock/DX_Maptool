@@ -24,7 +24,7 @@ void ResourceManager::CreateDefaultMaterial()
 {
 	std::shared_ptr<Material> material = std::make_shared<Material>();
 	material->SetName(L"Default");
-	material->SetShader(Get<Shader>(L"Default"));
+	material->SetShader(Get<ShaderRes>(L"Default"));
 	material->SetTexture(Get<Texture>(L"Chim"));
 	Add(material->GetName(), material);
 }
@@ -39,7 +39,7 @@ void ResourceManager::CreateDefaultShader()
 	pixelShader->Create(L"../../Res/Shader/Default.hlsl", "PS", "ps_5_0");
 
 	// Shader
-	std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+	std::shared_ptr<ShaderRes> shader = std::make_shared<ShaderRes>();
 	shader->SetName(L"Default");
 	shader->SetVertexShader(vertexShader);
 	shader->SetInputLayout(inputLayout);

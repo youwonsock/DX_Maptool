@@ -2,7 +2,7 @@
 
 #include "ResourceBase.h"
 
-class Shader;
+class ShaderRes;
 class Texture;
 
 class Material : public ResourceBase
@@ -10,15 +10,15 @@ class Material : public ResourceBase
 private:
 	using Base = ResourceBase;
 
-	std::shared_ptr<Shader> shader;
+	std::shared_ptr<ShaderRes> shader;
 	std::shared_ptr<Texture> texture;
 
 public:
 	Material();
 	~Material();
 
-	void SetShader(const std::shared_ptr<Shader>& shader);
-	std::shared_ptr<Shader> GetShader() const;
+	void SetShader(const std::shared_ptr<ShaderRes>& shader);
+	std::shared_ptr<ShaderRes> GetShader() const;
 	
 	void SetTexture(const std::shared_ptr<Texture>& texture);
 	std::shared_ptr<Texture> GetTexture() const;

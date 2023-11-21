@@ -5,7 +5,11 @@
       <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

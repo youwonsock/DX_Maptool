@@ -3,8 +3,29 @@
 #include "Graphics.h"
 #include "Window.h"
 
+class IExecute;
+
+struct EngineDesc
+{
+	std::shared_ptr<IExecute> app = nullptr;
+	std::wstring appName = L"GameCoding";
+	HINSTANCE hInstance = 0;
+	float width = 800;
+	float height = 600;
+	bool vsync = false;
+	bool windowed = true;
+};
+
 class Engine
 {
+private:
+	bool vSync = false;
+	bool isWindowed = true;
+	std::shared_ptr<IExecute> app = nullptr;
+
+public:
+	std::shared_ptr<Window> window = std::make_shared<Window>();
+	std::shared_ptr<Graphics> graphics = std::make_shared<Graphics>();;
 
 private:
 	bool EngineInit();
@@ -12,14 +33,11 @@ private:
 	bool EngineUpdate();
 	bool EngineRender();
 	bool EngineRelease();
-	
-public:
-	std::shared_ptr<Window> window = std::make_shared<Window>();
-	std::shared_ptr<Graphics> graphics = std::make_shared<Graphics>();;
 
 public:
 	// constructor
-	Engine() {};
+	Engine() {};				// use define GAME_RUN : mean use [inheritance(is-a)]
+	Engine(EngineDesc& desc);	// if use this constructor : mean use [composition(has-a)]
 	~Engine() {};
 
 	// override these functions in child class

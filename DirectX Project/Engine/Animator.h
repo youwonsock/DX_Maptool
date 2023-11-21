@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Struct.h"
 
 class Animation;
 

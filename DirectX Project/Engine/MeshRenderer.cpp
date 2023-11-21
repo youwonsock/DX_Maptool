@@ -1,9 +1,7 @@
 #include "pch.h"
 #include "MeshRenderer.h"
 
-#include "Mesh.h"
-#include "Material.h"
-#include "Shader.h"
+#include "ResourceHeader.h"
 
 MeshRenderer::MeshRenderer() : Base(ComponentType::MeshRenderer)
 {
@@ -28,7 +26,7 @@ void MeshRenderer::SetMaterial(std::shared_ptr<Material> meterial)
 	this->material = meterial;
 }
 
-void MeshRenderer::SetShader(std::shared_ptr<Shader> shader)
+void MeshRenderer::SetShader(std::shared_ptr<ShaderRes> shader)
 {
 	this->material->SetShader(shader);
 }

@@ -103,7 +103,7 @@ void Graphics::PreRender()
     pImmediateContext->OMSetRenderTargets(1, pRenderTargetView.GetAddressOf(), nullptr);
     pImmediateContext->RSSetViewports(1, &pViewPort);
                 
-    pImmediateContext->ClearRenderTargetView(pRenderTargetView.Get(), clearColor);
+    pImmediateContext->ClearRenderTargetView(pRenderTargetView.Get(), (float*)&clearColor);
 }
 
 void Graphics::PostRender()

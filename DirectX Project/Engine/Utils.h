@@ -14,7 +14,6 @@ struct PathString
 			, Filename, _MAX_FNAME
 			, Ext, _MAX_EXT);
 	}
-	PathString() {};
 };
 
 inline void ShowErrorMessage(HRESULT hr)
@@ -33,7 +32,7 @@ inline void ShowErrorMessage(ID3DBlob* errorCode)
 
 	if (errorCode != nullptr)
 		errorText = (LPCSTR)errorCode->GetBufferPointer();
-	
+
 	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
 }
 
@@ -47,4 +46,23 @@ inline std::wstring StringToWString(const std::string& str)
 {
 	std::wstring wstr(str.begin(), str.end());
 	return wstr;
+}
+
+inline bool StartsWith(const std::wstring& str, const std::wstring& comp)
+{
+	std::wstring::size_type index = str.find(comp);
+
+	if (index != std::wstring::npos && index == 0)
+		return true;
+
+	return false;
+}
+
+inline bool StartsWith(const std::string& str, const  std::string comp)
+{
+	std::string::size_type index = str.find(comp);
+	if (index != std::string::npos && index == 0)
+		return true;
+
+	return false;
 }

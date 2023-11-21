@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.h"
+
 class Graphics
 {
 private:
@@ -9,7 +11,7 @@ private:
 	ComPtr<ID3D11RenderTargetView>  pRenderTargetView;		
 	D3D11_VIEWPORT					pViewPort;				
 
-	float clearColor[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Color clearColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 private:
 	void CreateDevice();						  
 	void CreateSwapChain(int wWidth, int wHeight);

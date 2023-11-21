@@ -4,15 +4,16 @@
 
 void Sample::Init()
 {
-	// init Manager class
-	InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
-	TimeManager::GetInstance().Init();
-	SceneManager::GetInstance().Init();
-	ResourceManager::GetInstance().Init();
-	RenderManager::GetInstance().Init();
+	shader = std::make_shared<Shader>(L"01. Triangle.fx");
 
-	// init Scene
-	SceneManager::GetInstance().LoadScene(L"Scene1");
+	vertices.resize(3);
+	vertices[0].position = Vector3(-0.5f, -0.5f, 0.0f);
+	vertices[1].position = Vector3(0.0f, 0.5f, 0.0f);
+	vertices[2].position = Vector3(0.5f, -0.5f, 0.0f);
+
+
+	buffer = std::make_shared<VertexBuffer>();
+	buffer->CreateVertexBuffer(vertices);
 }
 
 void Sample::FixedUpdate()
@@ -21,9 +22,6 @@ void Sample::FixedUpdate()
 
 void Sample::Update()
 {
-	TimeManager::GetInstance().Update();
-	InputManager::GetInstance().Update();
-	SceneManager::GetInstance().Update();
 }
 
 void Sample::PostUpdate()
@@ -36,7 +34,12 @@ void Sample::PreRender()
 
 void Sample::Render()
 {
-	RenderManager::GetInstance().Render();
+	UINT stride = buffer->GetStride();
+	UINT offset = buffer->GetOffset();
+
+	Global::g_immediateContext->IASetVertexBuffers(0, 1, buffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+
+	shader->Draw(1, 0, 3);
 }
 
 void Sample::PostRender()
@@ -46,5 +49,3 @@ void Sample::PostRender()
 void Sample::Release()
 {
 }
-
-GAME_RUN(Test, 800, 600);

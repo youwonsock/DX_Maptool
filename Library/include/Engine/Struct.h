@@ -28,3 +28,9 @@ struct KeyFrame
 	Vector2 size = Vector2::Zero;
 	float time = 0.0f;
 };
+
+struct ShaderDesc
+{
+	ComPtr<ID3DBlob> blob;
+	ComPtr<ID3DX11Effect> effect;
+};

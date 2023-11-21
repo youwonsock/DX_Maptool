@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "Material.h"
 
-#include "Shader.h"
-#include "Texture.h"
+#include "ResourceHeader.h"
 
 Material::Material() : Base(ResourceType::Material)
 {
@@ -12,12 +11,12 @@ Material::~Material()
 {
 }
 
-void Material::SetShader(const std::shared_ptr<Shader>& shader)
+void Material::SetShader(const std::shared_ptr<ShaderRes>& shader)
 {
 	this->shader = shader;
 }
 
-std::shared_ptr<Shader> Material::GetShader() const
+std::shared_ptr<ShaderRes> Material::GetShader() const
 {
 	return shader;
 }

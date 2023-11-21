@@ -3,7 +3,6 @@
 
 #include "Animation.h"
 #include "TimeManager.h"
-#include "Struct.h"
 
 Animator::Animator() : Base(ComponentType::Animator)
 {

@@ -2,6 +2,18 @@
 #include "Engine.h"
 
 #include "Global.h"
+#include "IExecute.h"
+
+Engine::Engine(EngineDesc& desc)
+{
+	window->CreateClientWindow(desc.hInstance, desc.appName.c_str(), desc.width, desc.height);
+
+	vSync = desc.vsync;
+	isWindowed = desc.windowed;
+	app = desc.app;
+
+	Run();
+}
 
 bool Engine::EngineInit()
 {
@@ -10,7 +22,10 @@ bool Engine::EngineInit()
 
 	graphics->Init();
 
-	Init();
+	if(app != nullptr)
+		app->Init();
+	else
+		Init();
 
 	return true;
 }
@@ -26,8 +41,16 @@ bool Engine::EngineFixedUpdate()
 
 bool Engine::EngineUpdate()
 {
-	Update();
-	PostUpdate();
+	if (app != nullptr)
+	{
+		app->Update();
+		app->PostUpdate();
+	}
+	else
+	{
+		Update();
+		PostUpdate();
+	}
 
 	return true;
 }
@@ -35,9 +58,19 @@ bool Engine::EngineUpdate()
 bool Engine::EngineRender()
 {
 	graphics->PreRender();
-	PreRender();
-	Render();
-	PostRender();
+
+	if (app != nullptr)
+	{
+		app->PreRender();
+		app->Render();
+		app->PostRender();
+	}
+	else
+	{
+		PreRender();
+		Render();
+		PostRender();
+	}
 	graphics->PostRender();
 
 	return true;
@@ -45,7 +78,10 @@ bool Engine::EngineRender()
 
 bool Engine::EngineRelease()
 {
-	Release();
+	if (app != nullptr)
+		app->Release();
+	else
+		Release();
 
 	graphics->Release();
 

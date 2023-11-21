@@ -4,7 +4,7 @@
 
 class Mesh;
 class Material;
-class Shader;
+class ShaderRes;
 class Texture;
 class VertexShader;
 class PixelShader;
@@ -25,7 +25,7 @@ public:
 	std::shared_ptr<Mesh> GetMesh() const;
 
 	void SetMaterial(std::shared_ptr<Material> material);
-	void SetShader(std::shared_ptr<Shader> shader);
+	void SetShader(std::shared_ptr<ShaderRes> shader);
 	std::shared_ptr<Material> GetMeterial() const;
 	std::shared_ptr<VertexShader> GetVertexShader() const;
 	std::shared_ptr<PixelShader> GetPixelShader() const;
