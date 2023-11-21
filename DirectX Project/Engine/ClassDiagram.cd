@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Scene" Collapsed="true">
+    <Position X="20" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARgAAAAAkAAAAAAAABAAAAAAAAAAAAAAAACAAAkAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager" Collapsed="true">
+    <Position X="3.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQBAAsAAQAQAAEAAADBQBABAAgAAABAQEACIBECAAA=</HashCode>
+      <FileName>InputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderManager" Collapsed="true">
+    <Position X="5.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQiBAAEAAAhAAgAAAAIAgQAAAAAABIRACABAAACA=</HashCode>
+      <FileName>RenderManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceManager" Collapsed="true">
+    <Position X="8" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAgAACSAAAAABAAAAAUAAAAAAAAAAAAAAKQgAAAAA=</HashCode>
+      <FileName>ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager" Collapsed="true">
+    <Position X="10.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAggAAAACAAAAAAAAAAAAAACAAAAAAQ=</HashCode>
+      <FileName>SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Singleton&lt;T&gt;" Collapsed="true">
+    <Position X="5.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAABAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Singleton.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TimeManager" Collapsed="true">
+    <Position X="1.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAEAAQgACAAAAgAAAAAAAAAAABACABAAAAA=</HashCode>
+      <FileName>TimeManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Geometry&lt;T&gt;" Collapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIQEEAAAAAAAAQAAAAAAAAEACQACQIADAAAAAAAAg=</HashCode>
+      <FileName>Geometry.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeometryHelper" Collapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeometryHelper.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BlendState" Collapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAAAwEAAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>BlendState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RasterizerState" Collapsed="true">
+    <Position X="23.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAACAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>RasterizerState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SamplerState" Collapsed="true">
+    <Position X="27" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAAAAAAA=</HashCode>
+      <FileName>SamplerState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConstantBuffer&lt;T&gt;" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgACAAAAIAAAAAAAAAIAQIAAAEAAAAAAACAAAAA=</HashCode>
+      <FileName>ConstantBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ShaderBase" Collapsed="true">
+    <Position X="2.25" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAACABAAAAAEAEAAAAAAAABAAAQ=</HashCode>
+      <FileName>ShaderBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexShader" Collapsed="true">
+    <Position X="1" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAABAAAAAAAAAEAAAAAAAAAAAEAAAABAAAAAAAA=</HashCode>
+      <FileName>ShaderBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PixelShader" Collapsed="true">
+    <Position X="3.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAABAAAAgAAEAAAABAAAAAAAA=</HashCode>
+      <FileName>ShaderBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IndexBuffer" Collapsed="true">
+    <Position X="27" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAgRAAAAAQAAABABAAEAAAEAAAAAAAA=</HashCode>
+      <FileName>IndexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputLayout" Collapsed="true">
+    <Position X="20" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAACCA=</HashCode>
+      <FileName>InputLayout.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VertexBuffer" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAAAAEAAAAAgAAQAAAQAAAAAAAAAAAREAAAAAAAA=</HashCode>
+      <FileName>VertexBuffer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Pipeline" Collapsed="true">
+    <Position X="21.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQACAAABAgIAABAEAAAAACAAAAABAgAAACAAAAA=</HashCode>
+      <FileName>Pipeline.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animation" Collapsed="true">
+    <Position X="8" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAgoACAAEQAAAAgAAAAAAgACAAAgAAKAAAIAAAAAE=</HashCode>
+      <FileName>Animation.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Material" Collapsed="true">
+    <Position X="10.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAACAAAEAAAAAAAAAAAAACAAAgAABABAAEAAAAA=</HashCode>
+      <FileName>Material.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mesh" Collapsed="true">
+    <Position X="1.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAQAAEAEBAAABABAAAAAAABAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Mesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceBase" Collapsed="true">
+    <Position X="5.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAgAAAAABAAAACgAAAAAAEAAEAAAAAwAAABgA=</HashCode>
+      <FileName>ResourceBase.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Shader" Collapsed="true">
+    <Position X="3.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAQAAAAAAAAAAAAAAAAAAAAAAEADBAAAAAAAAAQ=</HashCode>
+      <FileName>Shader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Texture" Collapsed="true">
+    <Position X="5.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAgACAAIAAAAAAACAAAAAAAAIIAAAAAAA=</HashCode>
+      <FileName>Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="1.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAACCAAAAAQAAAAgCAAAAAAAAAAAAAAAAAAiA=</HashCode>
+      <FileName>Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animator" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAAAAEAAAApAAAAAAAAAAQAACAAQgAAA=</HashCode>
+      <FileName>Animator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MeshRenderer" Collapsed="true">
+    <Position X="5.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAABEAAMAEAAAAAAACABAAAFBAAAAABBACA=</HashCode>
+      <FileName>MeshRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Transform" Collapsed="true">
+    <Position X="8" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAYAAgCAFgAAEERAAgACAFUAIQAEQAQACEACIgQggoQ=</HashCode>
+      <FileName>Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Component" Collapsed="true">
+    <Position X="5.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAAAAAgAAgAAAAABAEAAAAAABAAEAAABCABAgAQA=</HashCode>
+      <FileName>Component.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MonoBehaviour" Collapsed="true">
+    <Position X="10.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAABgAAAIAAAABAAAAAAAAAAAAAAAACABAgAAA=</HashCode>
+      <FileName>MonoBehaviour.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="27" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAACAgAIAAAAAABAIAAAAgAAAAAAAAACABAgAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Engine" Collapsed="true">
+    <Position X="25.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAkQAAAAAAAlAAAAAAAgBAEgIBBACABACAAI=</HashCode>
+      <FileName>Engine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Graphics" Collapsed="true">
+    <Position X="25.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAAAAAAAAAAAAAAAAAAAACAAAAEIMAAgCABACBAI=</HashCode>
+      <FileName>Graphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Window" Collapsed="true">
+    <Position X="27" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAABAAAAABAAAAIICAAQABAAAAAAIACAoAIAA=</HashCode>
+      <FileName>Window.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Global" Collapsed="true">
+    <Position X="23.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAgQAAIAAAAAAAAAAAAACAQAAAAA=</HashCode>
+      <FileName>Global.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLDocument" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAggQcQSSAQEYDgAhAgCAAEAAAZBAAkhAAkVRt1FQA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLElement" Collapsed="true">
+    <Position X="13" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AJAkAQYCICE2QgEIQpCIIL/RQRQAACoAEQCgQAAAiEA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLAttribute" Collapsed="true">
+    <Position X="14" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IhYAqAAAACRAABAEAAggAAQAAhAAAEAgAAAgQAEQgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLComment" Collapsed="true">
+    <Position X="15.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQAAAAAAAAAAAAAAQACAAAAAAAAAAAgAAAAgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLText" Collapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQAAEAAQAAAAEAAAAAAAABAAAAEAAAgAAEAgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLDeclaration" Collapsed="true">
+    <Position X="8.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAQCAAAAAAAAAAAAAAAAAAAAAEAAAAIgAAAAgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLUnknown" Collapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAggAAAAgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLPrinter" Collapsed="true">
+    <Position X="6" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGoQAAgAAAABgUAAAAEBAIAABAEgAAQoQEhAAUsghY=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::StrPair" Collapsed="true">
+    <Position X="21.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAiAAAAAhAAQCAIAAQgIAAAQAAAAAQAgAAQAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::DynArray&lt;T, INITIAL_SIZE&gt;" Collapsed="true">
+    <Position X="23.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgBACAkAABAAIAAAASAAGAAAAAAgAwEAJACAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::MemPool" Collapsed="true">
+    <Position X="9" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAgAAEAAAAAAAAAAgAgAAAI=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::MemPoolT&lt;ITEM_SIZE&gt;" Collapsed="true">
+    <Position X="9" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAQAAAAhAAAAAgAAFAAABAAYAEgAAhAEAo=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLVisitor" Collapsed="true">
+    <Position X="6" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAQAAAAACAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLUtil" Collapsed="true">
+    <Position X="23.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAIIAAkAMAAAFAAAAJAAKAAAAAgBIABgigAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLNode" Collapsed="true">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ALIgAAaMAEAACgAAEkAQYQhUgpqAIAAgAIskAAhghAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLHandle" Collapsed="true">
+    <Position X="21.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEBAAAEAACAAAAEAAIAAAAAiAAAAAAIcgAABABAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tinyxml2::XMLConstHandle" Collapsed="true">
+    <Position X="20" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgEBAAAEAACAAAAEAAIAAAAAiAAAAAAIMgAABABAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectX::SimpleMath::Ray" Collapsed="true">
+    <Position X="25.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAKAAAAAAAIQAAAAAAAAAAAAAgAAAAAIA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DirectX::SimpleMath::Viewport" Collapsed="true">
+    <Position X="25.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgBAAQEAAQAQgBACQggBAAgAAAAAABgAAQAAAA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="VertexTextureData" Collapsed="true">
+    <Position X="23.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAIAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>VertexData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="VertexColorData" Collapsed="true">
+    <Position X="21.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAIAAAAAAAAACAAAAAAAAAAAA=</HashCode>
+      <FileName>VertexData.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PipelineInfo" Collapsed="true">
+    <Position X="25.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAABAAEAAAAAAAAAAAAAACIAAAAAAAAAA=</HashCode>
+      <FileName>Pipeline.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="PathString" Collapsed="true">
+    <Position X="23.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAACAAAAAAAAQAAgAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Convenience.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="CameraData" Collapsed="true">
+    <Position X="21.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Struct.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="TransformData" Collapsed="true">
+    <Position X="23.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Struct.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="AnimationData" Collapsed="true">
+    <Position X="20" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAIAAAAAAACAAAiAAA=</HashCode>
+      <FileName>Struct.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="KeyFrame" Collapsed="true">
+    <Position X="27" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Struct.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tinyxml2::Entity" Collapsed="true">
+    <Position X="25.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAECAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Vector2" Collapsed="true">
+    <Position X="25.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIAABCBABBAAAEAAgQwRBCQAAAABAgECgAAAAAMA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Vector4" Collapsed="true">
+    <Position X="20" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIgABCFAABAAAEAABQwRBCQAAAABAgECgAAAAAMA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Matrix" Collapsed="true">
+    <Position X="21.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEEaAAIAAAkACEAEgAQRTIBAgADIAiEDgAAgAAAI=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Quaternion" Collapsed="true">
+    <Position X="20" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABYAAAAAAAAAEAIAAYBAKAAAAAAAgEAgAAAQAAA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Plane" Collapsed="true">
+    <Position X="27" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAMAAAAQQACAAIAEAAgAIgBAAAAAA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Rectangle" Collapsed="true">
+    <Position X="21.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAEAAAAAAAAQAQAIEAQAAAAAhAAAAAABgAQAYgIA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Vector3" Collapsed="true">
+    <Position X="27" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAGAIgKBCJAABAAAEAAgQwRBCQAAAABAiECgAAAAAMI=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DirectX::SimpleMath::Color" Collapsed="true">
+    <Position X="23.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAIAAAAAEAAQAAAARAAAAAEAAEBgQAkqAEAAQA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="std::less&lt;DirectX::SimpleMath::Rectangle&gt;" Collapsed="true">
+    <Position X="20" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SimpleMath.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="XmlDocument" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="XmlElement" Collapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="XmlAttribute" Collapsed="true">
+    <Position X="14" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="XmlError" Collapsed="true">
+    <Position X="14" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="KeyState" Collapsed="true">
+    <Position X="21.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAQAAAAAgAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InputManager.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ShaderScope" Collapsed="true">
+    <Position X="27" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABEAACAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>EnumClass.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ComponentType" Collapsed="true">
+    <Position X="20" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAAQgAAg=</HashCode>
+      <FileName>EnumClass.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ProjectionType" Collapsed="true">
+    <Position X="23.5" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>EnumClass.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ResourceType" Collapsed="true">
+    <Position X="25.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAQAAAAACAAAAgAAAAAAAAAAAAAAAAAIAAAAAABA=</HashCode>
+      <FileName>EnumClass.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="tinyxml2::XMLError" Collapsed="true">
+    <Position X="14" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACABCCAAAEAEAgoAAACACAAAAEQBAAAAIEEAABAgAIA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="tinyxml2::Whitespace" Collapsed="true">
+    <Position X="20" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tinyxml2.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>
