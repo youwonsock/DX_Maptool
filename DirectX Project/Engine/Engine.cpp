@@ -27,6 +27,12 @@ bool Engine::EngineInit()
 	else
 		Init();
 
+	// Init Manager
+	{
+		TimeManager::GetInstance().Init();
+		InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
+	}
+
 	return true;
 }
 
@@ -41,6 +47,12 @@ bool Engine::EngineFixedUpdate()
 
 bool Engine::EngineUpdate()
 {
+	// update manager
+	{
+		TimeManager::GetInstance().Update();
+		InputManager::GetInstance().Update();
+	}
+
 	if (app != nullptr)
 	{
 		app->Update();

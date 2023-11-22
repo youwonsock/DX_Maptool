@@ -1,3 +1,6 @@
+matrix World;
+matrix View;
+matrix Projection;
 
 struct VertexInput
 {
@@ -15,6 +18,10 @@ VertexOutput VS(VertexInput input)
 {
 	VertexOutput output;
 	output.position = input.position;
+	output.position = mul(output.position, World);
+	output.position = mul(output.position, View);
+	output.position = mul(output.position, Projection);
+	
     output.color = input.color;
 	
 	return output;

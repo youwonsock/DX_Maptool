@@ -18,6 +18,12 @@ private:
 	std::shared_ptr<VertexBuffer> vertexBuffer;
 	std::shared_ptr<IndexBuffer> indexBuffer;
 
+	Vector3 translation = Vector3(0, 0, 0);
+
+	Matrix world = Matrix::Identity;
+	Matrix view = Matrix::Identity;
+	Matrix projection = Matrix::Identity;
+
 public:
 	// IExecute을(를) 통해 상속됨
 	void Init() override;

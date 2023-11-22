@@ -4,7 +4,7 @@
 
 void ConstBufferDemo::Init()
 {
-	shader = std::make_shared<Shader>(L"02. Quad.fx");
+	shader = std::make_shared<Shader>(L"03. ConstBuffer.fx");
 
 	geometry = std::make_shared<Geometry<VertexColorData>>();
 	GeometryHelper::CreateRectangle(geometry, Color(0, 1, 1, 1));
@@ -22,6 +22,26 @@ void ConstBufferDemo::FixedUpdate()
 
 void ConstBufferDemo::Update()
 {
+	double deltaTime = TimeManager::GetInstance().GetDeltaTime();
+
+	if(InputManager::GetInstance().GetKeyState(DIK_A) == KeyState::HOLD)
+	{
+		translation.x -= 3 * deltaTime;
+	}
+	if (InputManager::GetInstance().GetKeyState(DIK_D) == KeyState::HOLD)
+	{
+		translation.x += 3 * deltaTime;
+	}
+	if (InputManager::GetInstance().GetKeyState(DIK_W) == KeyState::HOLD)
+	{
+		translation.y += 3 * deltaTime;
+	}
+	if (InputManager::GetInstance().GetKeyState(DIK_S) == KeyState::HOLD)
+	{
+		translation.y -= 3 * deltaTime;
+	}
+
+	world = Matrix::CreateTranslation(translation);
 }
 
 void ConstBufferDemo::PostUpdate()
@@ -34,6 +54,10 @@ void ConstBufferDemo::PreRender()
 
 void ConstBufferDemo::Render()
 {
+	shader->GetMatrix("World")->SetMatrix((float*)&world);
+	shader->GetMatrix("View")->SetMatrix((float*)&view);
+	shader->GetMatrix("Projection")->SetMatrix((float*)&projection);
+
 	UINT stride = vertexBuffer->GetStride();
 	UINT offset = vertexBuffer->GetOffset();
 
