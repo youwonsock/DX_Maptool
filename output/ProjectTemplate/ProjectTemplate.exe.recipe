@@ -2,12 +2,12 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
