@@ -107,9 +107,6 @@
     <ClInclude Include="Global.h">
       <Filter>해더 파일\Conven</Filter>
     </ClInclude>
-    <ClInclude Include="GeometryHelper.h">
-      <Filter>소스 파일\Graphics\Pipeline\00. Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderBase.h">
       <Filter>소스 파일\Graphics\Pipeline\02. VertexShader</Filter>
     </ClInclude>
@@ -254,6 +251,9 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>소스 파일\Graphics\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="GeometryHelper.h">
+      <Filter>소스 파일\Graphics\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -264,9 +264,6 @@
     </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>해더 파일\Conven</Filter>
-    </ClCompile>
-    <ClCompile Include="GeometryHelper.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\00. Geometry</Filter>
     </ClCompile>
     <ClCompile Include="ShaderBase.cpp">
       <Filter>소스 파일\Graphics\Pipeline\02. VertexShader</Filter>
@@ -387,6 +384,9 @@
     </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>해더 파일\Conven</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryHelper.cpp">
+      <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,7 +27,13 @@
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Sample.h">
+    <ClInclude Include="TriangleDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBufferDemo.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -35,12 +41,24 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Sample.cpp">
+    <ClCompile Include="TriangleDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstBufferDemo.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\02. Quad.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

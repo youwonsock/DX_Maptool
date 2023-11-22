@@ -1,8 +1,8 @@
-#include "Sample.h"
+#include "TriangleDemo.h"
 
 #include "Engine/Global.h"
 
-void Sample::Init()
+void TriangleDemo::Init()
 {
 	shader = std::make_shared<Shader>(L"01. Triangle.fx");
 
@@ -16,23 +16,23 @@ void Sample::Init()
 	buffer->CreateVertexBuffer(vertices);
 }
 
-void Sample::FixedUpdate()
+void TriangleDemo::FixedUpdate()
 {
 }
 
-void Sample::Update()
+void TriangleDemo::Update()
 {
 }
 
-void Sample::PostUpdate()
+void TriangleDemo::PostUpdate()
 {
 }
 
-void Sample::PreRender()
+void TriangleDemo::PreRender()
 {
 }
 
-void Sample::Render()
+void TriangleDemo::Render()
 {
 	UINT stride = buffer->GetStride();
 	UINT offset = buffer->GetOffset();
@@ -42,10 +42,10 @@ void Sample::Render()
 	shader->Draw(1, 0, 3);
 }
 
-void Sample::PostRender()
+void TriangleDemo::PostRender()
 {
 }
 
-void Sample::Release()
+void TriangleDemo::Release()
 {
 }

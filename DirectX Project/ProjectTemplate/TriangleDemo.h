@@ -8,11 +8,11 @@
 #include "Engine/StdHeader.h" 
 #include "Engine/Engine.h"
 
-#include "Engine/Shader.h"
-#include "Engine/VertexBuffer.h"
-#include "Engine/VertexData.h"
+#include "Engine/EngineHeader.h"
+#include "Engine/PipeLineHeaders.h"
+#include "Engine/ResourceHeader.h"
 
-class Sample : public IExecute
+class TriangleDemo : public IExecute
 {
 private:
 	std::shared_ptr<Shader> shader;

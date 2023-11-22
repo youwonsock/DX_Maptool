@@ -9,6 +9,12 @@
     <ContentFile>
       <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
     </ContentFile>
+    <ContentFile>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\02. Quad.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\03. ConstBuffer.cso</FullPath>
+    </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />

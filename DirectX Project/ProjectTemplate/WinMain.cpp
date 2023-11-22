@@ -1,5 +1,5 @@
 #include "WinMain.h"
-#include "Sample.h"
+#include "QuadDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -9,7 +9,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<Sample>();
+	gameDesc.app = std::make_shared<QuadDemo>();
 
 	Engine game(gameDesc);
 
