@@ -161,14 +161,20 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraDemo.h" />
     <ClInclude Include="ConstBufferDemo.h" />
     <ClInclude Include="QuadDemo.h" />
+    <ClInclude Include="TestCamera.h" />
+    <ClInclude Include="TextureDemo.h" />
     <ClInclude Include="TriangleDemo.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraDemo.cpp" />
     <ClCompile Include="ConstBufferDemo.cpp" />
     <ClCompile Include="QuadDemo.cpp" />
+    <ClCompile Include="TestCamera.cpp" />
+    <ClCompile Include="TextureDemo.cpp" />
     <ClCompile Include="TriangleDemo.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -199,6 +205,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx" />
+    <FxCompile Include="..\..\Res\Shader\04. World.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

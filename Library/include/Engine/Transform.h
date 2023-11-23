@@ -56,6 +56,11 @@ public:
 	void SetWorldPosition(const Vector3& position);
 	void SetWorldRotation(const Vector3& rotation);
 	void SetWorldScale(const Vector3& scale);
+
+	// dirVector
+	Vector3 GetForward() const						{ return forward;}
+	Vector3 GetRight() const						{ return right;}
+	Vector3 GetUp() const							{ return up;}
 	
 	// °èÃþ °ü°è
 	bool HasParent() const							  { return parent != nullptr;}

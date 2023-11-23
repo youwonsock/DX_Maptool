@@ -9,13 +9,13 @@ void ResourceManager::CreateDefaultTexture()
 	{
 		auto texture = std::make_shared<Texture>();
 		texture->SetName(L"Chim");
-		texture->CreateTexture(L"../../Res/IMG/Chim.jpg");
+		texture->Load(L"../../Res/IMG/Chim.jpg");
 		Add(texture->GetName(), texture);
 	}
 	{
 		auto texture = std::make_shared<Texture>();
 		texture->SetName(L"Snake");
-		texture->CreateTexture(L"../../Res/IMG/Snake.bmp");
+		texture->Load(L"../../Res/IMG/Snake.bmp");
 		Add(texture->GetName(), texture);
 	}
 }

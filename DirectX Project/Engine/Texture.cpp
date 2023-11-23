@@ -9,7 +9,7 @@ Texture::~Texture()
 {
 }
 
-void Texture::CreateTexture(const std::wstring& path)
+void Texture::Load(const std::wstring& path)
 {
     // temporary
     this->path = path;

@@ -18,8 +18,8 @@ public:
 	Animation();
 	~Animation();
 
-	void Save(const std::wstring& path) override;
-	void Load(const std::wstring& path) override;
+	virtual void Save(const std::wstring& path) override;
+	virtual void Load(const std::wstring& path) override;
 
 	void SetIsLooping(bool val) { isLooping = val; };
 	bool GetIsLooping() const { return isLooping; };

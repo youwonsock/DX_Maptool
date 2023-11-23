@@ -1,6 +1,6 @@
 #include "WinMain.h"
 
-#include "ConstBufferDemo.h"
+#include "TextureDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<ConstBufferDemo>();
+	gameDesc.app = std::make_shared<TextureDemo>();
 
 	Engine game(gameDesc);
 

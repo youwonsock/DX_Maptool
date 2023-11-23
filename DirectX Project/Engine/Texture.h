@@ -16,7 +16,8 @@ public:
 	virtual ~Texture();
 
 	ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() { return shaderResourceView; }
-	void CreateTexture(const std::wstring& path);
+
+	virtual void Load(const std::wstring& path) override;
 	Vector2& GetSize() { return size; };
 };
 

@@ -8,7 +8,7 @@ class Camera : public Component
 private:
 	using Base = Component;
 
-	ProjectionType projectionType = ProjectionType::Orthographic;
+	ProjectionType projectionType = ProjectionType::Perspective;
 
 public:
 	static Matrix viewMatrix;
