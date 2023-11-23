@@ -2,21 +2,24 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\02. Quad.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\02. Quad.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\03. ConstBuffer.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\03. ConstBuffer.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\04. World.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\04. World.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\05. Sampler.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

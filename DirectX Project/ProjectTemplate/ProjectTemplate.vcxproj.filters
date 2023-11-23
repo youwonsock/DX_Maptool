@@ -48,6 +48,12 @@
     <ClInclude Include="TextureDemo.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="SamplerDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMapDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -71,6 +77,12 @@
     <ClCompile Include="TextureDemo.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="SamplerDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMapDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
@@ -83,6 +95,9 @@
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\04. World.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

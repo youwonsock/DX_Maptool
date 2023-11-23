@@ -1,6 +1,6 @@
 #include "WinMain.h"
 
-#include "TextureDemo.h"
+#include "HeightMapDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -10,7 +10,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<TextureDemo>();
+	gameDesc.app = std::make_shared<HeightMapDemo>();
 
 	Engine game(gameDesc);
 
