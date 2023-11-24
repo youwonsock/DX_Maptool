@@ -4,7 +4,7 @@
 
 class Mesh;
 class Material;
-class ShaderRes;
+class Shader;
 class Texture;
 class VertexShader;
 class PixelShader;
@@ -16,22 +16,20 @@ private:
 	using Base = Component;
 
 	std::shared_ptr<Mesh> mesh;
-	std::shared_ptr<Material> material;
+	std::shared_ptr<Texture> texture;
+	std::shared_ptr<Shader> shader;
 public:
 	MeshRenderer();
 	~MeshRenderer();
 
 	void SetMesh(std::shared_ptr<Mesh> mesh);
-	std::shared_ptr<Mesh> GetMesh() const;
-
-	void SetMaterial(std::shared_ptr<Material> material);
-	void SetShader(std::shared_ptr<ShaderRes> shader);
-	std::shared_ptr<Material> GetMeterial() const;
-	std::shared_ptr<VertexShader> GetVertexShader() const;
-	std::shared_ptr<PixelShader> GetPixelShader() const;
-	std::shared_ptr<InputLayout> GetInputLayout() const;
-
 	void SetTexture(std::shared_ptr<Texture> texture);
+	void SetShader(std::shared_ptr<Shader> shader);
+
+	std::shared_ptr<Mesh> GetMesh() const;
 	std::shared_ptr<Texture> GetTexture() const;
+	std::shared_ptr<Shader> GetShader() const;
+
+	virtual void Update() override;
 };
 

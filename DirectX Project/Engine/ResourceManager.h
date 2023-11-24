@@ -6,7 +6,7 @@
 class Mesh;
 class Material;
 class Animation;
-class ShaderRes;
+class Shader;
 class Texture;
 
 class ResourceManager : public Singleton<ResourceManager>
@@ -16,17 +16,13 @@ private:
 	ResourceManager() {};
 
 	ComPtr<ID3D11Device> device;
+	std::wstring resourcePath = L"../../Res/";
 
 	using KeyObjMap = std::unordered_map<std::wstring, std::shared_ptr<ResourceBase>>;
 	std::array<KeyObjMap, static_cast<size_t>(ResourceType::RecourcesCount)> resourceMapArr;
 
 private:
-	void CreateDefaultTexture();
-	void CreateDefaultMaterial();
-	void CreateDefaultShader();
 	void CreateDefaultMesh();
-	void CreateDefaultAnimation();
-
 public:
 	void Init();
 
@@ -55,7 +51,8 @@ inline std::shared_ptr<T> ResourceManager::Load(const std::wstring& key, const s
 		return std::dynamic_pointer_cast<T>(iter->second);
 
 	std::shared_ptr<T> resource = std::make_shared<T>();
-	resource->Load(path);
+	std::wstring fullPath = resourcePath + path;
+	resource->Load(fullPath);
 	resourceMap.insert({ key, resource });
 
 	return resource;
@@ -93,14 +90,8 @@ inline ResourceType ResourceManager::GetResourceType()
 {
 	if (std::is_same_v<T, Mesh>)
 		return ResourceType::Mesh;
-	if (std::is_same_v<T, ShaderRes>)
-		return ResourceType::Shader;
 	if (std::is_same_v<T, Texture>)
 		return ResourceType::Texture;
-	if (std::is_same_v<T, Material>)
-		return ResourceType::Material;
-	if (std::is_same_v<T, Animation>)
-		return ResourceType::Animation;
 
 	assert(false);
 	return ResourceType::Unknown;

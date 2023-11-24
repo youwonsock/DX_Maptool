@@ -18,11 +18,17 @@ private:
 	std::shared_ptr<VertexBuffer> vertexBuffer;
 	std::shared_ptr<IndexBuffer> indexBuffer;
 
+private:
+	void CreateBuffers();
+
 public:
 	Mesh();
 	~Mesh();
 
-	void CreateDefaultRactangle();
+	void CreateRactangle();
+	void CreateCube();
+	void CreateSphere();
+	void CreateGrid(UINT sizeX, UINT sizeY);
 
 	void SetVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer);
 	std::shared_ptr<VertexBuffer> GetVertexBuffer() const;

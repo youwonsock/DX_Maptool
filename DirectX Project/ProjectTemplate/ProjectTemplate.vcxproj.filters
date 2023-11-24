@@ -54,6 +54,12 @@
     <ClInclude Include="HeightMapDemo.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
+    <ClInclude Include="NormalDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -83,6 +89,12 @@
     <ClCompile Include="HeightMapDemo.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="NormalDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
@@ -94,10 +106,16 @@
     <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\04. World.fx">
+    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
+    <FxCompile Include="..\..\Res\Shader\06. Terrain.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\04 Texture.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\07. Normal.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

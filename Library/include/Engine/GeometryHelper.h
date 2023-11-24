@@ -14,5 +14,10 @@ public:
 	static void CreateCube(std::shared_ptr<Geometry<VertexTextureData>> geometry);
 	static void CreateSphere(std::shared_ptr<Geometry<VertexTextureData>> geometry);
 	static void CreateGrid(std::shared_ptr<Geometry<VertexTextureData>> geometry, int sizeX, int sizeZ);
+
+	static void CreateRectangle(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
+	static void CreateCube(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
+	static void CreateSphere(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
+	static void CreateGrid(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry, int sizeX, int sizeZ);
 };
 

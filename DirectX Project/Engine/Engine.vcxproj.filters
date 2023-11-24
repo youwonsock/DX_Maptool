@@ -69,27 +69,6 @@
     <Filter Include="소스 파일\Engine\Manager">
       <UniqueIdentifier>{e52ee101-3d67-4a5c-a1f7-e4c4f3425854}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline">
-      <UniqueIdentifier>{c8989859-52c7-407e-abd9-58542b1a9049}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\00. Geometry">
-      <UniqueIdentifier>{eda9a828-3df1-4fa0-b337-b21c68701c3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\01. InputAssembler">
-      <UniqueIdentifier>{b42400fb-0ea3-4227-bdd7-5d7b2acae01d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\02. VertexShader">
-      <UniqueIdentifier>{efe3c044-6251-43ce-a67c-c46de2393340}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\03. Rasterizer">
-      <UniqueIdentifier>{b148a5a0-f8dc-4a46-b4f4-06380661640f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\04. PixelShader">
-      <UniqueIdentifier>{cd4947d0-b8e0-4a68-a66b-93e3a7d6bff0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Graphics\Pipeline\05. OutputMerger">
-      <UniqueIdentifier>{8d55178d-e8d7-49aa-a897-68a15d6105f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Engine\Interface">
       <UniqueIdentifier>{e131ebd5-655c-4ba6-9261-f33bcde4605e}</UniqueIdentifier>
     </Filter>
@@ -98,29 +77,11 @@
     <ClInclude Include="pch.h">
       <Filter>해더 파일\pch</Filter>
     </ClInclude>
-    <ClInclude Include="InputLayout.h">
-      <Filter>소스 파일\Graphics\Pipeline\01. InputAssembler</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>해더 파일\Conven</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
       <Filter>해더 파일\Conven</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderBase.h">
-      <Filter>소스 파일\Graphics\Pipeline\02. VertexShader</Filter>
-    </ClInclude>
-    <ClInclude Include="SamplerState.h">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClInclude>
-    <ClInclude Include="BlendState.h">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClInclude>
-    <ClInclude Include="RasterizerState.h">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipeline.h">
-      <Filter>소스 파일\Graphics\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>소스 파일\Engine\GameObject</Filter>
@@ -173,9 +134,6 @@
     <ClInclude Include="ResourceHeader.h">
       <Filter>해더 파일\EngineHeader</Filter>
     </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>소스 파일\Engine\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>소스 파일\Engine\Scene</Filter>
     </ClInclude>
@@ -218,9 +176,6 @@
     <ClInclude Include="Technique.h">
       <Filter>소스 파일\Graphics\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
@@ -254,31 +209,19 @@
     <ClInclude Include="GeometryHelper.h">
       <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>해더 파일\pch</Filter>
     </ClCompile>
-    <ClCompile Include="InputLayout.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\01. InputAssembler</Filter>
-    </ClCompile>
     <ClCompile Include="Global.cpp">
       <Filter>해더 파일\Conven</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderBase.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\02. VertexShader</Filter>
-    </ClCompile>
-    <ClCompile Include="SamplerState.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClCompile>
-    <ClCompile Include="RasterizerState.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClCompile>
-    <ClCompile Include="BlendState.cpp">
-      <Filter>소스 파일\Graphics\Pipeline\03. Rasterizer</Filter>
-    </ClCompile>
-    <ClCompile Include="Pipeline.cpp">
-      <Filter>소스 파일\Graphics\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>소스 파일\Engine\GameObject</Filter>
@@ -306,9 +249,6 @@
     </ClCompile>
     <ClCompile Include="Animator.cpp">
       <Filter>소스 파일\Component\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>소스 파일\Engine\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>소스 파일\Engine\Scene</Filter>
@@ -349,9 +289,6 @@
     <ClCompile Include="Technique.cpp">
       <Filter>소스 파일\Graphics\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
@@ -387,6 +324,12 @@
     </ClCompile>
     <ClCompile Include="GeometryHelper.cpp">
       <Filter>소스 파일\Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\Engine\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

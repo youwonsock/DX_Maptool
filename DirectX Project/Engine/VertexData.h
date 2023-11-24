@@ -3,6 +3,9 @@
 struct VertexData
 {
 	Vector3 position = { 0, 0, 0 };
+
+	VertexData() = default;
+	VertexData(const Vector3& pos) : position(pos) {}
 };
 
 struct VertexTextureNormalData
@@ -10,6 +13,9 @@ struct VertexTextureNormalData
 	Vector3 position = { 0, 0, 0 };
 	Vector2 uv = { 0, 0 };
 	Vector3 normal = { 0, 0, 0 };
+
+	VertexTextureNormalData() = default;
+	VertexTextureNormalData(const Vector3& pos, const Vector2& uv, const Vector3& normal) : position(pos), uv(uv), normal(normal) {}
 };
 
 

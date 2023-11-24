@@ -15,7 +15,7 @@ void Texture::Load(const std::wstring& path)
     this->path = path;
     // temporary
 
-    auto imageobj = std::make_unique<DirectX::ScratchImage>();
+    imageobj = std::make_shared<DirectX::ScratchImage>();
     DirectX::TexMetadata mdata;
 
     // load dds Texture file

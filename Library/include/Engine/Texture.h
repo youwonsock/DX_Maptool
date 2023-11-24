@@ -11,6 +11,8 @@ private:
 	ComPtr<ID3D11ShaderResourceView> shaderResourceView;
 	Vector2 size;
 
+	// temp
+	std::shared_ptr<DirectX::ScratchImage> imageobj;
 public:
 	Texture();
 	virtual ~Texture();
@@ -19,5 +21,8 @@ public:
 
 	virtual void Load(const std::wstring& path) override;
 	Vector2& GetSize() { return size; };
+
+	// temp
+	const std::shared_ptr<DirectX::ScratchImage> GetInfo() { return imageobj; }
 };
 
