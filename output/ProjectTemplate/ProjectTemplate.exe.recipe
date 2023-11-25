@@ -7,6 +7,9 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\00. Global.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
     </ContentFile>
     <ContentFile>
@@ -26,6 +29,9 @@
     </ContentFile>
     <ContentFile>
       <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\07. Normal.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\08. GlobalTest.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

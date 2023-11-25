@@ -3,14 +3,22 @@
 #include "Singleton.hpp"
 #include "Struct.h"
 
-class Pipeline;
-class RasterizerState;
-class SamplerState;
-class BlendState;
-class GameObject;
+class Shader;
 
 template <typename T>
 class ConstantBuffer;
+
+struct GlobalDesc 
+{
+	Matrix View = Matrix::Identity;
+	Matrix Projection = Matrix::Identity;
+	Matrix VirwProjection = Matrix::Identity;
+};
+
+struct TransformDesc
+{
+	Matrix World = Matrix::Identity;
+};
 
 class RenderManager : public Singleton<RenderManager>
 {
@@ -18,32 +26,22 @@ private:
 	friend class Singleton<RenderManager>;
 	RenderManager() {};
 
-	std::shared_ptr<Pipeline> pipeline;
-	std::shared_ptr<RasterizerState> rasterizerState;
-	std::shared_ptr<SamplerState> samplerState;
-	std::shared_ptr<BlendState> blendState;
+	std::shared_ptr<Shader> shader;
+	std::shared_ptr<ConstantBuffer<GlobalDesc>> globalBuffer;
+	std::shared_ptr<ConstantBuffer<TransformDesc>> transformBuffer;
 
-	CameraData cameraData;
-	std::shared_ptr<ConstantBuffer<CameraData>> cameraBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
 
-	TransformData transformData;
-	std::shared_ptr<ConstantBuffer<TransformData>> transformBuffer;
-
-	AnimationData animationData;
-	std::shared_ptr<ConstantBuffer<AnimationData>> animationBuffer;
-
-	std::vector<std::shared_ptr<GameObject>> renderObjects;
-
-private:
-	void PushCameraData();
-	void PushTransformData();
-	void PushAnimationData();
-
-	void GetherRenderObjects();
-	void RenderObjects();
+	TransformDesc transformDesc;
+	GlobalDesc globalDesc;
 
 public:
-	void Init();
-	void Render();
+	void Init(const std::shared_ptr<Shader>& shader);
+	void Update();
+
+	void SetShader(const std::shared_ptr<Shader>& shader);
+	void PushGlobalData(const Matrix& view, const Matrix& projection);
+	void PushTransformData(const TransformDesc& desc);
 };
 

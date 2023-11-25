@@ -22,101 +22,125 @@
     <Filter Include="소스 파일\Shaders">
       <UniqueIdentifier>{4662bd89-65b0-4a7e-9786-e7b55e73d86c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Game\TestCamera">
+    <Filter Include="소스 파일\Game\Chapter 5">
+      <UniqueIdentifier>{0e530a4c-ace0-44bc-9112-2c60117ef98c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Chapter 5\TestCamera">
       <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Chapter 6">
+      <UniqueIdentifier>{5dbda115-ff76-4b75-af98-c49c5704d9dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter5">
+      <UniqueIdentifier>{108bd117-c12c-42d4-b910-f5562ba944a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter6">
+      <UniqueIdentifier>{7a265798-baaa-4134-b291-20ba2189b677}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-    <ClInclude Include="TriangleDemo.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadDemo.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstBufferDemo.h">
-      <Filter>소스 파일\Game</Filter>
+    <ClInclude Include="TestCamera.h">
+      <Filter>소스 파일\Game\Chapter 5\TestCamera</Filter>
     </ClInclude>
     <ClInclude Include="CameraDemo.h">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClInclude>
-    <ClInclude Include="TestCamera.h">
-      <Filter>소스 파일\Game\TestCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureDemo.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="SamplerDemo.h">
-      <Filter>소스 파일\Game</Filter>
+    <ClInclude Include="ConstBufferDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClInclude>
     <ClInclude Include="HeightMapDemo.h">
-      <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="NormalDemo.h">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClInclude>
     <ClInclude Include="MeshDemo.h">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="SamplerDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="TriangleDemo.h">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalTestDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
-    <ClCompile Include="TriangleDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="ConstBufferDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
+    <ClCompile Include="TestCamera.cpp">
+      <Filter>소스 파일\Game\Chapter 5\TestCamera</Filter>
     </ClCompile>
     <ClCompile Include="CameraDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClCompile>
-    <ClCompile Include="TestCamera.cpp">
-      <Filter>소스 파일\Game\TestCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="SamplerDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
+    <ClCompile Include="ConstBufferDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClCompile>
     <ClCompile Include="HeightMapDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="NormalDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
     </ClCompile>
     <ClCompile Include="MeshDemo.cpp">
-      <Filter>소스 파일\Game</Filter>
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="SamplerDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 5</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalTestDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\02. Quad.fx">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx">
-      <Filter>소스 파일\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
-      <Filter>소스 파일\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\06. Terrain.fx">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\04 Texture.fx">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\06. Terrain.fx">
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\07. Normal.fx">
-      <Filter>소스 파일\Shaders</Filter>
+      <Filter>소스 파일\Shaders\Chapter5</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\00. Global.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

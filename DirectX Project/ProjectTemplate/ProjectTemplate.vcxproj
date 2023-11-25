@@ -164,6 +164,7 @@
     <ClInclude Include="CameraDemo.h" />
     <ClInclude Include="ConstBufferDemo.h" />
     <ClInclude Include="HeightMapDemo.h" />
+    <ClInclude Include="GlobalTestDemo.h" />
     <ClInclude Include="MeshDemo.h" />
     <ClInclude Include="NormalDemo.h" />
     <ClInclude Include="QuadDemo.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="CameraDemo.cpp" />
     <ClCompile Include="ConstBufferDemo.cpp" />
     <ClCompile Include="HeightMapDemo.cpp" />
+    <ClCompile Include="GlobalTestDemo.cpp" />
     <ClCompile Include="MeshDemo.cpp" />
     <ClCompile Include="NormalDemo.cpp" />
     <ClCompile Include="QuadDemo.cpp" />
@@ -192,6 +194,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\Res\Shader\00. Global.fx" />
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
@@ -217,6 +220,7 @@
     <FxCompile Include="..\..\Res\Shader\05. Sampler.fx" />
     <FxCompile Include="..\..\Res\Shader\06. Terrain.fx" />
     <FxCompile Include="..\..\Res\Shader\07. Normal.fx" />
+    <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

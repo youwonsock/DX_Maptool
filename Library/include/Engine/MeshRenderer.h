@@ -3,12 +3,8 @@
 #include "Component.h"
 
 class Mesh;
-class Material;
 class Shader;
 class Texture;
-class VertexShader;
-class PixelShader;
-class InputLayout;
 
 class MeshRenderer : public Component
 {

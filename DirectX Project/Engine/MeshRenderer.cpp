@@ -45,15 +45,10 @@ void MeshRenderer::Update()
 	if (mesh == nullptr || texture == nullptr || shader == nullptr)
 		return;
 
-	auto world = GetTransform()->GetWorldMatrix();
-	shader->GetMatrix("World")->SetMatrix((float*)&world);
-
-	shader->GetMatrix("View")->SetMatrix((float*)&Camera::viewMatrix);
-	shader->GetMatrix("Projection")->SetMatrix((float*)&Camera::projectionMatrix);
 	shader->GetSRV("Texture0")->SetResource(texture->GetShaderResourceView().Get());
 
-	Vector3 lightDir = Vector3(0.f, 0.f, 1.f);
-	shader->GetVector("LightDir")->SetFloatVector((float*)&lightDir);
+	auto world = GetTransform()->GetWorldMatrix();
+	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
 
 	UINT stride = mesh->GetVertexBuffer()->GetStride();
 	UINT offset = mesh->GetIndexBuffer()->GetOffset();
