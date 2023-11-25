@@ -1,11 +1,5 @@
 #pragma once
 
-#include "Engine/ExLib.h"	  
-#include "Engine/StdHeader.h" 
-#include "Engine/Engine.h"
-
-#include "Engine/MonoBehaviour.h"
-
 class TestCamera : public MonoBehaviour
 {
 private:

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "WinMain.h"
 
 #include "GlobalTestDemo.h"

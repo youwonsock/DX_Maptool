@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TriangleDemo.h"
 
 #include "Engine/Global.h"

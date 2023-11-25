@@ -2,36 +2,36 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\ProjectTemplate.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\00. Global.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\00. Global.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\01. Triangle.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\02. Quad.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\02. Quad.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\03. ConstBuffer.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\03. ConstBuffer.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\04 Texture.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\04 Texture.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\05. Sampler.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\05. Sampler.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\06. Terrain.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\06. Terrain.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\07. Normal.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\07. Normal.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>E:\GitRepo\DX_Practice\output\ProjectTemplate\08. GlobalTest.cso</FullPath>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\08. GlobalTest.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

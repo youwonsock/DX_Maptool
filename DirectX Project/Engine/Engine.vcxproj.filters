@@ -39,9 +39,6 @@
     <Filter Include="소스 파일\Component\Transform">
       <UniqueIdentifier>{4fead978-2eec-4a08-aff6-00af134c72f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Component\Animator">
-      <UniqueIdentifier>{8d29bc2a-3393-472c-a363-832cd8f9b051}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Graphics">
       <UniqueIdentifier>{e3835734-92e6-4431-98c6-c9fa1ee8426c}</UniqueIdentifier>
     </Filter>
@@ -56,9 +53,6 @@
     </Filter>
     <Filter Include="소스 파일\Engine\Resource">
       <UniqueIdentifier>{b93fe4b5-e86e-4c1b-96e0-62c42167d1a6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Engine\Scene">
-      <UniqueIdentifier>{8e0c6acd-f96e-469f-a424-332a89af89c3}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Engine\EngineCore">
       <UniqueIdentifier>{dc1719be-e7ee-473d-a594-7bb875502c7a}</UniqueIdentifier>
@@ -116,9 +110,6 @@
     <ClInclude Include="Camera.h">
       <Filter>소스 파일\Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>소스 파일\Component\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="MeshRenderer.h">
       <Filter>소스 파일\Component\Rendering</Filter>
     </ClInclude>
@@ -133,12 +124,6 @@
     </ClInclude>
     <ClInclude Include="ResourceHeader.h">
       <Filter>해더 파일\EngineHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>소스 파일\Engine\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>소스 파일\Engine\Manager</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>소스 파일\Engine\Manager</Filter>
@@ -176,16 +161,10 @@
     <ClInclude Include="Technique.h">
       <Filter>소스 파일\Graphics\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceBase.h">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderRes.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
@@ -209,14 +188,8 @@
     <ClInclude Include="GeometryHelper.h">
       <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="RenderManager.h">
       <Filter>소스 파일\Engine\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipeline.h">
-      <Filter>소스 파일\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -249,15 +222,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일\Component\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>소스 파일\Component\Animator</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>소스 파일\Engine\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>소스 파일\Engine\Manager</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>소스 파일\Engine\Manager</Filter>
@@ -292,16 +256,10 @@
     <ClCompile Include="Technique.cpp">
       <Filter>소스 파일\Graphics\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="ResourceBase.cpp">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderRes.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
@@ -328,14 +286,8 @@
     <ClCompile Include="GeometryHelper.cpp">
       <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>소스 파일\Engine\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>소스 파일\Engine\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Pipeline.cpp">
-      <Filter>소스 파일\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "InputManager.h"
-#include "SceneManager.h"
 #include "ResourceManager.h"
 #include "TimeManager.h"
 #include "RenderManager.h"

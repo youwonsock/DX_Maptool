@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CameraDemo.h"
 
 #include "Engine/Global.h"

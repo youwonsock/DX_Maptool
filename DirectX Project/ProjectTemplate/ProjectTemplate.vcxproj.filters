@@ -25,9 +25,6 @@
     <Filter Include="소스 파일\Game\Chapter 5">
       <UniqueIdentifier>{0e530a4c-ace0-44bc-9112-2c60117ef98c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Game\Chapter 5\TestCamera">
-      <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Game\Chapter 6">
       <UniqueIdentifier>{5dbda115-ff76-4b75-af98-c49c5704d9dd}</UniqueIdentifier>
     </Filter>
@@ -37,13 +34,16 @@
     <Filter Include="소스 파일\Shaders\Chapter6">
       <UniqueIdentifier>{7a265798-baaa-4134-b291-20ba2189b677}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\TestCamera">
+      <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="TestCamera.h">
-      <Filter>소스 파일\Game\Chapter 5\TestCamera</Filter>
+      <Filter>소스 파일\Game\TestCamera</Filter>
     </ClInclude>
     <ClInclude Include="CameraDemo.h">
       <Filter>소스 파일\Game\Chapter 5</Filter>
@@ -75,13 +75,16 @@
     <ClInclude Include="GlobalTestDemo.h">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="TestCamera.cpp">
-      <Filter>소스 파일\Game\Chapter 5\TestCamera</Filter>
+      <Filter>소스 파일\Game\TestCamera</Filter>
     </ClCompile>
     <ClCompile Include="CameraDemo.cpp">
       <Filter>소스 파일\Game\Chapter 5</Filter>
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="GlobalTestDemo.cpp">
       <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>헤더 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

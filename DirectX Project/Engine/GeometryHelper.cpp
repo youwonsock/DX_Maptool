@@ -245,6 +245,7 @@ void GeometryHelper::CreateGrid(std::shared_ptr<Geometry<VertexTextureData>> geo
 }
 
 
+
 void GeometryHelper::CreateRectangle(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry)
 {
 	std::vector<VertexTextureNormalData> vtx;
@@ -261,7 +262,7 @@ void GeometryHelper::CreateRectangle(std::shared_ptr<Geometry<VertexTextureNorma
 	vtx[2].normal = Vector3(0.f, 0.f, -1.f);
 	vtx[3].position = Vector3(0.5f, 0.5f, 0.f);
 	vtx[3].uv = Vector2(1.f, 0.f);
-	vtx[2].normal = Vector3(0.f, 0.f, -1.f);
+	vtx[3].normal = Vector3(0.f, 0.f, -1.f);
 	geometry->SetVertices(vtx);
 
 	std::vector<UINT> idx = { 0, 1, 2, 2, 1, 3 };

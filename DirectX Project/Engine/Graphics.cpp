@@ -35,6 +35,8 @@ void Graphics::CreateDevice()
 
 #ifdef _DEBUG
     flags |= D3D11_CREATE_DEVICE_DEBUG;
+    
+    //flags |= D3D11_CREATE_DEVICE_DEBUGGABLE; ???
 #endif // !_DEBUG
 
     HRESULT hr = D3D11CreateDevice(

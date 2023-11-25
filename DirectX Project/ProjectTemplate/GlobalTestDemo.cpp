@@ -1,8 +1,7 @@
+#include "pch.h"
 #include "GlobalTestDemo.h"
 
-#include "Engine/Global.h"
 #include "TestCamera.h"
-#include "Engine/ResourceBase.h"
 
 void GlobalTestDemo::Init()
 {
@@ -52,6 +51,7 @@ void GlobalTestDemo::PreRender()
 
 void GlobalTestDemo::Render()
 {
+	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	obj->Update();
 }
 

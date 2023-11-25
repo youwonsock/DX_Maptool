@@ -1,7 +1,5 @@
+#include "pch.h"
 #include "TestCamera.h"
-
-#include "Engine/Transform.h"
-#include "Engine/Global.h"
 
 void TestCamera::BeginPlay()
 {

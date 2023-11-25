@@ -1,15 +1,5 @@
 #pragma once
 
-#include "Engine/IExecute.h"
-
-#include "Engine/ExLib.h"	  
-#include "Engine/StdHeader.h" 
-#include "Engine/Engine.h"
-
-#include "Engine/EngineHeader.h"
-#include "Engine/PipeLineHeaders.h"
-#include "Engine/ResourceHeader.h"
-
 class GlobalTestDemo : public IExecute
 {
 private:

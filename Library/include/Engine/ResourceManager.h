@@ -4,8 +4,6 @@
 #include "Singleton.hpp"
 
 class Mesh;
-class Material;
-class Animation;
 class Shader;
 class Texture;
 

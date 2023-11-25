@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "QuadDemo.h"
 
 #include "Engine/Global.h"

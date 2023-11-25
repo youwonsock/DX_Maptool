@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TextureDemo.h"
 
 #include "Engine/Global.h"

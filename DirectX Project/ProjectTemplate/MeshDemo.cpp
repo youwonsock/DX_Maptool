@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "MeshDemo.h"
 
 #include "Engine/Global.h"
