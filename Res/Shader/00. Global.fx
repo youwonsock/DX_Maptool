@@ -60,6 +60,15 @@ struct PNTOutput
     float2 uv : TEXCOORD;
 };
 
+struct MeshOutput
+{
+    float4 position : SV_POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+    float3 worldPosition : POSITION1;
+
+};
+
 /// Vertex Output ///
 
 

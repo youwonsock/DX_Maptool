@@ -163,12 +163,15 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AmbientDemo.h" />
     <ClInclude Include="CameraDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="ConstBufferDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="DepthStencilDemo.h" />
+    <ClInclude Include="DiffuseDemo.h" />
     <ClInclude Include="HeightMapDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -186,6 +189,7 @@
     <ClInclude Include="SamplerDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="SpecularDemo.h" />
     <ClInclude Include="TestCamera.h" />
     <ClInclude Include="TextureDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -196,12 +200,15 @@
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AmbientDemo.cpp" />
     <ClCompile Include="CameraDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="ConstBufferDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DepthStencilDemo.cpp" />
+    <ClCompile Include="DiffuseDemo.cpp" />
     <ClCompile Include="HeightMapDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -221,6 +228,7 @@
     <ClCompile Include="SamplerDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="SpecularDemo.cpp" />
     <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="TextureDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -263,6 +271,9 @@
     <FxCompile Include="..\..\Res\Shader\06. Terrain.fx" />
     <FxCompile Include="..\..\Res\Shader\07. Normal.fx" />
     <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx" />
+    <FxCompile Include="..\..\Res\Shader\09. Lighting_Ambient.fx" />
+    <FxCompile Include="..\..\Res\Shader\10. Lighting_Diffuse.fx" />
+    <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

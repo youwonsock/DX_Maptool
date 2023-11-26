@@ -33,6 +33,15 @@
     <ContentFile>
       <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\08. GlobalTest.cso</FullPath>
     </ContentFile>
+    <ContentFile>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\09. Lighting_Ambient.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\10. Lighting_Diffuse.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>E:\Repository\DX_Practice\output\ProjectTemplate\11. Lighting_Specular.cso</FullPath>
+    </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />

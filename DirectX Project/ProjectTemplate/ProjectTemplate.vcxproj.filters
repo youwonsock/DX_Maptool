@@ -78,6 +78,18 @@
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="DepthStencilDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
+    <ClInclude Include="AmbientDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
+    <ClInclude Include="DiffuseDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecularDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -119,6 +131,18 @@
     <ClCompile Include="pch.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
+    <ClCompile Include="DepthStencilDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="AmbientDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="DiffuseDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="SpecularDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
@@ -146,6 +170,15 @@
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\09. Lighting_Ambient.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\10. Lighting_Diffuse.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
   </ItemGroup>
