@@ -172,10 +172,12 @@
     </ClInclude>
     <ClInclude Include="DepthStencilDemo.h" />
     <ClInclude Include="DiffuseDemo.h" />
+    <ClInclude Include="EmissiveDemo.h" />
     <ClInclude Include="HeightMapDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="GlobalTestDemo.h" />
+    <ClInclude Include="LightingDemo.h" />
     <ClInclude Include="MeshDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -209,10 +211,12 @@
     </ClCompile>
     <ClCompile Include="DepthStencilDemo.cpp" />
     <ClCompile Include="DiffuseDemo.cpp" />
+    <ClCompile Include="EmissiveDemo.cpp" />
     <ClCompile Include="HeightMapDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GlobalTestDemo.cpp" />
+    <ClCompile Include="LightingDemo.cpp" />
     <ClCompile Include="MeshDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -245,6 +249,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\00. Global.fx" />
+    <FxCompile Include="..\..\Res\Shader\00. Light.fx" />
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
@@ -274,6 +279,8 @@
     <FxCompile Include="..\..\Res\Shader\09. Lighting_Ambient.fx" />
     <FxCompile Include="..\..\Res\Shader\10. Lighting_Diffuse.fx" />
     <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx" />
+    <FxCompile Include="..\..\Res\Shader\12. Lighting_Emissive.fx" />
+    <FxCompile Include="..\..\Res\Shader\13. Lighting.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

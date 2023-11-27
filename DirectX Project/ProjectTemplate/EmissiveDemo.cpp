@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "DiffuseDemo.h"
+#include "EmissiveDemo.h"
 
 #include "TestCamera.h"
 
-void DiffuseDemo::Init()
+void EmissiveDemo::Init()
 {
 	// engine에서 하면 안되는 이유는?
 	ResourceManager::GetInstance().Init();
@@ -13,7 +13,7 @@ void DiffuseDemo::Init()
 	obj1->GetTransform();
 	obj1->AddComponent(std::make_shared<MeshRenderer>());
 
-	shader = std::make_shared<Shader>(L"10. Lighting_Diffuse.fx");
+	shader = std::make_shared<Shader>(L"12. Lighting_Emissive.fx");
 	obj1->GetMeshRenderer()->SetShader(shader);
 	{
 		auto mesh1 = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
@@ -47,54 +47,45 @@ void DiffuseDemo::Init()
 	RenderManager::GetInstance().Init(obj1->GetMeshRenderer()->GetShader());
 }
 
-void DiffuseDemo::FixedUpdate()
+void EmissiveDemo::FixedUpdate()
 {
 }
 
-void DiffuseDemo::Update()
+void EmissiveDemo::Update()
 {
 	cameraObject->Update();
 	RenderManager::GetInstance().Update();
 }
 
-void DiffuseDemo::PostUpdate()
+void EmissiveDemo::PostUpdate()
 {
 }
 
-void DiffuseDemo::PreRender()
+void EmissiveDemo::PreRender()
 {
 }
 
-void DiffuseDemo::Render()
+void EmissiveDemo::Render()
 {
 	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	// set diffuse light
-	Vector4 lightDiffuse = { 1.f, 1.f, 1.f, 1.0f };
-	shader->GetVector("LightDiffuse")->SetFloatVector((float*)&lightDiffuse);
-	
-	// set light direction
-	Vector3 lightDirection = { 1.f, 0.f, 0.f };
-	lightDirection.Normalize();
-	shader->GetVector("LightDir")->SetFloatVector((float*)&lightDirection);
-
 	// set obj material
 	{
-		Vector4 material(1.f,0,0,0);
-		shader->GetVector("MatrealDiffuse")->SetFloatVector((float*)&material);
+		Vector4 material(1.f, 0.f, 0.f, 1.f);
+		shader->GetVector("MatrealEmissive")->SetFloatVector((float*)&material);
 		obj1->Update();
 	}
 	{
-		Vector4 material(0.5f,0,0,0);
-		shader->GetVector("MatrealDiffuse")->SetFloatVector((float*)&material);
+		Vector4 material(0.f, 1.f, 0.f, 1.f);
+		shader->GetVector("MatrealEmissive")->SetFloatVector((float*)&material);
 		obj2->Update();
 	}
 }
 
-void DiffuseDemo::PostRender()
+void EmissiveDemo::PostRender()
 {
 }
 
-void DiffuseDemo::Release()
+void EmissiveDemo::Release()
 {
 }

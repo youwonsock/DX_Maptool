@@ -22,19 +22,17 @@ bool Engine::EngineInit()
 
 	graphics->Init();
 
-	if(app != nullptr)
-		app->Init();
-	else
-		Init();
-
 	// Init Manager
 	{
 		TimeManager::GetInstance().Init();
 		InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
-
-		// ???/
-		//ResourceManager::GetInstance().Init();
+		ResourceManager::GetInstance().Init();
 	}
+
+	if (app != nullptr)
+		app->Init();
+	else
+		Init();
 
 	return true;
 }

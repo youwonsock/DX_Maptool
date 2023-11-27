@@ -90,6 +90,12 @@
     <ClInclude Include="SpecularDemo.h">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
+    <ClInclude Include="EmissiveDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
+    <ClInclude Include="LightingDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -143,6 +149,12 @@
     <ClCompile Include="SpecularDemo.cpp">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
+    <ClCompile Include="EmissiveDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="LightingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
@@ -166,9 +178,6 @@
     <FxCompile Include="..\..\Res\Shader\07. Normal.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\00. Global.fx">
-      <Filter>소스 파일\Shaders\Chapter6</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
@@ -180,6 +189,18 @@
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\12. Lighting_Emissive.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\13. Lighting.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\00. Light.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\00. Global.fx">
+      <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

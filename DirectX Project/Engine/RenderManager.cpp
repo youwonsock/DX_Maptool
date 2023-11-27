@@ -17,6 +17,14 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 	transformBuffer = std::make_shared<ConstantBuffer<TransformDesc>>(Global::g_device, Global::g_immediateContext);
 	transformBuffer->Create();	
 	transformEffectBuffer = shader->GetConstantBuffer("TransformBuffer");
+
+	lightBuffer = std::make_shared<ConstantBuffer<LightDesc>>(Global::g_device, Global::g_immediateContext);
+	lightBuffer->Create();
+	lightEffectBuffer = shader->GetConstantBuffer("LightBuffer");
+
+	materialBuffer = std::make_shared<ConstantBuffer<MaterialDesc>>(Global::g_device, Global::g_immediateContext);
+	materialBuffer->Create();
+	materialEffectBuffer = shader->GetConstantBuffer("MaterialBuffer");
 }
 
 void RenderManager::Update()
@@ -45,4 +53,20 @@ void RenderManager::PushTransformData(const TransformDesc& desc)
 
 	transformBuffer->CopyData(transformDesc);
 	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushLightData(const LightDesc& desc)
+{
+	lightDesc = desc;
+
+	lightBuffer->CopyData(lightDesc);
+	lightEffectBuffer->SetConstantBuffer(lightBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushMaterialData(const MaterialDesc& desc)
+{
+	materialDesc = desc;
+
+	materialBuffer->CopyData(materialDesc);
+	materialEffectBuffer->SetConstantBuffer(materialBuffer->GetConstantBuffer().Get());
 }
