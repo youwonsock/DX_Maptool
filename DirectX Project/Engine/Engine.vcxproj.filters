@@ -191,6 +191,9 @@
     <ClInclude Include="RenderManager.h">
       <Filter>소스 파일\Engine\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>소스 파일\Engine\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -288,6 +291,9 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp">
       <Filter>소스 파일\Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

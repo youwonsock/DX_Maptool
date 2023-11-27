@@ -96,6 +96,9 @@
     <ClInclude Include="LightingDemo.h">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -153,6 +156,9 @@
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
     <ClCompile Include="LightingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialDemo.cpp">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
   </ItemGroup>

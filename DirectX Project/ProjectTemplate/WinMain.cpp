@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WinMain.h"
 
-#include "LightingDemo.h"
+#include "MaterialDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<LightingDemo>();
+	gameDesc.app = std::make_shared<MaterialDemo>();
 
 	Engine game(gameDesc);
 

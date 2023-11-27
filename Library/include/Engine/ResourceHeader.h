@@ -3,6 +3,7 @@
 #include "Mesh.h"
 #include "ResourceBase.h"
 #include "Texture.h"
+#include "Material.h"
 
 // fx11 ???
 #include "Shader.h"

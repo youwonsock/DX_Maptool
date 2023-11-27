@@ -178,6 +178,7 @@
     </ClInclude>
     <ClInclude Include="GlobalTestDemo.h" />
     <ClInclude Include="LightingDemo.h" />
+    <ClInclude Include="MaterialDemo.h" />
     <ClInclude Include="MeshDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -217,6 +218,7 @@
     </ClCompile>
     <ClCompile Include="GlobalTestDemo.cpp" />
     <ClCompile Include="LightingDemo.cpp" />
+    <ClCompile Include="MaterialDemo.cpp" />
     <ClCompile Include="MeshDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>

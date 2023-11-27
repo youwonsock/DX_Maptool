@@ -18,6 +18,10 @@ void MeshRenderer::SetMesh(std::shared_ptr<Mesh> mesh)
 {
 	this->mesh = mesh;
 }
+void MeshRenderer::SetMaterial(std::shared_ptr<Material> material)
+{
+	this->material = material;
+}
 void MeshRenderer::SetShader(std::shared_ptr<Shader> shader)
 {
 	this->shader = shader;
@@ -31,6 +35,10 @@ std::shared_ptr<Mesh> MeshRenderer::GetMesh() const
 {
 	return mesh;
 }
+std::shared_ptr<Material> MeshRenderer::GetMaterial() const
+{
+	return material;
+}
 std::shared_ptr<Shader> MeshRenderer::GetShader() const
 {
 	return shader;
@@ -42,10 +50,14 @@ std::shared_ptr<Texture> MeshRenderer::GetTexture() const
 
 void MeshRenderer::Update()
 {
-	if (mesh == nullptr || texture == nullptr || shader == nullptr)
+	if (mesh == nullptr || material == nullptr)
 		return;
 
-	shader->GetSRV("DiffuseMap")->SetResource(texture->GetShaderResourceView().Get());
+	auto shader = material->GetShader();
+	if (shader == nullptr)
+		return;
+
+	material->Update();
 
 	auto world = GetTransform()->GetWorldMatrix();
 	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
