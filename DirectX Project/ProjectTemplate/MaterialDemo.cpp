@@ -1,15 +1,10 @@
-#include "pch.h"
+ #include "pch.h"
 #include "MaterialDemo.h"
 
 #include "TestCamera.h"
 
 void MaterialDemo::Init()
 {
-	// obj1
-	obj1 = std::make_shared<GameObject>();
-	obj1->GetTransform()->SetWorldPosition(Vector3(1,0,0));
-	obj1->AddComponent(std::make_shared<MeshRenderer>());
-
 	shader = std::make_shared<Shader>(L"13. Lighting.fx"); 
 
 	{
@@ -18,13 +13,46 @@ void MaterialDemo::Init()
 			material->SetShader(shader);
 		}
 		{
-			auto textue = ResourceManager::GetInstance().Load<Texture>(L"Chim", L"IMG/OldGreenLemonChim.png" );
+			auto textue = ResourceManager::GetInstance().Load<Texture>(L"LemonChim", L"IMG/OldGreenLemonChim.png" );
 			material->SetDiffuseMap(textue);
 		}
 		MaterialDesc& materialDesc = material->GetMaterialDesc();
-		materialDesc
+		materialDesc.ambient = Color(1.f, 1.0f, 1.0f, 1.0f);
+		materialDesc.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
+		ResourceManager::GetInstance().Add(L"LemonChimMat", material);
 	}
+
+	// obj1
+	obj1 = std::make_shared<GameObject>();
+	obj1->GetTransform()->SetWorldPosition(Vector3(1, 0, 0));
+	obj1->AddComponent(std::make_shared<MeshRenderer>());
+	{
+		auto mesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
+		obj1->GetMeshRenderer()->SetMesh(mesh);
+	}
+	{
+		auto material = ResourceManager::GetInstance().Get<Material>(L"LemonChimMat");
+		obj1->GetMeshRenderer()->SetMaterial(material);
+	}
+
+	//obj2
+	obj2 = std::make_shared<GameObject>();
+	obj2->GetTransform()->SetWorldPosition(Vector3(-1, 0, 0));
+	obj2->AddComponent(std::make_shared<MeshRenderer>());
+	{
+		auto mesh = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
+		obj2->GetMeshRenderer()->SetMesh(mesh);
+	}
+	{
+		auto material = ResourceManager::GetInstance().Get<Material>(L"LemonChimMat")->Clone();
+		MaterialDesc& desc = material->GetMaterialDesc();
+		desc.ambient = Color(1.f, 0.f, 0.f, 1.0f);
+		desc.diffuse = Color(0.2f, 0.2f, 0.2f, 0.2f);
+
+		obj2->GetMeshRenderer()->SetMaterial(material);
+	}
+
 
 	// camera
 	cameraObject = std::make_shared<GameObject>();
@@ -32,7 +60,7 @@ void MaterialDemo::Init()
 	cameraObject->AddComponent(std::make_shared<Camera>());
 	cameraObject->AddComponent(std::make_shared<TestCamera>());
 
-	RenderManager::GetInstance().Init(obj1->GetMeshRenderer()->GetShader());
+	RenderManager::GetInstance().Init(shader);
 }
 
 void MaterialDemo::FixedUpdate()

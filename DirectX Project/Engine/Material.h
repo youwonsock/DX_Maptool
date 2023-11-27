@@ -33,7 +33,7 @@ public:
 	const std::shared_ptr<Texture>& GetDiffuseMap() const;
 	const std::shared_ptr<Texture>& GetNormalMap() const;
 	const std::shared_ptr<Texture>& GetSpecularMap() const;
-	const MaterialDesc& GetMaterialDesc() const;
+	MaterialDesc& GetMaterialDesc();
 
 	void Update();
 	

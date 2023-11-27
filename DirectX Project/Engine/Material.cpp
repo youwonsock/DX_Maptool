@@ -56,7 +56,7 @@ const std::shared_ptr<Texture>& Material::GetSpecularMap() const
 	return specularMap;
 }
 
-const MaterialDesc& Material::GetMaterialDesc() const
+MaterialDesc& Material::GetMaterialDesc()
 {
 	return desc;
 }
@@ -80,5 +80,16 @@ void Material::Update()
 
 std::shared_ptr<Material> Material::Clone() const
 {
-	return std::shared_ptr<Material>();
+	std::shared_ptr<Material> clone = std::make_shared<Material>();
+
+	clone->desc = desc;
+	clone->shader = shader;
+	clone->diffuseMap = diffuseMap;
+	clone->normalMap = normalMap;
+	clone->specularMap = specularMap;
+	clone->diffuseEffectBuffer = diffuseEffectBuffer;
+	clone->normalEffectBuffer = normalEffectBuffer;
+	clone->specularEffectBuffer = specularEffectBuffer;
+
+	return clone;
 }
