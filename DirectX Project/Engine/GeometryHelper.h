@@ -8,16 +8,9 @@ class Geometry;
 class GeometryHelper
 {
 public:
-	static void CreateRectangle(std::shared_ptr<Geometry<VertexColorData>> geometry, Color color);
-	
-	static void CreateRectangle(std::shared_ptr<Geometry<VertexTextureData>> geometry);
-	static void CreateCube(std::shared_ptr<Geometry<VertexTextureData>> geometry);
-	static void CreateSphere(std::shared_ptr<Geometry<VertexTextureData>> geometry);
-	static void CreateGrid(std::shared_ptr<Geometry<VertexTextureData>> geometry, int sizeX, int sizeZ);
-
-	static void CreateRectangle(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
-	static void CreateCube(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
-	static void CreateSphere(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry);
-	static void CreateGrid(std::shared_ptr<Geometry<VertexTextureNormalData>> geometry, int sizeX, int sizeZ);
+	static void CreateRectangle(std::shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry);
+	static void CreateCube(std::shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry);
+	static void CreateSphere(std::shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry);
+	static void CreateGrid(std::shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry, int sizeX, int sizeZ);
 };
 

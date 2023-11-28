@@ -22,14 +22,6 @@ void MeshRenderer::SetMaterial(std::shared_ptr<Material> material)
 {
 	this->material = material;
 }
-void MeshRenderer::SetShader(std::shared_ptr<Shader> shader)
-{
-	this->shader = shader;
-}
-void MeshRenderer::SetTexture(std::shared_ptr<Texture> texture)
-{
-	this->texture = texture;
-}
 
 std::shared_ptr<Mesh> MeshRenderer::GetMesh() const
 {
@@ -38,14 +30,6 @@ std::shared_ptr<Mesh> MeshRenderer::GetMesh() const
 std::shared_ptr<Material> MeshRenderer::GetMaterial() const
 {
 	return material;
-}
-std::shared_ptr<Shader> MeshRenderer::GetShader() const
-{
-	return shader;
-}
-std::shared_ptr<Texture> MeshRenderer::GetTexture() const
-{
-	return texture;
 }
 
 void MeshRenderer::Update()

@@ -99,6 +99,9 @@
     <ClInclude Include="MaterialDemo.h">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
+    <ClInclude Include="NormalMappingDemo.h">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -161,6 +164,9 @@
     <ClCompile Include="MaterialDemo.cpp">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
+    <ClCompile Include="NormalMappingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
@@ -207,6 +213,9 @@
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\00. Global.fx">
       <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\14. NormalMapping.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

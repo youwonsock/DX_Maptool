@@ -18,6 +18,17 @@ struct VertexTextureNormalData
 	VertexTextureNormalData(const Vector3& pos, const Vector2& uv, const Vector3& normal) : position(pos), uv(uv), normal(normal) {}
 };
 
+struct VertexTextureNormalTangentData
+{
+	Vector3 position = { 0, 0, 0 };
+	Vector3 normal = { 0, 0, 0 };
+	Vector2 uv = { 0, 0 };
+	Vector3 tangent = { 0, 0, 0 };
+
+	VertexTextureNormalTangentData() = default;
+	VertexTextureNormalTangentData(const Vector3& pos, const Vector2& uv, const Vector3& normal, const Vector3& tangent) : position(pos), uv(uv), normal(normal), tangent(tangent) {}
+};
+
 
 struct VertexTextureData
 {

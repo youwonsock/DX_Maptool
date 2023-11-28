@@ -14,8 +14,6 @@ private:
 
 	std::shared_ptr<Mesh> mesh;
 	std::shared_ptr<Material> material;
-	std::shared_ptr<Texture> texture;
-	std::shared_ptr<Shader> shader;
 public:
 	MeshRenderer();
 	~MeshRenderer();
@@ -25,12 +23,6 @@ public:
 
 	std::shared_ptr<Mesh> GetMesh() const;
 	std::shared_ptr<Material> GetMaterial() const;
-
-	// deprecated
-	void SetTexture(std::shared_ptr<Texture> texture);
-	void SetShader(std::shared_ptr<Shader> shader);
-	std::shared_ptr<Texture> GetTexture() const;
-	std::shared_ptr<Shader> GetShader() const;
 
 	virtual void Update() override;
 };

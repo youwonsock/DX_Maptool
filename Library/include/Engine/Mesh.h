@@ -14,7 +14,7 @@ class Mesh : public ResourceBase
 private:
 	using Base = ResourceBase;
 
-	std::shared_ptr<Geometry<VertexTextureNormalData>> geometry;
+	std::shared_ptr<Geometry<VertexTextureNormalTangentData>> geometry;
 	std::shared_ptr<VertexBuffer> vertexBuffer;
 	std::shared_ptr<IndexBuffer> indexBuffer;
 

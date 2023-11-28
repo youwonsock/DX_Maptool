@@ -25,28 +25,28 @@ Mesh::~Mesh()
 
 void Mesh::CreateCube()
 {
-	geometry = std::make_shared<Geometry<VertexTextureNormalData>>();
+	geometry = std::make_shared<Geometry<VertexTextureNormalTangentData>>();
 	GeometryHelper::CreateCube(geometry);
 	CreateBuffers();
 }
 
 void Mesh::CreateSphere()
 {
-	geometry = std::make_shared<Geometry<VertexTextureNormalData>>();
+	geometry = std::make_shared<Geometry<VertexTextureNormalTangentData>>();
 	GeometryHelper::CreateSphere(geometry);
 	CreateBuffers();
 }
 
 void Mesh::CreateGrid(UINT sizeX, UINT sizeY)
 {
-	geometry = std::make_shared<Geometry<VertexTextureNormalData>>();
+	geometry = std::make_shared<Geometry<VertexTextureNormalTangentData>>();
 	GeometryHelper::CreateGrid(geometry, sizeX, sizeY);
 	CreateBuffers();
 }
 
 void Mesh::CreateRactangle()
 {
-	geometry = std::make_shared<Geometry<VertexTextureNormalData>>();
+	geometry = std::make_shared<Geometry<VertexTextureNormalTangentData>>();
 	GeometryHelper::CreateRectangle(geometry);
 	CreateBuffers();
 }
