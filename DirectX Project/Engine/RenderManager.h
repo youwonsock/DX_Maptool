@@ -13,6 +13,7 @@ struct GlobalDesc
 	Matrix View = Matrix::Identity;
 	Matrix Projection = Matrix::Identity;
 	Matrix VirwProjection = Matrix::Identity;
+	Matrix ViewInverse = Matrix::Identity;
 };
 
 struct TransformDesc

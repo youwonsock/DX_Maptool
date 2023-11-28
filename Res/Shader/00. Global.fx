@@ -10,6 +10,7 @@ cbuffer GlobalBuffer
     matrix View;
     matrix Projection;
     matrix ViewProjection;
+    matrix ViewInverse; // == cam world matrix
 };
 
 cbuffer TransformBuffer
@@ -129,7 +130,8 @@ pass name                                               \
 
 float3 GetCameraPosition()
 {
-    return -View._41_42_43;
+    return ViewInverse._41_42_43;
+    
 }
 
 /// Function ///

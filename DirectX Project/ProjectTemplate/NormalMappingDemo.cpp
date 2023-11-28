@@ -24,6 +24,7 @@ void NormalMappingDemo::Init()
 		materialDesc.ambient = Color(1.f, 1.0f, 1.0f, 1.0f);
 		materialDesc.diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 		materialDesc.specular = Color(1.0f, 1.0f, 1.0f, 1.0f);
+		materialDesc.emissive = Vector4(1.0f);
 
 		ResourceManager::GetInstance().Add(L"LemonChimMat", material);
 	}
@@ -89,9 +90,10 @@ void NormalMappingDemo::Render()
 	// set global light
 	{
 		LightDesc lightDesc;
-		lightDesc.ambient = Vector4(0.5f);
-		lightDesc.diffuse = Vector4(1.0f);
-		lightDesc.specular = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		lightDesc.ambient = Vector4(0.f);
+		lightDesc.diffuse = Vector4(0.f);
+		lightDesc.specular = Vector4(0.f);
+		lightDesc.emissive = Vector4(1.0f, 0.0f, 0.0f,1.f);
 		lightDesc.direction = Vector3(1.0f, 0.f, 1.0f);
 
 		RenderManager::GetInstance().PushLightData(lightDesc);
