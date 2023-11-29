@@ -7,6 +7,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProjectTemplate", "ProjectTemplate\ProjectTemplate.vcxproj", "{0D79EA1D-9484-4B86-8792-3B7FA2F91A26}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssimpTool", "AssimpTool\AssimpTool.vcxproj", "{8E961CEB-0270-4A77-BE35-278865DC9127}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{7A000C54-8258-4D86-B844-3558E1343C9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,9 +35,20 @@ Global
 		{0D79EA1D-9484-4B86-8792-3B7FA2F91A26}.Release|x64.Build.0 = Release|x64
 		{0D79EA1D-9484-4B86-8792-3B7FA2F91A26}.Release|x86.ActiveCfg = Release|Win32
 		{0D79EA1D-9484-4B86-8792-3B7FA2F91A26}.Release|x86.Build.0 = Release|Win32
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Debug|x64.ActiveCfg = Debug|x64
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Debug|x64.Build.0 = Debug|x64
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Debug|x86.ActiveCfg = Debug|Win32
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Debug|x86.Build.0 = Debug|Win32
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Release|x64.ActiveCfg = Release|x64
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Release|x64.Build.0 = Release|x64
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Release|x86.ActiveCfg = Release|Win32
+		{8E961CEB-0270-4A77-BE35-278865DC9127}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E961CEB-0270-4A77-BE35-278865DC9127} = {7A000C54-8258-4D86-B844-3558E1343C9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2087983-40D1-40E1-91DE-40863F8353ED}

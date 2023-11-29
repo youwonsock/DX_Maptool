@@ -30,8 +30,10 @@ using namespace DirectX::PackedVector;
 #include "DirectXTex/DirectXTex.inl"
 #include "FMOD/fmod.h"
 #include "FMOD/fmod.hpp"
-#include <FBXSDK/fbxsdk.h>
 #include <FX11/d3dx11effect.h>
+#include <Assimp/Importer.hpp>
+#include <Assimp/scene.h>
+#include <Assimp/postprocess.h>
 
 #include "SimpleMath.h"
 #include "tinyxml2.h"
@@ -51,20 +53,12 @@ using namespace DirectX::PackedVector;
 // link additional Lib library
 #ifdef _DEBUG
 #pragma comment(lib, "DirectXTex\\DirectXTex_debug.lib")
-
-#pragma comment(lib, "FBXSDK\\debug\\libfbxsdk-md.lib")
-#pragma comment(lib, "FBXSDK\\debug\\libxml2-md.lib")
-#pragma comment(lib, "FBXSDK\\debug\\zlib-md.lib")
-
 #pragma comment(lib, "FX11\\Effects11d.lib")
+#pragma comment(lib, "Assimp\\assimp-vc143-mtd.lib")
 #else
 #pragma comment(lib, "DirectXTex\\DirectXTex.lib")
-
-#pragma comment(lib, "FBXSDK\\release\\libfbxsdk-md.lib")
-#pragma comment(lib, "FBXSDK\\release\\libxml2-md.lib")
-#pragma comment(lib, "FBXSDK\\release\\zlib-md.lib")
-
 #pragma comment(lib, "FX11\\Effects11.lib")
+#pragma comment(lib, "Assimp\\assimp-vc143-mt.lib")
 #endif
 
 #pragma comment (lib, "FMOD\\fmod_vc.lib")

@@ -3,6 +3,7 @@
 
 *.lib
 *.dll
+[Rr]es/
 
 ### VisualStudioCode ###
 .vscode/*

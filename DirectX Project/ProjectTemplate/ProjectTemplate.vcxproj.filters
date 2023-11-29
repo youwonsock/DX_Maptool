@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{76117dd6-e257-42c6-b7b1-9bc6092c2e5d}</UniqueIdentifier>
     </Filter>
@@ -36,6 +32,12 @@
     </Filter>
     <Filter Include="소스 파일\Game\TestCamera">
       <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter7">
+      <UniqueIdentifier>{f4c9d41a-8e12-4f6d-9c80-746e378bca47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game\Chapter 7">
+      <UniqueIdentifier>{615f9312-dd38-41a6-8870-028a70a52706}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
