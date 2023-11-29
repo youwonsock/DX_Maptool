@@ -29,6 +29,19 @@ struct VertexTextureNormalTangentData
 	VertexTextureNormalTangentData(const Vector3& pos, const Vector2& uv, const Vector3& normal, const Vector3& tangent) : position(pos), uv(uv), normal(normal), tangent(tangent) {}
 };
 
+struct VertexTextureNormalTangentBlendData
+{
+	Vector3 position = { 0, 0, 0 };
+	Vector3 normal = { 0, 0, 0 };
+	Vector2 uv = { 0, 0 };
+	Vector3 tangent = { 0, 0, 0 };
+	Vector4 blendIndices = { 0, 0, 0, 0 };
+	Vector4 blendWeights = { 0, 0, 0, 0 };
+
+	VertexTextureNormalTangentBlendData() = default;
+	VertexTextureNormalTangentBlendData(const Vector3& pos, const Vector2& uv, const Vector3& normal, const Vector3& tangent, const Vector4 blendIndices, const Vector4 blendWeights)
+		: position(pos), uv(uv), normal(normal), tangent(tangent), blendIndices(blendIndices), blendWeights(blendWeights) {}
+};
 
 struct VertexTextureData
 {

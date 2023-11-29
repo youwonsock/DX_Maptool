@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssimpTool.cpp" />
+    <ClCompile Include="AsTypes.cpp" />
     <ClCompile Include="Converter.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssimpTool.h" />
+    <ClInclude Include="AsTypes.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TestCamera.h" />

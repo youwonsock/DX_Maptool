@@ -73,3 +73,31 @@ inline bool StartsWith(const std::string& str, const  std::string comp)
 
 	return false;
 }
+
+inline void Replace(OUT std::string& str, const std::string& comp, const std::string& rep)
+{
+	std::string temp = str;
+
+	UINT startPos = 0;
+	while ((startPos = temp.find(comp, startPos)) != std::string::npos)
+	{
+		temp.replace(startPos, comp.length(), rep);
+		startPos += rep.length();
+	}
+
+	str = temp;
+}
+
+inline void Replace(OUT std::wstring& str, const std::wstring& comp, const std::wstring& rep)
+{
+	std::wstring temp = str;
+
+	UINT startPos = 0;
+	while ((startPos = temp.find(comp, startPos)) != std::wstring::npos)
+	{
+		temp.replace(startPos, comp.length(), rep);
+		startPos += rep.length();
+	}
+
+	str = temp;
+}

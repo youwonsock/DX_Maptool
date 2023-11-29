@@ -35,6 +35,9 @@
     <ClCompile Include="AssimpTool.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="AsTypes.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestCamera.h">
@@ -51,6 +54,9 @@
     </ClInclude>
     <ClInclude Include="AssimpTool.h">
       <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AsTypes.h">
+      <Filter>소스 파일\Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
