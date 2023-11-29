@@ -9,39 +9,48 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Utils">
+    <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{5c3e82e6-43b7-471b-8d7d-e1e3db531baa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main">
+    <Filter Include="소스 파일\Main">
       <UniqueIdentifier>{ddd303d3-76bd-48d0-a7e9-06ab5ccabc4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Game">
+      <UniqueIdentifier>{d3129313-f8e0-47d5-b321-3b505425b0d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestCamera.cpp">
-      <Filter>Utils</Filter>
+      <Filter>소스 파일\Utils</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
-      <Filter>Main</Filter>
+      <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="Converter.cpp">
-      <Filter>Utils</Filter>
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpTool.cpp">
+      <Filter>소스 파일\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestCamera.h">
-      <Filter>Utils</Filter>
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
     <ClInclude Include="WinMain.h">
-      <Filter>Main</Filter>
+      <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Converter.h">
-      <Filter>Utils</Filter>
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpTool.h">
+      <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

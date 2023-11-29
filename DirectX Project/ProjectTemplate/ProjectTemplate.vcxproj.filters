@@ -33,12 +33,6 @@
     <Filter Include="소스 파일\Game\TestCamera">
       <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Shaders\Chapter7">
-      <UniqueIdentifier>{f4c9d41a-8e12-4f6d-9c80-746e378bca47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Game\Chapter 7">
-      <UniqueIdentifier>{615f9312-dd38-41a6-8870-028a70a52706}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">

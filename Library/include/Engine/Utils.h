@@ -36,6 +36,13 @@ inline void ShowErrorMessage(ID3DBlob* errorCode)
 	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
 }
 
+inline void ShowErrorMessage(std::wstring errorMassage)
+{
+	LPCSTR errorText = "nullptr";
+	errorText = (LPCSTR)errorMassage.c_str();
+	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
+}
+
 inline std::string WStringToString(const std::wstring& wstr)
 {
 	std::string str(wstr.begin(), wstr.end());
