@@ -3,6 +3,8 @@
 
 #include "Engine/tinyxml2.h"
 
+//#include "Engine/FileUtils.h"
+
 Converter::Converter()
 {
 	importer = std::make_shared<Assimp::Importer>();
@@ -108,7 +110,7 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 
 			// Normal
 			if (srcMesh->HasNormals())
-				::memcpy(&vertex.normal, &srcMesh->mNormals[v], sizeof(Vec3));
+				::memcpy(&vertex.normal, &srcMesh->mNormals[v], sizeof(Vector3));
 
 			mesh->vertices.push_back(vertex);
 		}
@@ -134,7 +136,7 @@ void Converter::WriteModelFile(std::wstring filePath)
 	std::filesystem::create_directory(path.parent_path());
 
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
-	file->Open(filePath, std::FileMode::Write);
+	file->Open(filePath, FileMode::Write);
 
 	// Bone Data
 	file->Write<UINT>(bones.size());
@@ -291,8 +293,8 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 
 		if (srcTexture->mHeight == 0)
 		{
-			shared_ptr<FileUtils> file = make_shared<FileUtils>();
-			file->Open(Utils::ToWString(pathStr), FileMode::Write);
+			std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+			file->Open(StringToWString(pathStr), FileMode::Write);
 			file->Write(srcTexture->pcData, srcTexture->mWidth);
 		}
 		else

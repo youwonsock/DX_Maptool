@@ -8,14 +8,27 @@ void AssimpTool::Init()
 	{
 		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
 
-		// fbx -> memory
-		converter->ReadAssetFile(L"House/House.fbx");
+		// FBX -> Memory
+		converter->ReadAssetFile(L"Tank/Tank.fbx");
 
-		// memory -> customData
-		converter->ExportMaterialData(L"House/House");
-		converter->ExportModelData(L"House/House");
+		// Memory -> CustomData (File)
+		converter->ExportMaterialData(L"Tank/Tank");
+		converter->ExportModelData(L"Tank/Tank");
 
-		// customData -> memory or file
+		// CustomData (File) -> Memory
+	}
+
+	{
+		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
+
+		// FBX -> Memory
+		converter->ReadAssetFile(L"Tower/Tower.fbx");
+
+		// Memory -> CustomData (File)
+		converter->ExportMaterialData(L"Tower/Tower");
+		converter->ExportModelData(L"Tower/Tower");
+
+		// CustomData (File) -> Memory
 	}
 }
 

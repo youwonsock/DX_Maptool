@@ -79,7 +79,7 @@ inline void Replace(OUT std::string& str, const std::string& comp, const std::st
 	std::string temp = str;
 
 	UINT startPos = 0;
-	while ((startPos = temp.find(comp, startPos)) != std::string::npos)
+	while ((startPos = temp.find(comp, startPos)) != std::wstring::npos)
 	{
 		temp.replace(startPos, comp.length(), rep);
 		startPos += rep.length();

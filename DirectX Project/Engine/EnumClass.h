@@ -10,13 +10,14 @@ enum ShaderScope
 
 enum class ComponentType
 {
-	Transform = 0,
-	MeshRenderer = 1,
-	Camera = 2,
-	Animator = 3,
-	FixedComponentCount = 4,
+	Transform,
+	MeshRenderer,
+	ModelRenderer,
+	Camera,
+	Animator,
+	FixedComponentCount,
 	
-	Script = 5
+	Script
 };
 
 enum class ProjectionType

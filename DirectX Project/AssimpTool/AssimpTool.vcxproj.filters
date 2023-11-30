@@ -38,6 +38,9 @@
     <ClCompile Include="AsTypes.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
+    <ClCompile Include="StaticMeshDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestCamera.h">
@@ -57,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="AsTypes.h">
       <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshDemo.h">
+      <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

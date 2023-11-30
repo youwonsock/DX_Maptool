@@ -6,3 +6,5 @@
 #include "MeshRenderer.h"
 #include "Transform.h"
 #include "GameObject.h"
+
+#include "ModelRenderer.h"

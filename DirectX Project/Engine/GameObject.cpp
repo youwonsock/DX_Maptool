@@ -109,6 +109,12 @@ std::shared_ptr<MeshRenderer> GameObject::GetMeshRenderer()
 	return std::static_pointer_cast<MeshRenderer>(fixedComponent);
 }
 
+std::shared_ptr<ModelRenderer> GameObject::GetModelRenderer()
+{
+	auto& fixedComponent = componentArr[(UINT)ComponentType::ModelRenderer];
+	return std::static_pointer_cast<ModelRenderer>(fixedComponent);
+}
+
 void GameObject::AddComponent(std::shared_ptr<Component> component)
 {
 	if (component == nullptr)

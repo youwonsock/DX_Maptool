@@ -3,6 +3,8 @@
 #include "Singleton.hpp"
 #include "Struct.h"
 
+#define MAX_BONE_TRANSFORMS 50
+
 class Shader;
 
 template <typename T>
@@ -40,6 +42,11 @@ struct MaterialDesc
 	Color emissive = Color(0.f, 0.f, 0.f, 1.f);
 };
 
+struct BoneDesc
+{
+	Matrix transforms[MAX_BONE_TRANSFORMS];
+};
+
 class RenderManager : public Singleton<RenderManager>
 {
 private:
@@ -52,16 +59,19 @@ private:
 	std::shared_ptr<ConstantBuffer<TransformDesc>> transformBuffer;
 	std::shared_ptr<ConstantBuffer<LightDesc>> lightBuffer;
 	std::shared_ptr<ConstantBuffer<MaterialDesc>> materialBuffer;
+	std::shared_ptr<ConstantBuffer<BoneDesc>> boneBuffer;
 
 	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> lightEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> materialEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> boneEffectBuffer;
 
 	TransformDesc transformDesc;
 	GlobalDesc globalDesc;
 	LightDesc lightDesc;
 	MaterialDesc materialDesc;
+	BoneDesc boneDesc;
 	
 public:
 	void Init(const std::shared_ptr<Shader>& shader);
@@ -73,6 +83,6 @@ public:
 	void PushTransformData(const TransformDesc& desc);
 	void PushLightData(const LightDesc& desc);
 	void PushMaterialData(const MaterialDesc& desc);
-
+	void PushBoneData(const BoneDesc& desc);
 };
 

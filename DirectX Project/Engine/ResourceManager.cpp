@@ -22,4 +22,21 @@ void ResourceManager::CreateDefaultMesh()
 void ResourceManager::Init()
 {
 	CreateDefaultMesh();
+
+	// make default Texture;
+	std::shared_ptr<Texture> texture = std::make_shared<Texture>();
+	texture->Load(L"../../Res/Textures/Default.png");
+	Add(L"Default", texture);
+}
+
+std::shared_ptr<Texture> ResourceManager::GetTexture(const std::wstring& key, const std::wstring& path)
+{
+	std::shared_ptr<Texture> texture = Get<Texture>(key);
+
+	if (texture == nullptr)
+	{
+		texture = Load<Texture>(key, path);
+	}
+
+	return texture;
 }

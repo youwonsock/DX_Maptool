@@ -3,7 +3,7 @@
 
 #include "ShaderManager.h"
 
-Shader::Shader(std::wstring file) : file(L"..\\..\\Res\\Shader\\" + file)
+Shader::Shader(std::wstring file) : file(L"..\\..\\Shader\\" + file)
 {
 	initialStateBlock = std::make_shared<StateBlock>();
 	{

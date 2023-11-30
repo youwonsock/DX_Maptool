@@ -9,6 +9,7 @@
 
 #include "Engine/Global.h"
 #include "Engine/Utils.h"
+#include "Engine/FileUtils.h"
 
 #include "Engine/EngineHeader.h"
 #include "Engine/PipeLineHeaders.h"

@@ -65,3 +65,4 @@ struct VertexColorData
 	static std::vector<D3D11_INPUT_ELEMENT_DESC> descs;
 };
 
+using ModelVertexType = VertexTextureNormalTangentBlendData;

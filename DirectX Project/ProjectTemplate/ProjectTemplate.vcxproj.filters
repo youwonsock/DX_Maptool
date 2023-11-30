@@ -33,6 +33,9 @@
     <Filter Include="소스 파일\Game\TestCamera">
       <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter7">
+      <UniqueIdentifier>{ce5cf13c-a351-44ad-8640-271e18bb45f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -165,53 +168,59 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
+    <FxCompile Include="..\..\Shader\03. ConstBuffer.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\02. Quad.fx">
+    <FxCompile Include="..\..\Shader\04 Texture.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx">
+    <FxCompile Include="..\..\Shader\05. Sampler.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\04 Texture.fx">
+    <FxCompile Include="..\..\Shader\06. Terrain.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx">
+    <FxCompile Include="..\..\Shader\07. Normal.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\06. Terrain.fx">
+    <FxCompile Include="..\..\Shader\01. Triangle.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\07. Normal.fx">
+    <FxCompile Include="..\..\Shader\02. Quad.fx">
       <Filter>소스 파일\Shaders\Chapter5</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx">
+    <FxCompile Include="..\..\Shader\08. GlobalTest.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\09. Lighting_Ambient.fx">
+    <FxCompile Include="..\..\Shader\09. Lighting_Ambient.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\10. Lighting_Diffuse.fx">
+    <FxCompile Include="..\..\Shader\10. Lighting_Diffuse.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx">
+    <FxCompile Include="..\..\Shader\11. Lighting_Specular.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\12. Lighting_Emissive.fx">
+    <FxCompile Include="..\..\Shader\12. Lighting_Emissive.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\13. Lighting.fx">
+    <FxCompile Include="..\..\Shader\13. Lighting.fx">
       <Filter>소스 파일\Shaders\Chapter6</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\00. Light.fx">
+    <FxCompile Include="..\..\Shader\14. NormalMapping.fx">
+      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\15. ModelDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter7</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\00. Global.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\00. Global.fx">
+    <FxCompile Include="..\..\Shader\00. Light.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\14. NormalMapping.fx">
-      <Filter>소스 파일\Shaders\Chapter6</Filter>
+    <FxCompile Include="..\..\Shader\Default.hlsl">
+      <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

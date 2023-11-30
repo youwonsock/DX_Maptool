@@ -306,40 +306,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Res\Shader\00. Global.fx" />
-    <FxCompile Include="..\..\Res\Shader\00. Light.fx" />
-    <FxCompile Include="..\..\Res\Shader\01. Triangle.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\02. Quad.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </EntryPointName>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </EntryPointName>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Res\Shader\03. ConstBuffer.fx" />
-    <FxCompile Include="..\..\Res\Shader\04 Texture.fx" />
-    <FxCompile Include="..\..\Res\Shader\05. Sampler.fx" />
-    <FxCompile Include="..\..\Res\Shader\06. Terrain.fx" />
-    <FxCompile Include="..\..\Res\Shader\07. Normal.fx" />
-    <FxCompile Include="..\..\Res\Shader\08. GlobalTest.fx" />
-    <FxCompile Include="..\..\Res\Shader\09. Lighting_Ambient.fx" />
-    <FxCompile Include="..\..\Res\Shader\10. Lighting_Diffuse.fx" />
-    <FxCompile Include="..\..\Res\Shader\11. Lighting_Specular.fx" />
-    <FxCompile Include="..\..\Res\Shader\12. Lighting_Emissive.fx" />
-    <FxCompile Include="..\..\Res\Shader\13. Lighting.fx" />
-    <FxCompile Include="..\..\Res\Shader\14. NormalMapping.fx" />
+    <FxCompile Include="..\..\Shader\00. Global.fx" />
+    <FxCompile Include="..\..\Shader\00. Light.fx" />
+    <FxCompile Include="..\..\Shader\01. Triangle.fx" />
+    <FxCompile Include="..\..\Shader\02. Quad.fx" />
+    <FxCompile Include="..\..\Shader\03. ConstBuffer.fx" />
+    <FxCompile Include="..\..\Shader\04 Texture.fx" />
+    <FxCompile Include="..\..\Shader\05. Sampler.fx" />
+    <FxCompile Include="..\..\Shader\06. Terrain.fx" />
+    <FxCompile Include="..\..\Shader\07. Normal.fx" />
+    <FxCompile Include="..\..\Shader\08. GlobalTest.fx" />
+    <FxCompile Include="..\..\Shader\09. Lighting_Ambient.fx" />
+    <FxCompile Include="..\..\Shader\10. Lighting_Diffuse.fx" />
+    <FxCompile Include="..\..\Shader\11. Lighting_Specular.fx" />
+    <FxCompile Include="..\..\Shader\12. Lighting_Emissive.fx" />
+    <FxCompile Include="..\..\Shader\13. Lighting.fx" />
+    <FxCompile Include="..\..\Shader\14. NormalMapping.fx" />
+    <FxCompile Include="..\..\Shader\15. ModelDemo.fx" />
+    <FxCompile Include="..\..\Shader\Default.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

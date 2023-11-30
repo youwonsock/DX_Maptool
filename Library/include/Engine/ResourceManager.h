@@ -34,7 +34,15 @@ public:
 	template<typename T>
 	std::shared_ptr<T> Get(const std::wstring& key);
 
-	// Get<Texture>()
+	/// <summary>
+	/// if key is empty load path texture
+	/// failed load return default Texture
+	/// </summary>
+	/// <param name="key"></param>
+	/// <param name="path"></param>
+	/// <returns></returns>
+	std::shared_ptr<Texture> GetTexture(const std::wstring& key, const std::wstring& path);
+
 	template<typename T>
 	ResourceType GetResourceType();
 };

@@ -12,5 +12,6 @@
 
 #include "Global.h"
 #include "Utils.h"
+#include "FileUtils.h"
 
 #endif //PCH_H

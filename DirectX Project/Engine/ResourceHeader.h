@@ -7,3 +7,6 @@
 
 // fx11 ???
 #include "Shader.h"
+
+#include "Model.h"
+#include "ModelMesh.h"
