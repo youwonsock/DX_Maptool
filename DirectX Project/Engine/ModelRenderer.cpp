@@ -26,9 +26,11 @@ void ModelRenderer::Update()
 	BoneDesc boneDesc;
 
 	const UINT boneCount = model->GetBoneCount();
+	
 	for (UINT i = 0; i < boneCount; i++)
 	{
 		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
+
 		boneDesc.transforms[i] = bone->transform;
 	}
 	RenderManager::GetInstance().PushBoneData(boneDesc);

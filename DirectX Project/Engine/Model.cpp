@@ -46,6 +46,11 @@ void Model::BindCacheInfo()
 			if (bone->parentIndex >= 0)
 			{
 				bone->parent = bones[bone->parentIndex];
+
+
+				std::wstring str = std::to_wstring(count).c_str();str += L"\n";
+				OutputDebugString(str.c_str());
+
 				bone->parent->children.push_back(bone);
 			}
 			else
@@ -185,13 +190,20 @@ void Model::ReadModel(std::wstring filename)
 	{
 		const UINT count = file->Read<UINT>();
 
-		for (UINT i = 0; i < count; i++)
+
+		////asdfasdjfhsajkldfhkajlsdfhjkasfjasfjl;
+		
+		for (UINT i = 0; i < 2; i++)
 		{
 			std::shared_ptr<ModelBone> bone = std::make_shared<ModelBone>();
 			bone->index = file->Read<int>();
 			bone->name = StringToWString(file->Read<std::string>());
 			bone->parentIndex = file->Read<int>();
 			bone->transform = file->Read<Matrix>();
+
+		/*	std::wstring str = std::to_wstring(count).c_str();
+			str += L"\n";
+			OutputDebugString(str.c_str());*/
 
 			bones.push_back(bone);
 		}
