@@ -104,7 +104,7 @@ SamplerState PointSampler
 
 /// Resterizer State ///
 
-RasterizerState FillMode
+RasterizerState FillModeWireFrame
 {
     FillMode = WireFrame;
 };

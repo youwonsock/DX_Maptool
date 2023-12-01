@@ -36,7 +36,12 @@ public:
 	int boneIndex;
 	std::shared_ptr<ModelBone> bone; // Cache;
 
+private:
+	void MakeGeometry();
 public:
+	ModelMesh() { MakeGeometry(); }
+	~ModelMesh() {}
+	
 	void CreateBuffers();
 };
 

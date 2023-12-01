@@ -4,6 +4,7 @@
 *.lib
 *.dll
 [Rr]es/
+[Oo]utput/
 
 ### VisualStudioCode ###
 .vscode/*

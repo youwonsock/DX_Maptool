@@ -12,11 +12,13 @@ void StaticMeshDemo::Init()
 	shader = std::make_shared<Shader>(L"15. ModelDemo.fx");
 
 	camera = std::make_shared<GameObject>();
-	camera->GetTransform()->SetWorldPosition(Vector3(0, 0, -10));
+	camera->GetTransform()->SetWorldPosition(Vector3(0, 0, -5));
 	camera->AddComponent(std::make_shared<Camera>());
 	camera->AddComponent(std::make_shared<TestCamera>());
 
 	CreateTower();
+	//CreateTank();
+	//CreateHouse();
 
 	RenderManager::GetInstance().Init(shader);
 }
@@ -40,7 +42,6 @@ void StaticMeshDemo::Update()
 	}
 
 	{
-		obj->Update();
 	}
 }
 
@@ -54,6 +55,8 @@ void StaticMeshDemo::PreRender()
 
 void StaticMeshDemo::Render()
 {
+	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	obj->Update();
 }
 
 void StaticMeshDemo::PostRender()
@@ -74,12 +77,12 @@ void StaticMeshDemo::CreateTower()
 
 	obj = std::make_shared<GameObject>();
 	obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 50));
-	obj->GetTransform()->SetWorldScale(Vector3(1.0f));
+	obj->GetTransform()->SetWorldScale(Vector3(0.1f));
 
 	obj->AddComponent(std::make_shared<ModelRenderer>(shader));
 	{
 		obj->GetModelRenderer()->SetModel(m1);
-		//_obj->GetModelRenderer()->SetPass(1);
+		//obj->GetModelRenderer()->SetPass(1);
 	}
 }
 
@@ -92,11 +95,29 @@ void StaticMeshDemo::CreateTank()
 
 	obj = std::make_shared<GameObject>();
 	obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 50));
-	obj->GetTransform()->SetWorldScale(Vector3(1.0f));
+	obj->GetTransform()->SetWorldScale(Vector3(1.f));
 
 	obj->AddComponent(std::make_shared<ModelRenderer>(shader));
 	{
 		obj->GetModelRenderer()->SetModel(m1);
-		//_obj->GetModelRenderer()->SetPass(1);
+		obj->GetModelRenderer()->SetPass(1);
+	}
+}
+
+void StaticMeshDemo::CreateHouse()
+{
+	// CustomData -> Memory
+	std::shared_ptr<class Model> m1 = std::make_shared<Model>();
+	m1->ReadModel(L"House/House");
+	m1->ReadMaterial(L"House/House");
+
+	obj = std::make_shared<GameObject>();
+	obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 10000));
+	obj->GetTransform()->SetWorldScale(Vector3(0.5f));
+
+	obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+	{
+		obj->GetModelRenderer()->SetModel(m1);
+		obj->GetModelRenderer()->SetPass(1);
 	}
 }

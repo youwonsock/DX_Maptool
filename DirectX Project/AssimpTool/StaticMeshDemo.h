@@ -9,6 +9,7 @@ private:
 
 	void CreateTower();
 	void CreateTank();
+	void CreateHouse();
 
 public:
 	// IExecute을(를) 통해 상속됨

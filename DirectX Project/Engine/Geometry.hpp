@@ -8,6 +8,9 @@ private:
 	std::vector<UINT> indices;
 
 public:
+	Geometry() {}
+	~Geometry() {}
+
 	UINT GetVertexCount() const { return vertices.size(); }
 	UINT GetIndexCount() const { return indices.size(); }
 

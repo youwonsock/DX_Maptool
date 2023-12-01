@@ -59,7 +59,7 @@ inline std::shared_ptr<T> ResourceManager::Load(const std::wstring& key, const s
 
 	std::shared_ptr<T> resource = std::make_shared<T>();
 	std::wstring fullPath = resourcePath + path;
-	resource->Load(fullPath);
+	resource->Load(fullPath); 	
 	resourceMap.insert({ key, resource });
 
 	return resource;

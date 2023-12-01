@@ -10,7 +10,7 @@ private:
 
 	std::wstring assetPath = L"../../Res/Assets/";
 	std::wstring modelPath = L"../../Res/Models/";
-	std::wstring texturePath = L"../../Res/Texture/";
+	std::wstring texturePath = L"../../Res/Textures/";
 
 	std::vector<std::shared_ptr<asMaterial>> materials;
 	std::vector<std::shared_ptr<asMesh>> meshes;

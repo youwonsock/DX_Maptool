@@ -188,9 +188,9 @@ void Model::ReadModel(std::wstring filename)
 		for (UINT i = 0; i < count; i++)
 		{
 			std::shared_ptr<ModelBone> bone = std::make_shared<ModelBone>();
-			bone->index = file->Read<UINT>();
+			bone->index = file->Read<int>();
 			bone->name = StringToWString(file->Read<std::string>());
-			bone->parentIndex = file->Read<UINT>();
+			bone->parentIndex = file->Read<int>();
 			bone->transform = file->Read<Matrix>();
 
 			bones.push_back(bone);

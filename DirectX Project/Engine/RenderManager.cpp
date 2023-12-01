@@ -25,6 +25,10 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 	materialBuffer = std::make_shared<ConstantBuffer<MaterialDesc>>(Global::g_device, Global::g_immediateContext);
 	materialBuffer->Create();
 	materialEffectBuffer = shader->GetConstantBuffer("MaterialBuffer");
+
+	boneBuffer = std::make_shared<ConstantBuffer<BoneDesc>>(Global::g_device, Global::g_immediateContext);
+	boneBuffer->Create();
+	boneEffectBuffer = shader->GetConstantBuffer("BoneBuffer");
 }
 
 void RenderManager::Update()

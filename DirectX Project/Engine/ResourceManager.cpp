@@ -35,7 +35,9 @@ std::shared_ptr<Texture> ResourceManager::GetTexture(const std::wstring& key, co
 
 	if (texture == nullptr)
 	{
-		texture = Load<Texture>(key, path);
+		texture = std::make_shared<Texture>();
+		texture->Load(path);
+		Add<Texture>(key, texture);
 	}
 
 	return texture;
