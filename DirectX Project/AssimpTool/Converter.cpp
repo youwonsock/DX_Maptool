@@ -3,8 +3,6 @@
 
 #include "Engine/tinyxml2.h"
 
-//#include "Engine/FileUtils.h"
-
 Converter::Converter()
 {
 	importer = std::make_shared<Assimp::Importer>();
@@ -138,31 +136,33 @@ void Converter::WriteModelFile(std::wstring filePath)
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
 	file->Open(filePath, FileMode::Write);
 
+	OutputDebugString(std::to_wstring(bones.size()).c_str());
+
 	// Bone Data
-	file->Write<UINT>(bones.size());
+	file->Write<unsigned __int32>(bones.size());
 	for (std::shared_ptr<asBone>& bone : bones)
 	{
-		file->Write<int>(bone->index);
+		file->Write<__int32>(bone->index);
 		file->Write<std::string>(bone->name);
-		file->Write<int>(bone->parent);
+		file->Write<__int32>(bone->parent);
 		file->Write<Matrix>(bone->transform);
 	}
 
 	// Mesh Data
-	file->Write<UINT>(meshes.size());
+	file->Write<unsigned __int32>(meshes.size());
 	for (std::shared_ptr<asMesh>& meshData : meshes)
 	{
 		file->Write<std::string>(meshData->name);
-		file->Write<int>(meshData->boneIndex);
+		file->Write<__int32>(meshData->boneIndex);
 		file->Write<std::string>(meshData->materialName);
 
 		// Vertex Data
-		file->Write<UINT>(meshData->vertices.size());
+		file->Write<unsigned __int32>(meshData->vertices.size());
 		file->Write(&meshData->vertices[0], sizeof(VertexType) * meshData->vertices.size());
 
 		// Index Data
-		file->Write<UINT>(meshData->indices.size());
-		file->Write(&meshData->indices[0], sizeof(UINT) * meshData->indices.size());
+		file->Write<unsigned __int32>(meshData->indices.size());
+		file->Write(&meshData->indices[0], sizeof(unsigned __int32) * meshData->indices.size());
 	}
 }
 

@@ -15,39 +15,43 @@ public:
 	FileUtils();
 	~FileUtils();
 
-	void Open(const std::wstring& filePath, FileMode mode);
+	__declspec(noinline) void Open(const std::wstring& filePath, FileMode mode);
 
 	template<typename T>
-	void Write(const T& data)
+	__declspec(noinline) void Write(const T& data)
 	{
-		DWORD numOfBytes = 0;
-		assert(::WriteFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr));
+		DWORD numOfBytes = 0;                                   
+
+		auto t = ::WriteFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
+		assert(t);
 	}
 	template<>
-	void Write(const std::string& data)
+	__declspec(noinline) void Write(const std::string& data)
 	{
 		return Write(data);
 	}
 	 
-	void Write(const std::string& data);
-	void Write(void* data, UINT dataSize);
+	__declspec(noinline) void Write(const std::string& data);
+	__declspec(noinline) void Write(void* data, unsigned __int32 dataSize);
 
 
 	template<typename T>
-	void Read(OUT T& data)
+	__declspec(noinline) void Read(OUT T& data)
 	{
 		DWORD numOfBytes = 0;
-		assert(::ReadFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr));
+
+		auto t = ::ReadFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
+		assert(t);
 	}
 	template<typename T>
-	T Read()
+	__declspec(noinline) T Read()
 	{
 		T data;
 		Read(data);
 		return data;
 	}
 
-	void Read(void** data, UINT dataSize);
-	void Read(OUT std::string& data);
+	__declspec(noinline) void Read(void** data, unsigned __int32 dataSize);
+	__declspec(noinline) void Read(OUT std::string& data);
 };
 

@@ -41,19 +41,21 @@ void FileUtils::Open(const std::wstring& filePath, FileMode mode)
 			nullptr
 		);
 	}
-
-	assert(handle != INVALID_HANDLE_VALUE);
+	if(handle == INVALID_HANDLE_VALUE)
+		ShowErrorMessage(L"File Open Failed");
 }
 
-void FileUtils::Write(void* data, UINT dataSize)
+void FileUtils::Write(void* data, unsigned __int32 dataSize)
 {
-	UINT numOfBytes = 0;
-	assert(::WriteFile(handle, data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr));
+	unsigned __int32 numOfBytes = 0;
+
+	auto t = ::WriteFile(handle, data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr);
+	assert(t);
 }
 
 void FileUtils::Write(const std::string& data)
 {
-	UINT size = (UINT)data.size();
+	UINT32 size = (UINT32)data.size();
 	Write(size);
 
 	if (data.size() == 0)
@@ -62,15 +64,17 @@ void FileUtils::Write(const std::string& data)
 	Write((void*)data.data(), size);
 }
 
-void FileUtils::Read(void** data, UINT dataSize)
+void FileUtils::Read(void** data, unsigned __int32 dataSize)
 {
-	UINT numOfBytes = 0;
-	assert(::ReadFile(handle, *data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr));
+	unsigned __int32 numOfBytes = 0;
+	
+	auto t = ::ReadFile(handle, *data, dataSize, reinterpret_cast<LPDWORD>(&numOfBytes), nullptr);
+	assert(t);
 }
 
 void FileUtils::Read(OUT std::string& data)
 {
-	UINT size = Read<UINT>();
+	unsigned __int32 size = Read<unsigned __int32>();
 
 	if (size == 0)
 		return;

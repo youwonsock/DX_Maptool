@@ -2,7 +2,7 @@
 #include "Model.h"
 
 #include <filesystem>
-#include "Engine/tinyxml2.h"
+#include "tinyxml2.h"
 #include "ResourceHeader.h"
 #include "PipeLineHeaders.h"
 
@@ -46,11 +46,6 @@ void Model::BindCacheInfo()
 			if (bone->parentIndex >= 0)
 			{
 				bone->parent = bones[bone->parentIndex];
-
-
-				std::wstring str = std::to_wstring(count).c_str();str += L"\n";
-				OutputDebugString(str.c_str());
-
 				bone->parent->children.push_back(bone);
 			}
 			else
