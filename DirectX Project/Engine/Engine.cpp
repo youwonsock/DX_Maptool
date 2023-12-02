@@ -27,6 +27,7 @@ bool Engine::EngineInit()
 		TimeManager::GetInstance().Init();
 		InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
 		ResourceManager::GetInstance().Init();
+		ImGuiManager::GetInstance().Init();
 	}
 
 	if (app != nullptr)
@@ -52,6 +53,7 @@ bool Engine::EngineUpdate()
 	{
 		TimeManager::GetInstance().Update();
 		InputManager::GetInstance().Update();
+		ImGuiManager::GetInstance().Update();
 	}
 
 	if (app != nullptr)
@@ -84,6 +86,8 @@ bool Engine::EngineRender()
 		Render();
 		PostRender();
 	}
+
+	ImGuiManager::GetInstance().Render();
 	graphics->PostRender();
 
 	return true;

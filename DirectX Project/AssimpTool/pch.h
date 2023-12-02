@@ -14,6 +14,7 @@
 #include "Engine/EngineHeader.h"
 #include "Engine/PipeLineHeaders.h"
 #include "Engine/ResourceHeader.h"
+#include "Engine/EXLibHeaders.h"
 
 #include "Engine/IExecute.h"
 

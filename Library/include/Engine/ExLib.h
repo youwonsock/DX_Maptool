@@ -38,6 +38,10 @@ using namespace DirectX::PackedVector;
 #include "SimpleMath.h"
 #include "tinyxml2.h"
 
+#include "imgui.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
 // link direct x library
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")

@@ -4,9 +4,13 @@
 #include "StdHeader.h"
 
 Window* pWindow = nullptr;
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	if(ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+		return true;
+
 	LRESULT hr = pWindow->MessageHandler(hWnd, message, wParam, lParam);
 	if (hr > 1)
 		return hr;
