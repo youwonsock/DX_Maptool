@@ -8,3 +8,4 @@
 #include "GameObject.h"
 
 #include "ModelRenderer.h"
+#include "ModelAnimator.h"

@@ -44,6 +44,9 @@
     <ClCompile Include="ImGuiDemo.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestCamera.h">
@@ -68,6 +71,9 @@
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="ImGuiDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationDemo.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>

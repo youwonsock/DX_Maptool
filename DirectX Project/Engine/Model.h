@@ -2,6 +2,7 @@
 
 struct ModelBone;
 struct ModelMesh;
+struct ModelAnimation;
 class Material;
 
 class Model : public std::enable_shared_from_this<Model>
@@ -14,7 +15,7 @@ private:
 	std::vector<std::shared_ptr<Material>> materials;
 	std::vector<std::shared_ptr<ModelBone>> bones;
 	std::vector<std::shared_ptr<ModelMesh>> meshes;
-
+	std::vector<std::shared_ptr<ModelAnimation>> animations;
 private:
 	void BindCacheInfo();
 
@@ -24,6 +25,7 @@ public:
 
 	void ReadMaterial(std::wstring filename);
 	void ReadModel(std::wstring filename);
+	void ReadAnimation(std::wstring filename);
 
 	UINT GetMaterialCount() { return static_cast<UINT>(materials.size()); }
 	std::vector<std::shared_ptr<Material>>& GetMaterials() { return materials; }
@@ -39,4 +41,9 @@ public:
 	std::vector<std::shared_ptr<ModelBone>>& GetBones() { return bones; }
 	std::shared_ptr<ModelBone> GetBoneByIndex(UINT index) { return (index < 0 || index >= bones.size() ? nullptr : bones[index]); }
 	std::shared_ptr<ModelBone> GetBoneByName(const std::wstring& name);
+
+	UINT GetAnimationCount() { animations.size(); }
+	std::vector<std::shared_ptr<ModelAnimation>>& GetAnimations() { return animations; }
+	std::shared_ptr<ModelAnimation> GetAnimationByIndex(UINT index) { return (index < 0 || index >= animations.size()) ? nullptr : animations[index]; }
+	std::shared_ptr<ModelAnimation> GetAnimationByName(const std::wstring& name);
 };

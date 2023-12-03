@@ -36,6 +36,9 @@
     <Filter Include="소스 파일\Shaders\Chapter7">
       <UniqueIdentifier>{ce5cf13c-a351-44ad-8640-271e18bb45f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter8">
+      <UniqueIdentifier>{1fcedd7f-37c1-4976-9240-56dacc93713c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -221,6 +224,9 @@
     </FxCompile>
     <FxCompile Include="..\..\Shader\Default.hlsl">
       <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\16. AnimationDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter8</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

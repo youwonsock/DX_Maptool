@@ -193,6 +193,8 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelAnimation.h" />
+    <ClInclude Include="ModelAnimator.h" />
     <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="ModelRenderer.h" />
     <ClInclude Include="RenderManager.h">
@@ -273,6 +275,8 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     </ClCompile>
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelAnimation.cpp" />
+    <ClCompile Include="ModelAnimator.cpp" />
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="ModelRenderer.cpp" />
     <ClCompile Include="RenderManager.cpp">

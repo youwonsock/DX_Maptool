@@ -56,6 +56,17 @@ struct PNTTVertex
     float3 tangent : TANGENT;
 };
 
+struct PNTTBBVertex
+{
+    float4 position : POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+    float3 tangent : TANGENT;
+    float4 blendIndices : BLEND_INDICES;
+    float4 blendWeights : BLEND_WEIGHT;
+};
+
+
 /// Vertex Input ///
 
 
@@ -77,6 +88,8 @@ struct MeshOutput
     float3 worldPosition : POSITION1;
     float3 tangent : TANGENT;
 };
+
+
 
 /// Vertex Output ///
 

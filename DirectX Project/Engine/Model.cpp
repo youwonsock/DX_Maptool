@@ -184,9 +184,6 @@ void Model::ReadModel(std::wstring filename)
 	// Bones
 	{
 		const UINT count = file->Read<UINT>();
-
-
-		////asdfasdjfhsajkldfhkajlsdfhjkasfjasfjl;
 		
 		for (UINT i = 0; i < 2; i++)
 		{
@@ -195,11 +192,6 @@ void Model::ReadModel(std::wstring filename)
 			bone->name = StringToWString(file->Read<std::string>());
 			bone->parentIndex = file->Read<int>();
 			bone->transform = file->Read<Matrix>();
-
-		/*	std::wstring str = std::to_wstring(count).c_str();
-			str += L"\n";
-			OutputDebugString(str.c_str());*/
-
 			bones.push_back(bone);
 		}
 	}
@@ -250,6 +242,42 @@ void Model::ReadModel(std::wstring filename)
 	BindCacheInfo();
 }
 
+void Model::ReadAnimation(std::wstring filename)
+{
+	std::wstring fullPath = modelPath + filename + L".anim";
+
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	file->Open(fullPath, FileMode::Read);
+
+	std::shared_ptr<ModelAnimation> animation = std::make_shared<ModelAnimation>();
+
+	animation->name = StringToWString(file->Read<std::string>());
+	animation->duration = file->Read<float>();
+	animation->frameRate = file->Read<float>();
+	animation->frameCount = file->Read<UINT>();
+
+	UINT keyframeCount = file->Read<UINT>();
+
+	for(UINT i = 0; i < keyframeCount; i++)
+	{
+		std::shared_ptr<ModelKeyframe> keyframe = std::make_shared<ModelKeyframe>();
+		keyframe->boneName = StringToWString(file->Read<std::string>());
+		UINT size = file->Read<UINT>();
+
+		if (size > 0)
+		{
+			keyframe->transforms.resize(size);
+			
+			void* data = &keyframe->transforms[0];
+			file->Read(&data, sizeof(ModelKeyframeData) * size);
+		}
+
+		animation->keyframes.insert(std::make_pair(keyframe->boneName, keyframe));
+	}
+
+	animations.push_back(animation);
+}
+
 std::shared_ptr<Material> Model::GetMaterialByName(const std::wstring& name)
 {
 	for (auto& material : materials)
@@ -278,6 +306,17 @@ std::shared_ptr<ModelBone> Model::GetBoneByName(const std::wstring& name)
 	{
 		if (bone->name == name)
 			return bone;
+	}
+
+	return nullptr;
+}
+
+std::shared_ptr<ModelAnimation> Model::GetAnimationByName(const std::wstring& name)
+{
+	for(auto& animation : animations)
+	{
+		if (animation->name == name)
+			return animation;
 	}
 
 	return nullptr;

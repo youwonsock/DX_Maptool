@@ -238,6 +238,12 @@
     <ClInclude Include="EXLibHeaders.h">
       <Filter>해더 파일\EngineHeader</Filter>
     </ClInclude>
+    <ClInclude Include="ModelAnimation.h">
+      <Filter>소스 파일\Engine\Resource\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelAnimator.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -374,6 +380,12 @@
     </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
       <Filter>소스 파일\Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAnimation.cpp">
+      <Filter>소스 파일\Engine\Resource\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAnimator.cpp">
+      <Filter>소스 파일\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

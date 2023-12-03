@@ -10,3 +10,4 @@
 
 #include "Model.h"
 #include "ModelMesh.h"
+#include "ModelAnimation.h"
