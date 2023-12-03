@@ -1,4 +1,4 @@
-#include "pch.h"
+ #include "pch.h"
 #include "Converter.h"
 
 #include "Engine/tinyxml2.h"
@@ -38,6 +38,8 @@ void Converter::ExportModelData(const std::wstring& savePath)
 {
 	std::wstring fullPath = modelPath + savePath + L".mesh";
 	ReadModelData(scene->mRootNode, -1, -1);
+	ReadSkinData();
+
 	WriteModelFile(fullPath);
 }
 
@@ -46,6 +48,14 @@ void Converter::ExportMaterialData(const std::wstring& savePath)
 	std::wstring fullPath = texturePath + savePath + L".xml"; 
 	ReadMaterialData();
 	WirteMaterialData(fullPath);
+}
+
+void Converter::ExportAnimationData(const std::wstring& savePath, UINT index)
+{
+	std::wstring fullPath = modelPath + savePath + L".anim";
+	assert(index < scene->mNumAnimations);
+
+
 }
 
 void Converter::ReadModelData(aiNode* node, int index, int parent)
@@ -124,6 +134,44 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	}
 
 	meshes.push_back(mesh);
+}
+
+void Converter::ReadSkinData()
+{
+	for (UINT i = 0; i < scene->mNumMeshes; ++i)
+	{
+		const aiMesh* srcMesh = scene->mMeshes[i];
+
+		if(srcMesh->HasBones() == false)
+			continue;
+
+		std::shared_ptr<asMesh> mesh = meshes[i];
+		std::vector<asBoneWeights> tempVertexBoneWeights(mesh->vertices.size());
+
+		// Bone을 순회하면서 연관된 VertexID, Weight를 기록
+		for (UINT b = 0; b < srcMesh->mNumBones; ++b)
+		{
+			aiBone* srcMeshBone = srcMesh->mBones[b];
+			UINT boneIndex = GetBoneIndex(srcMeshBone->mName.C_Str());
+
+			for (UINT w = 0; w < srcMeshBone->mNumWeights; ++w)
+			{
+				UINT index = srcMeshBone->mWeights[w].mVertexId;
+				float weight = srcMeshBone->mWeights[w].mWeight;  
+
+				tempVertexBoneWeights[index].AddWeights(boneIndex, weight);
+			}
+		}
+
+		for (UINT v = 0; v < tempVertexBoneWeights.size(); ++v)
+		{
+			tempVertexBoneWeights[v].Normalize();
+
+			asBlendWeight blendWeight = tempVertexBoneWeights[v].GetBlendWeight();
+			mesh->vertices[v].blendIndices = blendWeight.indices;
+			mesh->vertices[v].blendWeights = blendWeight.weights;
+		}
+	}
 }
 
 void Converter::WriteModelFile(std::wstring filePath)
@@ -211,6 +259,164 @@ void Converter::ReadMaterialData()
 	}
 }
 
+void Converter::ReadKeyFrameData(std::shared_ptr<asAnimation> animation, aiNode* srcNode, std::unordered_map<std::string, std::shared_ptr<asAnimationNode>>& cache)
+{
+	std::shared_ptr<asKeyframe> keyframe = std::make_shared<asKeyframe>();
+	keyframe->boneName = srcNode->mName.C_Str();
+
+	std::shared_ptr<asAnimationNode> findNode = cache[srcNode->mName.C_Str()];
+
+	for(UINT i = 0; i < animation->frameCount; ++i)
+	{
+		asKeyframeData frameData;
+
+		if (findNode == nullptr)
+		{
+			Matrix transform(srcNode->mTransformation[0]);
+			transform = transform.Transpose();
+			frameData.time = (float)i;
+			transform.Decompose(OUT frameData.scale, OUT frameData.rotation, OUT frameData.translation);
+		}
+		else
+		{
+			frameData = findNode->keyframes[i];
+		}
+
+		keyframe->transforms.push_back(frameData);
+	}
+
+	animation->keyframes.push_back(keyframe);
+
+	for (UINT i = 0; i < srcNode->mNumChildren; ++i)
+		ReadKeyFrameData(animation, srcNode->mChildren[i], cache);
+}
+
+void Converter::WriteAnimationData(std::shared_ptr<asAnimation> animation, std::wstring filePath)
+{
+	auto path = std::filesystem::path(filePath);
+
+	std::filesystem::create_directory(path.parent_path());
+
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	file->Open(filePath, FileMode::Write);
+
+	file->Write<std::string>(animation->name);
+	file->Write<float>(animation->duration);
+	file->Write<float>(animation->frameRate);
+	file->Write<UINT>(animation->frameCount);
+
+	file->Write<UINT>(animation->keyframes.size());
+
+	for (std::shared_ptr<asKeyframe> keyframe : animation->keyframes)
+	{
+		file->Write<std::string>(keyframe->boneName);
+
+		file->Write<UINT>(keyframe->transforms.size());
+		file->Write(&keyframe->transforms[0], sizeof(asKeyframeData) * keyframe->transforms.size());
+	}
+}
+
+std::shared_ptr<asAnimation> Converter::ReadAnimationData(aiAnimation* srcAnimation)
+{
+	std::shared_ptr<asAnimation> animation = std::make_shared<asAnimation>();
+	animation->name = srcAnimation->mName.C_Str();
+	animation->frameRate = (float)srcAnimation->mTicksPerSecond;
+	animation->frameCount = (UINT)srcAnimation->mDuration + 1;
+
+	std::unordered_map<std::string, std::shared_ptr<asAnimationNode>> cacheAnimNodes;
+	for (UINT i = 0; i < srcAnimation->mNumChannels; i++)
+	{
+		aiNodeAnim* srcNode = srcAnimation->mChannels[i];
+
+		// 애니메이션 노드 데이터 파싱
+		std::shared_ptr<asAnimationNode> node = ParseAnimationNode(animation, srcNode);
+
+		// 찾은 노드중 가장 긴 시간을 애니메이션의 길이로 설정
+		animation->duration = max(animation->duration, node->keyframes.back().time);
+
+		cacheAnimNodes.insert(std::make_pair(node->name.C_Str(), node));
+	}
+
+	ReadKeyFrameData(animation, scene->mRootNode, cacheAnimNodes);
+
+	return animation;
+}
+
+std::shared_ptr<asAnimationNode> Converter::ParseAnimationNode(std::shared_ptr<asAnimation> animation, aiNodeAnim* srcNode)
+{
+	std::shared_ptr<asAnimationNode> node = std::make_shared<asAnimationNode>();
+	node->name = srcNode->mNodeName;
+
+	UINT keycount = max(max(srcNode->mNumPositionKeys, srcNode->mNumScalingKeys),srcNode->mNumRotationKeys);
+
+	for (UINT k = 0; k < keycount; ++k)
+	{
+		asKeyframeData frameData;
+
+		bool found = false;
+		UINT t = node->keyframes.size();
+
+		// Position
+		if (::fabsf((float)srcNode->mPositionKeys[k].mTime - (float)t) <= 0.0001f)
+		{
+			aiVectorKey key = srcNode->mPositionKeys[k];
+			frameData.time = (float)key.mTime;
+			::memcpy_s(&frameData.translation, sizeof(Vector3), &key.mValue, sizeof(aiVector3D));
+
+			found = true;
+		}
+		// Rotation
+		if (::fabsf((float)srcNode->mRotationKeys[k].mTime - (float)t) <= 0.0001f)
+		{
+			aiQuatKey key = srcNode->mRotationKeys[k];
+			frameData.time = (float)key.mTime;
+
+			frameData.rotation.x = key.mValue.x;
+			frameData.rotation.y = key.mValue.y;
+			frameData.rotation.z = key.mValue.z;
+			frameData.rotation.w = key.mValue.w;
+
+			found = true;
+		}
+		// Scale
+		if (::fabsf((float)srcNode->mScalingKeys[k].mTime - (float)t) <= 0.0001f)
+		{
+			aiVectorKey key = srcNode->mScalingKeys[k];
+			frameData.time = (float)key.mTime;
+			::memcpy_s(&frameData.scale, sizeof(Vector3), &key.mValue, sizeof(aiVector3D));
+
+			found = true;
+		}
+
+		if (found == true)
+			node->keyframes.push_back(frameData);
+	}
+
+	// keyframe 늘려주기
+	if (node->keyframes.size() < animation->frameCount)
+	{
+		UINT count = animation->frameCount - node->keyframes.size();
+		asKeyframeData keyFrame = node->keyframes.back();
+
+		for (UINT i = 0; i < count; ++i)
+			node->keyframes.push_back(keyFrame);
+	}
+
+	 return node;
+}
+
+UINT Converter::GetBoneIndex(std::string name)
+{
+	for (UINT i = 0; i < bones.size(); i++)
+	{
+		if (bones[i]->name == name)
+			return bones[i]->index;
+	}
+
+	ShowErrorMessage(L"Bone not found: " + StringToWString(name));
+	return -1;
+}
+
 void Converter::WirteMaterialData(std::wstring filePath)
 {
 	auto path = std::filesystem::path(filePath);
@@ -289,7 +495,8 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 	const aiTexture* srcTexture = scene->GetEmbeddedTexture(file.c_str());
 	if (srcTexture)
 	{
-		std::string pathStr = saveFolder + fileName;
+		std::string pathStr  = (std::filesystem::path(saveFolder) / fileName).string();
+		
 
 		if (srcTexture->mHeight == 0)
 		{
@@ -341,3 +548,4 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 
 	return fileName;
 }
+
