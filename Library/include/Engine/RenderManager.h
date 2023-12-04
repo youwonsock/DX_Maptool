@@ -71,8 +71,8 @@ struct TweenDesc
 
 	TweenDesc()
 	{
-		curr.animIdx - 0;
-		curr.nextFrame = -1;
+		curr.animIdx = 0;
+		next.animIdx = -1;
 	}
 
 	void ClearNextAnim()
