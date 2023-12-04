@@ -228,5 +228,8 @@
     <FxCompile Include="..\..\Shader\16. AnimationDemo.fx">
       <Filter>소스 파일\Shaders\Chapter8</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Shader\17. TweenDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter8</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

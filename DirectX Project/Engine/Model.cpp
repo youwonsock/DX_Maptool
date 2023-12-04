@@ -185,7 +185,7 @@ void Model::ReadModel(std::wstring filename)
 	{
 		const UINT count = file->Read<UINT>();
 		
-		for (UINT i = 0; i < 2; i++)
+		for (UINT i = 0; i < count; i++)
 		{
 			std::shared_ptr<ModelBone> bone = std::make_shared<ModelBone>();
 			bone->index = file->Read<int>();

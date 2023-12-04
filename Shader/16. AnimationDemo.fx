@@ -1,22 +1,103 @@
 #include "00. Global.fx"
 #include "00. Light.fx"
 
-#define MAX_MODEL_TRANSFORMS 50
+#define MAX_MODEL_TRANSFORMS 250
+#define MAX_MODEL_KEYFRAMES 500
+
+struct KeyframeDesc
+{
+    uint animIndex;
+    uint currentFrame;
+	uint nextFrame;
+    float ratio;
+    float sumTime;
+    float speed;
+    float2  padding;
+};
 
 cbuffer BoneBuffer
 {
 	matrix BoneTransforms[MAX_MODEL_TRANSFORMS];
 };
 
+cbuffer KeyframeBuffer
+{
+	KeyframeDesc Keyframes;
+};
+
 uint BoneIndex;
+Texture2DArray TransformMap;
+
+/* not use lerp
+matrix GetAnimationWorldMatrix(PNTTBBVertex input)
+{
+    float indices[4] = { input.blendIndices.x, input.blendIndices.y, input.blendIndices.z, input.blendIndices.w };
+    float weights[4] = { input.blendWeights.x, input.blendWeights.y, input.blendWeights.z, input.blendWeights.w };
+
+	int animIndex = Keyframes.animIndex;
+	int currentFrame = Keyframes.currentFrame;
+	
+    float4 c0, c1, c2, c3;
+    matrix cur, transform;
+	
+    for (int i = 0; i < 4; ++i)
+    {
+		c0 = TransformMap.Load(int4(indices[i] * 4 + 0, currentFrame, animIndex, 0));
+		c1 = TransformMap.Load(int4(indices[i] * 4 + 1, currentFrame, animIndex, 0));
+		c2 = TransformMap.Load(int4(indices[i] * 4 + 2, currentFrame, animIndex, 0));
+		c3 = TransformMap.Load(int4(indices[i] * 4 + 3, currentFrame, animIndex, 0));
+		
+		cur = matrix(c0, c1, c2, c3);
+        transform += mul(weights[i], cur);
+    }
+	
+	return transform;
+}
+*/
+
+// use lerp
+matrix GetAnimationWorldMatrix(PNTTBBVertex input)
+{
+    float indices[4] = { input.blendIndices.x, input.blendIndices.y, input.blendIndices.z, input.blendIndices.w };
+    float weights[4] = { input.blendWeights.x, input.blendWeights.y, input.blendWeights.z, input.blendWeights.w };
+
+    int animIndex = Keyframes.animIndex;
+    int currentFrame = Keyframes.currentFrame;
+	int nextFrame = Keyframes.nextFrame;
+	
+    float4 c0, c1, c2, c3;	// current
+    float4 n0, n1, n2, n3;	// next
+    matrix cur, transform, next;
+	
+    for (int i = 0; i < 4; ++i)
+    {
+        c0 = TransformMap.Load(int4(indices[i] * 4 + 0, currentFrame, animIndex, 0));
+        c1 = TransformMap.Load(int4(indices[i] * 4 + 1, currentFrame, animIndex, 0));
+        c2 = TransformMap.Load(int4(indices[i] * 4 + 2, currentFrame, animIndex, 0));
+        c3 = TransformMap.Load(int4(indices[i] * 4 + 3, currentFrame, animIndex, 0));
+        cur = matrix(c0, c1, c2, c3);
+		
+        n0 = TransformMap.Load(int4(indices[i] * 4 + 0, nextFrame, animIndex, 0));
+        n1 = TransformMap.Load(int4(indices[i] * 4 + 1, nextFrame, animIndex, 0));
+        n2 = TransformMap.Load(int4(indices[i] * 4 + 2, nextFrame, animIndex, 0));
+        n3 = TransformMap.Load(int4(indices[i] * 4 + 3, nextFrame, animIndex, 0));
+        next = matrix(n0, n1, n2, n3);
+		
+		matrix result = lerp(cur, next, Keyframes.ratio);
+        transform += mul(weights[i], cur);
+    }
+	
+    return transform;
+}
 
 MeshOutput VS(PNTTBBVertex input)
 {
 	MeshOutput output;
 	
 	// todo 
+    matrix m = GetAnimationWorldMatrix(input);
 	
-	output.position = mul(input.position, BoneTransforms[BoneIndex]);
+	output.position = mul(input.position, m);
 	output.position = mul(output.position, World);
 	output.worldPosition = output.position.xyz;
 	output.position = mul(output.position, ViewProjection);	

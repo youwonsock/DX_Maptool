@@ -24,6 +24,8 @@ inline void ShowErrorMessage(HRESULT hr)
 		NULL, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&errorText, 0, NULL);
 
 	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
+
+	assert(false);
 }
 
 inline void ShowErrorMessage(ID3DBlob* errorCode)
@@ -34,6 +36,8 @@ inline void ShowErrorMessage(ID3DBlob* errorCode)
 		errorText = (LPCSTR)errorCode->GetBufferPointer();
 
 	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
+
+	assert(false);
 }
 
 inline void ShowErrorMessage(std::wstring errorMassage)
@@ -41,6 +45,8 @@ inline void ShowErrorMessage(std::wstring errorMassage)
 	LPCSTR errorText = "nullptr";
 	errorText = (LPCSTR)errorMassage.c_str();
 	MessageBoxA(NULL, errorText, "Error", MB_OK | MB_ICONERROR);
+
+	assert(false);
 }
 
 inline std::string WStringToString(const std::wstring& wstr)

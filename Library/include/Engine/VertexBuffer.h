@@ -36,6 +36,9 @@ public:
 		subResourceData.pSysMem = vertexData.data();
 
 		HRESULT hr = device->CreateBuffer(&bufferDesc, &subResourceData, vertexBuffer.ReleaseAndGetAddressOf());
+
+		if (FAILED(hr))
+			ShowErrorMessage(hr);
 	}
 };
 

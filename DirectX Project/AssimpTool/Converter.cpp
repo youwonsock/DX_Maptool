@@ -55,7 +55,8 @@ void Converter::ExportAnimationData(const std::wstring& savePath, UINT index)
 	std::wstring fullPath = modelPath + savePath + L".anim";
 	assert(index < scene->mNumAnimations);
 
-
+	std::shared_ptr<asAnimation> animation = ReadAnimationData(scene->mAnimations[index]);
+	WriteAnimationData(animation, fullPath);
 }
 
 void Converter::ReadModelData(aiNode* node, int index, int parent)
@@ -183,8 +184,6 @@ void Converter::WriteModelFile(std::wstring filePath)
 
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
 	file->Open(filePath, FileMode::Write);
-
-	OutputDebugString(std::to_wstring(bones.size()).c_str());
 
 	// Bone Data
 	file->Write<unsigned __int32>(bones.size());

@@ -29,6 +29,14 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 	boneBuffer = std::make_shared<ConstantBuffer<BoneDesc>>(Global::g_device, Global::g_immediateContext);
 	boneBuffer->Create();
 	boneEffectBuffer = shader->GetConstantBuffer("BoneBuffer");
+
+	keyframeBuffer = std::make_shared<ConstantBuffer<KeyframeDesc>>(Global::g_device, Global::g_immediateContext);
+	keyframeBuffer->Create();
+	keyframeEffectBuffer = shader->GetConstantBuffer("KeyframeBuffer");
+
+	tweenBuffer = std::make_shared<ConstantBuffer<TweenDesc>>(Global::g_device, Global::g_immediateContext);
+	tweenBuffer->Create();
+	tweenEffectBuffer = shader->GetConstantBuffer("TweenBuffer");
 }
 
 void RenderManager::Update()
@@ -82,4 +90,20 @@ void RenderManager::PushBoneData(const BoneDesc& desc)
 	
 	boneBuffer->CopyData(boneDesc);
 	boneEffectBuffer->SetConstantBuffer(boneBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushKeyframeData(const KeyframeDesc& desc)
+{
+	keyframeDesc = desc;
+
+	keyframeBuffer->CopyData(keyframeDesc);
+	keyframeEffectBuffer->SetConstantBuffer(keyframeBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushTweenData(const TweenDesc& desc)
+{
+	tweenDesc = desc;
+
+	tweenBuffer->CopyData(tweenDesc);
+	tweenEffectBuffer->SetConstantBuffer(tweenBuffer->GetConstantBuffer().Get());
 }

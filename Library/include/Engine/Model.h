@@ -42,7 +42,7 @@ public:
 	std::shared_ptr<ModelBone> GetBoneByIndex(UINT index) { return (index < 0 || index >= bones.size() ? nullptr : bones[index]); }
 	std::shared_ptr<ModelBone> GetBoneByName(const std::wstring& name);
 
-	UINT GetAnimationCount() { animations.size(); }
+	UINT GetAnimationCount() { return animations.size(); }
 	std::vector<std::shared_ptr<ModelAnimation>>& GetAnimations() { return animations; }
 	std::shared_ptr<ModelAnimation> GetAnimationByIndex(UINT index) { return (index < 0 || index >= animations.size()) ? nullptr : animations[index]; }
 	std::shared_ptr<ModelAnimation> GetAnimationByName(const std::wstring& name);

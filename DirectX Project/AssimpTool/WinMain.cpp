@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "WinMain.h"
+#include "AssimpTool.h"
 
-#include "AnimationDemo.h"
+#include "TweenDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -11,7 +12,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<AnimationDemo>();
+
+	//gameDesc.app = std::make_shared<AssimpTool>();
+	gameDesc.app = std::make_shared<TweenDemo>();
 
 	Engine game(gameDesc);
 
