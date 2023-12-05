@@ -67,7 +67,9 @@ matrix GetAnimationWorldMatrix(PNTTBBVertex input)
 	
     float4 c0, c1, c2, c3;	// current
     float4 n0, n1, n2, n3;	// next
-    matrix cur, transform, next;
+    matrix cur = 0;
+    matrix transform = 0;
+	matrix next = 0;
 	
     for (int i = 0; i < 4; ++i)
     {
