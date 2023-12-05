@@ -13,7 +13,7 @@ private:
 	ComPtr<ID3D11DepthStencilView>  pDepthStencilView;
 	D3D11_VIEWPORT					pViewPort;				
 
-	Color clearColor = { 0.f, 0.f, 0.f, 1.0f };
+	Color clearColor = { 0.5f, 0.5f, 0.5f, 1.0f };
 private:
 	void CreateDevice();						  
 	void CreateSwapChain(int wWidth, int wHeight);

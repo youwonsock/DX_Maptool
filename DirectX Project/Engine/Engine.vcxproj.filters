@@ -68,6 +68,9 @@
     <Filter Include="소스 파일\ImGUI">
       <UniqueIdentifier>{d7e66b10-7052-4abf-89b3-7a90414d0896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Collision">
+      <UniqueIdentifier>{5164e6e5-6bba-4612-a14e-fb439ec9fa62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -244,6 +247,9 @@
     <ClInclude Include="ModelAnimator.h">
       <Filter>소스 파일\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Figure.h">
+      <Filter>소스 파일\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -386,6 +392,9 @@
     </ClCompile>
     <ClCompile Include="ModelAnimator.cpp">
       <Filter>소스 파일\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Figure.cpp">
+      <Filter>소스 파일\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

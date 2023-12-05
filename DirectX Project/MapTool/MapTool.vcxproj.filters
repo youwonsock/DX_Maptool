@@ -19,6 +19,15 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{4369a2b4-8a67-44a4-ba30-1bf4f4e55990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Shader">
+      <UniqueIdentifier>{aa6b6d06-e5c3-483a-a61c-1622d2a3e5b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scripts">
+      <UniqueIdentifier>{628631c2-3cf3-4e83-98f9-d01cf85d102d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses">
+      <UniqueIdentifier>{cb9907f4-15c4-446f-8b73-518800760be5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -29,6 +38,18 @@
     </ClInclude>
     <ClInclude Include="TestCamera.h">
       <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MapTool.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceDivideTree.h">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DivideTreeNode.h">
+      <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,5 +62,28 @@
     <ClCompile Include="TestCamera.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="MapTool.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>소스 파일\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceDivideTree.cpp">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DivideTreeNode.cpp">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\GlobalLight.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\Global.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

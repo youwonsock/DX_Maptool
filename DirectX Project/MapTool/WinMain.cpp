@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WinMain.h"
 
-
+#include "MapTool.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -12,7 +12,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.width = 800;
 	gameDesc.height = 600;
 
-	//gameDesc.app = std::make_shared<>();
+	gameDesc.app = std::make_shared<MapTool>();
 
 	Engine game(gameDesc);
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Figure.h"
 #include "EnumClass.h"
 #include "Component.h"
 

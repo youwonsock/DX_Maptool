@@ -20,7 +20,5 @@ void IndexBuffer::CreateIndexBuffer(const std::vector<UINT>& indices)
 
 	HRESULT hr = Global::g_device->CreateBuffer(&indexBufferDesc, &indexData, indexBuffer.ReleaseAndGetAddressOf());
 	if (FAILED(hr))
-	{
-		MessageBox(NULL, L"Failed to create index buffer", L"Error", MB_OK);
-	}
+		ShowErrorMessage(hr);
 }

@@ -53,7 +53,7 @@ bool Engine::EngineUpdate()
 	{
 		TimeManager::GetInstance().Update();
 		InputManager::GetInstance().Update();
-		ImGuiManager::GetInstance().Update();
+		//ImGuiManager::GetInstance().Update();
 	}
 
 	if (app != nullptr)
@@ -87,7 +87,7 @@ bool Engine::EngineRender()
 		PostRender();
 	}
 
-	ImGuiManager::GetInstance().Render();
+	//ImGuiManager::GetInstance().Render();
 	graphics->PostRender();
 
 	return true;
