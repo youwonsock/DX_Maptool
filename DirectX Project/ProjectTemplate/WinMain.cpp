@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	//gameDesc.app = std::make_shared<NormalMappingDemo>();
+	gameDesc.app = std::make_shared<NormalMappingDemo>();
 
 	Engine game(gameDesc);
 

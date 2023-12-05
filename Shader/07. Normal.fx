@@ -27,7 +27,7 @@ VertexOutput VS(VertexInput input)
 	output.position = mul(output.position, Projection);
 	
     output.UV = input.UV;
-    output.normal = mul(input.normal, World);
+    output.normal = mul(input.normal, (float3x3)World);
     
 	return output;
 }
