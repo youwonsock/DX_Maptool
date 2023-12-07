@@ -14,7 +14,7 @@ private:
 public:
 	static Matrix viewMatrix;
 	static Matrix projectionMatrix;
-
+	static Vector3 position;
 public:
 	Camera();
 	virtual ~Camera();

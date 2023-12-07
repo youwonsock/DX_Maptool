@@ -56,6 +56,14 @@ struct PNTTVertex
     float3 tangent : TANGENT;
 };
 
+struct PNCTVertex
+{
+    float4 position : POSITION;
+    float3 normal : NORMAL;
+    float4 color : COLOR;
+    float2 uv : TEXCOORD;
+};
+
 struct PNTTBBVertex
 {
     float4 position : POSITION;
@@ -89,7 +97,13 @@ struct MeshOutput
     float3 tangent : TANGENT;
 };
 
-
+struct PNCTOutput
+{
+    float4 position : SV_POSITION;
+    float3 normal : NORMAL;
+    float4 color : COLOR;
+    float2 uv : TEXCOORD;
+};
 
 /// Vertex Output ///
 

@@ -16,6 +16,9 @@ public:
 	virtual void FixedUpdate()	{};
 	virtual void Update()		{};
 	virtual void PostUpdate()	{};
+	virtual void PreRender() {};
+	virtual void Render() {};
+	virtual void PostRender() {};
 	virtual void Release()		{};
 
 public:

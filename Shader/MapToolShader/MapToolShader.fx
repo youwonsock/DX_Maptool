@@ -2,25 +2,26 @@
 
 Texture2D Texture0;
 
-PNTOutput VS(PNTTVertex input)
+PNCTOutput VS(PNCTVertex input)
 {
-    PNTOutput output;
+    PNCTOutput output;
 	output.position = input.position;
 	output.position = mul(output.position, World);
 	output.position = mul(output.position, ViewProjection);
 	
     output.uv = input.uv;
 	output.normal = input.normal;
+	output.color = input.color;
 	
 	return output;
 }
 
-float4 PS(PNTOutput input) : SV_TARGET
+float4 PS(PNCTOutput input) : SV_TARGET
 {
     return Texture0.Sample(LinearSampler, input.uv);
 }
 
-float4 PS_RED(PNTOutput input) : SV_TARGET
+float4 PS_RED(PNCTOutput input) : SV_TARGET
 {
     return float4(1, 0, 0, 1);
 }

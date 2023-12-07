@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "InputManager.h"
 
+#include "Camera.h"
+
 bool InputManager::InitKeyboard(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT hr = DirectInput8Create(hInstance, DIRECTINPUT_VERSION
@@ -129,11 +131,10 @@ void InputManager::ProcessMouseInput()
 
 	beforeMousePos = mousePos;
 
-	// not yet
-	//mousePos.x = MainCamera->GetCamPos().x - Global::g_ClientWidth * 0.5f;
-	//mousePos.y = MainCamera->GetCamPos().y + Global::g_ClientHeight * 0.5f;
-	//mousePos.x += mousePoint.x;
-	//mousePos.y -= mousePoint.y;
+	mousePos.x = Camera::position.x - Global::g_windowWidth * 0.5f;
+	mousePos.y = Camera::position.y + Global::g_windowHeight * 0.5f;
+	mousePos.x += mousePoint.x;
+	mousePos.y -= mousePoint.y;
 
 	mouseOffset.x = mousePos.x - beforeMousePos.x;
 	mouseOffset.y = mousePos.y - beforeMousePos.y;

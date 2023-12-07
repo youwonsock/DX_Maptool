@@ -3,6 +3,68 @@
 
 void HeightMap::Init()
 {
+	//create texture
+	mapTexture = std::make_shared<Texture>();
+	mapTexture->Load(mapInfo.mapTextureFileName);
+
+	//set height map
+	CreateHeightMap(mapInfo.heightMapTextureFileName);
+
+	//set vertex
+	vertices.resize(vertexNum);
+
+	float halfCol = (columnCellNum) * 0.5f;
+	float halfRow = (rowCellNum) * 0.5f;
+	float texOffsetU = 1.0f / (columnCellNum);
+	float texOffsetV = 1.0f / (rowCellNum);
+
+	for (int row = 0; row < rowNum; ++row)
+	{
+		for (int col = 0; col < columnNum; ++col)
+		{
+			int index = row * columnNum + col;
+
+			vertices[index].position.x = (col - halfCol) * cellDistance;
+			vertices[index].position.z = -((row - halfRow) * cellDistance);
+			vertices[index].position.y = GetHeightOfVertex(index);
+
+			vertices[index].normal = GetVertexNomal(index);
+			vertices[index].color = GetColorOfVertex(index);
+
+			vertices[index].uv = GetTexOfVertex(texOffsetU * col, texOffsetV * row);
+		}
+	}
+
+	//set index
+	indices.resize(faceNum * 3);
+
+	UINT index = 0;
+	for (int row = 0; row < rowCellNum; ++row)
+	{
+		for (int col = 0; col < columnCellNum; ++col)
+		{
+			int nextRow = row + 1;
+			int nextCol = col + 1;
+
+			indices[index + 0] = row * columnNum + col;
+			indices[index + 1] = row * columnNum + nextCol;
+			indices[index + 2] = nextRow * columnNum + col;
+
+			indices[index + 3] = indices[index + 2];
+			indices[index + 4] = indices[index + 1];
+			indices[index + 5] = nextRow * columnNum + nextCol;
+
+			index += 6;
+		}
+	}
+
+	GenVertexNormalVec();
+
+	//make vertex buffer
+	vertexBuffer = std::make_shared<VertexBuffer>();
+	vertexBuffer->CreateVertexBuffer(vertices);
+	indexBuffer = std::make_shared<IndexBuffer>();
+	indexBuffer->CreateIndexBuffer(indices);
 }
 
 void HeightMap::BeginPlay()
@@ -15,9 +77,43 @@ void HeightMap::FixedUpdate()
 
 void HeightMap::Update()
 {
+	globalDesc.View = Camera::viewMatrix;
+	globalDesc.Projection = Camera::projectionMatrix;
+	globalDesc.VirwProjection = Camera::viewMatrix * Camera::projectionMatrix;
+	globalDesc.ViewInverse = Camera::viewMatrix.Invert();
+	globalBuffer->CopyData(globalDesc);
+	globalEffectBuffer->SetConstantBuffer(globalBuffer->GetConstantBuffer().Get());
+
+
+	transformDesc.World = GetTransform()->GetWorldMatrix();
+	transformBuffer->CopyData(transformDesc);
+	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
 }
 
 void HeightMap::PostUpdate()
+{
+}
+
+void HeightMap::PreRender()
+{
+}
+
+void HeightMap::Render()
+{
+	shader->GetSRV("Texture0")->SetResource(mapTexture->GetShaderResourceView().Get());
+
+	UINT stride = vertexBuffer->GetStride();
+	UINT offset = vertexBuffer->GetOffset();
+
+	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	Global::g_immediateContext->IASetVertexBuffers(0, 1, vertexBuffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+	Global::g_immediateContext->IASetIndexBuffer(indexBuffer->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	shader->DrawIndexed(0, 0, indexBuffer->GetIndexCount());
+}
+
+void HeightMap::PostRender()
 {
 }
 
@@ -30,38 +126,6 @@ void HeightMap::GenVertexNormalVec()
 	InitFaceNormalVec();
 	GenNormalVecLookupTable();
 	CalcPerVertexNormalsFastLookup();
-
-	// create buffer
-	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.ByteWidth = sizeof(PNCTVertex) * vertexNum;
-		desc.Usage = D3D11_USAGE_DEFAULT;
-		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-		D3D11_SUBRESOURCE_DATA data;
-		ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-		data.pSysMem = verteces.data();
-
-		HRESULT hr = Global::g_device->CreateBuffer(&desc, &data, vertexBuffer.ReleaseAndGetAddressOf());
-		if (FAILED(hr))
-			ShowErrorMessage(hr);
-	}
-	{
-		D3D11_BUFFER_DESC desc;
-		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.ByteWidth = sizeof(UINT) * indices.size();
-		desc.Usage = D3D11_USAGE_IMMUTABLE;
-		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-
-		D3D11_SUBRESOURCE_DATA data;
-		ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-		data.pSysMem = indices.data();
-
-		HRESULT hr = Global::g_device->CreateBuffer(&desc, &data, indexBuffer.ReleaseAndGetAddressOf());
-		if (FAILED(hr))
-			ShowErrorMessage(hr);
-	}
 }
 
 void HeightMap::CalcVertexColor(Vector3 lightDir)
@@ -72,10 +136,10 @@ void HeightMap::CalcVertexColor(Vector3 lightDir)
 		{
 			int  iVertexIndex = iRow * columnNum + iCol;
 
-			float fDot = (mapInfo.lightDir * -1).Dot(verteces[iVertexIndex].normal);
+			float fDot = (mapInfo.lightDir * -1).Dot(vertices[iVertexIndex].normal);
 
-			verteces[iVertexIndex].color *= fDot;
-			verteces[iVertexIndex].color.w = 1.0f;
+			vertices[iVertexIndex].color *= fDot;
+			vertices[iVertexIndex].color.w = 1.0f;
 		}
 	}
 }
@@ -104,14 +168,14 @@ void HeightMap::CalcFaceNormalVec()
 
 float HeightMap::GetHeightOfVertex(int index)
 {
-	return 0.0f;
+	return heightList[index];
 }
 
 Vector3 HeightMap::ComputeFaceNormal(int index0, int index1, int index2)
 {
 	Vector3 vNormal;
-	Vector3 v0 = verteces[index1].position - verteces[index0].position;
-	Vector3 v1 = verteces[index2].position - verteces[index0].position;
+	Vector3 v0 = vertices[index1].position - vertices[index0].position;
+	Vector3 v1 = vertices[index2].position - vertices[index0].position;
 
 	vNormal.Cross(v0, v1);
 	vNormal.Normalize();
@@ -162,7 +226,7 @@ void HeightMap::CalcPerVertexNormalsFastLookup()
 		for (j = 0; j < 6; j++)
 		{
 			int triIndex;
-			triIndex = normalVecLookupTable[i * 6 + j];
+			triIndex = normalVecLookUpTable[i * 6 + j];
 
 			if (triIndex != -1)
 			{
@@ -185,44 +249,122 @@ void HeightMap::CalcPerVertexNormalsFastLookup()
 
 	}
 
-	CalcVertexColor(info.lightDir);
+	CalcVertexColor(mapInfo.lightDir);
 }
 
 float HeightMap::GetHeightMap(int row, int col)
 {
-	return 0.0f;
+	return vertices[row * rowNum + col].position.y;
 }
 
 Vector3 HeightMap::GetVertexNomal(int index)
 {
-	return Vector3();
+	return Vector3(0, 1, 0);
 }
 
 Vector4 HeightMap::GetColorOfVertex(int index)
 {
-	return Vector4();
+	return Vector4(1,1,1,1);
 }
 
 Vector2 HeightMap::GetTexOfVertex(float offsetX, float offsetY)
 {
-	return Vector2();
+	return Vector2(offsetX, offsetY);
 }
 
+/// <summary>
+/// may not be used
+/// </summary>
+/// <param name="x"></param>
+/// <param name="z"></param>
+/// <returns></returns>
 float HeightMap::GetHeight(float x, float z)
 {
-	return 0.0f;
+	float fCellX = (float)(columnCellNum * cellDistance / 2.0f + x);
+	float fCellZ = (float)(rowNum * cellDistance / 2.0f - z);
+
+	fCellX /= (float)cellDistance;
+	fCellZ /= (float)cellDistance;
+
+	float fVertexCol = ::floorf(fCellX);
+	float fVertexRow = ::floorf(fCellZ);
+
+	if (fVertexCol < 0.0f)  fVertexCol = 0.0f;
+	if (fVertexRow < 0.0f)  fVertexRow = 0.0f;
+	if ((float)(columnNum - 2) < fVertexCol)	fVertexCol = (float)(columnNum - 2);
+	if ((float)(rowNum - 2) < fVertexRow)	fVertexRow = (float)(rowNum - 2);
+
+	float A = GetHeightMap((int)fVertexRow, (int)fVertexCol);
+	float B = GetHeightMap((int)fVertexRow, (int)fVertexCol + 1);
+	float C = GetHeightMap((int)fVertexRow + 1, (int)fVertexCol);
+	float D = GetHeightMap((int)fVertexRow + 1, (int)fVertexCol + 1);
+
+	float fDeltaX = fCellX - fVertexCol;
+	float fDeltaZ = fCellZ - fVertexRow;
+
+
+	float fHeight = 0.0f;
+	if (fDeltaZ < (1.0f - fDeltaX))
+	{
+		float uy = B - A;
+		float vy = C - A;
+		fHeight = A + Lerp(0.0f, uy, fDeltaX) + Lerp(0.0f, vy, fDeltaZ);
+	}
+	else
+	{
+		float uy = C - D;
+		float vy = B - D;
+		fHeight = D + Lerp(0.0f, uy, 1.0f - fDeltaX) + Lerp(0.0f, vy, 1.0f - fDeltaZ);
+	}
+
+	return fHeight;
 }
 
 float HeightMap::Lerp(float start, float end, float tangent)
 {
-	return 0.0f;
+	return start - (start * tangent) + (end * tangent);
 }
 
-bool HeightMap::Set(MapInfo& info)
+void HeightMap::CreateHeightMap(std::wstring heightMapTextureFile)
 {
-	return false;
+	heightMapTexture = std::make_shared<Texture>();
+	heightMapTexture->Load(heightMapTextureFile);
+
+	Vector2 size = heightMapTexture->GetSize();
+	auto info = heightMapTexture->GetInfo();
+	auto mdata = info->GetMetadata();
+	uint8_t* pixelBuffer = info->GetPixels();
+
+	heightList.resize(mdata.height * mdata.width);
+
+	for (int row = 0; row < mdata.height; ++row)
+	{
+		for (int col = 0; col < mdata.width; ++col)
+		{
+			int index = row * mdata.width + col;
+			heightList[index] = pixelBuffer[index * 4]; 
+		}
+	}
+
+	columnNum = mdata.width;
+	rowNum = mdata.height;
+	columnCellNum = columnNum - 1;
+	rowCellNum = rowNum - 1;
+
+	vertexNum = columnNum * rowNum;
+	faceNum = columnCellNum * rowCellNum * 2;
 }
 
-void HeightMap::SetMatrix()
+void HeightMap::Set(MapInfo& info)
 {
+	this->mapInfo = info;
+
+	columnNum = info.columnNum;
+	rowNum = info.rowNum;
+	columnCellNum = columnNum - 1;
+	rowCellNum = rowNum - 1;
+
+	vertexNum = columnNum * rowNum;
+	faceNum = columnCellNum * rowCellNum * 2;
+	cellDistance = info.cellDistance;
 }

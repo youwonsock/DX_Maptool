@@ -29,6 +29,18 @@ void MonoBehaviour::PostUpdate()
 {
 }
 
+void MonoBehaviour::PreRender()
+{
+}
+
+void MonoBehaviour::Render()
+{
+}
+
+void MonoBehaviour::PostRender()
+{
+}
+
 void MonoBehaviour::Release()
 {
 }

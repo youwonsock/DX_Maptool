@@ -63,6 +63,42 @@ void GameObject::PostUpdate()
 		script->PostUpdate();
 }
 
+void GameObject::PreRender()
+{
+	for (auto& component : componentArr)
+	{
+		if (component)
+			component->PreRender();
+	}
+
+	for (auto& script : scriptArr)
+		script->PreRender();
+}
+
+void GameObject::Render()
+{
+	for (auto& component : componentArr)
+	{
+		if (component)
+			component->Render();
+	}
+
+	for (auto& script : scriptArr)
+		script->Render();
+}
+
+void GameObject::PostRender()
+{
+	for (auto& component : componentArr)
+	{
+		if (component)
+			component->PostRender();
+	}
+
+	for (auto& script : scriptArr)
+		script->PostRender();
+}
+
 void GameObject::Release()
 {
 	for (auto& component : componentArr)

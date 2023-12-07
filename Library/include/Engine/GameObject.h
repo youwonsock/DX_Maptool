@@ -22,7 +22,11 @@ public:
 	void FixedUpdate();
 	void Update();
 	void PostUpdate();
+	void PreRender();
+	void Render();
+	void PostRender();
 	void Release();
+
 	
 	std::shared_ptr<Component> GetFixedComponent(ComponentType type);
 	std::shared_ptr<Transform> GetTransform();
