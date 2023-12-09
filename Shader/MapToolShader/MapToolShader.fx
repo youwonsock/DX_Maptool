@@ -18,9 +18,9 @@ PNCTOutput VS(PNCTVertex input)
 
 float4 PS(PNCTOutput input) : SV_TARGET
 {
-//    return Texture0.Sample(LinearSampler, input.uv);
+    return Texture0.Sample(LinearSampler, input.uv);
 	
-    return float4(1,1,0,1);
+    //return float4(1,1,0,1);
 }
 
 float4 PS_RED(PNCTOutput input) : SV_TARGET

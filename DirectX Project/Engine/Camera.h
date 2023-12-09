@@ -11,6 +11,9 @@ private:
 
 	ProjectionType projectionType = ProjectionType::Perspective;
 
+	float nearRange = 0.1f;
+	float farRange = 1000.0f;
+
 public:
 	static Matrix viewMatrix;
 	static Matrix projectionMatrix;

@@ -88,7 +88,18 @@ void Cube::SetHeight(float minY, float maxY)
 
 CollisionPos Cube::ToPlane(Plane& plane)
 {
-	return CollisionPos();
+	Vector3 cubePosVec = center - plane.point[0];
+	Vector3 distanceVec = cubePosVec - (plane.planeVector * (cubePosVec.Dot(plane.planeVector)));
+
+	float sum = axisVector[0].Dot(plane.normal) + axisVector[1].Dot(plane.normal) + axisVector[1].Dot(plane.normal);
+
+	if (fabs(sum) >= fabs(distanceVec.Dot(plane.normal)))
+		return CollisionPos::Overlap;
+
+	if (0 > (distanceVec.Dot(plane.normal)))
+		return CollisionPos::Behind;
+
+	return CollisionPos::Front;
 }
 
 //--------------------------------- Sphere ---------------------------------//

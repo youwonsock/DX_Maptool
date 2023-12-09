@@ -59,7 +59,6 @@ void Terrain::Update()
 void Terrain::Render()
 {
 	spaceDivideTree->Render();
-
 }
 
 // -------------------------------------------------------------------------------

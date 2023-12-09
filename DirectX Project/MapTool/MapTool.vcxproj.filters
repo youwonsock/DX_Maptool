@@ -51,6 +51,12 @@
     <ClInclude Include="RenderMgr.h">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDrawer.h">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -77,6 +83,12 @@
     <ClCompile Include="RenderMgr.cpp">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDrawer.cpp">
+      <Filter>소스 파일\MapToolClasses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
@@ -86,6 +98,9 @@
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Shader\MapToolShader\Global.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\DebugShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -14,7 +14,7 @@ void MapTool::Init()
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
 		info.heightMapFilePath = L"../../Res/Textures/Terrain/DebugImgHeight.PNG";
-		info.textureFilePath = L"../../Res/Textures/Terrain/DebugImg.PNG";
+		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
 
 		map = std::make_shared<GameObject>();
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));

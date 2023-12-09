@@ -17,6 +17,10 @@ Camera::~Camera()
 
 void Camera::Update()
 {
+	// set perspective range
+	ImGui::InputFloat("near range", &nearRange);
+	ImGui::InputFloat("far range", &farRange);
+
 	UpdateViewMatrix();
 
 	position = GetTransform()->GetWorldPosition();
@@ -27,7 +31,9 @@ void Camera::UpdateViewMatrix()
 	viewMatrix = GetTransform()->GetWorldMatrix().Invert();
 
 	if (projectionType == ProjectionType::Perspective)
-		projectionMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), Global::g_windowWidth / Global::g_windowHeight, 0.1f, 1000.0f);
+		projectionMatrix = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), Global::g_windowWidth / Global::g_windowHeight, nearRange, farRange);
 	else
-		projectionMatrix = Matrix::CreateOrthographic(8, 6, 0.1f, 10000.0f);
+	{
+		projectionMatrix = Matrix::CreateOrthographic(8, 6, 0.1f, 1000.0f);
+	}
 }

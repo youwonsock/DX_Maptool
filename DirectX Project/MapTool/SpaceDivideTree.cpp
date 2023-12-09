@@ -5,6 +5,8 @@
 #include "Terrain.h"
 
 #include "RenderMgr.h"
+#include "Frustum.h"
+#include "DebugDrawer.h"
 
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
 {
@@ -28,8 +30,15 @@ void SpaceDivideTree::Init()
 		texture = std::make_shared<Texture>();
 		texture->Load(terrain.lock()->textureFilePath);
 
+        // temp : create render mgr
         renderMgr = std::make_shared<RenderMgr>();
         renderMgr->Init(shader);
+
+        // temp : create frustum
+        frustum = std::make_shared<Frustum>();
+
+        // temp : for debug
+        debugDraw = std::make_shared<DebugDrawer>();
 	}
 
 	root = CreateNode(nullptr, 0, terrain.lock()->rowCellNum
@@ -45,41 +54,109 @@ void SpaceDivideTree::Init()
 
 void SpaceDivideTree::Update()
 {
-    renderMgr->Update();
+    //temp
+    {
+        renderMgr->Update();
+        frustum->Update();
+        debugDraw->Update();
+
+        if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
+        {
+            //insert debug data to debugDraw
+            for (int i = 0; i < drawNodeIndexList.size(); ++i)
+            {
+                auto& box = leafNodeList[drawNodeIndexList[i]]->boundingBox;
+                debugDraw->DrawBox(box, Vector4(1, 0, 0, 0));
+            }
+
+            // draw frustum
+            {
+                std::vector<Vector3> points1;
+                std::vector<Vector3> points2;
+                std::vector<Vector3> points3;
+                std::vector<Vector3> points4;
+                std::vector<Vector3> points5;
+                std::vector<Vector3> points6;
+                points1.push_back(frustum->frustumCorners[1]);
+                points1.push_back(frustum->frustumCorners[2]);
+                points1.push_back(frustum->frustumCorners[0]);
+                points1.push_back(frustum->frustumCorners[3]);
+
+                points2.push_back(frustum->frustumCorners[5]);
+                points2.push_back(frustum->frustumCorners[6]);
+                points2.push_back(frustum->frustumCorners[4]);
+                points2.push_back(frustum->frustumCorners[7]);
+
+                points3.push_back(frustum->frustumCorners[5]);
+                points3.push_back(frustum->frustumCorners[1]);
+                points3.push_back(frustum->frustumCorners[4]);
+                points3.push_back(frustum->frustumCorners[0]);
+
+                points4.push_back(frustum->frustumCorners[2]);
+                points4.push_back(frustum->frustumCorners[6]);
+                points4.push_back(frustum->frustumCorners[3]);
+                points4.push_back(frustum->frustumCorners[7]);
+
+                points5.push_back(frustum->frustumCorners[5]);
+                points5.push_back(frustum->frustumCorners[6]);
+                points5.push_back(frustum->frustumCorners[1]);
+                points5.push_back(frustum->frustumCorners[2]);
+
+                points6.push_back(frustum->frustumCorners[0]);
+                points6.push_back(frustum->frustumCorners[3]);
+                points6.push_back(frustum->frustumCorners[4]);
+                points6.push_back(frustum->frustumCorners[7]);
+
+                debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
+                debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
+                debugDraw->DrawRect(points3, Vector4(0, 1, 0, 0));
+                debugDraw->DrawRect(points4, Vector4(0, 1, 0, 0));
+                debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
+                debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
+            }
+        }
+    }
+
 	FindDrawNode();
 }
 
 void SpaceDivideTree::Render()
 {
+    shader->GetSRV("Texture0")->SetResource(texture->GetShaderResourceView().Get());
+
 	for (auto& index : drawNodeIndexList)
 	{
 		leafNodeList[index]->Render();
 	}
+
+
+    // for debug
+    {
+        debugDraw->Render();
+    }
 }
 
 void SpaceDivideTree::FindDrawNode()
 {
     drawNodeIndexList.clear();
-	
-    drawNodeIndexList.push_back(0);
-    drawNodeIndexList.push_back(1);
-    drawNodeIndexList.push_back(2);
-    drawNodeIndexList.push_back(3);
-    
-    drawNodeIndexList.push_back(4);
-    drawNodeIndexList.push_back(5);
-    drawNodeIndexList.push_back(6);
-    drawNodeIndexList.push_back(7);
-    
-    drawNodeIndexList.push_back(8);
-    drawNodeIndexList.push_back(9);
-    drawNodeIndexList.push_back(10);
-    drawNodeIndexList.push_back(11);
-   
-    drawNodeIndexList.push_back(12);
-    drawNodeIndexList.push_back(13);
-    drawNodeIndexList.push_back(14);
-    drawNodeIndexList.push_back(15);
+
+    bool isDraw = false;
+    for (int i = 0; i < leafNodeList.size(); ++i)
+    {
+        isDraw = true;
+
+        for (int j = 0; j < 8; ++j)
+        {
+            if (leafNodeList[i]->boundingBox.ToPlane(frustum->planes[j]) == CollisionPos::Behind)
+            {
+                isDraw = false;
+                break;
+            }
+        }
+
+        if(isDraw)
+			drawNodeIndexList.push_back(i);
+	}
 }
 
 
