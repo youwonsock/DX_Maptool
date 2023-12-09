@@ -17,4 +17,6 @@
 
 #include "Engine/IExecute.h"
 
+#include "Engine/Figure.h"
+
 #endif //PCH_H

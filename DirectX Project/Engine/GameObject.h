@@ -17,15 +17,15 @@ protected:
 	std::vector<std::shared_ptr<MonoBehaviour>> scriptArr;
 
 public:
-	void Init();
-	void BeginPlay();
-	void FixedUpdate();
-	void Update();
-	void PostUpdate();
-	void PreRender();
-	void Render();
-	void PostRender();
-	void Release();
+	virtual void Init();
+	virtual void BeginPlay();
+	virtual void FixedUpdate();
+	virtual void Update();
+	virtual void PostUpdate();
+	virtual void PreRender();
+	virtual void Render();
+	virtual void PostRender();
+	virtual void Release();
 
 	
 	std::shared_ptr<Component> GetFixedComponent(ComponentType type);

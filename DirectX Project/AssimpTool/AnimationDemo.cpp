@@ -10,6 +10,9 @@
 void AnimationDemo::CreateKachujin()
 {
 	std::shared_ptr<Model> model = std::make_shared<Model>();
+
+
+
 	model->ReadModel(L"Kachujin/Kachujin");
 	model->ReadMaterial(L"Kachujin/Kachujin");
 	model->ReadAnimation(L"Kachujin/Idle");
@@ -25,6 +28,8 @@ void AnimationDemo::CreateKachujin()
 		obj->GetModelAnimator()->SetModel(model);
 		obj->GetModelAnimator()->SetPass(1);
 	}
+
+
 }
 
 void AnimationDemo::Init()

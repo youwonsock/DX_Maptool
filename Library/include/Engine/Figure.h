@@ -10,6 +10,9 @@ enum class CollisionPos
 struct Plane;
 struct Cube;
 struct Sphere;
+struct Rect;
+
+// --------------------------------- Cube ---------------------------------//
 
 struct Cube
 {
@@ -19,16 +22,23 @@ struct Cube
 		Vector3 center;
 	};
 
-	Vector3 size = { 0,0,0 };
-
 	Vector3 min = {0,0,0};
 	Vector3 max = {0,0,0};
+	Vector3 axisVector[3] = { {1,0,0}, {0,1,0}, {0,0,1} };
+	Vector3 size = { 0,0,0 };
 
 	CollisionPos ToPlane(Plane& plane);
 
-	void SetCube(Vector3& center, Vector3& size);
+	Cube() {};
+	Cube(Vector3& center, float x, float y, float z);
+	Cube(Vector3& min, Vector3& max);
+
+	void SetCube(Vector3& center, float x, float y, float z);
+	void SetCube(Vector3& min, Vector3& max);
 	void SetHeight(float minY, float maxY);
 };
+
+// --------------------------------- Sphere ---------------------------------//
 
 struct Sphere
 {
@@ -37,48 +47,46 @@ struct Sphere
 		Vector3 position = { 0,0,0 };
 		Vector3 center;
 	};
-
 	float radius = 0.0f;
 
 	CollisionPos ToPlane(Plane& plane);
 	void SetRadius(float radius);
 };
 
+// --------------------------------- Plane ---------------------------------//
+
 struct Plane
 {
 	Vector3 normal = { 0,0,0 };
 	Vector3 planeVector = { 0,0,0 };
-
 	Vector3 point[3] = { {0,0,0}, {0,0,0}, {0,0,0} };
 
-	Plane() = default;
-	Plane(Vector3& p0, Vector3& p1, Vector3& p2)
+	Plane() {};
+	Plane(Vector3& p0, Vector3& p1, Vector3& p2);
+	void SetPlane(Vector3& p0, Vector3& p1, Vector3& p2);
+};
+
+// --------------------------------- Square ---------------------------------//
+
+struct Square
+{
+	union
 	{
-		point[0] = p0;
-		point[1] = p1;
-		point[2] = p2;
+		Vector2 center;
+		Vector2 position;
+	};
 
-		planeVector = p1 - p0;
-		Vector3 v2 = p2 - p0;
-		
-		planeVector.Cross(v2,normal);
+	// 0   1
+	//
+	// 3   2
+	Vector2 min;
+	Vector2 max;
+	Vector2 size;
 
-		normal.Normalize();
-		planeVector.Normalize();
-	}
+	bool operator == (const Square& v);
 
-	void SetPlane(Vector3& p0, Vector3& p1, Vector3& p2)
-	{
-		point[0] = p0;
-		point[1] = p1;
-		point[2] = p2;
-
-		planeVector = p1 - p0;
-		Vector3 v2 = p2 - p0;
-
-		planeVector.Cross(v2, normal);
-
-		normal.Normalize();
-		planeVector.Normalize();
-	}
+	Square(Vector2 min, Vector2 max);
+	Square(Vector2 v, float w, float h);
+	void SetSquare(Vector2 min, Vector2 max);
+	void SetSquare(Vector2 v, float w, float h);
 };

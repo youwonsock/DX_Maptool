@@ -15,6 +15,10 @@ enum class ComponentType
 	ModelRenderer,
 	Camera,
 	Animator,
+
+	// temp for maptool
+	Terrain,
+
 	FixedComponentCount,
 	
 	Script

@@ -1,31 +1,27 @@
 #include "pch.h"
 #include "MapTool.h"
 
+#include "Terrain.h"
+
 void MapTool::Init()
 {
-	shader = std::make_shared<Shader>(L"MapToolShader\\MapToolShader.fx");
-
 	{
-		//set height map info
-		heightMapComponent = std::make_shared<HeightMap>(shader);
-
-		MapInfo info;
-
-		info.columnNum = 129;
-		info.rowNum = 129;
-		info.cellDistance = 1.0f;
-		info.heightMapTextureFileName = L"../../Res/Textures/Terrain/height2.png";
-		info.mapTextureFileName = L"../../Res/Textures/Chim/Chim.jpg";
-
-		heightMapComponent->Set(info);
+		TerrainDesc info;
+		
+		info.rowNum = 100;
+		info.colNum = 100;
+		info.cellDistance = 1;
+		info.heightScale = 0.25f;
+		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
+		info.heightMapFilePath = L"../../Res/Textures/Terrain/DebugImgHeight.PNG";
+		info.textureFilePath = L"../../Res/Textures/Terrain/DebugImg.PNG";
 
 		map = std::make_shared<GameObject>();
-		map->AddComponent(heightMapComponent);
+		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
+
+		map->AddComponent(std::make_shared<Terrain>(info));
 
 		map->Init();
-
-
-		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 	}
 
 	// camera
@@ -33,8 +29,8 @@ void MapTool::Init()
 		cameraObject = std::make_shared<GameObject>();
 		cameraObject->AddComponent(std::make_shared<Camera>());
 		cameraObject->AddComponent(std::make_shared<TestCamera>());
-		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 850, -450));
-		cameraObject->GetTransform()->SetWorldRotation(Vector3(45, 0, 0));
+		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 	}
 }
 

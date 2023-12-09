@@ -25,15 +25,15 @@ public:
 	Mesh();
 	~Mesh();
 
-	void CreateRactangle();
-	void CreateCube();
-	void CreateSphere();
-	void CreateGrid(UINT sizeX, UINT sizeY);
-
-	void SetVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer);
-	std::shared_ptr<VertexBuffer> GetVertexBuffer() const;
-
-	void SetIndexBuffer(std::shared_ptr<IndexBuffer> indexBuffer);
-	std::shared_ptr<IndexBuffer> GetIndexBuffer() const;
+	virtual void CreateRactangle();
+	virtual void CreateCube();
+	virtual void CreateSphere();
+	virtual void CreateGrid(UINT sizeX, UINT sizeY);
+	
+	virtual void SetVertexBuffer(std::shared_ptr<VertexBuffer> vertexBuffer);
+	virtual std::shared_ptr<VertexBuffer> GetVertexBuffer() const;
+	
+	virtual void SetIndexBuffer(std::shared_ptr<IndexBuffer> indexBuffer);
+	virtual std::shared_ptr<IndexBuffer> GetIndexBuffer() const;
 };
 

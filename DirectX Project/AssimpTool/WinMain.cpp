@@ -13,8 +13,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.width = 800;
 	gameDesc.height = 600;
 
-	//gameDesc.app = std::make_shared<AssimpTool>();
-	gameDesc.app = std::make_shared<TweenDemo>();
+	gameDesc.app = std::make_shared<AssimpTool>();
+	//gameDesc.app = std::make_shared<TweenDemo>();
 
 	Engine game(gameDesc);
 

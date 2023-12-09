@@ -1,14 +1,11 @@
 #pragma once
 
 #include "TestCamera.h"
-#include "HeightMap.h"
+
 
 class MapTool : public IExecute
 {
 private:
-	std::shared_ptr<Shader> shader;
-
-	std::shared_ptr<HeightMap> heightMapComponent;
 	std::shared_ptr<GameObject> map;
 	std::shared_ptr<GameObject> cameraObject;
 

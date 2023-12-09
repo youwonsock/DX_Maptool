@@ -28,7 +28,7 @@ void AssimpTool::Init()
 		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
 
 		converter->ReadAssetFile(L"Kachujin/Slash.fbx");
-		converter->ExportAnimationData(L"Kachujin/Slash");  
+		converter->ExportAnimationData(L"Kachujin/Slash");
 	}
 }
 
