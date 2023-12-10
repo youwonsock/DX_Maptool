@@ -51,6 +51,9 @@ public:
 	void Update();
 	void Render();
 
+	// temp : for picking
+	void UpdateVertexHeight();
+
 	SpaceDivideTree(std::shared_ptr<Terrain> owner);
 	~SpaceDivideTree();
 };

@@ -215,3 +215,25 @@ void Square::SetSquare(Vector2 v, float w, float h)
 	this->size.x = w;
 	this->size.y = h;
 }
+
+// --------------------------------- Circle ---------------------------------//
+
+Circle::Circle(Vector2 center, float radius)
+{
+	this->center = center;
+	this->radius = radius;
+}
+
+void Circle::SetCircle(Vector2 center, float radius)
+{
+	this->center = center;
+	this->radius = radius;
+}
+
+bool Circle::ToPoint(Vector2 point)
+{
+	if (fabs((center - point).Length()) < radius)
+		return true;
+
+	return false;
+}

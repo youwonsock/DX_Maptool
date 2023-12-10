@@ -25,6 +25,18 @@
     <Filter Include="소스 파일\MapToolClasses">
       <UniqueIdentifier>{cb9907f4-15c4-446f-8b73-518800760be5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Tree">
+      <UniqueIdentifier>{de074d3c-7b4c-4887-8961-834a9ee7739f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Debug">
+      <UniqueIdentifier>{0ca65b1c-8b1e-43f1-b02f-e25523395773}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Camera">
+      <UniqueIdentifier>{76527545-b1eb-4f37-b462-6951b299449d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Terrain">
+      <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -33,29 +45,32 @@
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-    <ClInclude Include="TestCamera.h">
-      <Filter>소스 파일\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="MapTool.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
-    </ClInclude>
     <ClInclude Include="SpaceDivideTree.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
     </ClInclude>
     <ClInclude Include="SectionNode.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCamera.h">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDrawer.h">
+      <Filter>소스 파일\MapToolClasses\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="RenderMgr.h">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugDrawer.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
+    <ClInclude Include="Picking.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,29 +80,32 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
-    <ClCompile Include="TestCamera.cpp">
-      <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
     <ClCompile Include="MapTool.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
+    <ClCompile Include="SectionNode.cpp">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
     </ClCompile>
     <ClCompile Include="SpaceDivideTree.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
     </ClCompile>
-    <ClCompile Include="SectionNode.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
+    <ClCompile Include="TestCamera.cpp">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>소스 파일\MapToolClasses\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugDrawer.cpp">
+      <Filter>소스 파일\MapToolClasses\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="RenderMgr.cpp">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugDrawer.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
+    <ClCompile Include="Picking.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -131,10 +131,10 @@ void InputManager::ProcessMouseInput()
 
 	beforeMousePos = mousePos;
 
-	mousePos.x = Camera::position.x - Global::g_windowWidth * 0.5f;
-	mousePos.y = Camera::position.y + Global::g_windowHeight * 0.5f;
-	mousePos.x += mousePoint.x;
-	mousePos.y -= mousePoint.y;
+	//mousePos.x = Camera::position.x - Global::g_windowWidth * 0.5f;
+	//mousePos.y = Camera::position.y + Global::g_windowHeight * 0.5f;
+	mousePos.x = mousePoint.x;
+	mousePos.y = mousePoint.y;
 
 	mouseOffset.x = mousePos.x - beforeMousePos.x;
 	mouseOffset.y = mousePos.y - beforeMousePos.y;

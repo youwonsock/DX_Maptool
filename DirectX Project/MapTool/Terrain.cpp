@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Terrain.h"
+
 #include "SpaceDivideTree.h"
+
+#include "Picking.h"
 
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
@@ -25,6 +28,12 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	{
 		heightMapFilePath = desc.heightMapFilePath;
 		useHeightMap = true;
+	}
+
+	
+	// temp : for picking
+	{
+		picking = std::make_shared<Picking>();
 	}
 }
 
@@ -53,12 +62,84 @@ void Terrain::Init()
 
 void Terrain::Update()
 {
+	// temp : for picking
+	{
+		ImGui::InputFloat("Change Height", &changeHeight);
+		ImGui::InputFloat("Radius", &radius);
+
+		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
+		{
+			picking->UpdateRay();
+
+			// update vertex height
+			for (int i = 0; i < faceCount; i++)
+			{
+				Vector3 v0 = vertices[indices[i * 3 + 0]].position;
+				Vector3 v1 = vertices[indices[i * 3 + 1]].position;
+				Vector3 v2 = vertices[indices[i * 3 + 2]].position;
+
+				if (picking->PickTriangle(v0, v1, v2))
+				{
+					// to do : find middle of triangle
+					// Vector3 vCenter = (v0 + v1 + v2) / 3.0f;
+
+					FindChangeVertex(v0);
+					UpdateVertexHeight(v0);
+					break;
+				}
+			}
+		}
+	}
+
+
 	spaceDivideTree->Update();
 }
 
 void Terrain::Render()
 {
 	spaceDivideTree->Render();
+}
+
+// -------------------------------------------------------------------------------
+// ----------------------------- pickking function -------------------------------
+// -------------------------------------------------------------------------------
+
+void Terrain::UpdateVertexHeight(Vector3 centerPos)
+{
+	float distance = 0.0f;
+	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
+
+	for (UINT i : UpdateVertexIdxList)
+	{
+		distance = (vertices[i].position - centerPos).Length();
+		fabsf(distance);
+
+		if (distance < 1.0f)
+			distance = 1.0;
+		
+		distance = (1 / distance);
+		distance = cosf(distance * 3.141592f / 180.0f);
+
+		vertices[i].position.y += (distance * changeHeight * deltaTime);
+	}
+
+	// update vertex buffer
+	spaceDivideTree->UpdateVertexHeight();
+}
+
+void Terrain::FindChangeVertex(Vector3 centerPos)
+{
+	UpdateVertexIdxList.clear();
+
+	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
+
+	for (int i = 0; i < vertexCount; i++)
+	{
+		Vector3 vPos = vertices[i].position;
+
+		if (circle.ToPoint(Vector2(vPos.x, vPos.z)))
+			UpdateVertexIdxList.push_back(i);
+	}
 }
 
 // -------------------------------------------------------------------------------
@@ -157,7 +238,7 @@ void Terrain::CreateHeightMapData()
 		{
 			UINT colStart = j * 4;
 			UINT uRed = pTexels[rowStart + colStart + 0];
-			heightList[i * mData.width + j] = (float)uRed * 0.1;
+			heightList[i * mData.width + j] = (float)uRed;
 		}
 	}
 }

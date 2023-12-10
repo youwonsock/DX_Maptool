@@ -8,6 +8,17 @@
 #include "Frustum.h"
 #include "DebugDrawer.h"
 
+// temp : for picking
+void SpaceDivideTree::UpdateVertexHeight()
+{
+    for (auto& node : leafNodeList)
+    {
+        UpdateVertexList(node);
+        CreateBoundingBox(node);
+        node->SetVertexBuffer();
+    }
+}
+
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
 {
 }
@@ -56,6 +67,12 @@ void SpaceDivideTree::Update()
 {
     //temp
     {
+        // show mouse cursor point
+        Vector2 mousePos = InputManager::GetInstance().GetMousePos();
+        float mousePoses[2] = {mousePos.x, mousePos.y};
+        ImGui::InputFloat2("Mouse Cursor Pos", &mousePoses[0]);
+        //
+
         renderMgr->Update();
         frustum->Update();
         debugDraw->Update();

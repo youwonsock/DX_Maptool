@@ -1,6 +1,7 @@
 #pragma once
 
 class SpaceDivideTree;
+class Picking;
 
 struct TerrainDesc
 {
@@ -44,6 +45,9 @@ public:
 	// quad tree
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
+	// temp : for picking
+	std::shared_ptr<Picking> picking;
+
 private:
 	// create data
 	void CreateVertexData();
@@ -66,6 +70,12 @@ private:
 	float GetHeightMap(int row, int col);
 	float GetHeightVertex(UINT index);
 
+	// temp : for picking
+	std::vector<UINT> UpdateVertexIdxList;
+	float changeHeight = 10.0f;
+	float radius = 10.0f;
+	void UpdateVertexHeight(Vector3 centerPos);
+	void FindChangeVertex(Vector3 centerPos);
 public:
 
 	void Init() override;

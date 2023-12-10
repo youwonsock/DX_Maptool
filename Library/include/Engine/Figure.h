@@ -90,3 +90,21 @@ struct Square
 	void SetSquare(Vector2 min, Vector2 max);
 	void SetSquare(Vector2 v, float w, float h);
 };
+
+// --------------------------------- Circle ---------------------------------//
+
+struct Circle
+{
+	union
+	{
+		Vector2 center;
+		Vector2 position;
+	};
+
+	float radius = 0.0f;
+
+	Circle(Vector2 center, float radius);
+	void SetCircle(Vector2 center, float radius);
+
+	bool ToPoint(Vector2 point);
+};
