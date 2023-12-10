@@ -151,6 +151,12 @@ void DebugDrawer::Update()
 	}
 
 	ImGui::InputInt("Pass", &pass);
+
+	if(pass < 0)
+		pass = 0;
+
+	if(pass > 1)
+		pass = 1;
 }
 
 void DebugDrawer::Render()

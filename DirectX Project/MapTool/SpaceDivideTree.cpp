@@ -299,9 +299,9 @@ Vector2 SpaceDivideTree::GetHeightFromNode(std::shared_ptr<SectionNode> pNode)
     vHeight.x = -99999999.0f;
     vHeight.y = 99999999.0f;
 
-    for (int dwRow = dwStartRow; dwRow < dwEndRow; dwRow++)
+    for (int dwRow = dwStartRow; dwRow <= dwEndRow; dwRow++)
     {
-        for (int dwCol = dwStartCol; dwCol < dwEndCol; dwCol++)
+        for (int dwCol = dwStartCol; dwCol <= dwEndCol; dwCol++)
         {
             DWORD dwCurrent = dwRow * dwWidth + dwCol;
             if (map->vertices[dwCurrent].position.y > vHeight.x)

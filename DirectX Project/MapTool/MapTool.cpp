@@ -29,8 +29,8 @@ void MapTool::Init()
 		cameraObject = std::make_shared<GameObject>();
 		cameraObject->AddComponent(std::make_shared<Camera>());
 		cameraObject->AddComponent(std::make_shared<TestCamera>());
-		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
-		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
+		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 15, -10));
+		cameraObject->GetTransform()->SetWorldRotation(Vector3(-30, 0, 0));
 	}
 }
 
