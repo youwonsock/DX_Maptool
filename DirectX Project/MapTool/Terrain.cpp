@@ -4,6 +4,7 @@
 #include "SpaceDivideTree.h"
 
 #include "Picking.h"
+#include <fstream>
 
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
@@ -30,7 +31,12 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		useHeightMap = true;
 	}
 
-	
+
+	// temp : for file save
+	{
+		useHeightMapByYASSET = desc.useHeightMapByYASSET;
+	}
+
 	// temp : for picking
 	{
 		picking = std::make_shared<Picking>();
@@ -89,6 +95,8 @@ void Terrain::Update()
 				}
 			}
 		}
+
+		SaveHeightMap();
 	}
 
 
@@ -98,6 +106,26 @@ void Terrain::Update()
 void Terrain::Render()
 {
 	spaceDivideTree->Render();
+}
+
+void Terrain::SaveHeightMap()
+{
+	if (InputManager::GetInstance().GetKeyState(DIK_M) > KeyState::PUSH)
+	{
+		std::wstring filePath = L"../../Res/Textures/Terrain/heightMap.YASSET";
+		std::ofstream outFile(filePath, std::ios::binary);
+
+		if (!outFile.is_open())
+		{
+			assert(false);
+		}
+
+		outFile.write((char*)&rowNum, sizeof(UINT));
+		outFile.write((char*)&colNum, sizeof(UINT));
+		outFile.write((char*)&heightList[0], sizeof(float) * rowNum * colNum);
+
+		outFile.close();
+	}
 }
 
 // -------------------------------------------------------------------------------
@@ -121,6 +149,7 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 		distance = cosf(distance * 3.141592f / 180.0f);
 
 		vertices[i].position.y += (distance * changeHeight * deltaTime);
+		heightList[i] = vertices[i].position.y / heightScale;
 	}
 
 	// update vertex buffer
@@ -208,6 +237,31 @@ void Terrain::CreateIndexData()
 
 void Terrain::CreateHeightMapData()
 {
+	if (useHeightMapByYASSET)
+	{
+		std::wstring filePath = L"../../Res/Textures/Terrain/heightMap.YASSET";
+		std::ifstream inFile(filePath, std::ios::binary);
+
+		if (!inFile.is_open())
+		{
+			assert(false);
+		}
+
+		inFile.read((char*)&rowNum, sizeof(UINT));
+		inFile.read((char*)&colNum, sizeof(UINT));
+
+		rowCellNum = rowNum - 1;
+		colCellNum = colNum - 1;
+		vertexCount = rowNum * colNum;
+		faceCount = rowCellNum * colCellNum * 2;
+
+		heightList.resize(rowNum * colNum);
+		inFile.read((char*)&heightList[0], sizeof(float) * rowNum * colNum);
+
+		inFile.close();
+		return;
+	}
+
 	std::unique_ptr<Texture> heightMap = std::make_unique<Texture>();
 	heightMap->Load(heightMapFilePath);
 

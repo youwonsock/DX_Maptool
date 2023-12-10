@@ -13,6 +13,8 @@ struct TerrainDesc
 	std::wstring textureFilePath   = L"";
 	std::wstring heightMapFilePath = L"";
 	std::wstring shaderFilePath    = L"";
+
+	bool useHeightMapByYASSET = false;
 };
 
 class Terrain : public Component, public std::enable_shared_from_this<Terrain>
@@ -21,6 +23,7 @@ private:
 	using Base = Component;
 public:
 	bool useHeightMap = false;
+	bool useHeightMapByYASSET = false;
 	
 	UINT rowNum;
 	UINT colNum;
@@ -76,8 +79,10 @@ private:
 	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
 	void FindChangeVertex(Vector3 centerPos);
-public:
 
+	void SaveHeightMap();
+
+public:
 	void Init() override;
 	void Update() override;
 	void Render() override;
