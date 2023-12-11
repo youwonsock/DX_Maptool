@@ -88,36 +88,47 @@ void Cube::SetHeight(float minY, float maxY)
 
 CollisionPos Cube::ToPlane(Plane& plane)
 {
-	// not working
+	//// not working
 	Vector3 cubePosVec = center - plane.point[0];
 	Vector3 distanceVec = cubePosVec - (plane.planeVector * (cubePosVec.Dot(plane.planeVector)));
-
+	
 	float sum = axisVector[0].Dot(plane.normal) + axisVector[1].Dot(plane.normal) + axisVector[1].Dot(plane.normal);
-
+	
 	if (fabs(sum) >= fabs(distanceVec.Dot(plane.normal)))
 		return CollisionPos::Overlap;
-
+	
 	if (0 > (distanceVec.Dot(plane.normal)))
 		return CollisionPos::Behind;
-
+	
 	return CollisionPos::Front;	
-	/*
-	Vector3 cubePosVec = center - plane.point[0];
 
-	Vector3 toCubeNormalVector = plane.normal.Dot(cubePosVec) < 0 ? -plane.normal : plane.normal;
-	Vector3 toCubePlaneVector = cubePosVec - (toCubeNormalVector * fabs(cubePosVec.Dot(toCubeNormalVector)));
+	/*float fDist = 0.0f;
+	float fPlaneToCenter = 0.0f;
+	plane.normal.Normalize();
 
-	Vector3 distanceVec = cubePosVec - toCubePlaneVector;
+	Vector3 vDir;
+	float fA, fB, fC, fD;
+	fA = plane.normal.x;
+	fB = plane.normal.y;
+	fC = plane.normal.z;
 
-	float sum = axisVector[0].Dot(plane.normal) + axisVector[1].Dot(plane.normal) + axisVector[1].Dot(plane.normal);
+	Vector3 v0 = plane.point[0];
+	fD = -(fA * v0.x + fB * v0.y + fC * v0.z);
 
-	if (fabs(sum) >= fabs(distanceVec.Dot(plane.normal)))
-		return CollisionPos::Overlap;
+	vDir = Vector3(1,0,0) * (max.x - center.x);
+	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
+	vDir = Vector3(0, 1, 0) * (max.y - center.y);
+	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
+	vDir = Vector3(0, 0, 1) * (max.z - center.z);
+	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
 
-	if (0 > (distanceVec.Dot(plane.normal)))
+	fPlaneToCenter = fA * center.x + fB * center.y + fC * center.z + fD;
+	if (fPlaneToCenter < -fDist)
+	{
 		return CollisionPos::Behind;
+	}
 
-	return CollisionPos::Front;*/
+	return CollisionPos::Overlap;*/
 }
 
 //--------------------------------- Sphere ---------------------------------//
