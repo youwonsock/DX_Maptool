@@ -17,6 +17,8 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	cellDistance = desc.cellDistance;
 	heightScale = desc.heightScale;
 
+	devideTreeDepth = desc.DevideTreeDepth;
+
 	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
 	{
 		assert(false);
@@ -63,6 +65,7 @@ void Terrain::Init()
 
 	// quad tree
 	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
+	spaceDivideTree->maxDepth = devideTreeDepth;
 	spaceDivideTree->Init();
 }
 
@@ -122,6 +125,7 @@ void Terrain::SaveHeightMap()
 
 		outFile.write((char*)&rowNum, sizeof(UINT));
 		outFile.write((char*)&colNum, sizeof(UINT));
+		outFile.write((char*)&devideTreeDepth, sizeof(int));
 		outFile.write((char*)&heightList[0], sizeof(float) * rowNum * colNum);
 
 		outFile.close();
@@ -249,6 +253,7 @@ void Terrain::CreateHeightMapData()
 
 		inFile.read((char*)&rowNum, sizeof(UINT));
 		inFile.read((char*)&colNum, sizeof(UINT));
+		inFile.read((char*)&devideTreeDepth, sizeof(int));
 
 		rowCellNum = rowNum - 1;
 		colCellNum = colNum - 1;

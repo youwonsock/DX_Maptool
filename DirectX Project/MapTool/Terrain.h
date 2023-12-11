@@ -15,6 +15,8 @@ struct TerrainDesc
 	std::wstring shaderFilePath    = L"";
 
 	bool useHeightMapByYASSET = false;
+
+	int DevideTreeDepth = 1;
 };
 
 class Terrain : public Component, public std::enable_shared_from_this<Terrain>
@@ -33,6 +35,8 @@ public:
 	UINT faceCount;
 	float cellDistance;
 	float heightScale;
+
+	int devideTreeDepth = 1;
 
 	std::wstring textureFilePath;
 	std::wstring heightMapFilePath;	

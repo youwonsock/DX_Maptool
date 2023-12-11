@@ -9,9 +9,7 @@ class DebugDrawer;
 class SpaceDivideTree
 {
 public:
-	int maxDepth = 2;
-	int minDivideSize = 1;
-	float minSplitDistance = 2.0f;
+	int maxDepth = 4;
 	
 	std::weak_ptr<Terrain> terrain;
 	std::shared_ptr<SectionNode> root;
