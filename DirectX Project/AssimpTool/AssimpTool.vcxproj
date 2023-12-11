@@ -154,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SkyDemo.cpp" />
     <ClCompile Include="StaticMeshDemo.cpp" />
     <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="TweenDemo.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Converter.h" />
     <ClInclude Include="ImGuiDemo.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SkyDemo.h" />
     <ClInclude Include="StaticMeshDemo.h" />
     <ClInclude Include="TestCamera.h" />
     <ClInclude Include="TweenDemo.h" />

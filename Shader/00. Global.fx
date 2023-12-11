@@ -122,6 +122,11 @@ RasterizerState FillModeWireFrame
     FillMode = WireFrame;
 };
 
+RasterizerState FrontCounterClockwise
+{
+    FrontCounterClockwise = true;
+};
+
 /// Resterizer State ///
 
 

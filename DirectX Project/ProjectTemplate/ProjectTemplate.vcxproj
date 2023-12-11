@@ -343,6 +343,7 @@
     <FxCompile Include="..\..\Shader\15. ModelDemo.fx" />
     <FxCompile Include="..\..\Shader\16. AnimationDemo.fx" />
     <FxCompile Include="..\..\Shader\17. TweenDemo.fx" />
+    <FxCompile Include="..\..\Shader\18. SkyDemo.fx" />
     <FxCompile Include="..\..\Shader\Default.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

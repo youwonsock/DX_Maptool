@@ -50,6 +50,9 @@
     <ClCompile Include="TweenDemo.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="SkyDemo.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestCamera.h">
@@ -80,6 +83,9 @@
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="TweenDemo.h">
+      <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyDemo.h">
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
