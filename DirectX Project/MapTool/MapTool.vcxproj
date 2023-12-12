@@ -156,6 +156,7 @@
     <ClInclude Include="Picking.h" />
     <ClInclude Include="RenderMgr.h" />
     <ClInclude Include="SectionNode.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="SpaceDivideTree.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TestCamera.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="RenderMgr.cpp" />
     <ClCompile Include="SectionNode.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpaceDivideTree.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TestCamera.cpp" />
@@ -226,6 +228,16 @@
       </EntryPointName>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </EntryPointName>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\SkyBox.fx">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

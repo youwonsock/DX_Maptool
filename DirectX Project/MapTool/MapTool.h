@@ -7,6 +7,7 @@ class MapTool : public IExecute
 {
 private:
 	std::shared_ptr<GameObject> map;
+
 	std::shared_ptr<GameObject> cameraObject;
 
 public:

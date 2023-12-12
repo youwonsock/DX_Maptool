@@ -2,6 +2,7 @@
 #include "MapTool.h"
 
 #include "Terrain.h"
+#include "SkyBox.h"
 
 void MapTool::Init()
 {
@@ -26,8 +27,14 @@ void MapTool::Init()
 
 		map->AddComponent(std::make_shared<Terrain>(info));
 
-		map->Init();
 	}
+
+	// skybox
+	{
+		map->AddComponent(std::make_shared<SkyBox>());
+	}
+		
+	map->Init();
 
 	// camera
 	{
@@ -43,40 +50,47 @@ void MapTool::FixedUpdate()
 {
 	cameraObject->FixedUpdate();
 	map->FixedUpdate();
+
 }
 
 void MapTool::Update()
 {
 	cameraObject->Update();
 	map->Update();
+
 }
 
 void MapTool::PostUpdate()
 {
 	cameraObject->PostUpdate();
 	map->PostUpdate();
+
 }
 
 void MapTool::PreRender()
 {
 	cameraObject->PreRender();
 	map->PreRender();
+
 }
 
 void MapTool::Render()
 {
 	cameraObject->Render();
 	map->Render();
+
 }
 
 void MapTool::PostRender()
 {
 	cameraObject->PostRender();
 	map->PostRender();
+
 }
 
 void MapTool::Release()
 {
 	cameraObject->Release();
 	map->Release();
+
 }
