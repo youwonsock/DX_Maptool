@@ -76,7 +76,7 @@
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -114,7 +114,7 @@
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

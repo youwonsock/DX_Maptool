@@ -53,7 +53,15 @@ public:
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
 	// temp : for picking
+	int pickingMode = 0;
 	std::shared_ptr<Picking> picking;
+
+	// temp : for tilling texture
+	int tillingTextureNum = 0;
+	std::shared_ptr<Texture> texture1;
+	std::shared_ptr<Texture> texture2;
+	std::shared_ptr<Texture> texture3;
+	std::shared_ptr<Texture> texture4;
 
 private:
 	// create data
@@ -84,7 +92,12 @@ private:
 	void UpdateVertexHeight(Vector3 centerPos);
 	void FindChangeVertex(Vector3 centerPos);
 
+	// save height map to binary file
 	void SaveHeightMap();
+
+	// temp : for tilling
+	int tileTextureNum = 0;
+	void TillingTexture(Vector3 centerPos);
 
 public:
 	void Init() override;

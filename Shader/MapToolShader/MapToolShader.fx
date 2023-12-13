@@ -1,6 +1,14 @@
 #include "Global.fx"
 
-Texture2D Texture0;
+Texture2D MapBaseTexture;
+Texture2D MapAlphaTexture;
+
+Texture2D Texture1; // color.r
+Texture2D Texture2; // color.g
+Texture2D Texture3; // color.b
+Texture2D Texture4; // color.a
+
+// use color to textures alpha value
 
 PNCTOutput VS(PNCTVertex input)
 {
@@ -18,7 +26,7 @@ PNCTOutput VS(PNCTVertex input)
 
 float4 PS(PNCTOutput input) : SV_TARGET
 {
-    return Texture0.Sample(LinearSampler, input.uv);
+    return MapBaseTexture.Sample(LinearSampler, input.uv);
 	
     //return float4(1,1,0,1);
 }

@@ -43,6 +43,21 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	{
 		picking = std::make_shared<Picking>();
 	}
+
+	// temp : for tilling
+	{
+		texture1 = std::make_shared<Texture>();
+		texture1->Load(L"../../Res/Textures/Terrain/Blue.PNG");
+
+		texture2 = std::make_shared<Texture>();
+		texture2->Load(L"../../Res/Textures/Terrain/Red.PNG");
+	
+		texture3 = std::make_shared<Texture>();
+		texture3->Load(L"../../Res/Textures/Terrain/Green.PNG");
+
+		texture4 = std::make_shared<Texture>();
+		texture4->Load(L"../../Res/Textures/Terrain/White.PNG");
+	}
 }
 
 Terrain::~Terrain()
@@ -76,6 +91,14 @@ void Terrain::Update()
 		ImGui::InputFloat("Change Height", &changeHeight);
 		ImGui::InputFloat("Radius", &radius);
 
+		ImGui::InputInt("Picking Mode", &pickingMode);
+		ImGui::InputInt("Tilling Texture", &tillingTextureNum);
+
+		if(pickingMode < 0 || pickingMode > 1)
+			pickingMode = 0;
+		if(tillingTextureNum < 0 || tillingTextureNum > 3)
+			tillingTextureNum = 0;
+
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
 			picking->UpdateRay();
@@ -93,7 +116,21 @@ void Terrain::Update()
 					// Vector3 vCenter = (v0 + v1 + v2) / 3.0f;
 
 					FindChangeVertex(v0);
-					UpdateVertexHeight(v0);
+
+					switch (pickingMode)
+					{
+					case(0):
+						UpdateVertexHeight(v0);
+						break;
+					case(1):
+						TillingTexture(v0);
+						break;
+					default:
+						break;
+					}
+
+					// update vertex buffer
+					spaceDivideTree->UpdateVertex();
 					break;
 				}
 			}
@@ -132,6 +169,50 @@ void Terrain::SaveHeightMap()
 	}
 }
 
+
+// -------------------------------------------------------------------------------
+// ----------------------------- tilling function -------------------------------
+// -------------------------------------------------------------------------------
+
+
+void Terrain::TillingTexture(Vector3 centerPos)
+{
+	float distance = 0.0f;
+	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
+
+	for (UINT i : UpdateVertexIdxList)
+	{
+		distance = (vertices[i].position - centerPos).Length();
+
+		if (distance < 1.0f)
+			distance = 1.0;
+
+		distance = (1 / distance);
+
+		switch (tillingTextureNum)
+		{
+		case(0):
+			vertices[i].color.x += distance;
+			vertices[i].color.x = std::clamp(vertices[i].color.x, 0.0f, 255.0f);
+			break;
+		case(1):
+			vertices[i].color.y += distance;
+			vertices[i].color.y = std::clamp(vertices[i].color.y, 0.0f, 255.0f);
+			break;
+		case(2):
+			vertices[i].color.z += distance;
+			vertices[i].color.z = std::clamp(vertices[i].color.z, 0.0f, 255.0f);
+			break;
+		case(3):
+			vertices[i].color.w += distance;
+			vertices[i].color.w = std::clamp(vertices[i].color.w, 0.0f, 255.0f);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
 // -------------------------------------------------------------------------------
 // ----------------------------- pickking function -------------------------------
 // -------------------------------------------------------------------------------
@@ -144,7 +225,6 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 	for (UINT i : UpdateVertexIdxList)
 	{
 		distance = (vertices[i].position - centerPos).Length();
-		fabsf(distance);
 
 		if (distance < 1.0f)
 			distance = 1.0;
@@ -155,9 +235,6 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 		vertices[i].position.y += (distance * changeHeight * deltaTime);
 		heightList[i] = vertices[i].position.y / heightScale;
 	}
-
-	// update vertex buffer
-	spaceDivideTree->UpdateVertexHeight();
 }
 
 void Terrain::FindChangeVertex(Vector3 centerPos)
