@@ -24,6 +24,9 @@ public:
 	std::shared_ptr<Mesh> GetMesh() const;
 	std::shared_ptr<Material> GetMaterial() const;
 
+	virtual void Render() override;
+
+	// deprecated
 	virtual void Update() override;
 };
 

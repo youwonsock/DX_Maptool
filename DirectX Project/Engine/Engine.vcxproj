@@ -202,6 +202,7 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="TestCamera.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineHeader.h" />
@@ -285,6 +286,7 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />

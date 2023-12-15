@@ -250,6 +250,9 @@
     <ClInclude Include="Figure.h">
       <Filter>소스 파일\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="TestCamera.h">
+      <Filter>소스 파일\Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -395,6 +398,9 @@
     </ClCompile>
     <ClCompile Include="Figure.cpp">
       <Filter>소스 파일\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCamera.cpp">
+      <Filter>소스 파일\Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

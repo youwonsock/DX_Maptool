@@ -103,7 +103,7 @@ void Terrain::Update()
 
 		if(pickingMode < 0 || pickingMode > 1)
 			pickingMode = 0;
-		if(tillingTextureNum < 0 || tillingTextureNum > 3)
+		if(tillingTextureNum < 0 || tillingTextureNum > 4)
 			tillingTextureNum = 0;
 
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
@@ -214,6 +214,12 @@ void Terrain::TillingTexture(Vector3 centerPos)
 		case(3):
 			vertices[i].color.w += distance;
 			vertices[i].color.w = std::clamp(vertices[i].color.w, 0.0f, 255.0f);
+			break;
+		case(4):
+			vertices[i].color.x = 0;
+			vertices[i].color.y = 0;
+			vertices[i].color.z = 0;
+			vertices[i].color.w = 0;
 			break;
 		default:
 			break;

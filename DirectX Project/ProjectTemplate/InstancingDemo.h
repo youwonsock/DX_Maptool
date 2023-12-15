@@ -1,12 +1,18 @@
 #pragma once
 
-class MapTool : public IExecute
+class InstancingDemo : public IExecute
 {
 private:
-	std::shared_ptr<GameObject> map;
-
+	std::shared_ptr<Shader> shader;
+	std::vector<std::shared_ptr<GameObject>> objs;
 	std::shared_ptr<GameObject> cameraObject;
 
+private:
+	std::shared_ptr<Mesh> m_mesh;
+	std::shared_ptr<Material> m_material;
+
+	std::vector<Matrix> worldMats;
+	std::shared_ptr<VertexBuffer> instanceBuffer;
 public:
 	// IExecute을(를) 통해 상속됨
 	void Init() override;

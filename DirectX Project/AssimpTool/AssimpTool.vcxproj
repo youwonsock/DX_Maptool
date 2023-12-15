@@ -156,7 +156,6 @@
     </ClCompile>
     <ClCompile Include="SkyDemo.cpp" />
     <ClCompile Include="StaticMeshDemo.cpp" />
-    <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="TweenDemo.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -169,7 +168,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SkyDemo.h" />
     <ClInclude Include="StaticMeshDemo.h" />
-    <ClInclude Include="TestCamera.h" />
     <ClInclude Include="TweenDemo.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>

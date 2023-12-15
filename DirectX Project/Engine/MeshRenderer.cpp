@@ -32,7 +32,34 @@ std::shared_ptr<Material> MeshRenderer::GetMaterial() const
 	return material;
 }
 
+
+/// <summary>
+/// deprecated
+/// </summary>
 void MeshRenderer::Update()
+{
+	if (mesh == nullptr || material == nullptr)
+		return;
+
+	auto shader = material->GetShader();
+	if (shader == nullptr)
+		return;
+
+	material->Update();
+
+	auto world = GetTransform()->GetWorldMatrix();
+	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
+
+	UINT stride = mesh->GetVertexBuffer()->GetStride();
+	UINT offset = mesh->GetIndexBuffer()->GetOffset();
+
+	Global::g_immediateContext->IASetVertexBuffers(0, 1, mesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+	Global::g_immediateContext->IASetIndexBuffer(mesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	shader->DrawIndexed(0, 0, mesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
+}
+
+void MeshRenderer::Render()
 {
 	if (mesh == nullptr || material == nullptr)
 		return;

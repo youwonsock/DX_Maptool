@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "SkyDemo.h"
-#include "TestCamera.h"
+#include "Engine/TestCamera.h"
 
 #include "Engine/Model.h"
 #include "Engine/ModelRenderer.h"

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MapTool.h"
 
+#include "Engine/TestCamera.h"
+
 #include "Terrain.h"
 #include "SkyBox.h"
 
@@ -15,7 +17,7 @@ void MapTool::Init()
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
 		info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
-		info.textureFilePath = L"../../Res/Textures/Terrain/Chim.jpg";
+		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
 		info.DevideTreeDepth = 2;
 
 		// if false, use height map image

@@ -30,22 +30,22 @@
     <Filter Include="소스 파일\Shaders\Chapter6">
       <UniqueIdentifier>{7a265798-baaa-4134-b291-20ba2189b677}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Game\TestCamera">
-      <UniqueIdentifier>{0b4efa6f-cbfd-4359-b0be-65b8fb2f3496}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Shaders\Chapter7">
       <UniqueIdentifier>{ce5cf13c-a351-44ad-8640-271e18bb45f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\Shaders\Chapter8">
       <UniqueIdentifier>{1fcedd7f-37c1-4976-9240-56dacc93713c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Chapter 9">
+      <UniqueIdentifier>{9003ca79-9e01-4ec0-8e85-951fc62aab9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter9">
+      <UniqueIdentifier>{8c96a171-6936-4820-b5fc-3c06dc8df695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
-    </ClInclude>
-    <ClInclude Include="TestCamera.h">
-      <Filter>소스 파일\Game\TestCamera</Filter>
     </ClInclude>
     <ClInclude Include="CameraDemo.h">
       <Filter>소스 파일\Game\Chapter 5</Filter>
@@ -104,13 +104,13 @@
     <ClInclude Include="NormalMappingDemo.h">
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClInclude>
+    <ClInclude Include="InstancingDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCamera.cpp">
-      <Filter>소스 파일\Game\TestCamera</Filter>
     </ClCompile>
     <ClCompile Include="CameraDemo.cpp">
       <Filter>소스 파일\Game\Chapter 5</Filter>
@@ -168,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="NormalMappingDemo.cpp">
       <Filter>소스 파일\Game\Chapter 6</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +236,9 @@
     </FxCompile>
     <FxCompile Include="..\..\Shader\18. SkyDemo.fx">
       <Filter>소스 파일\Shaders\Chapter8</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\19. InstancingDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter9</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

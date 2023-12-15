@@ -13,7 +13,7 @@ void SkyBox::Render()
 	Global::g_immediateContext->IASetVertexBuffers(0, 1, skyMesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
 	Global::g_immediateContext->IASetIndexBuffer(skyMesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
-	///shader->DrawIndexed(0, 0, skyMesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
+	shader->DrawIndexed(0, 0, skyMesh->GetIndexBuffer()->GetIndexCount(), 0, 0);
 }
 
 SkyBox::SkyBox()

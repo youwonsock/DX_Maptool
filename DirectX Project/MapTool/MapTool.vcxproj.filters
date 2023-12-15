@@ -37,9 +37,6 @@
     <Filter Include="소스 파일\MapToolClasses\Terrain">
       <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\SkyBox">
-      <UniqueIdentifier>{24c0b1d7-5e96-4459-b70e-ae8adfb4a6b4}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
