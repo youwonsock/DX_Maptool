@@ -47,16 +47,23 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	// temp : for tilling
 	{
 		texture1 = std::make_shared<Texture>();
-		texture1->Load(L"../../Res/Textures/Terrain/Blue.PNG");
-
+		texture1->Load(L"../../Res/Textures/Terrain/Red.PNG");
+		
 		texture2 = std::make_shared<Texture>();
-		texture2->Load(L"../../Res/Textures/Terrain/Red.PNG");
+		texture2->Load(L"../../Res/Textures/Terrain/Green.PNG");
 	
 		texture3 = std::make_shared<Texture>();
-		texture3->Load(L"../../Res/Textures/Terrain/Green.PNG");
+		texture3->Load(L"../../Res/Textures/Terrain/Blue.PNG");
 
 		texture4 = std::make_shared<Texture>();
 		texture4->Load(L"../../Res/Textures/Terrain/White.PNG");
+
+
+
+		if (useHeightMap)
+			CreateHeightMapData();
+		alphaTexture = std::make_shared<Texture>();
+		alphaTexture->CreateAlphaTexture(rowNum, colNum);
 	}
 }
 
@@ -188,6 +195,7 @@ void Terrain::TillingTexture(Vector3 centerPos)
 			distance = 1.0;
 
 		distance = (1 / distance);
+		distance *= 100.0f;
 
 		switch (tillingTextureNum)
 		{
@@ -211,6 +219,24 @@ void Terrain::TillingTexture(Vector3 centerPos)
 			break;
 		}
 	}
+
+	//temp : update alpha texture
+	std::vector<BYTE> colorList;
+	colorList.resize(rowNum * colNum * 4);
+
+	for (int i = 0; i < rowNum * colNum; ++i)
+	{
+		colorList[i * 4 + 0] = vertices[i].color.x;
+		colorList[i * 4 + 1] = vertices[i].color.y;
+		colorList[i * 4 + 2] = vertices[i].color.z;
+		colorList[i * 4 + 3] = vertices[i].color.w;
+	}
+
+	alphaTexture->UpdateAlphaTexture(colorList);
+}
+
+void Terrain::SetAlphaTexture()
+{
 }
 
 // -------------------------------------------------------------------------------
@@ -258,9 +284,6 @@ void Terrain::FindChangeVertex(Vector3 centerPos)
 
 void Terrain::CreateVertexData()
 {
-	if (useHeightMap)
-		CreateHeightMapData();
-
 	vertices.resize(vertexCount);
 
 	float fOffSetU = 1.0f / (colNum - 1);
@@ -282,7 +305,7 @@ void Terrain::CreateVertexData()
 			vertices[iVertexIndex].position.y = tY;
 
 			vertices[iVertexIndex].normal = Vector3(0,1,0);
-			vertices[iVertexIndex].color = Vector4(1, 1, 1, 1);
+			vertices[iVertexIndex].color = Vector4(0, 0, 0, 0);
 			vertices[iVertexIndex].uv = Vector2(iCol * fOffSetU, iRow * fOffSetV);
 		}
 	}
@@ -509,7 +532,7 @@ void Terrain::CalcVertexColor(Vector3 vLightDir)
 			float fDot = vLightDir.Dot(vertices[iVertexIndex].normal);
 
 			vertices[iVertexIndex].color *= fDot;
-			vertices[iVertexIndex].color.w = 1.0f;
+			vertices[iVertexIndex].color.w = 0.0f;
 		}
 	}
 }

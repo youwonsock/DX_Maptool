@@ -58,6 +58,7 @@ public:
 
 	// temp : for tilling texture
 	int tillingTextureNum = 0;
+	std::shared_ptr<Texture> alphaTexture;
 	std::shared_ptr<Texture> texture1;
 	std::shared_ptr<Texture> texture2;
 	std::shared_ptr<Texture> texture3;
@@ -98,6 +99,7 @@ private:
 	// temp : for tilling
 	int tileTextureNum = 0;
 	void TillingTexture(Vector3 centerPos);
+	void SetAlphaTexture();
 
 public:
 	void Init() override;

@@ -141,6 +141,8 @@ void SpaceDivideTree::Render()
 {
     shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
 
+    shader->GetSRV("MapAlphaTexture")->SetResource(terrain.lock()->alphaTexture->GetShaderResourceView().Get());
+
     shader->GetSRV("Texture1")->SetResource(terrain.lock()->texture1->GetShaderResourceView().Get());
     shader->GetSRV("Texture2")->SetResource(terrain.lock()->texture2->GetShaderResourceView().Get());
     shader->GetSRV("Texture3")->SetResource(terrain.lock()->texture3->GetShaderResourceView().Get());
