@@ -58,7 +58,14 @@ inline std::shared_ptr<T> ResourceManager::Load(const std::wstring& key, const s
 		return std::dynamic_pointer_cast<T>(iter->second);
 
 	std::shared_ptr<T> resource = std::make_shared<T>();
-	std::wstring fullPath = resourcePath + path;
+
+	std::wstring fullPath;
+
+	if (path.find(L"../../Res/") == std::wstring::npos)
+		fullPath = resourcePath + path;
+	else
+		fullPath = path;
+
 	resource->Load(fullPath); 	
 	resourceMap.insert({ key, resource });
 

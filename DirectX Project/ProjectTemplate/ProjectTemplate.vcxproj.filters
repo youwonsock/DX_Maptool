@@ -107,6 +107,21 @@
     <ClInclude Include="InstancingDemo.h">
       <Filter>소스 파일\Game\Chapter 9</Filter>
     </ClInclude>
+    <ClInclude Include="MeshInstancingDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimInstancingDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInstancingDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneDemo.h">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -170,6 +185,21 @@
       <Filter>소스 파일\Game\Chapter 6</Filter>
     </ClCompile>
     <ClCompile Include="InstancingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshInstancingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimInstancingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelInstancingDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneDemo.cpp">
       <Filter>소스 파일\Game\Chapter 9</Filter>
     </ClCompile>
   </ItemGroup>
@@ -239,6 +269,21 @@
     </FxCompile>
     <FxCompile Include="..\..\Shader\19. InstancingDemo.fx">
       <Filter>소스 파일\Shaders\Chapter9</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\20. MeshInstancingDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter9</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\21. ModelInstancingDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter9</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\22. AnimInstancingDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter9</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\23. RenderDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter9</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\00. Render.fx">
+      <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

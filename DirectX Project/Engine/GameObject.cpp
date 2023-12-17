@@ -157,6 +157,12 @@ std::shared_ptr<ModelAnimator> GameObject::GetModelAnimator()
 	return std::static_pointer_cast<ModelAnimator>(fixedComponent);
 }
 
+std::shared_ptr<Light> GameObject::GetLight()
+{
+	auto& fixedComponent = componentArr[(UINT)ComponentType::Light];
+	return std::static_pointer_cast<Light>(fixedComponent);
+}
+
 void GameObject::AddComponent(std::shared_ptr<Component> component)
 {
 	if (component == nullptr)

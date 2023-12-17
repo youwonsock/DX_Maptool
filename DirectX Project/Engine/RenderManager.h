@@ -5,6 +5,7 @@
 
 #define MAX_MODEL_TRANSFORMS 250
 #define MAX_MODEL_KEYFRAMES 500
+#define MAX_MODEL_INSTANCE 500
 
 class Shader;
 
@@ -86,6 +87,11 @@ struct TweenDesc
 	}
 };
 
+struct InstancedTweenDesc
+{
+	TweenDesc tweens[MAX_MODEL_INSTANCE];
+};
+
 class RenderManager : public Singleton<RenderManager>
 {
 private:
@@ -101,6 +107,7 @@ private:
 	std::shared_ptr<ConstantBuffer<BoneDesc>> boneBuffer;
 	std::shared_ptr<ConstantBuffer<KeyframeDesc>> keyframeBuffer;
 	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer;
+	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer;
 
 	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
@@ -109,6 +116,7 @@ private:
 	ComPtr<ID3DX11EffectConstantBuffer> boneEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> keyframeEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer;
 
 	TransformDesc transformDesc;
 	GlobalDesc globalDesc;
@@ -117,6 +125,7 @@ private:
 	BoneDesc boneDesc;
 	KeyframeDesc keyframeDesc;
 	TweenDesc tweenDesc;
+	InstancedTweenDesc instancedTweenDesc;
 public:
 	void Init(const std::shared_ptr<Shader>& shader);
 	void Update();
@@ -130,5 +139,6 @@ public:
 	void PushBoneData(const BoneDesc& desc);
 	void PushKeyframeData(const KeyframeDesc& desc);
 	void PushTweenData(const TweenDesc& desc);
+	void PushInstancedTweenData(const InstancedTweenDesc& desc);
 };
 

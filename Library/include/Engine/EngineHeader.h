@@ -6,6 +6,7 @@
 #include "MeshRenderer.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Light.h"
 
 #include "ModelRenderer.h"
 #include "ModelAnimator.h"

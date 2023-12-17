@@ -32,7 +32,7 @@ void InstancingDemo::Init()
 		m_material = material;
 	}
 
-	for (int i = 0; i < 1000; ++i)
+	for (int i = 0; i < 100000; ++i)
 	{
 		auto obj = std::make_shared<GameObject>();
 		obj->GetTransform()->SetWorldPosition(Vector3(rand() % 10, 0, rand() % 10));
@@ -62,7 +62,7 @@ void InstancingDemo::Init()
 			worldMats.push_back(obj->GetTransform()->GetWorldMatrix());
 		}
 
-		instanceBuffer->CreateVertexBuffer(worldMats);
+		instanceBuffer->CreateVertexBuffer(worldMats, 1);
 	}
 }
  
@@ -108,8 +108,16 @@ void InstancingDemo::Render()
 		RenderManager::GetInstance().PushLightData(lightDesc);
 	}
 
-	for (auto obj : objs)
-		obj->Render();
+	//for (auto obj : objs)
+	//	obj->Render();
+
+	m_material->Update();
+
+	m_mesh->GetVertexBuffer()->PushData();
+	instanceBuffer->PushData();
+	m_mesh->GetIndexBuffer()->PushData();
+
+	shader->DrawIndexedInstanced(0,0, m_mesh->GetIndexBuffer()->GetIndexCount(),objs.size());
 }
 
 void InstancingDemo::PostRender()

@@ -6,7 +6,7 @@
 void NormalMappingDemo::Init()
 {
 	shader = std::make_shared<Shader>(L"14. NormalMapping.fx"); 
-
+	
 	{	// old lemon chim
 		std::shared_ptr<Material> material = std::make_shared<Material>();
 		{

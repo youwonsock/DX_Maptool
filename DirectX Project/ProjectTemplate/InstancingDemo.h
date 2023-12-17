@@ -8,6 +8,8 @@ private:
 	std::shared_ptr<GameObject> cameraObject;
 
 private:
+
+	// instancing
 	std::shared_ptr<Mesh> m_mesh;
 	std::shared_ptr<Material> m_material;
 

@@ -37,6 +37,10 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 	tweenBuffer = std::make_shared<ConstantBuffer<TweenDesc>>(Global::g_device, Global::g_immediateContext);
 	tweenBuffer->Create();
 	tweenEffectBuffer = shader->GetConstantBuffer("TweenBuffer");
+
+	instancedTweenBuffer = std::make_shared<ConstantBuffer<InstancedTweenDesc>>(Global::g_device, Global::g_immediateContext);
+	instancedTweenBuffer->Create();
+	instancedTweenEffectBuffer = shader->GetConstantBuffer("InstancedTweenBuffer");
 }
 
 void RenderManager::Update()
@@ -106,4 +110,12 @@ void RenderManager::PushTweenData(const TweenDesc& desc)
 
 	tweenBuffer->CopyData(tweenDesc);
 	tweenEffectBuffer->SetConstantBuffer(tweenBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushInstancedTweenData(const InstancedTweenDesc& desc)
+{
+	instancedTweenDesc = desc;
+
+	instancedTweenBuffer->CopyData(instancedTweenDesc);
+	instancedTweenEffectBuffer->SetConstantBuffer(instancedTweenBuffer->GetConstantBuffer().Get());
 }

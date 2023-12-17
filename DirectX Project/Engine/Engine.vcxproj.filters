@@ -71,6 +71,12 @@
     <Filter Include="소스 파일\Collision">
       <UniqueIdentifier>{5164e6e5-6bba-4612-a14e-fb439ec9fa62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Component\Light">
+      <UniqueIdentifier>{3b136929-c342-4d9e-bfc0-73f29692e7ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Engine\Scene">
+      <UniqueIdentifier>{c27c093a-886b-42ba-ac2c-1bd5ff09e969}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -244,14 +250,29 @@
     <ClInclude Include="ModelAnimation.h">
       <Filter>소스 파일\Engine\Resource\Model</Filter>
     </ClInclude>
-    <ClInclude Include="ModelAnimator.h">
-      <Filter>소스 파일\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Figure.h">
       <Filter>소스 파일\Collision</Filter>
     </ClInclude>
     <ClInclude Include="TestCamera.h">
       <Filter>소스 파일\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingManager.h">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="InstancingBuffer.h">
+      <Filter>소스 파일\Graphics\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelAnimator.h">
+      <Filter>소스 파일\Component\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>소스 파일\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>소스 파일\Engine\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,14 +414,29 @@
     <ClCompile Include="ModelAnimation.cpp">
       <Filter>소스 파일\Engine\Resource\Model</Filter>
     </ClCompile>
-    <ClCompile Include="ModelAnimator.cpp">
-      <Filter>소스 파일\Component</Filter>
-    </ClCompile>
     <ClCompile Include="Figure.cpp">
       <Filter>소스 파일\Collision</Filter>
     </ClCompile>
     <ClCompile Include="TestCamera.cpp">
       <Filter>소스 파일\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingManager.cpp">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="InstancingBuffer.cpp">
+      <Filter>소스 파일\Graphics\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelAnimator.cpp">
+      <Filter>소스 파일\Component\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>소스 파일\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>소스 파일\Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>소스 파일\Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

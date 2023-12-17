@@ -10,6 +10,18 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 
+#include "InstancingBuffer.h"
+
+ModelAnimator::ModelAnimator(std::shared_ptr<Shader> shader) : Base(ComponentType::Animator), shader(shader)
+{
+	tweenDesc.next.animIdx = rand() % 3;
+	tweenDesc.tweenSumTime += rand() % 100;
+}
+
+ModelAnimator::~ModelAnimator()
+{
+}
+
 void ModelAnimator::CreateTexture()
 {
 	if(model->GetAnimationCount() == 0)
@@ -125,21 +137,62 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 	}
 }
 
-ModelAnimator::ModelAnimator(std::shared_ptr<Shader> shader) : Base(ComponentType::Animator), shader(shader)
+void ModelAnimator::SetModel(std::shared_ptr<Model> model)
 {
+	this->model = model;
+
+	const auto& materials = model->GetMaterials();
+
+	for (auto& material : materials)
+		material->SetShader(shader);
 }
 
-ModelAnimator::~ModelAnimator()
+InstanceID ModelAnimator::GetInstanceID() const
 {
+	return std::make_pair((UINT)model.get(), (UINT)shader.get());
 }
 
-void ModelAnimator::Update()
+void ModelAnimator::RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer)
 {
 	if (model == nullptr)
 		return;
 	if (texture == nullptr)
 		CreateTexture();
 
+
+	shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
+
+	// Bones
+	BoneDesc boneDesc;
+
+	const UINT boneCount = model->GetBoneCount();
+	for (UINT i = 0; i < boneCount; i++)
+	{
+		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
+		boneDesc.transforms[i] = bone->transform;
+	}
+	RenderManager::GetInstance().PushBoneData(boneDesc);
+
+	const auto& meshes = model->GetMeshes();
+	for (auto& mesh : meshes)
+	{
+		if (mesh->material)
+			mesh->material->Update();
+
+		// BoneIndex
+		shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
+
+		mesh->vertexBuffer->PushData();
+		mesh->indexBuffer->PushData();
+
+		instancingBuffer->PushData();
+
+		shader->DrawIndexedInstanced(0, pass, mesh->indexBuffer->GetIndexCount(), instancingBuffer->GetDataCount());
+	}
+}
+
+void ModelAnimator::UpdateTweenData()
+{
 	TweenDesc& desc = tweenDesc;
 
 	desc.curr.sumTime += TimeManager::GetInstance().GetDeltaTime();
@@ -149,6 +202,10 @@ void ModelAnimator::Update()
 		if (currentAnim)
 		{
 			float timePerFrame = 1 / (currentAnim->frameRate * desc.curr.speed);
+
+			// for random speed
+			timePerFrame *= (rand() % 10);
+
 			if (desc.curr.sumTime >= timePerFrame)
 			{
 				desc.curr.sumTime = 0;
@@ -189,68 +246,4 @@ void ModelAnimator::Update()
 		}
 	}
 
-	// Anim Update
-	ImGui::InputInt("AnimIndex", &desc.curr.animIdx);
-	keyframeDesc.animIdx %= model->GetAnimationCount();
-
-	static int nextAnimIndex = 0;
-	if (ImGui::InputInt("NextAnimIndex", &nextAnimIndex))
-	{
-		nextAnimIndex %= model->GetAnimationCount();
-		desc.ClearNextAnim(); // Clear Next Animation
-		desc.next.animIdx = nextAnimIndex;
-	}
-
-	if (model->GetAnimationCount() > 0)
-		desc.curr.animIdx %= model->GetAnimationCount();
-
-	ImGui::InputFloat("Speed", &desc.curr.speed, 0.5f, 4.f);
-
-	RenderManager::GetInstance().PushTweenData(desc);
-
-
-	shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
-
-	// Bones
-	BoneDesc boneDesc;
-
-	const UINT boneCount = model->GetBoneCount();
-	for (UINT i = 0; i < boneCount; i++)
-	{
-		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
-		boneDesc.transforms[i] = bone->transform;
-	}
-	RenderManager::GetInstance().PushBoneData(boneDesc);
-
-	// Transform
-	auto world = GetTransform()->GetWorldMatrix();
-	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
-
-	const auto& meshes = model->GetMeshes();
-	for (auto& mesh : meshes)
-	{
-		if (mesh->material)
-			mesh->material->Update();
-
-		// BoneIndex
-		shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
-
-		UINT stride = mesh->vertexBuffer->GetStride();
-		UINT offset = mesh->vertexBuffer->GetOffset();
-
-		Global::g_immediateContext->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
-		Global::g_immediateContext->IASetIndexBuffer(mesh->indexBuffer->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
-
-		shader->DrawIndexed(0, pass, mesh->indexBuffer->GetIndexCount(), 0, 0);
-	}
-}
-
-void ModelAnimator::SetModel(std::shared_ptr<Model> model)
-{
-	this->model = model;
-
-	const auto& materials = model->GetMaterials();
-
-	for (auto& material : materials)
-		material->SetShader(shader);
 }

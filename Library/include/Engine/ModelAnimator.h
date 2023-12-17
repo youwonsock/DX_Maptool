@@ -25,7 +25,6 @@ private:
 	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> textureSRV;
 
-	KeyframeDesc keyframeDesc;
 	TweenDesc tweenDesc;
 
 private:
@@ -35,10 +34,13 @@ private:
 public:
 	ModelAnimator(std::shared_ptr<Shader> shader);
 	virtual ~ModelAnimator();
-	
-	virtual void Update() override;
 
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT pass) { this->pass = pass; }
+	TweenDesc& GetTweenDesc() { return tweenDesc; }
+
+	InstanceID GetInstanceID() const;
+	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
+	void UpdateTweenData();
 };
 

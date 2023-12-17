@@ -10,6 +10,9 @@ private:
 	UINT offset = 0;
 	UINT vertexCount = 0;
 
+	UINT slot = 0;
+	bool cpuWrite = false;
+	bool gpuWrite = false;
 public:
 	VertexBuffer();
 
@@ -17,19 +20,38 @@ public:
 	UINT GetStride() { return stride; }
 	UINT GetOffset() { return offset; }
 	UINT GetVertexCount() { return vertexCount; }
+	UINT GetSlot() { return slot; }
 
 public:
 	template <typename T>
-	void CreateVertexBuffer(const std::vector<T>& vertexData)
+	void CreateVertexBuffer(const std::vector<T>& vertexData, UINT slot = 0, bool cpuWrite = false, bool gpuWrite = false)
 	{
 		stride = sizeof(T);
 		vertexCount = vertexData.size();
 
+		this->slot = slot;
+		this->cpuWrite = cpuWrite;
+		this->gpuWrite = gpuWrite;
+		
 		D3D11_BUFFER_DESC bufferDesc;
 		ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 		bufferDesc.ByteWidth = stride * vertexCount;
-		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+		if(!cpuWrite && !gpuWrite)
+			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;	// cpu, gpu read
+		else if (cpuWrite && !gpuWrite)
+		{
+			bufferDesc.Usage = D3D11_USAGE_DYNAMIC;		// cpu write, gpu read
+			bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		}
+		else if (!cpuWrite && gpuWrite)
+			bufferDesc.Usage = D3D11_USAGE_DEFAULT;		// cpu read, gpu write
+		else if (cpuWrite && gpuWrite)
+		{
+			bufferDesc.Usage = D3D11_USAGE_STAGING;
+			bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+		}
 
 		D3D11_SUBRESOURCE_DATA subResourceData;
 		ZeroMemory(&subResourceData, sizeof(subResourceData));
@@ -40,5 +62,6 @@ public:
 		if (FAILED(hr))
 			ShowErrorMessage(hr);
 	}
+	void PushData();
 };
 

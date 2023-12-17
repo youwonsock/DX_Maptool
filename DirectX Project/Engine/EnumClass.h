@@ -15,6 +15,7 @@ enum class ComponentType
 	ModelRenderer,
 	Camera,
 	Animator,
+	Light,
 
 	// temp for maptool
 	Terrain,

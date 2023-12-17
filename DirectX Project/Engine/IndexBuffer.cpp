@@ -22,3 +22,8 @@ void IndexBuffer::CreateIndexBuffer(const std::vector<UINT>& indices)
 	if (FAILED(hr))
 		ShowErrorMessage(hr);
 }
+
+void IndexBuffer::PushData()
+{
+	Global::g_immediateContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+}

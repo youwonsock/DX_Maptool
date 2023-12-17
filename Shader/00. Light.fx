@@ -1,5 +1,5 @@
-#ifndef _Light_FX_
-#define _Light_FX_
+#ifndef _LIGHT_FX_
+#define _LIGHT_FX_
 
 #include "00. Global.fx"
 

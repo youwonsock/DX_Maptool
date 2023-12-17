@@ -5,6 +5,8 @@
 #include "TimeManager.h"
 #include "RenderManager.h"
 #include "ImGuiManager.h"	
+#include "InstancingManager.h"
+#include "SceneManager.h"
 
 using namespace Microsoft::WRL;					// for ComPtr
 

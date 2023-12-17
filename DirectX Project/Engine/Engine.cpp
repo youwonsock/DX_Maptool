@@ -28,13 +28,19 @@ bool Engine::EngineInit()
 		InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
 		ResourceManager::GetInstance().Init();
 		ImGuiManager::GetInstance().Init();
+
+		SceneManager::GetInstance().Init();
+		
 	}
 
 	if (app != nullptr)
+	{
 		app->Init();
+	}
 	else
+	{
 		Init();
-
+	}
 	return true;
 }
 
@@ -44,6 +50,17 @@ bool Engine::EngineInit()
 /// <returns></returns>
 bool Engine::EngineFixedUpdate()
 {
+	SceneManager::GetInstance().FixedUpdate();
+
+	if (app != nullptr)
+	{
+		app->FixedUpdate();
+	}
+	else
+	{
+		FixedUpdate();
+	}
+
 	return false;
 }
 
@@ -54,6 +71,9 @@ bool Engine::EngineUpdate()
 		TimeManager::GetInstance().Update();
 		InputManager::GetInstance().Update();
 		ImGuiManager::GetInstance().Update();
+
+		SceneManager::GetInstance().Update();
+		SceneManager::GetInstance().PostUpdate();
 	}
 
 	if (app != nullptr)
@@ -73,6 +93,10 @@ bool Engine::EngineUpdate()
 bool Engine::EngineRender()
 {
 	graphics->PreRender();
+
+	SceneManager::GetInstance().PreRender();
+	SceneManager::GetInstance().Render();
+	SceneManager::GetInstance().PostRender();
 
 	if (app != nullptr)
 	{
@@ -99,6 +123,8 @@ bool Engine::EngineRelease()
 		app->Release();
 	else
 		Release();
+
+	SceneManager::GetInstance().Release();
 
 	graphics->Release();
 
