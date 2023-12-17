@@ -2,6 +2,7 @@
 #include "Terrain.h"
 
 #include "SpaceDivideTree.h"
+#include "SectionNode.h"
 
 #include "Picking.h"
 #include <fstream>
@@ -110,37 +111,65 @@ void Terrain::Update()
 		{
 			picking->UpdateRay();
 
-			// update vertex height
-			for (int i = 0; i < faceCount; i++)
+			// find leaf node collision with ray
+			std::vector<std::shared_ptr<SectionNode>> sectionList;
+			for (int i = 0; i < 16; ++i)
 			{
-				Vector3 v0 = vertices[indices[i * 3 + 0]].position;
-				Vector3 v1 = vertices[indices[i * 3 + 1]].position;
-				Vector3 v2 = vertices[indices[i * 3 + 2]].position;
-
-				if (picking->PickTriangle(v0, v1, v2))
-				{
-					// to do : find middle of triangle
-					// Vector3 vCenter = (v0 + v1 + v2) / 3.0f;
-
-					FindChangeVertex(v0);
-
-					switch (pickingMode)
-					{
-					case(0):
-						UpdateVertexHeight(v0);
-						break;
-					case(1):
-						TillingTexture(v0);
-						break;
-					default:
-						break;
-					}
-
-					// update vertex buffer
-					spaceDivideTree->UpdateVertex();
-					break;
-				}
+				if(spaceDivideTree->leafNodeList[i]->boundingBox.ToRay(picking->GetRay()))
+					sectionList.push_back(spaceDivideTree->leafNodeList[i]);
 			}
+
+			// find face collision with ray
+			int i = 0;
+			Vector3 pickPoint;
+			bool findPickPoint = false;
+
+			auto& leafNodeIdxList = spaceDivideTree->leafNodeIndexList;
+
+			while (!findPickPoint)
+			{
+				if (i < sectionList.size())
+				{
+					auto& leafVertices = sectionList[i]->vertices;
+					for(int j = 0; j < leafNodeIdxList.size(); j += 3)
+					{
+						Vector3 v0 = leafVertices[leafNodeIdxList[j + 0]].position;
+						Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
+						Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
+
+						if (picking->PickTriangle(v0, v1, v2))
+						{
+							pickPoint = v0;
+							findPickPoint = true;
+							break;
+						}
+					}
+				}
+				else
+					break;
+
+				++i;
+			}
+			if (!findPickPoint)
+				return;
+
+			FindChangeVertex(pickPoint);
+
+			switch (pickingMode)
+			{
+			case(0):
+				UpdateVertexHeight(pickPoint);
+				break;
+			case(1):
+				TillingTexture(pickPoint);
+				break;
+			default:
+				break;
+			}
+
+			// update vertex buffer
+			spaceDivideTree->UpdateVertex();
+				
 		}
 
 		SaveHeightMap();

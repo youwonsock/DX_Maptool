@@ -46,6 +46,75 @@ void MapTool::Init()
 		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
 		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 	}
+
+
+	// object
+	{
+		objectShader = std::make_shared<Shader>(L"23. RenderDemo.fx");
+
+		// anim
+		std::shared_ptr<Model> model1 = std::make_shared<Model>();
+		model1->ReadModel(L"Kachujin/Kachujin");
+		model1->ReadMaterial(L"Kachujin/Kachujin");
+		model1->ReadAnimation(L"Kachujin/Idle");
+		model1->ReadAnimation(L"Kachujin/Run");
+		model1->ReadAnimation(L"Kachujin/Slash");
+
+		for (int i = 0; i < 10; ++i)
+		{
+			auto obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(64 - rand() % 128, 5, 64 - rand() % 128));
+			obj->GetTransform()->SetWorldScale(Vector3(0.05f));
+
+			//set y pos
+			{
+				std::shared_ptr<Terrain> terrain = std::dynamic_pointer_cast<Terrain>(map->GetFixedComponent(ComponentType::Terrain));
+				int x = obj->GetTransform()->GetWorldPosition().x;
+				int z = obj->GetTransform()->GetWorldPosition().z;
+
+				obj->GetTransform()->SetWorldPosition(Vector3(x, terrain->GetHeightMap(z + 64,x + 64), z));
+			}
+
+			obj->AddComponent(std::make_shared<ModelAnimator>(objectShader));
+
+			{
+				obj->GetModelAnimator()->SetModel(model1);
+				obj->GetModelAnimator()->SetPass(2);
+			}
+
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+
+		// model
+		std::shared_ptr<Model> model2 = std::make_shared<Model>();
+		model2->ReadModel(L"Tower/Tower");
+		model2->ReadMaterial(L"Tower/Tower");
+
+		for (int i = 0; i < 10; i++)
+		{
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(64 - rand() % 128, 5, 64 - rand() % 128));
+			obj->GetTransform()->SetWorldScale(Vector3(0.01f));
+
+			//set y pos
+			{
+				std::shared_ptr<Terrain> terrain = std::dynamic_pointer_cast<Terrain>(map->GetFixedComponent(ComponentType::Terrain));
+				int x = obj->GetTransform()->GetWorldPosition().x;
+				int z = obj->GetTransform()->GetWorldPosition().z;
+
+				obj->GetTransform()->SetWorldPosition(Vector3(x, terrain->GetHeightMap(z + 64, x + 64), z));
+			}
+
+			obj->AddComponent(std::make_shared<ModelRenderer>(objectShader));
+
+			obj->GetModelRenderer()->SetModel(model2);
+			obj->GetModelRenderer()->SetPass(1);
+
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+	}
+
+	RenderManager::GetInstance().Init(objectShader);
 }
 
 void MapTool::FixedUpdate()
@@ -57,9 +126,10 @@ void MapTool::FixedUpdate()
 
 void MapTool::Update()
 {
+	RenderManager::GetInstance().PushGlobalData(Camera::viewMatrix, Camera::projectionMatrix);
+
 	cameraObject->Update();
 	map->Update();
-
 }
 
 void MapTool::PostUpdate()
@@ -73,7 +143,6 @@ void MapTool::PreRender()
 {
 	cameraObject->PreRender();
 	map->PreRender();
-
 }
 
 void MapTool::Render()

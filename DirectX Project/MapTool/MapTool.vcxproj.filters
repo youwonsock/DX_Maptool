@@ -37,6 +37,9 @@
     <Filter Include="소스 파일\MapToolClasses\Terrain">
       <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Scene">
+      <UniqueIdentifier>{dab4329c-4da9-4ae3-b2b0-8f1bbe1f46fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

@@ -11,6 +11,15 @@ struct Plane;
 struct Cube;
 struct Sphere;
 struct Rect;
+struct Ray;
+
+// --------------------------------- Ray ---------------------------------//
+
+struct Ray
+{
+	Vector3		origin;
+	Vector3		direction;
+};
 
 // --------------------------------- Cube ---------------------------------//
 
@@ -28,6 +37,7 @@ struct Cube
 	Vector3 size = { 0,0,0 };
 
 	CollisionPos ToPlane(Plane& plane);
+	bool ToRay(Ray& ray);
 
 	Cube() {};
 	Cube(Vector3& center, float x, float y, float z);

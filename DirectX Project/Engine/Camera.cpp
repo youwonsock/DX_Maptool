@@ -24,6 +24,7 @@ void Camera::Update()
 	UpdateViewMatrix();
 	position = GetTransform()->GetWorldPosition();
 
+	return; // temp
 	RenderManager::GetInstance().PushGlobalData(viewMatrix, projectionMatrix);
 }
 

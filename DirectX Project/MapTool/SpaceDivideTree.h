@@ -23,6 +23,7 @@ public:
 
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<Texture> texture;
+	std::vector<UINT> leafNodeIndexList;
 	std::shared_ptr<IndexBuffer> leafNodeIndexBuffer;
 
 	std::vector<std::shared_ptr<SectionNode>> leafNodeList;
@@ -35,6 +36,7 @@ private:
 	void BuildTree(std::shared_ptr<SectionNode> pNode);
 	void UpdateVertexList(std::shared_ptr<SectionNode> pNode);
 	bool SubDivide(std::shared_ptr<SectionNode> pNode);
+	void SetNeighborNode();
 
 	Vector2 GetHeightFromNode(std::shared_ptr<SectionNode> pNode);
 	UINT CheckSize(UINT dwSize);

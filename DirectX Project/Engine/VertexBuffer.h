@@ -62,6 +62,21 @@ public:
 		if (FAILED(hr))
 			ShowErrorMessage(hr);
 	}
+
+	template <typename T>
+	void UpdateVertexBuffer(const std::vector<T>& vertexData)
+	{
+		D3D11_MAPPED_SUBRESOURCE subResource;
+		HRESULT hr = Global::g_immediateContext->Map(vertexBuffer.Get(),0,D3D11_MAP_WRITE_DISCARD,0,&subResource);
+
+		if (FAILED(hr))
+			ShowErrorMessage(hr);
+
+		memcpy(subResource.pData, vertexData.data(), sizeof(T) * vertexData.size());
+
+		Global::g_immediateContext->Unmap(vertexBuffer.Get(), 0);
+	}
+
 	void PushData();
 };
 

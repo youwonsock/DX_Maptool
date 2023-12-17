@@ -15,7 +15,7 @@ void SpaceDivideTree::UpdateVertex()
     {
         UpdateVertexList(node);
         CreateBoundingBox(node);
-        node->SetVertexBuffer();
+        node->UpdateVertexBuffer();
     }
 }
 
@@ -281,6 +281,53 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
     return true;
 }
 
+void SpaceDivideTree::SetNeighborNode()
+{
+    ////최하단 LowQuality 패치의 기준
+    //for (int iNode = 0; iNode < leafNodeList.size(); iNode++)
+    //{
+    //    auto iter = leafNodeList.find(iNode);
+    //    _ASSERT(iter != m_pLeafList.end());
+    //    KNode* pNode = iter->second;
+    //    DWORD dwNumPatchCount = (DWORD)pow(2.0f, (float)pNode->m_depth);
+    //    DWORD dwNeighborCol = 0;
+    //    DWORD dwNeighborRow = 0;
+
+    //    if (pNode->m_Element.y > 0)  //상
+    //    {
+    //        dwNeighborCol = pNode->m_Element.x;
+    //        dwNeighborRow = (pNode->m_Element.y - 1) * dwNumPatchCount;
+    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
+    //        _ASSERT(iter != m_pLeafList.end());
+    //        pNode->m_pNeighborlist[3] = iter->second;
+    //    }
+    //    if (pNode->m_Element.y < dwNumPatchCount - 1) // 하
+    //    {
+    //        dwNeighborCol = pNode->m_Element.x;
+    //        dwNeighborRow = (pNode->m_Element.y + 1) * dwNumPatchCount;
+    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
+    //        _ASSERT(iter != m_pLeafList.end());
+    //        pNode->m_pNeighborlist[2] = iter->second;
+    //    }
+    //    if (pNode->m_Element.x > 0) // 좌
+    //    {
+    //        dwNeighborCol = pNode->m_Element.x - 1;
+    //        dwNeighborRow = pNode->m_Element.y * dwNumPatchCount;
+    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
+    //        _ASSERT(iter != m_pLeafList.end());
+    //        pNode->m_pNeighborlist[1] = iter->second;
+    //    }
+    //    if (pNode->m_Element.x < dwNumPatchCount - 1) // 우
+    //    {
+    //        dwNeighborCol = pNode->m_Element.x + 1;
+    //        dwNeighborRow = pNode->m_Element.y * dwNumPatchCount;
+    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
+    //        _ASSERT(iter != m_pLeafList.end());
+    //        pNode->m_pNeighborlist[0] = iter->second;
+    //    }
+    //}
+}
+
 void SpaceDivideTree::UpdateVertexList(std::shared_ptr<SectionNode> pNode)
 {
     int iNumCols = terrain.lock()->colNum;
@@ -391,10 +438,10 @@ void SpaceDivideTree::CreateIndexBuffer(UINT rowCellNum, UINT colCellNum)
 {
     if (leafNodeIndexBuffer == nullptr)
     {
-        std::vector<UINT> indexList;
+        leafNodeIndexList;
 
         UINT faceCount = rowCellNum * colCellNum * 2;
-        indexList.resize(faceCount * 3);
+        leafNodeIndexList.resize(faceCount * 3);
 
         UINT rowNum = rowCellNum + 1;
         UINT colNum = colCellNum + 1;
@@ -407,20 +454,20 @@ void SpaceDivideTree::CreateIndexBuffer(UINT rowCellNum, UINT colCellNum)
 				UINT nextCol = iCol + 1;
 				UINT nextRow = iRow + 1;
 
-				indexList[iIndex + 0] = iRow * colNum + iCol;
-				indexList[iIndex + 1] = iRow * colNum + nextCol;
-				indexList[iIndex + 2] = nextRow * colNum + iCol;
+                leafNodeIndexList[iIndex + 0] = iRow * colNum + iCol;
+                leafNodeIndexList[iIndex + 1] = iRow * colNum + nextCol;
+                leafNodeIndexList[iIndex + 2] = nextRow * colNum + iCol;
 
-				indexList[iIndex + 3] = indexList[iIndex + 2];
-				indexList[iIndex + 4] = indexList[iIndex + 1];
-				indexList[iIndex + 5] = nextRow * colNum + nextCol;
+                leafNodeIndexList[iIndex + 3] = leafNodeIndexList[iIndex + 2];
+                leafNodeIndexList[iIndex + 4] = leafNodeIndexList[iIndex + 1];
+                leafNodeIndexList[iIndex + 5] = nextRow * colNum + nextCol;
 
 				iIndex += 6;
 			}
 		}
 
         leafNodeIndexBuffer = std::make_shared<IndexBuffer>();
-        leafNodeIndexBuffer->CreateIndexBuffer(indexList);
+        leafNodeIndexBuffer->CreateIndexBuffer(leafNodeIndexList);
     }
 
     for (auto& node : leafNodeList)

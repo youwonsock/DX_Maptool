@@ -83,7 +83,11 @@ private:
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
+
+public: // temp : for set obj y pos
 	float GetHeightMap(int row, int col);
+
+private:
 	float GetHeightVertex(UINT index);
 
 	// temp : for picking

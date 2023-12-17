@@ -9,6 +9,7 @@ private:
 public:
 	bool isLeafNode = false;
 	int depth = 0;
+	int nodeIndex = 0;
 	Cube boundingBox;
 
 	std::weak_ptr<SectionNode> parentNode;
@@ -20,10 +21,12 @@ public:
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> cornerIndexList;
 	std::vector<std::shared_ptr<SectionNode>> childNodeList;
+	std::vector<std::shared_ptr<SectionNode>> neighborNodeList;
 
 public:
 	void Render();
 
 	void SetVertexBuffer();
+	void UpdateVertexBuffer();
 };
 

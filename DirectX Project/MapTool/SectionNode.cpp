@@ -20,5 +20,10 @@ void SectionNode::Render()
 void SectionNode::SetVertexBuffer()
 {
 	vertexBuffer = std::make_shared<VertexBuffer>();
-	vertexBuffer->CreateVertexBuffer(vertices);
+	vertexBuffer->CreateVertexBuffer(vertices, 0, true,false);
+}
+
+void SectionNode::UpdateVertexBuffer()
+{
+	vertexBuffer->UpdateVertexBuffer(vertices);
 }
