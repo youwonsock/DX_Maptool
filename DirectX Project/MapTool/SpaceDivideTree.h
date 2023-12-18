@@ -26,7 +26,7 @@ public:
 	std::vector<UINT> leafNodeIndexList;
 	std::shared_ptr<IndexBuffer> leafNodeIndexBuffer;
 
-	std::vector<std::shared_ptr<SectionNode>> leafNodeList;
+	std::map<int, std::shared_ptr<SectionNode>> leafNodeMap;
 	std::vector<int> drawNodeIndexList;
 private:
 	void FindDrawNode();

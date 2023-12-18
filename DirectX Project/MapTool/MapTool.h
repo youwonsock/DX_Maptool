@@ -7,7 +7,7 @@ private:
 
 	std::shared_ptr<GameObject> cameraObject;
 
-	std::shared_ptr<Shader> objectShader;
+	//std::shared_ptr<Shader> objectShader;
 
 public:
 	// IExecute을(를) 통해 상속됨

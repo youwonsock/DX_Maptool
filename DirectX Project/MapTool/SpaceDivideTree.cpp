@@ -11,11 +11,11 @@
 // temp : for picking
 void SpaceDivideTree::UpdateVertex()
 {
-    for (auto& node : leafNodeList)
+    for (auto& node : leafNodeMap)
     {
-        UpdateVertexList(node);
-        CreateBoundingBox(node);
-        node->UpdateVertexBuffer();
+        UpdateVertexList(node.second);
+        CreateBoundingBox(node.second);
+        node.second->UpdateVertexBuffer();
     }
 }
 
@@ -57,7 +57,10 @@ void SpaceDivideTree::Init()
         , terrain.lock()->rowNum * terrain.lock()->colNum - 1);
 	BuildTree(root);
 
-    auto box = leafNodeList[0]->boundingBox;
+    // set neighbor node
+    SetNeighborNode();
+
+    auto box = leafNodeMap[0]->boundingBox;
     UINT leafNodeRowNum = box.max.x - box.min.x;
     UINT leafNodeColNum = box.max.z - box.min.z;
     CreateIndexBuffer(leafNodeRowNum, leafNodeColNum);
@@ -82,7 +85,7 @@ void SpaceDivideTree::Update()
             //insert debug data to debugDraw
             for (int i = 0; i < drawNodeIndexList.size(); ++i)
             {
-                auto& box = leafNodeList[drawNodeIndexList[i]]->boundingBox;
+                auto& box = leafNodeMap[drawNodeIndexList[i]]->boundingBox;
                 debugDraw->DrawBox(box, Vector4(1, 0, 0, 0));
             }
 
@@ -150,7 +153,7 @@ void SpaceDivideTree::Render()
 
 	for (auto& index : drawNodeIndexList)
 	{
-		leafNodeList[index]->Render();
+		leafNodeMap[index]->Render();
 	}
 
 
@@ -165,13 +168,13 @@ void SpaceDivideTree::FindDrawNode()
     drawNodeIndexList.clear();
 
     bool isDraw = false;
-    for (int i = 0; i < leafNodeList.size(); ++i)
+    for (int i = 0; i < leafNodeMap.size(); ++i)
     {
         isDraw = true;
 
         for (int j = 0; j < 8; ++j)
         {
-            if (leafNodeList[i]->boundingBox.ToPlane(frustum->planes[j]) == CollisionPos::Behind)
+            if (leafNodeMap[i]->boundingBox.ToPlane(frustum->planes[j]) == CollisionPos::Behind)
             {
                 isDraw = false;
                 break;
@@ -179,7 +182,7 @@ void SpaceDivideTree::FindDrawNode()
         }
 
         if(isDraw)
-			drawNodeIndexList.push_back(i);
+			drawNodeIndexList.push_back(leafNodeMap[i]->nodeIndex);
 	}
 }
 
@@ -213,11 +216,11 @@ void SpaceDivideTree::CreateBoundingBox(std::shared_ptr<SectionNode> pNode)
 
 void SpaceDivideTree::BuildTree(std::shared_ptr<SectionNode> pNode)
 {
-	if (SubDivide(pNode))
-	{
-		for (int iNode = 0; iNode < 4; ++iNode)
-			BuildTree(pNode->childNodeList[iNode]);
-	}
+    if (SubDivide(pNode))
+    {
+        for (int iNode = 0; iNode < 4; ++iNode)
+            BuildTree(pNode->childNodeList[iNode]);
+    }
 }
 
 bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
@@ -237,7 +240,7 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
         pNode->SetVertexBuffer();
         pNode->shader = shader;
 
-        leafNodeList.push_back(pNode);
+        leafNodeMap.insert(std::make_pair(pNode->nodeIndex, pNode));
 
         return false;
     }
@@ -283,49 +286,54 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
 
 void SpaceDivideTree::SetNeighborNode()
 {
-    ////최하단 LowQuality 패치의 기준
-    //for (int iNode = 0; iNode < leafNodeList.size(); iNode++)
-    //{
-    //    auto iter = leafNodeList.find(iNode);
-    //    _ASSERT(iter != m_pLeafList.end());
-    //    KNode* pNode = iter->second;
-    //    DWORD dwNumPatchCount = (DWORD)pow(2.0f, (float)pNode->m_depth);
-    //    DWORD dwNeighborCol = 0;
-    //    DWORD dwNeighborRow = 0;
+    //최하단 LowQuality 패치의 기준
+    for (int iNode = 0; iNode < leafNodeMap.size(); iNode++)
+    {
+        auto iter = leafNodeMap.find(iNode);
+        assert(iter != leafNodeMap.end());
 
-    //    if (pNode->m_Element.y > 0)  //상
-    //    {
-    //        dwNeighborCol = pNode->m_Element.x;
-    //        dwNeighborRow = (pNode->m_Element.y - 1) * dwNumPatchCount;
-    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
-    //        _ASSERT(iter != m_pLeafList.end());
-    //        pNode->m_pNeighborlist[3] = iter->second;
-    //    }
-    //    if (pNode->m_Element.y < dwNumPatchCount - 1) // 하
-    //    {
-    //        dwNeighborCol = pNode->m_Element.x;
-    //        dwNeighborRow = (pNode->m_Element.y + 1) * dwNumPatchCount;
-    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
-    //        _ASSERT(iter != m_pLeafList.end());
-    //        pNode->m_pNeighborlist[2] = iter->second;
-    //    }
-    //    if (pNode->m_Element.x > 0) // 좌
-    //    {
-    //        dwNeighborCol = pNode->m_Element.x - 1;
-    //        dwNeighborRow = pNode->m_Element.y * dwNumPatchCount;
-    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
-    //        _ASSERT(iter != m_pLeafList.end());
-    //        pNode->m_pNeighborlist[1] = iter->second;
-    //    }
-    //    if (pNode->m_Element.x < dwNumPatchCount - 1) // 우
-    //    {
-    //        dwNeighborCol = pNode->m_Element.x + 1;
-    //        dwNeighborRow = pNode->m_Element.y * dwNumPatchCount;
-    //        auto iter = m_pLeafList.find(dwNeighborRow + dwNeighborCol);
-    //        _ASSERT(iter != m_pLeafList.end());
-    //        pNode->m_pNeighborlist[0] = iter->second;
-    //    }
-    //}
+        auto& pNode = iter->second;
+        DWORD dwNumPatchCount = (DWORD)pow(2.0f, (float)pNode->depth);
+        DWORD dwNeighborCol = 0;
+        DWORD dwNeighborRow = 0;
+
+        pNode->neighborNodeList.resize(4);
+
+        if (pNode->element.y > 0)  //상
+        {
+            dwNeighborCol = pNode->element.x;
+            dwNeighborRow = (pNode->element.y - 1) * dwNumPatchCount;
+            auto iter = leafNodeMap.find(dwNeighborRow + dwNeighborCol);
+
+            assert(iter != leafNodeMap.end());
+
+            pNode->neighborNodeList[3] = iter->second;
+        }
+        if (pNode->element.y < dwNumPatchCount - 1) // 하
+        {
+            dwNeighborCol = pNode->element.x;
+            dwNeighborRow = (pNode->element.y + 1) * dwNumPatchCount;
+            auto iter = leafNodeMap.find(dwNeighborRow + dwNeighborCol);
+            _ASSERT(iter != leafNodeMap.end());
+            pNode->neighborNodeList[2] = iter->second;
+        }
+        if (pNode->element.x > 0) // 좌
+        {
+            dwNeighborCol = pNode->element.x - 1;
+            dwNeighborRow = pNode->element.y * dwNumPatchCount;
+            auto iter = leafNodeMap.find(dwNeighborRow + dwNeighborCol);
+            _ASSERT(iter != leafNodeMap.end());
+            pNode->neighborNodeList[1] = iter->second;
+        }
+        if (pNode->element.x < dwNumPatchCount - 1) // 우
+        {
+            dwNeighborCol = pNode->element.x + 1;
+            dwNeighborRow = pNode->element.y * dwNumPatchCount;
+            auto iter = leafNodeMap.find(dwNeighborRow + dwNeighborCol);
+            _ASSERT(iter != leafNodeMap.end());
+            pNode->neighborNodeList[0] = iter->second;
+        }
+    }
 }
 
 void SpaceDivideTree::UpdateVertexList(std::shared_ptr<SectionNode> pNode)
@@ -429,6 +437,14 @@ std::shared_ptr<SectionNode> SpaceDivideTree::CreateNode(std::shared_ptr<Section
     NewNode->cornerIndexList[2] = LB;
     NewNode->cornerIndexList[3] = RB;
 
+    //set node index
+    ldiv_t divVal = ldiv((long)LT, (long)terrain.lock()->colNum);
+    NewNode->element.x = divVal.rem / (RT - LT);
+    NewNode->element.y = divVal.quot / (RT - LT);
+
+    UINT dwNumPatchCount = (UINT)pow(2.0f, (float)NewNode->depth);
+    NewNode->nodeIndex = NewNode->element.y * dwNumPatchCount + NewNode->element.x;
+
     CreateBoundingBox(NewNode);
 
     return NewNode;
@@ -470,6 +486,6 @@ void SpaceDivideTree::CreateIndexBuffer(UINT rowCellNum, UINT colCellNum)
         leafNodeIndexBuffer->CreateIndexBuffer(leafNodeIndexList);
     }
 
-    for (auto& node : leafNodeList)
-        node->indexBuffer = leafNodeIndexBuffer;
+    for (auto& node : leafNodeMap)
+        node.second->indexBuffer = leafNodeIndexBuffer;
 }

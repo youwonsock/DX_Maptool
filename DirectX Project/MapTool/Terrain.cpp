@@ -115,12 +115,13 @@ void Terrain::Update()
 			std::vector<std::shared_ptr<SectionNode>> sectionList;
 			for (int i = 0; i < 16; ++i)
 			{
-				if(spaceDivideTree->leafNodeList[i]->boundingBox.ToRay(picking->GetRay()))
-					sectionList.push_back(spaceDivideTree->leafNodeList[i]);
+				if(spaceDivideTree->leafNodeMap[i]->boundingBox.ToRay(picking->GetRay()))
+					sectionList.push_back(spaceDivideTree->leafNodeMap[i]);
 			}
 
 			// find face collision with ray
 			int i = 0;
+			int pickNodeIdx = 0;
 			Vector3 pickPoint;
 			bool findPickPoint = false;
 
@@ -141,6 +142,8 @@ void Terrain::Update()
 						{
 							pickPoint = v0;
 							findPickPoint = true;
+							pickNodeIdx = sectionList[i]->nodeIndex;
+
 							break;
 						}
 					}
@@ -153,7 +156,7 @@ void Terrain::Update()
 			if (!findPickPoint)
 				return;
 
-			FindChangeVertex(pickPoint);
+			FindChangeVertex(pickPoint, pickNodeIdx);
 
 			switch (pickingMode)
 			{
@@ -298,11 +301,124 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 	}
 }
 
-void Terrain::FindChangeVertex(Vector3 centerPos)
+void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 {
 	UpdateVertexIdxList.clear();
 
 	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
+
+	// 0 : right, 1 : left, 2 : bottom, 3 : top
+
+	// find node by node idx
+	DWORD LT, RT, LB, RB;
+	std::shared_ptr<SectionNode> pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
+
+	// lt, lb
+	{
+		while (true)
+		{
+			if (pNode->neighborNodeList[1] == nullptr)
+				break;
+
+			auto& ltConerPos = vertices[pNode->cornerIndexList[0]].position;
+
+			if (centerPos.x - radius < ltConerPos.x)
+				pNode = pNode->neighborNodeList[1];
+			else
+				break;
+		}
+
+		std::shared_ptr<SectionNode> ltNode = pNode;
+		std::shared_ptr<SectionNode> lbNode = pNode;
+
+		// top
+		while (true)
+		{
+			if (ltNode->neighborNodeList[3] == nullptr)
+				break;
+
+			auto& ltConerPos = vertices[ltNode->cornerIndexList[0]].position;
+
+			if (centerPos.z + radius > ltConerPos.z)
+				ltNode = ltNode->neighborNodeList[3];
+			else
+				break;
+		}
+		LT = ltNode->cornerIndexList[0];
+
+		// bottom
+		while (true)
+		{
+			if (lbNode->neighborNodeList[2] == nullptr)
+				break;
+
+			auto& lbConerPos = vertices[lbNode->cornerIndexList[2]].position;
+
+			if (centerPos.z - radius < lbConerPos.z)
+				lbNode = lbNode->neighborNodeList[2];
+			else
+				break;
+		}
+		LB = lbNode->cornerIndexList[2];
+	}
+
+
+	// rt, rb
+	{
+		pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
+
+		while (true)
+		{
+			if (pNode->neighborNodeList[0] == nullptr)
+				break;
+
+			auto& rtConerPos = vertices[pNode->cornerIndexList[1]].position;
+
+			if (centerPos.x + radius > rtConerPos.x)
+				pNode = pNode->neighborNodeList[0];
+			else
+				break;
+		}
+
+		std::shared_ptr<SectionNode> rtNode = pNode;
+		std::shared_ptr<SectionNode> rbNode = pNode;
+
+		// top
+		while (true)
+		{
+			if (rtNode->neighborNodeList[3] == nullptr)
+				break;
+
+			auto& rtConerPos = vertices[rtNode->cornerIndexList[1]].position;
+
+			if (centerPos.z + radius > rtConerPos.z)
+				rtNode = rtNode->neighborNodeList[3];
+			else
+				break;
+		}
+		RT = rtNode->cornerIndexList[0];
+
+		// bottom
+		while (true)
+		{
+			if (rbNode->neighborNodeList[2] == nullptr)
+				break;
+
+			auto& rbConerPos = vertices[rbNode->cornerIndexList[3]].position;
+
+			if (centerPos.z - radius < rbConerPos.z)
+				rbNode = rbNode->neighborNodeList[2];
+			else
+				break;
+		}
+		RB = rbNode->cornerIndexList[2];
+	}
+
+	// find node by node idx
+
+	// loop 
+
+
 
 	for (int i = 0; i < vertexCount; i++)
 	{

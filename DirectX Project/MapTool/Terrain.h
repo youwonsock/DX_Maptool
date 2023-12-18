@@ -95,7 +95,7 @@ private:
 	float changeHeight = 10.0f;
 	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
-	void FindChangeVertex(Vector3 centerPos);
+	void FindChangeVertex(Vector3 centerPos, int pickNodeIdx);
 
 	// save height map to binary file
 	void SaveHeightMap();

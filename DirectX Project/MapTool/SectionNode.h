@@ -11,6 +11,7 @@ public:
 	int depth = 0;
 	int nodeIndex = 0;
 	Cube boundingBox;
+	Vector2 element;
 
 	std::weak_ptr<SectionNode> parentNode;
 
