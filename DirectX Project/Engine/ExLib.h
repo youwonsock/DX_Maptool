@@ -35,12 +35,7 @@ using namespace DirectX::PackedVector;
 #include <Assimp/scene.h>
 #include <Assimp/postprocess.h>
 
-#include "SimpleMath.h"
-#include "tinyxml2.h"
-
-#include "imgui.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
+#include "EXLibHeaders.h"
 
 // link direct x library
 #pragma comment (lib, "d3d11.lib")

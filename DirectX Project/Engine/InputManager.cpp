@@ -9,35 +9,35 @@ bool InputManager::InitKeyboard(HINSTANCE hInstance, HWND hwnd)
 		, IID_IDirectInput8, (void**)&pDirectInput, nullptr);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pDirectInput->CreateDevice(GUID_SysKeyboard, &pKeyboardDevice, nullptr);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pKeyboardDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pKeyboardDevice->Acquire();
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
@@ -48,28 +48,28 @@ bool InputManager::InitMouse(HINSTANCE hInstance, HWND hwnd)
 	HRESULT hr = pDirectInput->CreateDevice(GUID_SysMouse, &pMouseDevice, nullptr);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pMouseDevice->SetDataFormat(&c_dfDIMouse);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pMouseDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 
 	hr = pMouseDevice->Acquire();
 	if (FAILED(hr))
 	{
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 		return false;
 	}
 

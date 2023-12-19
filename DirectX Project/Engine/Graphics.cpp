@@ -20,12 +20,12 @@ void Graphics::CreateRenderTargetView()
     HRESULT hr = pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)pBackBuffer.ReleaseAndGetAddressOf()); 
 
     if (FAILED(hr))
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
     // set render target view
     hr = pDevice->CreateRenderTargetView(pBackBuffer.Get(), NULL, pRenderTargetView.ReleaseAndGetAddressOf()); 
     if (FAILED(hr))
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 }
 
 void Graphics::CreateDepthStencilView()
@@ -48,7 +48,7 @@ void Graphics::CreateDepthStencilView()
 	// create depth stencil buffer
 	HRESULT hr = pDevice->CreateTexture2D(&depthStencilDesc, NULL, pDepthStencilBuffer.ReleaseAndGetAddressOf()); 
 	if (FAILED(hr))
-		ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
 	// set depth stencil view description
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc; 
@@ -60,7 +60,7 @@ void Graphics::CreateDepthStencilView()
 	// create depth stencil view
 	hr = pDevice->CreateDepthStencilView(pDepthStencilBuffer.Get(), &depthStencilViewDesc, pDepthStencilView.ReleaseAndGetAddressOf()); 
 	if (FAILED(hr))
-		ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 }
 
 void Graphics::CreateDevice()
@@ -86,7 +86,7 @@ void Graphics::CreateDevice()
         pImmediateContext.ReleaseAndGetAddressOf());
 
     if (FAILED(hr))
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
     Global::g_device = pDevice;
     Global::g_immediateContext = pImmediateContext;
@@ -99,7 +99,7 @@ void Graphics::CreateSwapChain(int wWidth, int wHeight)
     HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory2), (LPVOID*)&pDxgiFactory);
 
     if (FAILED(hr)) // failed to create IDXGIFactory2
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
     // set swap chain(back buffer) description
     DXGI_SWAP_CHAIN_DESC1 swapChainDesc;  
@@ -123,7 +123,7 @@ void Graphics::CreateSwapChain(int wWidth, int wHeight)
     pDxgiFactory->Release();
 
     if (FAILED(hr)) // failed to create swap chain
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 }
 
 void Graphics::Init()

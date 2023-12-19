@@ -6,8 +6,8 @@ Cube::Cube(Vector3& center, float x, float y, float z)
 	this->center = center;	
 	size = Vector3(x, y, z);
 
-	min = center - size / 2.0f;
-	max = center + size / 2.0f;
+	min = center - size * 0.5f;
+	max = center + size * 0.5f;
 
 	Vector3 c0, c2, c3, c6;
 	c2 = min;
@@ -24,7 +24,7 @@ Cube::Cube(Vector3& min, Vector3& max)
 	this->min = min;
 	this->max = max;
 
-	center = (max + min) / 2.0f;
+	center = (max + min) * 0.5f;
 	size = max - min;
 
 	Vector3 c0, c2, c3, c6;
@@ -42,8 +42,8 @@ void Cube::SetCube(Vector3& center, float x, float y, float z)
 	this->center = center;
 	size = Vector3(x, y, z);
 
-	min = center - size / 2.0f;
-	max = center + size / 2.0f;
+	min = center - size * 0.5f;
+	max = center + size * 0.5f;
 
 	Vector3 c0, c2, c3, c6;
 	c2 = min;
@@ -60,7 +60,7 @@ void Cube::SetCube(Vector3& min, Vector3& max)
 	this->min = min;
 	this->max = max;
 
-	center = (max + min) / 2.0f;
+	center = (max + min) * 0.5f;
 	size = max - min;
 
 	Vector3 c0, c2, c3, c6;
@@ -77,7 +77,7 @@ void Cube::SetHeight(float minY, float maxY)
 {
 	min.y = minY;
 	max.y = maxY;
-	center.y = (minY + maxY) / 2.0f;
+	center.y = (minY + maxY) * 0.5f;
 	size.y = maxY - minY;
 
 	Vector3 c0, c2;
@@ -86,183 +86,35 @@ void Cube::SetHeight(float minY, float maxY)
 	axisVector[1] = (c0 - c2) * 0.5f;
 }
 
-CollisionPos Cube::ToPlane(Plane& plane)
-{
-	//// not working
-	Vector3 cubePosVec = center - plane.point[0];
-	Vector3 distanceVec = cubePosVec - (plane.planeVector * (cubePosVec.Dot(plane.planeVector)));
-	
-	float sum = axisVector[0].Dot(plane.normal) + axisVector[1].Dot(plane.normal) + axisVector[1].Dot(plane.normal);
-	
-	if (fabs(sum) >= fabs(distanceVec.Dot(plane.normal)))
-		return CollisionPos::Overlap;
-	
-	if (0 > (distanceVec.Dot(plane.normal)))
-		return CollisionPos::Behind;
-	
-	return CollisionPos::Front;	
-
-	/*float fDist = 0.0f;
-	float fPlaneToCenter = 0.0f;
-	plane.normal.Normalize();
-
-	Vector3 vDir;
-	float fA, fB, fC, fD;
-	fA = plane.normal.x;
-	fB = plane.normal.y;
-	fC = plane.normal.z;
-
-	Vector3 v0 = plane.point[0];
-	fD = -(fA * v0.x + fB * v0.y + fC * v0.z);
-
-	vDir = Vector3(1,0,0) * (max.x - center.x);
-	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
-	vDir = Vector3(0, 1, 0) * (max.y - center.y);
-	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
-	vDir = Vector3(0, 0, 1) * (max.z - center.z);
-	fDist += fabs(fA * vDir.x + fB * vDir.y + fC * vDir.z);
-
-	fPlaneToCenter = fA * center.x + fB * center.y + fC * center.z + fD;
-	if (fPlaneToCenter < -fDist)
-	{
-		return CollisionPos::Behind;
-	}
-
-	return CollisionPos::Overlap;*/
-}
-
-bool Cube::ToRay(Ray& ray)
-{
-	float tmin = (min.x - ray.origin.x) / ray.direction.x;
-	float tmax = (max.x - ray.origin.x) / ray.direction.x;
-
-	if (tmin > tmax) std::swap(tmin, tmax);
-
-	float tymin = (min.y - ray.origin.y) / ray.direction.y;
-	float tymax = (max.y - ray.origin.y) / ray.direction.y;
-
-	if (tymin > tymax) std::swap(tymin, tymax);
-
-	if ((tmin > tymax) || (tymin > tmax))
-		return false;
-
-	if (tymin > tmin)
-		tmin = tymin;
-
-	if (tymax < tmax)
-		tmax = tymax;
-
-	float tzmin = (min.z - ray.origin.z) / ray.direction.z;
-	float tzmax = (max.z - ray.origin.z) / ray.direction.z;
-
-	if (tzmin > tzmax) std::swap(tzmin, tzmax);
-
-	if ((tmin > tzmax) || (tzmin > tmax))
-		return false;
-
-	if (tzmin > tmin)
-		tmin = tzmin;
-
-	if (tzmax < tmax)
-		tmax = tzmax;
-
-	return true;
-}
-
-//--------------------------------- Sphere ---------------------------------//
-
-CollisionPos Sphere::ToPlane(Plane& plane)
-{
-	return CollisionPos();
-}
-
-void Sphere::SetRadius(float radius)
-{
-}
-
 // --------------------------------- Plane ---------------------------------//
 
 
 Plane::Plane(Vector3& p0, Vector3& p1, Vector3& p2)
 {
-	point[0] = p0;
-	point[1] = p1;
-	point[2] = p2;
-
-	planeVector = p1 - p0;
+	Vector3 v1 = p1 - p0;
 	Vector3 v2 = p2 - p0;
 
-	planeVector.Cross(v2, normal);
+	Vector3 tempNormal;
+	v1.Cross(v2, tempNormal);
 
-	normal.Normalize();
-	planeVector.Normalize();
+	tempNormal.Normalize();
+	normal = Vector4(tempNormal.x, tempNormal.y, tempNormal.z, 0.0f);
+
+	normal.w = -(normal.x * p0.x + normal.y * p0.y + normal.z * p0.z);
 }
 
 void Plane::SetPlane(Vector3& p0, Vector3& p1, Vector3& p2)
 {
-	point[0] = p0;
-	point[1] = p1;
-	point[2] = p2;
-
-	planeVector = p1 - p0;
+	Vector3 v1 = p1 - p0;
 	Vector3 v2 = p2 - p0;
 
-	planeVector.Cross(v2, normal);
+	Vector3 tempNormal;
+	v1.Cross(v2, tempNormal);
 
-	normal.Normalize();
-	planeVector.Normalize();
-}
+	tempNormal.Normalize();
+	normal = Vector4(tempNormal.x, tempNormal.y, tempNormal.z, 0.0f);
 
-// --------------------------------- Square ---------------------------------//
-
-
-bool Square::operator == (const Square& v)
-{
-	if (fabs((min - v.min).Length()) < 0.0001f)
-	{
-		if (fabs((max - v.max).Length()) < 0.0001f)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-Square::Square(Vector2 min, Vector2 max)
-{
-	this->min = min;
-	this->max = max;
-	center = (max + min);
-	center /= 2.0f;
-	size.x = max.x - min.x;
-	size.y = max.y - min.y;
-}
-Square::Square(Vector2 v, float w, float h)
-{
-	center = v;
-	this->min = center - Vector2(w / 2.0f, h / 2.0f);
-	this->max = center + Vector2(w / 2.0f, h / 2.0f);
-	this->size.x = w;
-	this->size.y = h;
-}
-
-void Square::SetSquare(Vector2 min, Vector2 max)
-{
-	this->min = min;
-	this->max = max;
-	center = (max + min);
-	center /= 2.0f;
-	size.x = max.x - min.x;
-	size.y = max.y - min.y;
-}
-
-void Square::SetSquare(Vector2 v, float w, float h)
-{
-	center = v;
-	this->min = center - Vector2(w / 2.0f, h / 2.0f);
-	this->max = center + Vector2(w / 2.0f, h / 2.0f);
-	this->size.x = w;
-	this->size.y = h;
+	normal.w = -(normal.x * p0.x + normal.y * p0.y + normal.z * p0.z);
 }
 
 // --------------------------------- Circle ---------------------------------//
@@ -277,12 +129,4 @@ void Circle::SetCircle(Vector2 center, float radius)
 {
 	this->center = center;
 	this->radius = radius;
-}
-
-bool Circle::ToPoint(Vector2 point)
-{
-	if (fabs((center - point).Length()) < radius)
-		return true;
-
-	return false;
 }

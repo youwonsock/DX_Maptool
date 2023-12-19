@@ -113,9 +113,9 @@ void Terrain::Update()
 
 			// find leaf node collision with ray
 			std::vector<std::shared_ptr<SectionNode>> sectionList;
-			for (int i = 0; i < 16; ++i)
+			for (int i = 0; i < spaceDivideTree->leafNodeMap.size(); ++i)
 			{
-				if(spaceDivideTree->leafNodeMap[i]->boundingBox.ToRay(picking->GetRay()))
+				if(Collision::CubeToRay(spaceDivideTree->leafNodeMap[i]->boundingBox, picking->GetRay()))
 					sectionList.push_back(spaceDivideTree->leafNodeMap[i]);
 			}
 
@@ -138,9 +138,8 @@ void Terrain::Update()
 						Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
 						Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
 
-						if (picking->PickTriangle(v0, v1, v2))
+						if (Collision::RayToFace(picking->GetRay(), v0, v1, v2, &pickPoint))
 						{
-							pickPoint = v0;
 							findPickPoint = true;
 							pickNodeIdx = sectionList[i]->nodeIndex;
 
@@ -411,7 +410,7 @@ void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 		RB = rbNode->cornerIndexList[3];
 	}
 
-	// loop 
+	// loop (check find node area)
 	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
 
 	int iNumCols = colNum;
@@ -429,23 +428,11 @@ void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 		for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
 		{
 			int iCurrentIndex = iRow * iNumCols + iCol;
-			Vector3 vPos = vertices[iCurrentIndex].position;
 
-			if(circle.ToPoint(Vector2(vPos.x, vPos.z)))
+			if(Collision::CircleToPoint(circle, vertices[iCurrentIndex].position))
 				UpdateVertexIdxList.push_back(iCurrentIndex);
 		}
 	}
-
-	//// loop 
-	//Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
-
-	//for (int i = 0; i < vertexCount; i++)
-	//{
-	//	Vector3 vPos = vertices[i].position;
-
-	//	if (circle.ToPoint(Vector2(vPos.x, vPos.z)))
-	//		UpdateVertexIdxList.push_back(i);
-	//}
 }
 
 // -------------------------------------------------------------------------------

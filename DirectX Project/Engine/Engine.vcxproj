@@ -178,6 +178,7 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="EXLibHeaders.h" />
@@ -248,6 +249,7 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ConstantBuffer.cpp" />
     <ClCompile Include="Figure.cpp" />

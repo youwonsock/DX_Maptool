@@ -40,14 +40,14 @@ void Shader::CreateEffect()
 		Technique technique;
 		technique.technique = shaderDesc.effect->GetTechniqueByIndex(t);
 		technique.technique->GetDesc(&technique.desc);
-		technique.name = StringToWString(technique.desc.Name);
+		technique.name = Utils::StringToWString(technique.desc.Name);
 
 		for (UINT p = 0; p < technique.desc.Passes; p++)
 		{
 			Pass pass;
 			pass.pass = technique.technique->GetPassByIndex(p);
 			pass.pass->GetDesc(&pass.desc);
-			pass.name = StringToWString(pass.desc.Name);
+			pass.name = Utils::StringToWString(pass.desc.Name);
 			pass.pass->GetVertexShaderDesc(&pass.passVsDesc);
 			pass.passVsDesc.pShaderVariable->GetShaderDesc(pass.passVsDesc.ShaderIndex, &pass.effectVsDesc);
 
@@ -58,7 +58,7 @@ void Shader::CreateEffect()
 				HRESULT hr = pass.passVsDesc.pShaderVariable->GetInputSignatureElementDesc(pass.passVsDesc.ShaderIndex, s, &desc);
 				
 				if (FAILED(hr))
-					ShowErrorMessage(hr);
+					Utils::ShowErrorMessage(hr);
 
 				pass.signatureDescs.push_back(desc);
 			}
@@ -150,7 +150,7 @@ ComPtr<ID3D11InputLayout> Shader::CreateInputLayout(ComPtr<ID3DBlob> fxBlob, D3D
 			elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 		}
 
-		if (StartsWith(name, "INST") == true)
+		if (Utils::StartsWith(name, "INST") == true)
 		{
 			elementDesc.InputSlot = 1;
 			elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
@@ -158,7 +158,7 @@ ComPtr<ID3D11InputLayout> Shader::CreateInputLayout(ComPtr<ID3DBlob> fxBlob, D3D
 			elementDesc.InstanceDataStepRate = 1;
 		}
 
-		if (StartsWith(name, "SV_") == false)
+		if (Utils::StartsWith(name, "SV_") == false)
 			inputLayoutDesc.push_back(elementDesc);
 	}
 
@@ -179,7 +179,7 @@ ComPtr<ID3D11InputLayout> Shader::CreateInputLayout(ComPtr<ID3DBlob> fxBlob, D3D
 		);
 
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 
 		return inputLayout;
 	}

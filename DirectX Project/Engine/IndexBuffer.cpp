@@ -20,7 +20,7 @@ void IndexBuffer::CreateIndexBuffer(const std::vector<UINT>& indices)
 
 	HRESULT hr = Global::g_device->CreateBuffer(&indexBufferDesc, &indexData, indexBuffer.ReleaseAndGetAddressOf());
 	if (FAILED(hr))
-		ShowErrorMessage(hr);
+		Utils::ShowErrorMessage(hr);
 }
 
 void IndexBuffer::PushData()

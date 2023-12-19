@@ -33,7 +33,7 @@ ShaderDesc ShaderManager::GetEffect(std::wstring fileName)
 		ComPtr<ID3DX11Effect> effect;
 		hr = ::D3DX11CreateEffectFromMemory(blob->GetBufferPointer(), blob->GetBufferSize(), 0, Global::g_device.Get(), effect.GetAddressOf());
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 
 		shaders[fileName] = ShaderDesc{ blob, effect };
 	}

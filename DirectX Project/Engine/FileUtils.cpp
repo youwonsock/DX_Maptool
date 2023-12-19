@@ -42,7 +42,7 @@ void FileUtils::Open(const std::wstring& filePath, FileMode mode)
 		);
 	}
 	if(handle == INVALID_HANDLE_VALUE)
-		ShowErrorMessage(L"File Open Failed");
+		Utils::ShowErrorMessage(L"File Open Failed");
 }
 
 void FileUtils::Write(void* data, unsigned __int32 dataSize)

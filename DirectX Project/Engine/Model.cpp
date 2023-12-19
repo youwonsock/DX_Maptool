@@ -62,7 +62,7 @@ void Model::ReadMaterial(std::wstring filename)
 	auto parentPath = std::filesystem::path(fullPath).parent_path();
 
 	tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
-	tinyxml2::XMLError error = document->LoadFile(WStringToString(fullPath).c_str());
+	tinyxml2::XMLError error = document->LoadFile(Utils::WStringToString(fullPath).c_str());
 	assert(error == tinyxml2::XML_SUCCESS);
 
 	tinyxml2::XMLElement* root = document->FirstChildElement();
@@ -75,13 +75,13 @@ void Model::ReadMaterial(std::wstring filename)
 		tinyxml2::XMLElement* node = nullptr;
 
 		node = materialNode->FirstChildElement();
-		material->SetName(StringToWString(node->GetText()));
+		material->SetName(Utils::StringToWString(node->GetText()));
 
 		// Diffuse Texture
 		node = node->NextSiblingElement();
 		if (node->GetText())
 		{
-			std::wstring textureStr = StringToWString(node->GetText());
+			std::wstring textureStr = Utils::StringToWString(node->GetText());
 			if (textureStr.length() > 0)
 			{
 				auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
@@ -93,10 +93,10 @@ void Model::ReadMaterial(std::wstring filename)
 		node = node->NextSiblingElement();
 		if (node->GetText())
 		{
-			std::wstring texture = StringToWString(node->GetText());
+			std::wstring texture = Utils::StringToWString(node->GetText());
 			if (texture.length() > 0)
 			{
-				std::wstring textureStr = StringToWString(node->GetText());
+				std::wstring textureStr = Utils::StringToWString(node->GetText());
 				if (textureStr.length() > 0)
 				{
 					auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
@@ -109,7 +109,7 @@ void Model::ReadMaterial(std::wstring filename)
 		node = node->NextSiblingElement();
 		if (node->GetText())
 		{
-			std::wstring textureStr = StringToWString(node->GetText());
+			std::wstring textureStr = Utils::StringToWString(node->GetText());
 			if (textureStr.length() > 0)
 			{
 				auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
@@ -189,7 +189,7 @@ void Model::ReadModel(std::wstring filename)
 		{
 			std::shared_ptr<ModelBone> bone = std::make_shared<ModelBone>();
 			bone->index = file->Read<int>();
-			bone->name = StringToWString(file->Read<std::string>());
+			bone->name = Utils::StringToWString(file->Read<std::string>());
 			bone->parentIndex = file->Read<int>();
 			bone->transform = file->Read<Matrix>();
 			bones.push_back(bone);
@@ -204,11 +204,11 @@ void Model::ReadModel(std::wstring filename)
 		{
 			std::shared_ptr<ModelMesh> mesh = std::make_shared<ModelMesh>();
 
-			mesh->name = StringToWString(file->Read<std::string>());
+			mesh->name = Utils::StringToWString(file->Read<std::string>());
 			mesh->boneIndex = file->Read<int>();
 
 			// Material
-			mesh->materialName = StringToWString(file->Read<std::string>());
+			mesh->materialName = Utils::StringToWString(file->Read<std::string>());
 
 			//VertexData
 			{
@@ -251,7 +251,7 @@ void Model::ReadAnimation(std::wstring filename)
 
 	std::shared_ptr<ModelAnimation> animation = std::make_shared<ModelAnimation>();
 
-	animation->name = StringToWString(file->Read<std::string>());
+	animation->name = Utils::StringToWString(file->Read<std::string>());
 	animation->duration = file->Read<float>();
 	animation->frameRate = file->Read<float>();
 	animation->frameCount = file->Read<UINT>();
@@ -261,7 +261,7 @@ void Model::ReadAnimation(std::wstring filename)
 	for(UINT i = 0; i < keyframeCount; i++)
 	{
 		std::shared_ptr<ModelKeyframe> keyframe = std::make_shared<ModelKeyframe>();
-		keyframe->boneName = StringToWString(file->Read<std::string>());
+		keyframe->boneName = Utils::StringToWString(file->Read<std::string>());
 		UINT size = file->Read<UINT>();
 
 		if (size > 0)

@@ -70,12 +70,6 @@ void SpaceDivideTree::Update()
 {
     //temp
     {
-        // show mouse cursor point
-        Vector2 mousePos = InputManager::GetInstance().GetMousePos();
-        float mousePoses[2] = {mousePos.x, mousePos.y};
-        ImGui::InputFloat2("Mouse Cursor Pos", &mousePoses[0]);
-        //
-
         renderMgr->Update();
         frustum->Update();
         debugDraw->Update();
@@ -172,9 +166,9 @@ void SpaceDivideTree::FindDrawNode()
     {
         isDraw = true;
 
-        for (int j = 0; j < 8; ++j)
+        for (int j = 0; j < 6; ++j)
         {
-            if (leafNodeMap[i]->boundingBox.ToPlane(frustum->planes[j]) == CollisionPos::Behind)
+            if (!Collision::CubeToPlane(leafNodeMap[i]->boundingBox, frustum->planes[j]))
             {
                 isDraw = false;
                 break;

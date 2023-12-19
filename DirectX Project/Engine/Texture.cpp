@@ -34,10 +34,10 @@ void Texture::Load(const std::wstring& path)
                 return;
             }
             else
-                ShowErrorMessage(hr);
+                Utils::ShowErrorMessage(hr);
         }
         else
-            ShowErrorMessage(hr);
+            Utils::ShowErrorMessage(hr);
     }
 
     // load png, jpg, etc Texture file
@@ -56,10 +56,10 @@ void Texture::Load(const std::wstring& path)
                 return;
             }
             else
-                ShowErrorMessage(hr);
+                Utils::ShowErrorMessage(hr);
         }
         else
-            ShowErrorMessage(hr);
+            Utils::ShowErrorMessage(hr);
     }
 
     // load tga Texture file
@@ -78,10 +78,10 @@ void Texture::Load(const std::wstring& path)
                 return;
             }
             else
-                ShowErrorMessage(hr);
+                Utils::ShowErrorMessage(hr);
         }
         else
-            ShowErrorMessage(hr);
+            Utils::ShowErrorMessage(hr);
     }
 
     return;
@@ -128,12 +128,12 @@ void Texture::CreateAlphaTexture(int width, int height)
 	HRESULT hr = Global::g_device->CreateTexture2D(&desc, &data, texture.ReleaseAndGetAddressOf());
 
     if(FAILED(hr))
-	    ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
     hr = Global::g_device->CreateShaderResourceView(texture.Get(), nullptr, shaderResourceView.ReleaseAndGetAddressOf());
 
     if (FAILED(hr))
-        ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
 	delete[] buf;
 }
@@ -146,7 +146,7 @@ void Texture::UpdateAlphaTexture(const std::vector<BYTE>& colors)
     HRESULT hr = Global::g_immediateContext->Map(texture.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
     if (FAILED(hr))
-		ShowErrorMessage(hr);
+        Utils::ShowErrorMessage(hr);
 
     BYTE* mappedData = reinterpret_cast<BYTE*>(mappedResource.pData);
 

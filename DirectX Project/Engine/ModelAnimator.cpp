@@ -72,7 +72,7 @@ void ModelAnimator::CreateTexture()
 
 		HRESULT hr = Global::g_device->CreateTexture2D(&desc, subResources.data(), texture.GetAddressOf());
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 
 		free(mallocPtr);
 	}
@@ -88,7 +88,7 @@ void ModelAnimator::CreateTexture()
 
 		HRESULT hr = Global::g_device->CreateShaderResourceView(texture.Get(), &desc, textureSRV.GetAddressOf());
 		if (FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 	}
 }
 

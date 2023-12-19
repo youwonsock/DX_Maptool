@@ -31,7 +31,7 @@ public:
 		HRESULT hr = device->CreateBuffer(&desc, NULL, constantBuffer.ReleaseAndGetAddressOf());
 
 		if(FAILED(hr))
-			ShowErrorMessage(hr);
+			Utils::ShowErrorMessage(hr);
 	}
 
 	void CopyData(const T& data)
