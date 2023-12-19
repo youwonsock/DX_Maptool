@@ -305,10 +305,7 @@ void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 {
 	UpdateVertexIdxList.clear();
 
-	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
-
 	// 0 : right, 1 : left, 2 : bottom, 3 : top
-
 	// find node by node idx
 	DWORD LT, RT, LB, RB;
 	std::shared_ptr<SectionNode> pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
@@ -396,7 +393,7 @@ void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 			else
 				break;
 		}
-		RT = rtNode->cornerIndexList[0];
+		RT = rtNode->cornerIndexList[1];
 
 		// bottom
 		while (true)
@@ -411,22 +408,44 @@ void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
 			else
 				break;
 		}
-		RB = rbNode->cornerIndexList[2];
+		RB = rbNode->cornerIndexList[3];
 	}
-
-	// find node by node idx
 
 	// loop 
+	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
 
+	int iNumCols = colNum;
+	int iStartRow = LT / iNumCols;
+	int iEndRow = LB / iNumCols;
+	int iStartCol = LT % iNumCols;
+	int iEndCol = RT % iNumCols; 
 
+	int iNumColCell = iEndCol - iStartCol;
+	int iNumRowCell = iEndRow - iStartRow;
 
-	for (int i = 0; i < vertexCount; i++)
+	int iIndex = 0;
+	for (int iRow = iStartRow; iRow <= iEndRow; iRow++)
 	{
-		Vector3 vPos = vertices[i].position;
+		for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
+		{
+			int iCurrentIndex = iRow * iNumCols + iCol;
+			Vector3 vPos = vertices[iCurrentIndex].position;
 
-		if (circle.ToPoint(Vector2(vPos.x, vPos.z)))
-			UpdateVertexIdxList.push_back(i);
+			if(circle.ToPoint(Vector2(vPos.x, vPos.z)))
+				UpdateVertexIdxList.push_back(iCurrentIndex);
+		}
 	}
+
+	//// loop 
+	//Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
+
+	//for (int i = 0; i < vertexCount; i++)
+	//{
+	//	Vector3 vPos = vertices[i].position;
+
+	//	if (circle.ToPoint(Vector2(vPos.x, vPos.z)))
+	//		UpdateVertexIdxList.push_back(i);
+	//}
 }
 
 // -------------------------------------------------------------------------------
