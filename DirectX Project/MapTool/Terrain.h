@@ -14,7 +14,7 @@ struct TerrainDesc
 	std::wstring heightMapFilePath = L"";
 	std::wstring shaderFilePath    = L"";
 
-	bool useHeightMapByYASSET = false;
+	std::wstring alphaTexPath = L"";
 
 	int DevideTreeDepth = 1;
 };
@@ -24,9 +24,6 @@ class Terrain : public Component, public std::enable_shared_from_this<Terrain>
 private:
 	using Base = Component;
 public:
-	bool useHeightMap = false;
-	bool useHeightMapByYASSET = false;
-	
 	UINT rowNum;
 	UINT colNum;
 	UINT rowCellNum;
@@ -39,8 +36,9 @@ public:
 	int devideTreeDepth = 1;
 
 	std::wstring textureFilePath;
-	std::wstring heightMapFilePath;	
 	std::wstring shaderFilePath;
+	std::wstring heightTexPath = L"";
+	std::wstring alphaTexPath = L"";
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
@@ -58,7 +56,8 @@ public:
 
 	// temp : for tilling texture
 	int tillingTextureNum = 0;
-	std::shared_ptr<Texture> alphaTexture;
+	std::shared_ptr<Texture> alphaTexture; 
+	std::unique_ptr<Texture> heightMap;
 	std::shared_ptr<Texture> texture1;
 	std::shared_ptr<Texture> texture2;
 	std::shared_ptr<Texture> texture3;
@@ -103,7 +102,6 @@ private:
 	// temp : for tilling
 	int tileTextureNum = 0;
 	void TillingTexture(Vector3 centerPos);
-	void SetAlphaTexture();
 
 public:
 	void Init() override;

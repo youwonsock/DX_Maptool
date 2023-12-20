@@ -8,24 +8,23 @@ class Texture : public ResourceBase
 private:
 	using Base = ResourceBase;
 	
-	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> shaderResourceView;
 	Vector2 size;
 
-	// temp
-	std::shared_ptr<DirectX::ScratchImage> imageobj;
+private:
+
 public:
 	Texture();
 	virtual ~Texture();
 
+	virtual bool Load(const std::wstring& path) override;
+	
 	ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() { return shaderResourceView; }
+	Vector2 GetSize() { return size; }
+	const std::shared_ptr<DirectX::ScratchImage> GetInfo();
 
-	virtual void Load(const std::wstring& path) override;
-	Vector2& GetSize() { return size; };
-	void CreateAlphaTexture(int width, int height);
-	void UpdateAlphaTexture(const std::vector<BYTE>& colors);
-
-	// temp
-	const std::shared_ptr<DirectX::ScratchImage> GetInfo() { return imageobj; }
+	void CreateTexture(int width, int height);
+	void UpdateTexture(const std::vector<BYTE>& colors);
+	void SaveTexture(const std::wstring& path);
 };
 

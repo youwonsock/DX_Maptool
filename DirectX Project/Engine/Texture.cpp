@@ -9,13 +9,26 @@ Texture::~Texture()
 {
 }
 
-void Texture::Load(const std::wstring& path)
+const std::shared_ptr<DirectX::ScratchImage> Texture::GetInfo()
 {
-    // temporary
-    this->path = path;
-    // temporary
+    ComPtr<ID3D11Texture2D> texture;
+    shaderResourceView->GetResource((ID3D11Resource**)texture.ReleaseAndGetAddressOf());
 
-    imageobj = std::make_shared<DirectX::ScratchImage>();
+    std::shared_ptr<DirectX::ScratchImage> image = std::make_shared<DirectX::ScratchImage>();
+    HRESULT hr = DirectX::CaptureTexture(Global::g_device.Get(), Global::g_immediateContext.Get(), texture.Get(), *image.get());
+
+    if(FAILED(hr))
+		Utils::ShowErrorMessage(hr);
+
+	return image;
+}
+
+bool Texture::Load(const std::wstring& path)
+{
+    this->path = path;
+
+    ComPtr<ID3D11Texture2D> texture;
+    auto imageobj = std::make_shared<DirectX::ScratchImage>();
     DirectX::TexMetadata mdata;
 
     // load dds Texture file
@@ -25,19 +38,26 @@ void Texture::Load(const std::wstring& path)
         hr = DirectX::LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, &mdata, *imageobj);
         if (SUCCEEDED(hr))
         {
-            hr = DirectX::CreateShaderResourceView(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount(), mdata, shaderResourceView.ReleaseAndGetAddressOf());
+            hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                                                    , mdata, D3D11_USAGE_DYNAMIC, D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, 0
+                                                    , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
             if (SUCCEEDED(hr))
             {
                 size.x = mdata.width;
                 size.y = mdata.height;
-                shaderResourceView->GetResource((ID3D11Resource**)texture.ReleaseAndGetAddressOf());
-                return;
+                return true;
             }
             else
+            {
                 Utils::ShowErrorMessage(hr);
+                return false;
+            }
         }
         else
+        {
             Utils::ShowErrorMessage(hr);
+            return false;
+        }
     }
 
     // load png, jpg, etc Texture file
@@ -47,19 +67,26 @@ void Texture::Load(const std::wstring& path)
         hr = DirectX::LoadFromWICFile(path.c_str(), DirectX::WIC_FLAGS_NONE, &mdata, *imageobj);
         if (SUCCEEDED(hr))
         {
-            hr = DirectX::CreateShaderResourceView(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount(), mdata, shaderResourceView.ReleaseAndGetAddressOf());
+             hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                                                , mdata, D3D11_USAGE_DYNAMIC, D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, 0
+                                                , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
             if (SUCCEEDED(hr))
             {
                 size.x = mdata.width;
                 size.y = mdata.height;
-                shaderResourceView->GetResource((ID3D11Resource**)texture.ReleaseAndGetAddressOf());
-                return;
+                return true;
             }
             else
+            {
                 Utils::ShowErrorMessage(hr);
+                return false;
+            }
         }
         else
+        {
             Utils::ShowErrorMessage(hr);
+            return false;
+        }
     }
 
     // load tga Texture file
@@ -69,25 +96,32 @@ void Texture::Load(const std::wstring& path)
         hr = DirectX::LoadFromTGAFile(path.c_str(), DirectX::TGA_FLAGS_NONE, &mdata, *imageobj);
         if (SUCCEEDED(hr))
         {
-            hr = DirectX::CreateShaderResourceView(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount(), mdata, shaderResourceView.ReleaseAndGetAddressOf());
+            hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                                                , mdata, D3D11_USAGE_DYNAMIC, D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, 0
+                                                , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
             if (SUCCEEDED(hr))
             {
                 size.x = mdata.width;
                 size.y = mdata.height;
-                shaderResourceView->GetResource((ID3D11Resource**)texture.ReleaseAndGetAddressOf());
-                return;
+                return true;
             }
             else
+            {
                 Utils::ShowErrorMessage(hr);
+                return false;
+            }
         }
         else
+        {
             Utils::ShowErrorMessage(hr);
+            return false;
+        }
     }
 
-    return;
+    return false;
 }
 
-void Texture::CreateAlphaTexture(int width, int height)
+void Texture::CreateTexture(int width, int height)
 {
     D3D11_TEXTURE2D_DESC desc;
     D3D11_SUBRESOURCE_DATA data;
@@ -125,6 +159,7 @@ void Texture::CreateAlphaTexture(int width, int height)
     size.x = width;
     size.y = height;
 
+    ComPtr<ID3D11Texture2D> texture;
 	HRESULT hr = Global::g_device->CreateTexture2D(&desc, &data, texture.ReleaseAndGetAddressOf());
 
     if(FAILED(hr))
@@ -138,8 +173,14 @@ void Texture::CreateAlphaTexture(int width, int height)
 	delete[] buf;
 }
 
-void Texture::UpdateAlphaTexture(const std::vector<BYTE>& colors)
+void Texture::UpdateTexture(const std::vector<BYTE>& colors)
 {
+    ComPtr<ID3D11Texture2D> texture;
+    shaderResourceView->GetResource((ID3D11Resource**)texture.ReleaseAndGetAddressOf());
+
+    D3D11_TEXTURE2D_DESC desc;
+    texture->GetDesc(&desc);
+
     D3D11_MAPPED_SUBRESOURCE mappedResource;
     ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	
@@ -154,9 +195,6 @@ void Texture::UpdateAlphaTexture(const std::vector<BYTE>& colors)
 	{
         UINT rowStart = i * mappedResource.RowPitch;
         UINT colorRowStart = i * size.x * 4;
-
-        if (i > 127)
-            int a = 0;
 
         int k = 0;
         for (int j = 0; j < size.y; ++j)
@@ -174,4 +212,13 @@ void Texture::UpdateAlphaTexture(const std::vector<BYTE>& colors)
 	}
 
 	Global::g_immediateContext->Unmap(texture.Get(), 0);
+}
+
+void Texture::SaveTexture(const std::wstring& path)
+{
+    std::shared_ptr<DirectX::ScratchImage> srcimage = GetInfo();
+
+    DirectX::SaveToWICFile(srcimage->GetImages(), srcimage->GetImageCount(),
+        DirectX::WIC_FLAGS_NONE, DirectX::GetWICCodec(DirectX::WIC_CODEC_PNG),
+        path.c_str());
 }

@@ -30,14 +30,12 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 
 	if (desc.heightMapFilePath.length() > 0)
 	{
-		heightMapFilePath = desc.heightMapFilePath;
-		useHeightMap = true;
+		heightTexPath = desc.heightMapFilePath;
 	}
 
-
-	// temp : for file save
+	if(desc.alphaTexPath.length() > 0)
 	{
-		useHeightMapByYASSET = desc.useHeightMapByYASSET;
+		alphaTexPath = desc.alphaTexPath;
 	}
 
 	// temp : for picking
@@ -59,13 +57,13 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		texture4 = std::make_shared<Texture>();
 		texture4->Load(L"../../Res/Textures/Terrain/White.PNG");
 
-
-
-		if (useHeightMap)
-			CreateHeightMapData();
-		alphaTexture = std::make_shared<Texture>();
-		alphaTexture->CreateAlphaTexture(rowNum, colNum);
 	}
+
+	CreateHeightMapData();
+
+	alphaTexture = std::make_shared<Texture>();
+	if(!alphaTexture->Load(alphaTexPath))
+		alphaTexture->CreateTexture(rowNum, colNum);
 }
 
 Terrain::~Terrain()
@@ -188,22 +186,23 @@ void Terrain::Render()
 
 void Terrain::SaveHeightMap()
 {
-	if (InputManager::GetInstance().GetKeyState(DIK_M) > KeyState::PUSH)
+	if (InputManager::GetInstance().GetKeyState(DIK_M) == KeyState::PUSH)
 	{
-		std::wstring filePath = L"../../Res/Textures/Terrain/heightMap.YASSET";
-		std::ofstream outFile(filePath, std::ios::binary);
+		std::vector<BYTE> heightList;
+		heightList.resize(rowNum * colNum * 4);
 
-		if (!outFile.is_open())
+		for (int i = 0; i < rowNum * colNum; ++i)
 		{
-			assert(false);
+			heightList[i * 4 + 0] = vertices[i].position.y;
+			heightList[i * 4 + 1] = vertices[i].position.y;
+			heightList[i * 4 + 2] = vertices[i].position.y;
+			heightList[i * 4 + 3] = vertices[i].position.y;
 		}
 
-		outFile.write((char*)&rowNum, sizeof(UINT));
-		outFile.write((char*)&colNum, sizeof(UINT));
-		outFile.write((char*)&devideTreeDepth, sizeof(int));
-		outFile.write((char*)&heightList[0], sizeof(float) * rowNum * colNum);
+		heightMap->UpdateTexture(heightList);
 
-		outFile.close();
+		heightMap->SaveTexture(heightTexPath);
+		alphaTexture->SaveTexture(alphaTexPath);
 	}
 }
 
@@ -269,11 +268,7 @@ void Terrain::TillingTexture(Vector3 centerPos)
 		colorList[i * 4 + 3] = vertices[i].color.w;
 	}
 
-	alphaTexture->UpdateAlphaTexture(colorList);
-}
-
-void Terrain::SetAlphaTexture()
-{
+	alphaTexture->UpdateTexture(colorList);
 }
 
 // -------------------------------------------------------------------------------
@@ -458,7 +453,7 @@ void Terrain::CreateVertexData()
 			vertices[iVertexIndex].position.x = (iCol - fHalfCols) * cellDistance;
 			vertices[iVertexIndex].position.z = -((iRow - fHalfRows) * cellDistance);
 
-			tY = useHeightMap ? GetHeightVertex(iVertexIndex) : 0.0f;
+			tY = GetHeightVertex(iVertexIndex);
 			vertices[iVertexIndex].position.y = tY;
 
 			vertices[iVertexIndex].normal = Vector3(0,1,0);
@@ -498,64 +493,55 @@ void Terrain::CreateIndexData()
 
 void Terrain::CreateHeightMapData()
 {
-	if (useHeightMapByYASSET)
+	heightMap = std::make_unique<Texture>();
+	if (heightMap->Load(heightTexPath))
 	{
-		std::wstring filePath = L"../../Res/Textures/Terrain/heightMap.YASSET";
-		std::ifstream inFile(filePath, std::ios::binary);
+		Vector2 size = heightMap->GetSize();
+		auto& info = heightMap->GetInfo();
+		auto mData = info->GetMetadata();
+		auto images = info->GetImages();
 
-		if (!inFile.is_open())
-		{
-			assert(false);
-		}
+		if (!CheckSquare(mData.width - 1))
+			mData.width = ResizeMap(mData.width);
+		if (!CheckSquare(mData.height - 1))
+			mData.height = ResizeMap(mData.height);
 
-		inFile.read((char*)&rowNum, sizeof(UINT));
-		inFile.read((char*)&colNum, sizeof(UINT));
-		inFile.read((char*)&devideTreeDepth, sizeof(int));
-
+		rowNum = mData.height;
+		colNum = mData.width;
 		rowCellNum = rowNum - 1;
 		colCellNum = colNum - 1;
 		vertexCount = rowNum * colNum;
 		faceCount = rowCellNum * colCellNum * 2;
 
 		heightList.resize(rowNum * colNum);
-		inFile.read((char*)&heightList[0], sizeof(float) * rowNum * colNum);
+		UCHAR* pTexels = (UCHAR*)images->pixels;
 
-		inFile.close();
-		return;
-	}
-
-	std::unique_ptr<Texture> heightMap = std::make_unique<Texture>();
-	heightMap->Load(heightMapFilePath);
-
-	Vector2 size = heightMap->GetSize();
-	auto& info = heightMap->GetInfo();
-	auto mData = info->GetMetadata();
-	auto images = info->GetImages();
-
-	if (!CheckSquare(mData.width - 1))
-		mData.width = ResizeMap(mData.width);
-	if (!CheckSquare(mData.height - 1))
-		mData.height = ResizeMap(mData.height);
-
-	rowNum = mData.height;
-	colNum = mData.width;
-	rowCellNum = rowNum - 1;
-	colCellNum = colNum - 1;
-	vertexCount = rowNum * colNum;
-	faceCount = rowCellNum * colCellNum * 2;
-
-	heightList.resize(rowNum * colNum);
-	UCHAR* pTexels = (UCHAR*)images->pixels;
-
-	for (UINT i = 0; i < rowNum; i++)
-	{
-		UINT rowStart = i * images->rowPitch;
-		for (UINT j = 0; j < colNum; j++)
+		for (UINT i = 0; i < rowNum; i++)
 		{
-			UINT colStart = j * 4;
-			UINT uRed = pTexels[rowStart + colStart + 0];
-			heightList[i * mData.width + j] = (float)uRed;
+			UINT rowStart = i * images->rowPitch;
+			for (UINT j = 0; j < colNum; j++)
+			{
+				UINT colStart = j * 4;
+				UINT uRed = pTexels[rowStart + colStart + 0];
+				heightList[i * mData.width + j] = (float)uRed;
+			}
 		}
+	}
+	else
+	{
+		heightMap->CreateTexture(rowNum, colNum);
+
+		rowNum = rowNum;
+		colNum = colNum;
+		rowCellNum = rowNum - 1;
+		colCellNum = colNum - 1;
+		vertexCount = rowNum * colNum;
+		faceCount = rowCellNum * colCellNum * 2;
+
+		heightList.resize(rowNum * colNum);
+
+		for (UINT i = 0; i < heightList.size(); i++)
+			heightList[i] = 0.0f;
 	}
 }
 

@@ -12,8 +12,8 @@ protected:
 	UINT id = 0;
 
 protected:
-	virtual void Save(const std::wstring& path) {};
-	virtual void Load(const std::wstring& path) {};
+	virtual bool Save(const std::wstring& path) { return false; };
+	virtual bool Load(const std::wstring& path) { return false; };
 
 public:
 	ResourceBase(ResourceType type);

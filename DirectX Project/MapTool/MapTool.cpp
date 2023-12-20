@@ -11,18 +11,15 @@ void MapTool::Init()
 	{
 		TerrainDesc info;
 		
-		info.rowNum = 100;
-		info.colNum = 100;
+		info.rowNum = 129;
+		info.colNum = 129;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
 		info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
+		info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
 		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
 		info.DevideTreeDepth = 2;
-
-		// if false, use height map image
-		// true : use yasset
-		info.useHeightMapByYASSET = false;
 
 		map = std::make_shared<GameObject>();
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
