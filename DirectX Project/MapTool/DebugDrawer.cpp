@@ -144,19 +144,19 @@ void DebugDrawer::DrawRect(std::vector<Vector3>& points, Color color)
 
 void DebugDrawer::Update()
 {
+	ImGui::InputInt("Pass", &pass);
+
+	if (pass < 0)
+		pass = 0;
+
+	if (pass > 1)
+		pass = 1;
+
 	if (InputManager::GetInstance().GetKeyState(DIK_I) == KeyState::PUSH)
 	{
 		vertexBufferList.clear();
 		indexBufferList.clear();
 	}
-
-	ImGui::InputInt("Pass", &pass);
-
-	if(pass < 0)
-		pass = 0;
-
-	if(pass > 1)
-		pass = 1;
 }
 
 void DebugDrawer::Render()

@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "Frustum.h"
 
-void Frustum::UpdatePlanes()
-{
-}
-
 Frustum::Frustum()
 {
 }

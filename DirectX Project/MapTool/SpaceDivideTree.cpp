@@ -76,13 +76,6 @@ void SpaceDivideTree::Update()
 
         if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
         {
-            //insert debug data to debugDraw
-            for (int i = 0; i < drawNodeIndexList.size(); ++i)
-            {
-                auto& box = leafNodeMap[drawNodeIndexList[i]]->boundingBox;
-                debugDraw->DrawBox(box, Vector4(1, 0, 0, 0));
-            }
-
             // draw frustum
             {
                 std::vector<Vector3> points1;
@@ -128,6 +121,8 @@ void SpaceDivideTree::Update()
                 debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
                 debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
             }
+
+
         }
     }
 

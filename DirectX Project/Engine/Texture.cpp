@@ -235,19 +235,18 @@ void Texture::GetTextureRGBAData(std::vector<BYTE>& colors)
     colors.resize(rowNum * colNum * 4);
     BYTE* pTexels = (BYTE*)images->pixels;
 
-    UINT a = (UINT)&colors;
-
     for (UINT i = 0; i < rowNum; i++)
     {
         UINT rowStart = i * images->rowPitch;
+        UINT colorRowStart = i * 4 * mData.width;
         for (UINT j = 0; j < colNum; j++)
         {
             UINT colStart = j * 4;
 
-            colors[i * mData.width + colNum + 0] = pTexels[rowStart + colStart + 0];
-            colors[i * mData.width + colNum + 1] = pTexels[rowStart + colStart + 1];
-            colors[i * mData.width + colNum + 2] = pTexels[rowStart + colStart + 2];
-            colors[i * mData.width + colNum + 3] = pTexels[rowStart + colStart + 3];
+            colors[colorRowStart + colStart + 0] = pTexels[rowStart + colStart + 0];
+            colors[colorRowStart + colStart + 1] = pTexels[rowStart + colStart + 1];
+            colors[colorRowStart + colStart + 2] = pTexels[rowStart + colStart + 2];
+            colors[colorRowStart + colStart + 3] = pTexels[rowStart + colStart + 3];
         }
     }
 }

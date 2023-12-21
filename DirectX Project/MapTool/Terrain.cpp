@@ -92,32 +92,17 @@ void Terrain::Init()
 	spaceDivideTree->Init();
 
 	// init color
-	std::vector<BYTE> colorList; 
-	
-	auto& info = alphaTexture->GetInfo();
-	auto mData = info->GetMetadata();
-	auto images = info->GetImages();
+	std::vector<BYTE> colorList;
 
-	UINT rowNum = mData.height;
-	UINT colNum = mData.width;
+	alphaTexture->GetTextureRGBAData(colorList);
 
-	colorList.resize(rowNum * colNum * 4);
-	BYTE* pTexels = (BYTE*)images->pixels;
-
-	for (UINT i = 0; i < rowNum; i++)
+	for (int i = 0; i < vertices.size(); ++i)
 	{
-		UINT rowStart = i * images->rowPitch;
-		for (UINT j = 0; j < colNum; j++)
-		{
-			UINT colStart = j * 4;
-
-			vertices[i * rowNum + j].color.x = pTexels[rowStart + colStart + 0];
-			vertices[i * rowNum + j].color.y = pTexels[rowStart + colStart + 1];
-			vertices[i * rowNum + j].color.z = pTexels[rowStart + colStart + 2];
-			vertices[i * rowNum + j].color.w = pTexels[rowStart + colStart + 3];
-		}
+		vertices[i].color.x = colorList[i*4 + 0];
+		vertices[i].color.y = colorList[i*4 + 1];
+		vertices[i].color.z = colorList[i*4 + 2];
+		vertices[i].color.w = colorList[i*4 + 3];
 	}
-
 }
 
 void Terrain::Update()
