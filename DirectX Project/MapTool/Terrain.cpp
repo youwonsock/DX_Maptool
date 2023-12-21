@@ -45,6 +45,8 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 
 	// temp : for tilling
 	{
+		// texture is BGRA so in imgui Red is 2, Green is 1, Blue is 0, Alpha is 3
+
 		texture1 = std::make_shared<Texture>();
 		texture1->Load(L"../../Res/Textures/Terrain/Red.PNG");
 		
@@ -88,6 +90,34 @@ void Terrain::Init()
 	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
 	spaceDivideTree->maxDepth = devideTreeDepth;
 	spaceDivideTree->Init();
+
+	// init color
+	std::vector<BYTE> colorList; 
+	
+	auto& info = alphaTexture->GetInfo();
+	auto mData = info->GetMetadata();
+	auto images = info->GetImages();
+
+	UINT rowNum = mData.height;
+	UINT colNum = mData.width;
+
+	colorList.resize(rowNum * colNum * 4);
+	BYTE* pTexels = (BYTE*)images->pixels;
+
+	for (UINT i = 0; i < rowNum; i++)
+	{
+		UINT rowStart = i * images->rowPitch;
+		for (UINT j = 0; j < colNum; j++)
+		{
+			UINT colStart = j * 4;
+
+			vertices[i * rowNum + j].color.x = pTexels[rowStart + colStart + 0];
+			vertices[i * rowNum + j].color.y = pTexels[rowStart + colStart + 1];
+			vertices[i * rowNum + j].color.z = pTexels[rowStart + colStart + 2];
+			vertices[i * rowNum + j].color.w = pTexels[rowStart + colStart + 3];
+		}
+	}
+
 }
 
 void Terrain::Update()

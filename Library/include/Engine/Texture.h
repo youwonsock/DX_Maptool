@@ -26,5 +26,7 @@ public:
 	void CreateTexture(int width, int height);
 	void UpdateTexture(const std::vector<BYTE>& colors);
 	void SaveTexture(const std::wstring& path);
+
+	void GetTextureRGBAData(std::vector<BYTE>& colors);
 };
 
