@@ -17,8 +17,10 @@ struct Ray;
 
 struct Ray
 {
-	Vector3		origin;
-	Vector3		direction;
+	Vector3		origin = {0,0,0};
+	Vector3		direction = { 0,0,0 };
+
+	void UpdateRay(const Matrix& viewMat, const Matrix& projectionMat);
 };
 
 // --------------------------------- Cube ---------------------------------//

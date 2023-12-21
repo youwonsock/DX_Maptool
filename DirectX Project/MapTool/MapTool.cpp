@@ -11,15 +11,15 @@ void MapTool::Init()
 	{
 		TerrainDesc info;
 		
-		info.rowNum = 129;
-		info.colNum = 129;
+		info.rowNum = 100;
+		info.colNum = 100;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
-		info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
-		info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
+		//info.heightMapFilePath = L"../../Res/Textures/Terrain/height513.PNG";
+		//info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
 		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
-		info.DevideTreeDepth = 2;
+		info.DevideTreeDepth = 5;
 
 		map = std::make_shared<GameObject>();
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
@@ -38,7 +38,6 @@ void MapTool::Init()
 	// camera
 	{
 		cameraObject = std::make_shared<GameObject>();
-		cameraObject->AddComponent(std::make_shared<Camera>());
 		cameraObject->AddComponent(std::make_shared<TestCamera>());
 		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
 		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));

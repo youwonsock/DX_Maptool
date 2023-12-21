@@ -64,65 +64,61 @@ void SpaceDivideTree::Init()
 
 void SpaceDivideTree::Update()
 {
+    renderMgr->Update();
+    debugDraw->Update();
+
     //temp
+    if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
     {
-        renderMgr->Update();
-        debugDraw->Update();
-
-        if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
+        // draw frustum
         {
-            // draw frustum
-            {
-                auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
-
-                std::vector<Vector3> points1;
-                std::vector<Vector3> points2;
-                std::vector<Vector3> points3;
-                std::vector<Vector3> points4;
-                std::vector<Vector3> points5;
-                std::vector<Vector3> points6;
-                points1.push_back(frustum.frustumCorners[1]);
-                points1.push_back(frustum.frustumCorners[2]);
-                points1.push_back(frustum.frustumCorners[0]);
-                points1.push_back(frustum.frustumCorners[3]);
-
-                points2.push_back(frustum.frustumCorners[5]);
-                points2.push_back(frustum.frustumCorners[6]);
-                points2.push_back(frustum.frustumCorners[4]);
-                points2.push_back(frustum.frustumCorners[7]);
-
-                points3.push_back(frustum.frustumCorners[5]);
-                points3.push_back(frustum.frustumCorners[1]);
-                points3.push_back(frustum.frustumCorners[4]);
-                points3.push_back(frustum.frustumCorners[0]);
-
-                points4.push_back(frustum.frustumCorners[2]);
-                points4.push_back(frustum.frustumCorners[6]);
-                points4.push_back(frustum.frustumCorners[3]);
-                points4.push_back(frustum.frustumCorners[7]);
-
-                points5.push_back(frustum.frustumCorners[5]);
-                points5.push_back(frustum.frustumCorners[6]);
-                points5.push_back(frustum.frustumCorners[1]);
-                points5.push_back(frustum.frustumCorners[2]);
-
-                points6.push_back(frustum.frustumCorners[0]);
-                points6.push_back(frustum.frustumCorners[3]);
-                points6.push_back(frustum.frustumCorners[4]);
-                points6.push_back(frustum.frustumCorners[7]);
-
-                debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points3, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points4, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
-                debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
-            }
-
-
+            auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
+    
+            std::vector<Vector3> points1;
+            std::vector<Vector3> points2;
+            std::vector<Vector3> points3;
+            std::vector<Vector3> points4;
+            std::vector<Vector3> points5;
+            std::vector<Vector3> points6;
+            points1.push_back(frustum.frustumCorners[1]);
+            points1.push_back(frustum.frustumCorners[2]);
+            points1.push_back(frustum.frustumCorners[0]);
+            points1.push_back(frustum.frustumCorners[3]);
+    
+            points2.push_back(frustum.frustumCorners[5]);
+            points2.push_back(frustum.frustumCorners[6]);
+            points2.push_back(frustum.frustumCorners[4]);
+            points2.push_back(frustum.frustumCorners[7]);
+    
+            points3.push_back(frustum.frustumCorners[5]);
+            points3.push_back(frustum.frustumCorners[1]);
+            points3.push_back(frustum.frustumCorners[4]);
+            points3.push_back(frustum.frustumCorners[0]);
+    
+            points4.push_back(frustum.frustumCorners[2]);
+            points4.push_back(frustum.frustumCorners[6]);
+            points4.push_back(frustum.frustumCorners[3]);
+            points4.push_back(frustum.frustumCorners[7]);
+    
+            points5.push_back(frustum.frustumCorners[5]);
+            points5.push_back(frustum.frustumCorners[6]);
+            points5.push_back(frustum.frustumCorners[1]);
+            points5.push_back(frustum.frustumCorners[2]);
+    
+            points6.push_back(frustum.frustumCorners[0]);
+            points6.push_back(frustum.frustumCorners[3]);
+            points6.push_back(frustum.frustumCorners[4]);
+            points6.push_back(frustum.frustumCorners[7]);
+    
+            debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points3, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points4, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
+            debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
         }
     }
-
+    
 	FindDrawNode();
 }
 

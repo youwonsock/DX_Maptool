@@ -1,6 +1,29 @@
 #include "pch.h"
 #include "Figure.h"
 
+// --------------------------------- Ray ---------------------------------//
+
+void Ray::UpdateRay(const Matrix& viewMat, const Matrix& projectionMat)
+{
+	Vector2 mousePos = InputManager::GetInstance().GetMousePos();
+
+	int nX = (int)mousePos.x;
+	int nY = (int)mousePos.y;
+
+	origin = Vector3::Zero;
+	direction.x = (((2.0f * nX) / (float)Global::g_windowWidth) - 1) / projectionMat._11;
+	direction.y = (((-2.0f * nY) / (float)Global::g_windowHeight) + 1) / projectionMat._22;
+	direction.z = 1.0f;
+
+	Matrix invertViewMat = viewMat.Invert();
+
+	origin = origin.Transform(origin, invertViewMat);
+	direction = direction.TransformNormal(direction, invertViewMat);
+	direction.Normalize();
+}
+
+// --------------------------------- Cube ---------------------------------//
+
 Cube::Cube(Vector3& center, float x, float y, float z)
 {
 	this->center = center;	

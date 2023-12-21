@@ -4,7 +4,6 @@
 #include "SpaceDivideTree.h"
 #include "SectionNode.h"
 
-#include "Picking.h"
 #include <fstream>
 
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
@@ -36,11 +35,6 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	if(desc.alphaTexPath.length() > 0)
 	{
 		alphaTexPath = desc.alphaTexPath;
-	}
-
-	// temp : for picking
-	{
-		picking = std::make_shared<Picking>();
 	}
 
 	// temp : for tilling
@@ -107,14 +101,14 @@ void Terrain::Init()
 
 void Terrain::Update()
 {
+	ImGui::InputFloat("Change Height", &changeHeight);
+	ImGui::InputFloat("Radius", &radius);
+
+	ImGui::InputInt("Picking Mode", &pickingMode);
+	ImGui::InputInt("Tilling Texture", &tillingTextureNum);
+
 	// temp : for picking
 	{
-		ImGui::InputFloat("Change Height", &changeHeight);
-		ImGui::InputFloat("Radius", &radius);
-
-		ImGui::InputInt("Picking Mode", &pickingMode);
-		ImGui::InputInt("Tilling Texture", &tillingTextureNum);
-
 		if(pickingMode < 0 || pickingMode > 1)
 			pickingMode = 0;
 		if(tillingTextureNum < 0 || tillingTextureNum > 4)
@@ -122,13 +116,13 @@ void Terrain::Update()
 
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
-			picking->UpdateRay();
+			auto& ray = CameraManager::GetInstance().GetMainCamera()->GetRay();
 
 			// find leaf node collision with ray
 			std::vector<std::shared_ptr<SectionNode>> sectionList;
 			for (int i = 0; i < spaceDivideTree->leafNodeMap.size(); ++i)
 			{
-				if(Collision::CubeToRay(spaceDivideTree->leafNodeMap[i]->boundingBox, picking->GetRay()))
+				if(Collision::CubeToRay(spaceDivideTree->leafNodeMap[i]->boundingBox, ray))
 					sectionList.push_back(spaceDivideTree->leafNodeMap[i]);
 			}
 
@@ -151,7 +145,7 @@ void Terrain::Update()
 						Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
 						Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
 
-						if (Collision::RayToFace(picking->GetRay(), v0, v1, v2, &pickPoint))
+						if (Collision::RayToFace(ray, v0, v1, v2, &pickPoint))
 						{
 							findPickPoint = true;
 							pickNodeIdx = sectionList[i]->nodeIndex;
@@ -544,10 +538,13 @@ void Terrain::CreateHeightMapData()
 	}
 	else
 	{
+		if (!CheckSquare(rowNum - 1))
+			rowNum = ResizeMap(rowNum);
+		if (!CheckSquare(colNum - 1))
+			colNum = ResizeMap(colNum);
+
 		heightMap->CreateTexture(rowNum, colNum);
 
-		rowNum = rowNum;
-		colNum = colNum;
 		rowCellNum = rowNum - 1;
 		colCellNum = colNum - 1;
 		vertexCount = rowNum * colNum;

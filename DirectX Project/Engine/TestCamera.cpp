@@ -10,9 +10,12 @@ void TestCamera::BeginPlay()
 
 void TestCamera::Update()
 {
+	Camera::Update();
+
+	ray.UpdateRay(viewMatrix, projectionMatrix);
+
 	ImGui::InputFloat("cam move speed"	  , &speed);
 	ImGui::InputFloat("cam rotation speed", &rotationSpeed);
-
 
 	double deltaTime = TimeManager::GetInstance().GetDeltaTime();
 

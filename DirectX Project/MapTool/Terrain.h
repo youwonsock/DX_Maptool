@@ -52,7 +52,6 @@ public:
 
 	// temp : for picking
 	int pickingMode = 0;
-	std::shared_ptr<Picking> picking;
 
 	// temp : for tilling texture
 	int tillingTextureNum = 0;

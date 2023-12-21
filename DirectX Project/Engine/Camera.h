@@ -22,6 +22,10 @@ private:
 	float farRange = 1000.0f;
 
 	Frustum frustum;
+
+protected:
+	Ray ray;
+
 public:
 	Matrix viewMatrix;
 	Matrix projectionMatrix;
@@ -42,6 +46,7 @@ public:
 	
 	Frustum& GetFrustum() { return frustum; };
 	ProjectionType GetProjectionType() const { return projectionType; };
+	Ray& GetRay() { return ray; };
 	float GetNearRange() const { return nearRange; };
 	float GetFarRange() const { return farRange; };
 };
