@@ -7,7 +7,6 @@ void Scene::Init()
 {
 	for(auto& gameObject : gameObjects)
 		gameObject->Init();
-	
 }
 
 void Scene::BeginPlay()
@@ -67,9 +66,6 @@ void Scene::Add(std::shared_ptr<GameObject> gameObject)
 {
 	gameObjects.insert(gameObject);
 
-	if(gameObject->GetCamera() != nullptr)
-		cameras.insert(gameObject);
-
 	if (gameObject->GetLight() != nullptr)
 		lights.insert(gameObject);
 }
@@ -77,9 +73,6 @@ void Scene::Add(std::shared_ptr<GameObject> gameObject)
 void Scene::Remove(std::shared_ptr<GameObject> gameObject)
 {
 	gameObjects.erase(gameObject);
-
-	if (gameObject->GetCamera() != nullptr)
-		cameras.erase(gameObject);
 
 	if (gameObject->GetLight() != nullptr)
 		lights.erase(gameObject);

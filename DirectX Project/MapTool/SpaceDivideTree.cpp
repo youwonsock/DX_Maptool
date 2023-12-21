@@ -5,7 +5,6 @@
 #include "Terrain.h"
 
 #include "RenderMgr.h"
-#include "Frustum.h"
 #include "DebugDrawer.h"
 
 // temp : for picking
@@ -45,9 +44,6 @@ void SpaceDivideTree::Init()
         renderMgr = std::make_shared<RenderMgr>();
         renderMgr->Init(shader);
 
-        // temp : create frustum
-        frustum = std::make_shared<Frustum>();
-
         // temp : for debug
         debugDraw = std::make_shared<DebugDrawer>();
 	}
@@ -71,48 +67,49 @@ void SpaceDivideTree::Update()
     //temp
     {
         renderMgr->Update();
-        frustum->Update();
         debugDraw->Update();
 
         if (InputManager::GetInstance().GetKeyState(DIK_P) == KeyState::PUSH)
         {
             // draw frustum
             {
+                auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
+
                 std::vector<Vector3> points1;
                 std::vector<Vector3> points2;
                 std::vector<Vector3> points3;
                 std::vector<Vector3> points4;
                 std::vector<Vector3> points5;
                 std::vector<Vector3> points6;
-                points1.push_back(frustum->frustumCorners[1]);
-                points1.push_back(frustum->frustumCorners[2]);
-                points1.push_back(frustum->frustumCorners[0]);
-                points1.push_back(frustum->frustumCorners[3]);
+                points1.push_back(frustum.frustumCorners[1]);
+                points1.push_back(frustum.frustumCorners[2]);
+                points1.push_back(frustum.frustumCorners[0]);
+                points1.push_back(frustum.frustumCorners[3]);
 
-                points2.push_back(frustum->frustumCorners[5]);
-                points2.push_back(frustum->frustumCorners[6]);
-                points2.push_back(frustum->frustumCorners[4]);
-                points2.push_back(frustum->frustumCorners[7]);
+                points2.push_back(frustum.frustumCorners[5]);
+                points2.push_back(frustum.frustumCorners[6]);
+                points2.push_back(frustum.frustumCorners[4]);
+                points2.push_back(frustum.frustumCorners[7]);
 
-                points3.push_back(frustum->frustumCorners[5]);
-                points3.push_back(frustum->frustumCorners[1]);
-                points3.push_back(frustum->frustumCorners[4]);
-                points3.push_back(frustum->frustumCorners[0]);
+                points3.push_back(frustum.frustumCorners[5]);
+                points3.push_back(frustum.frustumCorners[1]);
+                points3.push_back(frustum.frustumCorners[4]);
+                points3.push_back(frustum.frustumCorners[0]);
 
-                points4.push_back(frustum->frustumCorners[2]);
-                points4.push_back(frustum->frustumCorners[6]);
-                points4.push_back(frustum->frustumCorners[3]);
-                points4.push_back(frustum->frustumCorners[7]);
+                points4.push_back(frustum.frustumCorners[2]);
+                points4.push_back(frustum.frustumCorners[6]);
+                points4.push_back(frustum.frustumCorners[3]);
+                points4.push_back(frustum.frustumCorners[7]);
 
-                points5.push_back(frustum->frustumCorners[5]);
-                points5.push_back(frustum->frustumCorners[6]);
-                points5.push_back(frustum->frustumCorners[1]);
-                points5.push_back(frustum->frustumCorners[2]);
+                points5.push_back(frustum.frustumCorners[5]);
+                points5.push_back(frustum.frustumCorners[6]);
+                points5.push_back(frustum.frustumCorners[1]);
+                points5.push_back(frustum.frustumCorners[2]);
 
-                points6.push_back(frustum->frustumCorners[0]);
-                points6.push_back(frustum->frustumCorners[3]);
-                points6.push_back(frustum->frustumCorners[4]);
-                points6.push_back(frustum->frustumCorners[7]);
+                points6.push_back(frustum.frustumCorners[0]);
+                points6.push_back(frustum.frustumCorners[3]);
+                points6.push_back(frustum.frustumCorners[4]);
+                points6.push_back(frustum.frustumCorners[7]);
 
                 debugDraw->DrawRect(points1, Vector4(0, 1, 0, 0));
                 debugDraw->DrawRect(points2, Vector4(0, 1, 0, 0));
@@ -157,13 +154,15 @@ void SpaceDivideTree::FindDrawNode()
     drawNodeIndexList.clear();
 
     bool isDraw = false;
+    auto& frustum = CameraManager::GetInstance().GetMainCamera()->GetFrustum();
+
     for (int i = 0; i < leafNodeMap.size(); ++i)
     {
         isDraw = true;
 
         for (int j = 0; j < 6; ++j)
         {
-            if (!Collision::CubeToPlane(leafNodeMap[i]->boundingBox, frustum->planes[j]))
+            if (!Collision::CubeToPlane(leafNodeMap[i]->boundingBox, frustum.planes[j]))
             {
                 isDraw = false;
                 break;

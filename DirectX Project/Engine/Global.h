@@ -7,6 +7,7 @@
 #include "ImGuiManager.h"	
 #include "InstancingManager.h"
 #include "SceneManager.h"
+#include "CameraManager.h"
 
 using namespace Microsoft::WRL;					// for ComPtr
 

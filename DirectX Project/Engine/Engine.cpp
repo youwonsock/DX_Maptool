@@ -28,9 +28,6 @@ bool Engine::EngineInit()
 		InputManager::GetInstance().Init(Global::g_hInstance, Global::g_hWnd);
 		ResourceManager::GetInstance().Init();
 		ImGuiManager::GetInstance().Init();
-
-		SceneManager::GetInstance().Init();
-		
 	}
 
 	if (app != nullptr)
@@ -41,6 +38,14 @@ bool Engine::EngineInit()
 	{
 		Init();
 	}
+
+	{
+		SceneManager::GetInstance().Init();
+		SceneManager::GetInstance().BeginPlay();
+
+		CameraManager::GetInstance().Init();
+	}
+
 	return true;
 }
 
@@ -50,8 +55,6 @@ bool Engine::EngineInit()
 /// <returns></returns>
 bool Engine::EngineFixedUpdate()
 {
-	SceneManager::GetInstance().FixedUpdate();
-
 	if (app != nullptr)
 	{
 		app->FixedUpdate();
@@ -59,6 +62,11 @@ bool Engine::EngineFixedUpdate()
 	else
 	{
 		FixedUpdate();
+	}
+
+	{
+		CameraManager::GetInstance().FixedUpdate();
+		SceneManager::GetInstance().FixedUpdate();
 	}
 
 	return false;
@@ -71,9 +79,6 @@ bool Engine::EngineUpdate()
 		TimeManager::GetInstance().Update();
 		InputManager::GetInstance().Update();
 		ImGuiManager::GetInstance().Update();
-
-		SceneManager::GetInstance().Update();
-		SceneManager::GetInstance().PostUpdate();
 	}
 
 	if (app != nullptr)
@@ -87,16 +92,20 @@ bool Engine::EngineUpdate()
 		PostUpdate();
 	}
 
+	{
+		CameraManager::GetInstance().Update();
+		SceneManager::GetInstance().Update();
+
+		CameraManager::GetInstance().PostUpdate();
+		SceneManager::GetInstance().PostUpdate();
+	}
+
 	return true;
 }
 
 bool Engine::EngineRender()
 {
 	graphics->PreRender();
-
-	SceneManager::GetInstance().PreRender();
-	SceneManager::GetInstance().Render();
-	SceneManager::GetInstance().PostRender();
 
 	if (app != nullptr)
 	{
@@ -109,6 +118,12 @@ bool Engine::EngineRender()
 		PreRender();
 		Render();
 		PostRender();
+	}
+
+	{
+		SceneManager::GetInstance().PreRender();
+		SceneManager::GetInstance().Render();
+		SceneManager::GetInstance().PostRender();
 	}
 
 	ImGuiManager::GetInstance().Render();
@@ -124,6 +139,7 @@ bool Engine::EngineRelease()
 	else
 		Release();
 
+	CameraManager::GetInstance().Release();
 	SceneManager::GetInstance().Release();
 
 	graphics->Release();

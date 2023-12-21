@@ -163,8 +163,8 @@ void DebugDrawer::Render()
 {
 	Matrix world = Matrix::Identity;
 	shader->GetMatrix("World")->SetMatrix((float*)&world);
-	shader->GetMatrix("View")->SetMatrix((float*)&Camera::viewMatrix);
-	shader->GetMatrix("Projection")->SetMatrix((float*)&Camera::projectionMatrix);
+	shader->GetMatrix("View")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->viewMatrix);
+	shader->GetMatrix("Projection")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
 
 	for (int i = 0; i < vertexBufferList.size(); i++)
 	{

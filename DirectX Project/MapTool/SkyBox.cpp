@@ -4,8 +4,8 @@
 void SkyBox::Render()
 {
 	shader->GetSRV("Texture0")->SetResource(texture->GetShaderResourceView().Get());
-	shader->GetMatrix("view")->SetMatrix((float*)&Camera::viewMatrix);
-	shader->GetMatrix("projection")->SetMatrix((float*)&Camera::projectionMatrix);
+	shader->GetMatrix("view")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->viewMatrix);
+	shader->GetMatrix("projection")->SetMatrix((float*)&CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
 
 	UINT stride = skyMesh->GetVertexBuffer()->GetStride();
 	UINT offset = skyMesh->GetIndexBuffer()->GetOffset();

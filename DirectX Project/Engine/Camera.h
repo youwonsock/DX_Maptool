@@ -4,20 +4,32 @@
 #include "EnumClass.h"
 #include "Component.h"
 
+struct Frustum
+{
+	Plane planes[6];
+	Vector3 frustumCorners[8];
+
+	void Update(Matrix& viewMat, Matrix& projectionMat);
+};
+
 class Camera : public Component
 {
 private:
 	using Base = Component;
 
 	ProjectionType projectionType = ProjectionType::Perspective;
-
 	float nearRange = 0.1f;
 	float farRange = 1000.0f;
 
+	Frustum frustum;
 public:
-	static Matrix viewMatrix;
-	static Matrix projectionMatrix;
-	static Vector3 position;
+	Matrix viewMatrix;
+	Matrix projectionMatrix;
+	Vector3 position;
+
+private:
+	void UpdateViewMatrix();
+
 public:
 	Camera();
 	virtual ~Camera();
@@ -25,8 +37,12 @@ public:
 	virtual void Update() override;
 
 	void SetProjectionType(ProjectionType projectionType) { this->projectionType = projectionType; };
+	void SetNearRange(float nearRange) { this->nearRange = nearRange; };
+	void SetFarRange(float farRange) { this->farRange = farRange; };
+	
+	Frustum& GetFrustum() { return frustum; };
 	ProjectionType GetProjectionType() const { return projectionType; };
-
-	void UpdateViewMatrix();
+	float GetNearRange() const { return nearRange; };
+	float GetFarRange() const { return farRange; };
 };
 

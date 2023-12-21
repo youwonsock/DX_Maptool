@@ -6,7 +6,6 @@ class Scene
 {
 private:
 	std::unordered_set<std::shared_ptr<GameObject>> gameObjects;
-	std::unordered_set<std::shared_ptr<GameObject>> cameras;
 	std::unordered_set<std::shared_ptr<GameObject>> lights;
 	
 public:

@@ -16,9 +16,9 @@ void RenderMgr::Init(std::shared_ptr<Shader> shader)
 
 void RenderMgr::Update()
 {
-	globalDesc.View = Camera::viewMatrix;
-	globalDesc.Projection = Camera::projectionMatrix;
-	globalDesc.VirwProjection = Camera::viewMatrix * Camera::projectionMatrix;
+	globalDesc.View = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
+	globalDesc.Projection = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
+	globalDesc.VirwProjection = globalDesc.View * globalDesc.Projection;
 	globalDesc.ViewInverse = globalDesc.View.Invert();
 
 	globalBuffer->CopyData(globalDesc);

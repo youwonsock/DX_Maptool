@@ -45,7 +45,8 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 
 void RenderManager::Update()
 {
-	PushGlobalData(Camera::viewMatrix, Camera::projectionMatrix);
+	PushGlobalData(CameraManager::GetInstance().GetMainCamera()->viewMatrix
+					, CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
 }
 
 void RenderManager::SetShader(const std::shared_ptr<Shader>& shader)

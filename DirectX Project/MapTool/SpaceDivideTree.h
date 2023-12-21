@@ -3,7 +3,6 @@
 class SectionNode;
 class Terrain;
 class RenderMgr;
-class Frustum;
 class DebugDrawer;
 
 class SpaceDivideTree
@@ -16,8 +15,6 @@ public:
 
 	// temp render mgr
 	std::shared_ptr<RenderMgr> renderMgr;
-	// temp Frustum
-	std::shared_ptr<Frustum> frustum;
 	// temp : for debug
 	std::shared_ptr<DebugDrawer> debugDraw;
 

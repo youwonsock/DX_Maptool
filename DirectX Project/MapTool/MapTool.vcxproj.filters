@@ -60,9 +60,6 @@
     <ClInclude Include="TestCamera.h">
       <Filter>소스 파일\MapToolClasses\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>소스 파일\MapToolClasses\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="DebugDrawer.h">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
       <Filter>소스 파일\MapToolClasses\Tree</Filter>
     </ClCompile>
     <ClCompile Include="TestCamera.cpp">
-      <Filter>소스 파일\MapToolClasses\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
       <Filter>소스 파일\MapToolClasses\Camera</Filter>
     </ClCompile>
     <ClCompile Include="DebugDrawer.cpp">
