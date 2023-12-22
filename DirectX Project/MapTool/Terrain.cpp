@@ -19,13 +19,14 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	devideTreeDepth = desc.DevideTreeDepth;
 	cellDistance = desc.cellDistance;
 
-	// shader, texture, renderMgr
+	// shader, texture, (temp)renderMgr
 	{
 		shader = std::make_shared<Shader>(desc.shaderFilePath);
 		texture = std::make_shared<Texture>();
 		texture->Load(desc.textureFilePath);
 		picking = std::make_shared<Picking>();
 
+		// temp
 		renderMgr = std::make_shared<RenderMgr>();
 		renderMgr->Init(shader);
 	}
@@ -82,6 +83,7 @@ void Terrain::Init()
 	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
 	spaceDivideTree->maxDepth = devideTreeDepth;
 	spaceDivideTree->Init();
+	splatting->SetSRV(shader);
 
 	// init color
 	splatting->SetVertexByTexture(vertices);
@@ -105,52 +107,16 @@ void Terrain::Update()
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
 			auto& ray = CameraManager::GetInstance().GetMainCamera()->GetRay();
-
-			// find leaf node collision with ray
-			std::vector<std::shared_ptr<SectionNode>> sectionList;
-			for (int i = 0; i < spaceDivideTree->leafNodeMap.size(); ++i)
-			{
-				if(Collision::CubeToRay(spaceDivideTree->leafNodeMap[i]->boundingBox, ray))
-					sectionList.push_back(spaceDivideTree->leafNodeMap[i]);
-			}
-
-			// find face collision with ray
-			int i = 0;
-			int pickNodeIdx = 0;
 			Vector3 pickPoint;
-			bool findPickPoint = false;
 
-			auto& leafNodeIdxList = spaceDivideTree->leafNodeIndexList;
+			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, spaceDivideTree->leafNodeIndexList
+				, spaceDivideTree->leafNodeMap
+				, pickPoint);
 
-			while (!findPickPoint)
-			{
-				if (i < sectionList.size())
-				{
-					auto& leafVertices = sectionList[i]->vertices;
-					for(int j = 0; j < leafNodeIdxList.size(); j += 3)
-					{
-						Vector3 v0 = leafVertices[leafNodeIdxList[j + 0]].position;
-						Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
-						Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
-
-						if (Collision::RayToFace(ray, v0, v1, v2, &pickPoint))
-						{
-							findPickPoint = true;
-							pickNodeIdx = sectionList[i]->nodeIndex;
-
-							break;
-						}
-					}
-				}
-				else
-					break;
-
-				++i;
-			}
-			if (findPickPoint)
+			if (pickNode)
 			{
 				picking->FindChangeVertex(pickPoint, radius, spaceDivideTree->leafNodeMap.size()
-											, spaceDivideTree->leafNodeMap[pickNodeIdx]
+											, pickNode
 											, vertices);
 
 				switch (pickingMode)
@@ -179,14 +145,14 @@ void Terrain::Update()
 	}
 
 	spaceDivideTree->Update();
+
+	// temp
+	renderMgr->Update();
 }
 
 void Terrain::Render()
 {
 	shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
-	renderMgr->Update();
-
-	splatting->Render(shader);
 
 	spaceDivideTree->Render();
 }

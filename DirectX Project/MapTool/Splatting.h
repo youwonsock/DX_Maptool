@@ -26,8 +26,8 @@ public:
 	void TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList);
 	void SetVertexByTexture(std::vector<PNCTVertex>& vertexList);
 	void SaveAlphaTexture(std::wstring savePath);
+	void SetSRV(std::shared_ptr<Shader> shader);
 
 	void Init(SplattingDesc& desc);
-	void Render(std::shared_ptr<Shader> shader);
 };
 

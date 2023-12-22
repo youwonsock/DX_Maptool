@@ -7,18 +7,16 @@
 #include "RenderMgr.h"
 #include "DebugDrawer.h"
 
-// temp : for picking
 void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
 {
-    for(auto& idx : updateNodeIdxList)
-	{
-		auto iter = leafNodeMap.find(idx);
-		auto& node = iter->second;
+    for (auto& idx : updateNodeIdxList)
+    {
+        auto& node = leafNodeMap[idx];
 
-		UpdateVertexList(node);
-		CreateBoundingBox(node);
-		node->UpdateVertexBuffer();
-	}
+        UpdateVertexList(node);
+        CreateBoundingBox(node);
+        node->UpdateVertexBuffer();
+    }
 }
 
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
@@ -35,10 +33,7 @@ SpaceDivideTree::~SpaceDivideTree()
 
 void SpaceDivideTree::Init()
 {
-
-	// temp : make shared resource 
 	{
-        // temp : for debug
         debugDraw = std::make_shared<DebugDrawer>();
 	}
 

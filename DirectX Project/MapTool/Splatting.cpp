@@ -105,7 +105,7 @@ void Splatting::Init(SplattingDesc& desc)
 /// <summary>
 /// set srv
 /// </summary>
-void Splatting::Render(std::shared_ptr<Shader> shader)
+void Splatting::SetSRV(std::shared_ptr<Shader> shader)
 {
 	shader->GetSRV("MapAlphaTexture")->SetResource(alphaTexture->GetShaderResourceView().Get());
 

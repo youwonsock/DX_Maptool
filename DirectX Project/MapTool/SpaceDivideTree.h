@@ -44,7 +44,6 @@ public:
 	void Update();
 	void Render();
 
-	// temp : for picking
 	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
 
 	SpaceDivideTree(std::shared_ptr<Terrain> owner);

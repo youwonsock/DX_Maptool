@@ -64,11 +64,9 @@ public:
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
 private:
-	// create data
+	// create map data
 	void CreateVertexData();
 	void CreateIndexData();
-
-	// create height map data
 	void InitFaceNormal();
 	void GenNormalLookupTable();
 	void CalcPerVertexNormalsFastLookup();
@@ -77,7 +75,6 @@ private:
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
-
 	void UpdateVertexHeight(Vector3 centerPos);
 
 public:

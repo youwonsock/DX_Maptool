@@ -10,8 +10,8 @@ void Picking::FindChangeVertex(Vector3 centerPos, float findRange, int leafNodeN
 {	
 	// 0 : right, 1 : left, 2 : bottom, 3 : top
 	// find node by node idx
-	DWORD LT, RT, LB, RB;
-	DWORD leftTopNodeIdx, leftBottomNodeIdx, rightBottomNodeIdx, rightTopNodeIdx;
+	DWORD LT, RT, LB;
+	DWORD leftTopNodeIdx, leftBottomNodeIdx, rightTopNodeIdx;
 
 	std::shared_ptr<SectionNode> pNode = pickNode;
 
@@ -103,24 +103,6 @@ void Picking::FindChangeVertex(Vector3 centerPos, float findRange, int leafNodeN
 		}
 		RT = rtNode->cornerIndexList[1];
 		rightTopNodeIdx = rtNode->nodeIndex;
-
-		// bottom
-		std::shared_ptr<SectionNode> rbNode = pNode;
-		
-		while (true)
-		{
-			if (rbNode->neighborNodeList[2] == nullptr)
-				break;
-
-			auto& rbConerPos = vertexList[rbNode->cornerIndexList[3]].position;
-
-			if (centerPos.z - findRange < rbConerPos.z)
-				rbNode = rbNode->neighborNodeList[2];
-			else
-				break;
-		}
-		RB = rbNode->cornerIndexList[3];
-		rightBottomNodeIdx = rbNode->nodeIndex;
 	}
 
 	// get update node idx
@@ -169,3 +151,35 @@ void Picking::FindChangeVertex(Vector3 centerPos, float findRange, int leafNodeN
 		}
 	}
 }
+
+std::shared_ptr<SectionNode>& Picking::FindPickFace(Ray& ray, std::vector<UINT>& leafNodeIdxList
+														, std::map<int, std::shared_ptr<SectionNode>>& leafNodeMap
+														, OUT Vector3& pickPoint)
+{
+	// find leaf node collision with ray
+	std::vector<std::shared_ptr<SectionNode>> sectionList;
+	for (int i = 0; i < leafNodeMap.size(); ++i)
+	{
+		if (Collision::CubeToRay(leafNodeMap[i]->boundingBox, ray))
+			sectionList.push_back(leafNodeMap[i]);
+	}
+
+	// find face collision with ray
+	for(int i = 0; i < sectionList.size(); ++i)
+	{
+		auto& leafVertices = sectionList[i]->vertices;
+		for (int j = 0; j < leafNodeIdxList.size(); j += 3)
+		{
+			Vector3 v0 = leafVertices[leafNodeIdxList[j + 0]].position;
+			Vector3 v1 = leafVertices[leafNodeIdxList[j + 1]].position;
+			Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
+
+			if (Collision::RayToFace(ray, v0, v1, v2, &pickPoint))
+				return leafNodeMap[i];
+		}
+	}
+
+	std::shared_ptr<SectionNode> pickNode = nullptr;
+	return pickNode;
+}
+
