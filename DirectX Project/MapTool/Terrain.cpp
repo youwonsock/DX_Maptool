@@ -35,6 +35,10 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	// height map
 	{
 		heightMap = std::make_shared<HeightMap>();
+		
+		rowNum = desc.rowNum;
+		colNum = desc.colNum;
+
 		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
 
 		// after height map create rowNum, colNum is power of 2 + 1
@@ -50,7 +54,7 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		SplattingDesc splattingDesc;
 		splattingDesc.rowNum = rowNum;
 		splattingDesc.colNum = colNum;
-		splattingDesc.alphaTexPath = desc.alphaTexPath;
+		splattingDesc.alphaTexPath = desc.heightMapFilePath.length() < 1 ? L"" : desc.alphaTexPath;
 		splattingDesc.texture1Path = L"../../Res/Textures/Terrain/Red.PNG";
 		splattingDesc.texture2Path = L"../../Res/Textures/Terrain/Green.PNG";
 		splattingDesc.texture3Path = L"../../Res/Textures/Terrain/Blue.PNG";
@@ -91,6 +95,7 @@ void Terrain::Init()
 
 void Terrain::Update()
 {
+	ImGui::InputInt("Change Mode", &changeHeightMode);
 	ImGui::InputFloat("Change Height", &changeHeight);
 	ImGui::InputFloat("Radius", &radius);
 
@@ -166,17 +171,26 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 	float distance = 0.0f;
 	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
 
+
+	Vector2 center = Vector2(centerPos.x, centerPos.z);
 	for (UINT i : picking->UpdateVertexIdxList)
 	{
-		distance = (vertices[i].position - centerPos).Length();
+		distance = ( Vector2(vertices[i].position.x, vertices[i].position.z) - center).Length();
+		distance = (distance / radius);
+		distance = -(distance - 1);
 
-		if (distance < 1.0f)
-			distance = 1.0;
+		switch (changeHeightMode)
+		{
+		case 0:
+			vertices[i].position.y += (distance * changeHeight * deltaTime);
+			break;
+		case 1:
+			vertices[i].position.y += (changeHeight * deltaTime);
+			break;
+		default:
+			break;
+		}
 
-		distance = (1 / distance);
-		distance = cosf(distance * 3.141592f / 180.0f);
-
-		vertices[i].position.y += (distance * changeHeight * deltaTime);
 		heightMap->heightList[i] = vertices[i].position.y;
 	}
 }

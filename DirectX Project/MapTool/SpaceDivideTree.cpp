@@ -162,18 +162,22 @@ void SpaceDivideTree::CreateBoundingBox(std::shared_ptr<SectionNode> pNode)
 	DWORD dwV0 = conerIndexList[0];
 	DWORD dwV1 = conerIndexList[3];
 
-	Vector2 vHeight = GetHeightFromNode(pNode);
-
 	Vector3 min = Vector3::Zero;
 	Vector3 max = Vector3::Zero;
 
-	min.x = terrain.lock()->vertices[dwV0].position.x;
-	min.y = vHeight.y;
-	min.z = terrain.lock()->vertices[dwV1].position.z;
+    Vector3& dwV0Pos = terrain.lock()->vertices[dwV0].position;
+    Vector3& dwV1Pos = terrain.lock()->vertices[dwV1].position;
+	Vector2 vHeight = GetHeightFromNode(pNode);
+    if (vHeight.x == vHeight.y)
+        vHeight.y -= 1.0f;
 
-	max.x = terrain.lock()->vertices[dwV1].position.x;
+	min.x = dwV0Pos.x;
+	min.y = vHeight.y;
+	min.z = dwV1Pos.z;
+
+	max.x = dwV1Pos.x;
 	max.y = vHeight.x;
-	max.z = terrain.lock()->vertices[dwV0].position.z;
+	max.z = dwV0Pos.z;
 
 	pNode->boundingBox.SetCube(min, max);
 }
@@ -313,12 +317,13 @@ void SpaceDivideTree::UpdateVertexList(std::shared_ptr<SectionNode> pNode)
     pNode->vertices.resize((iEndCol - iStartCol + 1) * (iEndRow - iStartRow + 1));
 
     int iIndex = 0;
+    auto& terrainVertexList = terrain.lock()->vertices;
     for (int iRow = iStartRow; iRow <= iEndRow; iRow++)
     {
         for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
         {
             int iCurrentIndex = iRow * iNumCols + iCol;
-            pNode->vertices[iIndex++] = terrain.lock()->vertices[iCurrentIndex];
+            pNode->vertices[iIndex++] = terrainVertexList[iCurrentIndex];
         }
     }
 }

@@ -31,6 +31,7 @@ private:
 	// imgui value
 	int pickingMode = 0;
 	int tillingTextureNum = 0;
+	int changeHeightMode = 0;
 	float changeHeight = 10.0f;
 	float radius = 10.0f;
 
