@@ -114,6 +114,7 @@ void Terrain::Update()
 			auto& ray = CameraManager::GetInstance().GetMainCamera()->GetRay();
 			Vector3 pickPoint;
 
+			bool isFind = false;
 			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, spaceDivideTree->leafNodeIndexList
 				, spaceDivideTree->leafNodeMap
 				, pickPoint);

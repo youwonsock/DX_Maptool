@@ -11,8 +11,8 @@ void MapTool::Init()
 	{
 		TerrainDesc info;
 		
-		info.rowNum = 100;
-		info.colNum = 100;
+		info.rowNum = 600;
+		info.colNum = 600;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
