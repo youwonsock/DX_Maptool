@@ -2,6 +2,8 @@
 
 class SpaceDivideTree;
 class Picking;
+class HeightMap;
+class Splatting;
 
 struct TerrainDesc
 {
@@ -31,21 +33,23 @@ public:
 	UINT vertexCount;
 	UINT faceCount;
 	float cellDistance;
-	float heightScale;
 
 	int devideTreeDepth = 1;
 
-	std::wstring textureFilePath;
-	std::wstring shaderFilePath;
-	std::wstring heightTexPath = L"";
-	std::wstring alphaTexPath = L"";
+	std::wstring textureFilePath;		// 그냥 terrain이 들고있게 할지?
+	std::wstring shaderFilePath;		// 그냥 terrain이 들고있게 할지?
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
 
-	std::vector<float> heightList;
 	std::vector<Vector3> faceNormalList;
 	std::vector<int> normalVectorLookTable;
+
+	// height map
+	std::shared_ptr<HeightMap> heightMap;
+
+	// Splatting
+	std::shared_ptr<Splatting> splatting;
 
 	// quad tree
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
@@ -55,12 +59,6 @@ public:
 
 	// temp : for tilling texture
 	int tillingTextureNum = 0;
-	std::shared_ptr<Texture> alphaTexture; 
-	std::unique_ptr<Texture> heightMap;
-	std::shared_ptr<Texture> texture1;
-	std::shared_ptr<Texture> texture2;
-	std::shared_ptr<Texture> texture3;
-	std::shared_ptr<Texture> texture4;
 
 private:
 	// create data
@@ -68,25 +66,16 @@ private:
 	void CreateIndexData();
 
 	// create height map data
-	void CreateHeightMapData();
 	void InitFaceNormal();
 	void GenNormalLookupTable();
 	void CalcPerVertexNormalsFastLookup();
 	void CalcFaceNormals();
 	Vector3 ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex2);
 
-	// change height map size to power of 2 + 1
-	bool CheckSquare(int n);
-	int ResizeMap(int n);
-
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
 
-public: // temp : for set obj y pos
-	float GetHeightMap(int row, int col);
-
 private:
-	float GetHeightVertex(UINT index);
 
 	// temp : for picking
 	std::vector<UINT> UpdateVertexIdxList;
@@ -94,13 +83,6 @@ private:
 	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
 	void FindChangeVertex(Vector3 centerPos, int pickNodeIdx);
-
-	// save height map to binary file
-	void SaveHeightMap();
-
-	// temp : for tilling
-	int tileTextureNum = 0;
-	void TillingTexture(Vector3 centerPos);
 
 public:
 	void Init() override;

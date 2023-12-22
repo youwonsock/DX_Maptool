@@ -4,62 +4,44 @@
 #include "SpaceDivideTree.h"
 #include "SectionNode.h"
 
+#include "HeightMap.h"
+#include "Splatting.h"
+
 #include <fstream>
 
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
-	rowNum = desc.rowNum;
-	colNum = desc.colNum;
-	rowCellNum = rowNum - 1;
-	colCellNum = colNum - 1;
-	vertexCount = rowNum * colNum;
-	faceCount = rowCellNum * colCellNum * 2;
-	cellDistance = desc.cellDistance;
-	heightScale = desc.heightScale;
-
-	devideTreeDepth = desc.DevideTreeDepth;
-
 	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
-	{
 		assert(false);
-	}
-
 	textureFilePath = desc.textureFilePath;
 	shaderFilePath = desc.shaderFilePath;
+	devideTreeDepth = desc.DevideTreeDepth;
+	cellDistance = desc.cellDistance;
 
-	if (desc.heightMapFilePath.length() > 0)
 	{
-		heightTexPath = desc.heightMapFilePath;
+		heightMap = std::make_shared<HeightMap>();
+		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
+
+		// after height map create rowNum, colNum is power of 2 + 1
+		rowCellNum = rowNum - 1;
+		colCellNum = colNum - 1;
+		vertexCount = rowNum * colNum;
+		faceCount = rowCellNum * colCellNum * 2;
 	}
 
-	if(desc.alphaTexPath.length() > 0)
 	{
-		alphaTexPath = desc.alphaTexPath;
+		SplattingDesc splattingDesc;
+		splattingDesc.rowNum = rowNum;
+		splattingDesc.colNum = colNum;
+		splattingDesc.alphaTexPath = desc.alphaTexPath;
+		splattingDesc.texture1Path = L"../../Res/Textures/Terrain/Red.PNG";
+		splattingDesc.texture2Path = L"../../Res/Textures/Terrain/Green.PNG";
+		splattingDesc.texture3Path = L"../../Res/Textures/Terrain/Blue.PNG";
+		splattingDesc.texture4Path = L"../../Res/Textures/Terrain/White.PNG";
+
+		splatting = std::make_shared<Splatting>();
+		splatting->Init(splattingDesc);
 	}
-
-	// temp : for tilling
-	{
-		// texture is BGRA so in imgui Red is 2, Green is 1, Blue is 0, Alpha is 3
-
-		texture1 = std::make_shared<Texture>();
-		texture1->Load(L"../../Res/Textures/Terrain/Red.PNG");
-		
-		texture2 = std::make_shared<Texture>();
-		texture2->Load(L"../../Res/Textures/Terrain/Green.PNG");
-	
-		texture3 = std::make_shared<Texture>();
-		texture3->Load(L"../../Res/Textures/Terrain/Blue.PNG");
-
-		texture4 = std::make_shared<Texture>();
-		texture4->Load(L"../../Res/Textures/Terrain/White.PNG");
-
-	}
-
-	CreateHeightMapData();
-
-	alphaTexture = std::make_shared<Texture>();
-	if(!alphaTexture->Load(alphaTexPath))
-		alphaTexture->CreateTexture(rowNum, colNum);
 }
 
 Terrain::~Terrain()
@@ -86,17 +68,7 @@ void Terrain::Init()
 	spaceDivideTree->Init();
 
 	// init color
-	std::vector<BYTE> colorList;
-
-	alphaTexture->GetTextureRGBAData(colorList);
-
-	for (int i = 0; i < vertices.size(); ++i)
-	{
-		vertices[i].color.x = colorList[i*4 + 0];
-		vertices[i].color.y = colorList[i*4 + 1];
-		vertices[i].color.z = colorList[i*4 + 2];
-		vertices[i].color.w = colorList[i*4 + 3];
-	}
+	splatting->SetVertexByTexture(vertices);
 }
 
 void Terrain::Update()
@@ -107,13 +79,13 @@ void Terrain::Update()
 	ImGui::InputInt("Picking Mode", &pickingMode);
 	ImGui::InputInt("Tilling Texture", &tillingTextureNum);
 
+	if (pickingMode < 0 || pickingMode > 1)
+		pickingMode = 0;
+	if (tillingTextureNum < 0 || tillingTextureNum > 4)
+		tillingTextureNum = 0;
+
 	// temp : for picking
 	{
-		if(pickingMode < 0 || pickingMode > 1)
-			pickingMode = 0;
-		if(tillingTextureNum < 0 || tillingTextureNum > 4)
-			tillingTextureNum = 0;
-
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
 			auto& ray = CameraManager::GetInstance().GetMainCamera()->GetRay();
@@ -159,29 +131,33 @@ void Terrain::Update()
 
 				++i;
 			}
-			if (!findPickPoint)
-				return;
-
-			FindChangeVertex(pickPoint, pickNodeIdx);
-
-			switch (pickingMode)
+			if (findPickPoint)
 			{
-			case(0):
-				UpdateVertexHeight(pickPoint);
-				break;
-			case(1):
-				TillingTexture(pickPoint);
-				break;
-			default:
-				break;
-			}
+				FindChangeVertex(pickPoint, pickNodeIdx);
 
-			// update vertex buffer
-			spaceDivideTree->UpdateVertex();
-				
+				switch (pickingMode)
+				{
+				case(0):
+					UpdateVertexHeight(pickPoint);
+					break;
+				case(1):
+					splatting->TillingTexture(pickPoint,tillingTextureNum, vertices, UpdateVertexIdxList);
+					break;
+				default:
+					break;
+				}
+
+				// update vertex buffer
+				spaceDivideTree->UpdateVertex();
+			}
 		}
 
-		SaveHeightMap();
+		// save
+		if (InputManager::GetInstance().GetKeyState(DIK_M) == KeyState::PUSH)
+		{
+			heightMap->SaveHeightMap(L"../../Res/Textures/Terrain/height129.PNG");
+			splatting->SaveAlphaTexture(L"../../Res/Textures/Terrain/heightExported.PNG");
+		}
 	}
 
 
@@ -190,94 +166,11 @@ void Terrain::Update()
 
 void Terrain::Render()
 {
+	spaceDivideTree->shader->GetSRV("MapBaseTexture")->SetResource(spaceDivideTree->texture->GetShaderResourceView().Get());
+
+	splatting->Render(spaceDivideTree->shader);
+
 	spaceDivideTree->Render();
-}
-
-void Terrain::SaveHeightMap()
-{
-	if (InputManager::GetInstance().GetKeyState(DIK_M) == KeyState::PUSH)
-	{
-		std::vector<BYTE> heightList;
-		heightList.resize(rowNum * colNum * 4);
-
-		for (int i = 0; i < rowNum * colNum; ++i)
-		{
-			heightList[i * 4 + 0] = vertices[i].position.y;
-			heightList[i * 4 + 1] = vertices[i].position.y;
-			heightList[i * 4 + 2] = vertices[i].position.y;
-			heightList[i * 4 + 3] = vertices[i].position.y;
-		}
-
-		heightMap->UpdateTexture(heightList);
-
-		heightMap->SaveTexture(heightTexPath);
-		alphaTexture->SaveTexture(alphaTexPath);
-	}
-}
-
-
-// -------------------------------------------------------------------------------
-// ----------------------------- tilling function -------------------------------
-// -------------------------------------------------------------------------------
-
-
-void Terrain::TillingTexture(Vector3 centerPos)
-{
-	float distance = 0.0f;
-	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
-
-	for (UINT i : UpdateVertexIdxList)
-	{
-		distance = (vertices[i].position - centerPos).Length();
-
-		if (distance < 1.0f)
-			distance = 1.0;
-
-		distance = (1 / distance);
-		distance *= 100.0f;
-
-		switch (tillingTextureNum)
-		{
-		case(0):
-			vertices[i].color.x += distance;
-			vertices[i].color.x = std::clamp(vertices[i].color.x, 0.0f, 255.0f);
-			break;
-		case(1):
-			vertices[i].color.y += distance;
-			vertices[i].color.y = std::clamp(vertices[i].color.y, 0.0f, 255.0f);
-			break;
-		case(2):
-			vertices[i].color.z += distance;
-			vertices[i].color.z = std::clamp(vertices[i].color.z, 0.0f, 255.0f);
-			break;
-		case(3):
-			vertices[i].color.w += distance;
-			vertices[i].color.w = std::clamp(vertices[i].color.w, 0.0f, 255.0f);
-			break;
-		case(4):
-			vertices[i].color.x = 0;
-			vertices[i].color.y = 0;
-			vertices[i].color.z = 0;
-			vertices[i].color.w = 0;
-			break;
-		default:
-			break;
-		}
-	}
-
-	//temp : update alpha texture
-	std::vector<BYTE> colorList;
-	colorList.resize(rowNum * colNum * 4);
-
-	for (int i = 0; i < rowNum * colNum; ++i)
-	{
-		colorList[i * 4 + 0] = vertices[i].color.x;
-		colorList[i * 4 + 1] = vertices[i].color.y;
-		colorList[i * 4 + 2] = vertices[i].color.z;
-		colorList[i * 4 + 3] = vertices[i].color.w;
-	}
-
-	alphaTexture->UpdateTexture(colorList);
 }
 
 // -------------------------------------------------------------------------------
@@ -300,7 +193,7 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 		distance = cosf(distance * 3.141592f / 180.0f);
 
 		vertices[i].position.y += (distance * changeHeight * deltaTime);
-		heightList[i] = vertices[i].position.y / heightScale;
+		heightMap->heightList[i] = vertices[i].position.y;
 	}
 }
 
@@ -462,7 +355,7 @@ void Terrain::CreateVertexData()
 			vertices[iVertexIndex].position.x = (iCol - fHalfCols) * cellDistance;
 			vertices[iVertexIndex].position.z = -((iRow - fHalfRows) * cellDistance);
 
-			tY = GetHeightVertex(iVertexIndex);
+			tY = heightMap->GetHeightByIdx(iVertexIndex);
 			vertices[iVertexIndex].position.y = tY;
 
 			vertices[iVertexIndex].normal = Vector3(0,1,0);
@@ -494,66 +387,6 @@ void Terrain::CreateIndexData()
 
 			iIndex += 6;
 		}
-	}
-}
-
-
-
-
-void Terrain::CreateHeightMapData()
-{
-	heightMap = std::make_unique<Texture>();
-	if (heightMap->Load(heightTexPath))
-	{
-		Vector2 size = heightMap->GetSize();
-		auto& info = heightMap->GetInfo();
-		auto mData = info->GetMetadata();
-		auto images = info->GetImages();
-
-		if (!CheckSquare(mData.width - 1))
-			mData.width = ResizeMap(mData.width);
-		if (!CheckSquare(mData.height - 1))
-			mData.height = ResizeMap(mData.height);
-
-		rowNum = mData.height;
-		colNum = mData.width;
-		rowCellNum = rowNum - 1;
-		colCellNum = colNum - 1;
-		vertexCount = rowNum * colNum;
-		faceCount = rowCellNum * colCellNum * 2;
-
-		heightList.resize(rowNum * colNum);
-		UCHAR* pTexels = (UCHAR*)images->pixels;
-
-		for (UINT i = 0; i < rowNum; i++)
-		{
-			UINT rowStart = i * images->rowPitch;
-			for (UINT j = 0; j < colNum; j++)
-			{
-				UINT colStart = j * 4;
-				UINT uRed = pTexels[rowStart + colStart + 0];
-				heightList[i * mData.width + j] = (float)uRed;
-			}
-		}
-	}
-	else
-	{
-		if (!CheckSquare(rowNum - 1))
-			rowNum = ResizeMap(rowNum);
-		if (!CheckSquare(colNum - 1))
-			colNum = ResizeMap(colNum);
-
-		heightMap->CreateTexture(rowNum, colNum);
-
-		rowCellNum = rowNum - 1;
-		colCellNum = colNum - 1;
-		vertexCount = rowNum * colNum;
-		faceCount = rowCellNum * colCellNum * 2;
-
-		heightList.resize(rowNum * colNum);
-
-		for (UINT i = 0; i < heightList.size(); i++)
-			heightList[i] = 0.0f;
 	}
 }
 
@@ -653,28 +486,6 @@ Vector3 Terrain::ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex
 	return vNormal;
 }
 
-bool Terrain::CheckSquare(int n)
-{
-	return 	(n & (n - 1)) == 0;
-}
-
-int Terrain::ResizeMap(int n)
-{
-	int result = 0;
-	int N = 2;
-
-	while (N < n)
-	{
-		result = N;
-		N *= 2;
-	}
-
-	return result + 1;
-}
-
-
-
-
 void Terrain::CalcVertexColor(Vector3 vLightDir)
 {
 	for (int iRow = 0; iRow < rowNum; iRow++)
@@ -690,14 +501,4 @@ void Terrain::CalcVertexColor(Vector3 vLightDir)
 			vertices[iVertexIndex].color.w = 0.0f;
 		}
 	}
-}
-
-float Terrain::GetHeightMap(int row, int col)
-{
-	return heightList[row * rowNum + col] * heightScale;
-}
-
-float Terrain::GetHeightVertex(UINT index)
-{
-	return heightList[index] * heightScale;
 }

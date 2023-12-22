@@ -66,6 +66,12 @@
     <ClInclude Include="SkyBox.h">
       <Filter>소스 파일\MapToolClasses\Map</Filter>
     </ClInclude>
+    <ClInclude Include="HeightMap.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Splatting.h">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -94,6 +100,12 @@
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>소스 파일\MapToolClasses\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="HeightMap.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Splatting.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
