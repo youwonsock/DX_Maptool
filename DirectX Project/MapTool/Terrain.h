@@ -4,6 +4,8 @@ class SpaceDivideTree;
 class Picking;
 class HeightMap;
 class Splatting;
+class RenderMgr;
+class Picking;
 
 struct TerrainDesc
 {
@@ -25,6 +27,13 @@ class Terrain : public Component, public std::enable_shared_from_this<Terrain>
 {
 private:
 	using Base = Component;
+
+	// imgui value
+	int pickingMode = 0;
+	int tillingTextureNum = 0;
+	float changeHeight = 10.0f;
+	float radius = 10.0f;
+
 public:
 	UINT rowNum;
 	UINT colNum;
@@ -36,8 +45,8 @@ public:
 
 	int devideTreeDepth = 1;
 
-	std::wstring textureFilePath;		// 그냥 terrain이 들고있게 할지?
-	std::wstring shaderFilePath;		// 그냥 terrain이 들고있게 할지?
+	std::wstring textureFilePath;
+	std::wstring shaderFilePath;
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
@@ -45,20 +54,14 @@ public:
 	std::vector<Vector3> faceNormalList;
 	std::vector<int> normalVectorLookTable;
 
-	// height map
+	std::shared_ptr<Shader> shader;
+	std::shared_ptr<Texture> texture;
+	std::shared_ptr<RenderMgr> renderMgr;	// temp
+
 	std::shared_ptr<HeightMap> heightMap;
-
-	// Splatting
 	std::shared_ptr<Splatting> splatting;
-
-	// quad tree
+	std::shared_ptr<Picking> picking;
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
-
-	// temp : for picking
-	int pickingMode = 0;
-
-	// temp : for tilling texture
-	int tillingTextureNum = 0;
 
 private:
 	// create data
@@ -75,14 +78,7 @@ private:
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
 
-private:
-
-	// temp : for picking
-	std::vector<UINT> UpdateVertexIdxList;
-	float changeHeight = 10.0f;
-	float radius = 10.0f;
 	void UpdateVertexHeight(Vector3 centerPos);
-	void FindChangeVertex(Vector3 centerPos, int pickNodeIdx);
 
 public:
 	void Init() override;

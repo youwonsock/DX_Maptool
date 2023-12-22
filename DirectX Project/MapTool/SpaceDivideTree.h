@@ -13,13 +13,9 @@ public:
 	std::weak_ptr<Terrain> terrain;
 	std::shared_ptr<SectionNode> root;
 
-	// temp render mgr
-	std::shared_ptr<RenderMgr> renderMgr;
 	// temp : for debug
 	std::shared_ptr<DebugDrawer> debugDraw;
 
-	std::shared_ptr<Shader> shader;
-	std::shared_ptr<Texture> texture;
 	std::vector<UINT> leafNodeIndexList;
 	std::shared_ptr<IndexBuffer> leafNodeIndexBuffer;
 
@@ -49,7 +45,7 @@ public:
 	void Render();
 
 	// temp : for picking
-	void UpdateVertex();
+	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
 
 	SpaceDivideTree(std::shared_ptr<Terrain> owner);
 	~SpaceDivideTree();

@@ -6,6 +6,8 @@
 
 #include "HeightMap.h"
 #include "Splatting.h"
+#include "RenderMgr.h"
+#include "Picking.h"
 
 #include <fstream>
 
@@ -13,11 +15,23 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
 	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
 		assert(false);
-	textureFilePath = desc.textureFilePath;
-	shaderFilePath = desc.shaderFilePath;
+
 	devideTreeDepth = desc.DevideTreeDepth;
 	cellDistance = desc.cellDistance;
 
+	// shader, texture, renderMgr
+	{
+		shader = std::make_shared<Shader>(desc.shaderFilePath);
+		texture = std::make_shared<Texture>();
+		texture->Load(desc.textureFilePath);
+		picking = std::make_shared<Picking>();
+
+		renderMgr = std::make_shared<RenderMgr>();
+		renderMgr->Init(shader);
+	}
+
+
+	// height map
 	{
 		heightMap = std::make_shared<HeightMap>();
 		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
@@ -29,6 +43,8 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		faceCount = rowCellNum * colCellNum * 2;
 	}
 
+
+	// splatting
 	{
 		SplattingDesc splattingDesc;
 		splattingDesc.rowNum = rowNum;
@@ -57,7 +73,7 @@ void Terrain::Init()
 	CreateVertexData();
 	CreateIndexData();
 
-	// GenerateVertexNormal();
+	// GenerateVertexNormal, make normal table;
 	InitFaceNormal();
 	GenNormalLookupTable();
 	CalcPerVertexNormalsFastLookup();
@@ -133,7 +149,9 @@ void Terrain::Update()
 			}
 			if (findPickPoint)
 			{
-				FindChangeVertex(pickPoint, pickNodeIdx);
+				picking->FindChangeVertex(pickPoint, radius, spaceDivideTree->leafNodeMap.size()
+											, spaceDivideTree->leafNodeMap[pickNodeIdx]
+											, vertices);
 
 				switch (pickingMode)
 				{
@@ -141,14 +159,14 @@ void Terrain::Update()
 					UpdateVertexHeight(pickPoint);
 					break;
 				case(1):
-					splatting->TillingTexture(pickPoint,tillingTextureNum, vertices, UpdateVertexIdxList);
+					splatting->TillingTexture(pickPoint,tillingTextureNum, vertices, picking->UpdateVertexIdxList);
 					break;
 				default:
 					break;
 				}
 
 				// update vertex buffer
-				spaceDivideTree->UpdateVertex();
+				spaceDivideTree->UpdateVertex(picking->UpdateNodeIdxList);
 			}
 		}
 
@@ -160,21 +178,21 @@ void Terrain::Update()
 		}
 	}
 
-
 	spaceDivideTree->Update();
 }
 
 void Terrain::Render()
 {
-	spaceDivideTree->shader->GetSRV("MapBaseTexture")->SetResource(spaceDivideTree->texture->GetShaderResourceView().Get());
+	shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
+	renderMgr->Update();
 
-	splatting->Render(spaceDivideTree->shader);
+	splatting->Render(shader);
 
 	spaceDivideTree->Render();
 }
 
 // -------------------------------------------------------------------------------
-// ----------------------------- pickking function -------------------------------
+// ------------------------------private functions -------------------------------
 // -------------------------------------------------------------------------------
 
 void Terrain::UpdateVertexHeight(Vector3 centerPos)
@@ -182,13 +200,13 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 	float distance = 0.0f;
 	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
 
-	for (UINT i : UpdateVertexIdxList)
+	for (UINT i : picking->UpdateVertexIdxList)
 	{
 		distance = (vertices[i].position - centerPos).Length();
 
 		if (distance < 1.0f)
 			distance = 1.0;
-		
+
 		distance = (1 / distance);
 		distance = cosf(distance * 3.141592f / 180.0f);
 
@@ -196,145 +214,6 @@ void Terrain::UpdateVertexHeight(Vector3 centerPos)
 		heightMap->heightList[i] = vertices[i].position.y;
 	}
 }
-
-void Terrain::FindChangeVertex(Vector3 centerPos, int pickNodeIdx)
-{
-	UpdateVertexIdxList.clear();
-
-	// 0 : right, 1 : left, 2 : bottom, 3 : top
-	// find node by node idx
-	DWORD LT, RT, LB, RB;
-	std::shared_ptr<SectionNode> pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
-
-	// lt, lb
-	{
-		while (true)
-		{
-			if (pNode->neighborNodeList[1] == nullptr)
-				break;
-
-			auto& ltConerPos = vertices[pNode->cornerIndexList[0]].position;
-
-			if (centerPos.x - radius < ltConerPos.x)
-				pNode = pNode->neighborNodeList[1];
-			else
-				break;
-		}
-
-		std::shared_ptr<SectionNode> ltNode = pNode;
-		std::shared_ptr<SectionNode> lbNode = pNode;
-
-		// top
-		while (true)
-		{
-			if (ltNode->neighborNodeList[3] == nullptr)
-				break;
-
-			auto& ltConerPos = vertices[ltNode->cornerIndexList[0]].position;
-
-			if (centerPos.z + radius > ltConerPos.z)
-				ltNode = ltNode->neighborNodeList[3];
-			else
-				break;
-		}
-		LT = ltNode->cornerIndexList[0];
-
-		// bottom
-		while (true)
-		{
-			if (lbNode->neighborNodeList[2] == nullptr)
-				break;
-
-			auto& lbConerPos = vertices[lbNode->cornerIndexList[2]].position;
-
-			if (centerPos.z - radius < lbConerPos.z)
-				lbNode = lbNode->neighborNodeList[2];
-			else
-				break;
-		}
-		LB = lbNode->cornerIndexList[2];
-	}
-
-
-	// rt, rb
-	{
-		pNode = spaceDivideTree->leafNodeMap[pickNodeIdx];
-
-		while (true)
-		{
-			if (pNode->neighborNodeList[0] == nullptr)
-				break;
-
-			auto& rtConerPos = vertices[pNode->cornerIndexList[1]].position;
-
-			if (centerPos.x + radius > rtConerPos.x)
-				pNode = pNode->neighborNodeList[0];
-			else
-				break;
-		}
-
-		std::shared_ptr<SectionNode> rtNode = pNode;
-		std::shared_ptr<SectionNode> rbNode = pNode;
-
-		// top
-		while (true)
-		{
-			if (rtNode->neighborNodeList[3] == nullptr)
-				break;
-
-			auto& rtConerPos = vertices[rtNode->cornerIndexList[1]].position;
-
-			if (centerPos.z + radius > rtConerPos.z)
-				rtNode = rtNode->neighborNodeList[3];
-			else
-				break;
-		}
-		RT = rtNode->cornerIndexList[1];
-
-		// bottom
-		while (true)
-		{
-			if (rbNode->neighborNodeList[2] == nullptr)
-				break;
-
-			auto& rbConerPos = vertices[rbNode->cornerIndexList[3]].position;
-
-			if (centerPos.z - radius < rbConerPos.z)
-				rbNode = rbNode->neighborNodeList[2];
-			else
-				break;
-		}
-		RB = rbNode->cornerIndexList[3];
-	}
-
-	// loop (check find node area)
-	Circle circle = Circle(Vector2(centerPos.x, centerPos.z), radius);
-
-	int iNumCols = colNum;
-	int iStartRow = LT / iNumCols;
-	int iEndRow = LB / iNumCols;
-	int iStartCol = LT % iNumCols;
-	int iEndCol = RT % iNumCols; 
-
-	int iNumColCell = iEndCol - iStartCol;
-	int iNumRowCell = iEndRow - iStartRow;
-
-	int iIndex = 0;
-	for (int iRow = iStartRow; iRow <= iEndRow; iRow++)
-	{
-		for (int iCol = iStartCol; iCol <= iEndCol; iCol++)
-		{
-			int iCurrentIndex = iRow * iNumCols + iCol;
-
-			if(Collision::CircleToPoint(circle, vertices[iCurrentIndex].position))
-				UpdateVertexIdxList.push_back(iCurrentIndex);
-		}
-	}
-}
-
-// -------------------------------------------------------------------------------
-// ------------------------------private functions -------------------------------
-// -------------------------------------------------------------------------------
 
 void Terrain::CreateVertexData()
 {

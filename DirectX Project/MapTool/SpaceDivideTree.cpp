@@ -8,14 +8,17 @@
 #include "DebugDrawer.h"
 
 // temp : for picking
-void SpaceDivideTree::UpdateVertex()
+void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
 {
-    for (auto& node : leafNodeMap)
-    {
-        UpdateVertexList(node.second);
-        CreateBoundingBox(node.second);
-        node.second->UpdateVertexBuffer();
-    }
+    for(auto& idx : updateNodeIdxList)
+	{
+		auto iter = leafNodeMap.find(idx);
+		auto& node = iter->second;
+
+		UpdateVertexList(node);
+		CreateBoundingBox(node);
+		node->UpdateVertexBuffer();
+	}
 }
 
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
@@ -35,15 +38,6 @@ void SpaceDivideTree::Init()
 
 	// temp : make shared resource 
 	{
-		shader = std::make_shared<Shader>(terrain.lock()->shaderFilePath);
-
-		texture = std::make_shared<Texture>();
-		texture->Load(terrain.lock()->textureFilePath);
-
-        // temp : create render mgr
-        renderMgr = std::make_shared<RenderMgr>();
-        renderMgr->Init(shader);
-
         // temp : for debug
         debugDraw = std::make_shared<DebugDrawer>();
 	}
@@ -64,7 +58,6 @@ void SpaceDivideTree::Init()
 
 void SpaceDivideTree::Update()
 {
-    renderMgr->Update();
     debugDraw->Update();
 
     //temp
@@ -214,7 +207,7 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
         UpdateVertexList(pNode);
 
         pNode->SetVertexBuffer();
-        pNode->shader = shader;
+        pNode->shader = terrain.lock()->shader;
 
         leafNodeMap.insert(std::make_pair(pNode->nodeIndex, pNode));
 
