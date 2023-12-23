@@ -14,7 +14,7 @@ void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
         auto& node = leafNodeMap[idx];
 
         UpdateVertexList(node);
-        CreateBoundingBox(node);
+        node->SetBoundingBox();
         node->UpdateVertexBuffer();
     }
 }
@@ -105,6 +105,12 @@ void SpaceDivideTree::Update()
             debugDraw->DrawRect(points5, Vector4(0, 1, 0, 0));
             debugDraw->DrawRect(points6, Vector4(0, 1, 0, 0));
         }
+
+        // draw box
+        {
+            for(auto& box : leafNodeMap)
+				debugDraw->DrawBox(box.second->boundingBox, Vector4(1, 0, 0, 0));
+        }
     }
     
 	FindDrawNode();
@@ -155,33 +161,6 @@ void SpaceDivideTree::FindDrawNode()
 // ------------------------------build tree functions ----------------------------
 // -------------------------------------------------------------------------------
 
-void SpaceDivideTree::CreateBoundingBox(std::shared_ptr<SectionNode> pNode)
-{
-	auto& conerIndexList = pNode->cornerIndexList;
-
-	DWORD dwV0 = conerIndexList[0];
-	DWORD dwV1 = conerIndexList[3];
-
-	Vector3 min = Vector3::Zero;
-	Vector3 max = Vector3::Zero;
-
-    Vector3& dwV0Pos = terrain.lock()->vertices[dwV0].position;
-    Vector3& dwV1Pos = terrain.lock()->vertices[dwV1].position;
-	Vector2 vHeight = GetHeightFromNode(pNode);
-    if (vHeight.x == vHeight.y)
-        vHeight.y -= 1.0f;
-
-	min.x = dwV0Pos.x;
-	min.y = vHeight.y;
-	min.z = dwV1Pos.z;
-
-	max.x = dwV1Pos.x;
-	max.y = vHeight.x;
-	max.z = dwV0Pos.z;
-
-	pNode->boundingBox.SetCube(min, max);
-}
-
 void SpaceDivideTree::BuildTree(std::shared_ptr<SectionNode> pNode)
 {
     if (SubDivide(pNode))
@@ -206,6 +185,7 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
         UpdateVertexList(pNode);
 
         pNode->SetVertexBuffer();
+        pNode->SetBoundingBox();
         pNode->shader = terrain.lock()->shader;
 
         leafNodeMap.insert(std::make_pair(pNode->nodeIndex, pNode));
@@ -328,43 +308,6 @@ void SpaceDivideTree::UpdateVertexList(std::shared_ptr<SectionNode> pNode)
     }
 }
 
-Vector2 SpaceDivideTree::GetHeightFromNode(std::shared_ptr<SectionNode> pNode)
-{
-    DWORD dwTL = pNode->cornerIndexList[0];
-    DWORD dwTR = pNode->cornerIndexList[1];
-    DWORD dwBL = pNode->cornerIndexList[2];
-    DWORD dwBR = pNode->cornerIndexList[3];
-
-    auto map = terrain.lock();
-    DWORD dwWidth = terrain.lock()->colNum;
-
-    DWORD dwStartCol = dwTL % dwWidth;
-    DWORD dwEndCol = dwTR % dwWidth;
-    DWORD dwStartRow = dwTL / dwWidth;
-    DWORD dwEndRow = dwBL / dwWidth;
-
-    Vector2 vHeight;
-    vHeight.x = -99999999.0f;
-    vHeight.y = 99999999.0f;
-
-    for (int dwRow = dwStartRow; dwRow <= dwEndRow; dwRow++)
-    {
-        for (int dwCol = dwStartCol; dwCol <= dwEndCol; dwCol++)
-        {
-            DWORD dwCurrent = dwRow * dwWidth + dwCol;
-            if (map->vertices[dwCurrent].position.y > vHeight.x)
-            {
-                vHeight.x = map->vertices[dwCurrent].position.y;
-            }
-            if (map->vertices[dwCurrent].position.y < vHeight.y)
-            {
-                vHeight.y = map->vertices[dwCurrent].position.y;
-            }
-        }
-    }
-    return vHeight;
-}
-
 UINT SpaceDivideTree::CheckSize(UINT dwSize)
 {
     float fCount = 0;
@@ -394,27 +337,18 @@ UINT SpaceDivideTree::CheckSize(UINT dwSize)
 
 std::shared_ptr<SectionNode> SpaceDivideTree::CreateNode(std::shared_ptr<SectionNode> pParent, DWORD LT, DWORD RT, DWORD LB, DWORD RB)
 {
-    std::shared_ptr<SectionNode> NewNode = std::make_shared<SectionNode>();
+    SectionNodeDesc desc;
 
-    NewNode->parentNode = pParent;
-    if(pParent != nullptr)
-        NewNode->depth = pParent->depth + 1;
-    
-    NewNode->cornerIndexList.resize(4);
-    NewNode->cornerIndexList[0] = LT;
-    NewNode->cornerIndexList[1] = RT;
-    NewNode->cornerIndexList[2] = LB;
-    NewNode->cornerIndexList[3] = RB;
+    desc.pParent = pParent;
+    desc.LT = LT;
+    desc.RT = RT;
+    desc.LB = LB;
+    desc.RB = RB;
+    desc.colNum = terrain.lock()->colNum;
 
-    //set node index
-    ldiv_t divVal = ldiv((long)LT, (long)terrain.lock()->colNum);
-    NewNode->element.x = divVal.rem / (RT - LT);
-    NewNode->element.y = divVal.quot / (RT - LT);
+    std::shared_ptr<SectionNode> NewNode = std::make_shared<SectionNode>(desc);
 
-    UINT dwNumPatchCount = (UINT)pow(2.0f, (float)NewNode->depth);
-    NewNode->nodeIndex = NewNode->element.y * dwNumPatchCount + NewNode->element.x;
 
-    CreateBoundingBox(NewNode);
 
     return NewNode;
 }

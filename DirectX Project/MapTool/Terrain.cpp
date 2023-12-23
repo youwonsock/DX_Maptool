@@ -87,7 +87,6 @@ void Terrain::Init()
 	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
 	spaceDivideTree->maxDepth = devideTreeDepth;
 	spaceDivideTree->Init();
-	splatting->SetSRV(shader);
 
 	// init color
 	splatting->SetVertexByTexture(vertices);
@@ -151,6 +150,7 @@ void Terrain::Update()
 	}
 
 	spaceDivideTree->Update();
+	splatting->SetSRV(shader);
 
 	// temp
 	renderMgr->Update();

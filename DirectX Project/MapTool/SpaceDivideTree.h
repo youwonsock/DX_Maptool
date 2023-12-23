@@ -13,30 +13,26 @@ public:
 	std::weak_ptr<Terrain> terrain;
 	std::shared_ptr<SectionNode> root;
 
-	// temp : for debug
-	std::shared_ptr<DebugDrawer> debugDraw;
-
 	std::vector<UINT> leafNodeIndexList;
 	std::shared_ptr<IndexBuffer> leafNodeIndexBuffer;
 
 	std::map<int, std::shared_ptr<SectionNode>> leafNodeMap;
 	std::vector<int> drawNodeIndexList;
+
+
+	// temp : for debug
+	std::shared_ptr<DebugDrawer> debugDraw;
 private:
 	void FindDrawNode();
 
 	// build tree
-	void CreateBoundingBox(std::shared_ptr<SectionNode> pNode);
 	void BuildTree(std::shared_ptr<SectionNode> pNode);
-	void UpdateVertexList(std::shared_ptr<SectionNode> pNode);
-	bool SubDivide(std::shared_ptr<SectionNode> pNode);
 	void SetNeighborNode();
-
-	Vector2 GetHeightFromNode(std::shared_ptr<SectionNode> pNode);
+	bool SubDivide(std::shared_ptr<SectionNode> pNode);
 	UINT CheckSize(UINT dwSize);
-
 	std::shared_ptr<SectionNode> CreateNode(std::shared_ptr<SectionNode> pParent, DWORD LT, DWORD RT, DWORD LB, DWORD RB);
 
-	// create index buffer
+	void UpdateVertexList(std::shared_ptr<SectionNode> pNode);
 	void CreateIndexBuffer(UINT rowNum, UINT colNum);
 
 public:
