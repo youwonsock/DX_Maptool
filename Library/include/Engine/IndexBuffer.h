@@ -17,5 +17,8 @@ public:
 public:
 	void CreateIndexBuffer(const std::vector<UINT>& indices);
 	void PushData();
+
+	IndexBuffer();
+	~IndexBuffer();
 };
 

@@ -11,13 +11,13 @@ void MapTool::Init()
 	{
 		TerrainDesc info;
 		
-		info.rowNum = 600;
-		info.colNum = 600;
+		info.rowNum = 200;
+		info.colNum = 200;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
 		//info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
-		info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
+		//info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
 		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
 		info.DevideTreeDepth = 2;
 
@@ -30,7 +30,7 @@ void MapTool::Init()
 
 	// skybox
 	{
-		map->AddComponent(std::make_shared<SkyBox>());
+		//map->AddComponent(std::make_shared<SkyBox>());
 	}
 		
 	map->Init();
@@ -153,5 +153,5 @@ void MapTool::PostRender()
 
 void MapTool::Release()
 {
-	map->Release();
+	map->Release(); 
 }

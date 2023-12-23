@@ -22,7 +22,10 @@ private:
 public:
 	bool isLeafNode = false;
 	int depth = 0;
-	int nodeIndex = 0;
+	UINT nodeIndex = 0;
+	UINT lodLevel = 0;
+	UINT lodType = 0;
+
 	Cube boundingBox;
 	Vector2 element;
 

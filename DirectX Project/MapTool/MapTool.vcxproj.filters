@@ -75,6 +75,9 @@
     <ClInclude Include="Picking.h">
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
     </ClInclude>
+    <ClInclude Include="StaticLOD.h">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="Picking.cpp">
       <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticLOD.cpp">
+      <Filter>소스 파일\MapToolClasses\Tree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,3 +27,12 @@ void IndexBuffer::PushData()
 {
 	Global::g_immediateContext->IASetIndexBuffer(indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
+
+IndexBuffer::IndexBuffer()
+{
+}
+
+IndexBuffer::~IndexBuffer()
+{
+	indexBuffer.Reset();
+}

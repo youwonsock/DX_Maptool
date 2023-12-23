@@ -4,6 +4,7 @@ class SectionNode;
 class Terrain;
 class RenderMgr;
 class DebugDrawer;
+struct StaticLOD;
 
 class SpaceDivideTree
 {
@@ -19,6 +20,9 @@ public:
 	std::map<int, std::shared_ptr<SectionNode>> leafNodeMap;
 	std::vector<int> drawNodeIndexList;
 
+	// temp lod
+	int numFace = 0;
+	std::shared_ptr<VertexBuffer> vertexBuffer;
 
 	// temp : for debug
 	std::shared_ptr<DebugDrawer> debugDraw;

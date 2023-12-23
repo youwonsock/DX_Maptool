@@ -159,6 +159,7 @@
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="SpaceDivideTree.h" />
     <ClInclude Include="Splatting.h" />
+    <ClInclude Include="StaticLOD.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="WinMain.h" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpaceDivideTree.cpp" />
     <ClCompile Include="Splatting.cpp" />
+    <ClCompile Include="StaticLOD.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>

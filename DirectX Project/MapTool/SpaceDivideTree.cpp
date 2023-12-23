@@ -3,6 +3,7 @@
 
 #include "SectionNode.h"
 #include "Terrain.h"
+#include "StaticLOD.h"
 
 #include "RenderMgr.h"
 #include "DebugDrawer.h"
@@ -27,6 +28,257 @@ SpaceDivideTree::~SpaceDivideTree()
 {
 }
 
+
+// -------------------------------------------------------------------------------
+// ------------------------------lod functions -----------------------------------
+// -------------------------------------------------------------------------------
+
+std::vector<DWORD> indexList;
+std::map<int, std::shared_ptr<IndexBuffer>> lodIndexBufferMap;
+int pacthCount = 0;
+
+int a = 0;
+
+float GetExpansionRatio(Vector3 center)
+{
+    auto mainCam = CameraManager::GetInstance().GetMainCamera();
+
+    float a = Vector3(mainCam->position - center).Length();
+
+    float ratio = Vector3(mainCam->position - center).Length() / mainCam->GetFarRange();
+    //float ratio = Vector3(mainCam->position - center).Length() / 150;
+
+    // lod 테스트를 위해 임시로 5배로 늘림
+    ratio *= 5;
+
+    return ratio;
+}
+
+DWORD GetLodSubIndex(std::shared_ptr<SectionNode>& pNode)
+{
+    pNode->lodLevel = GetExpansionRatio(pNode->boundingBox.center) * pacthCount;
+
+    return 1;
+}
+
+DWORD GetLodType(std::shared_ptr<SectionNode>& pNode)
+{
+    if (pNode->neighborNodeList.size() <= 0)
+        return 0;
+
+    DWORD dwType = 0;
+
+    // 상단
+    if (pNode->neighborNodeList[0] && pNode->neighborNodeList[0]->lodLevel < pNode->lodLevel)
+        dwType += 1;
+    // 하단
+    if (pNode->neighborNodeList[1] && pNode->neighborNodeList[1]->lodLevel < pNode->lodLevel)
+        dwType += 4;
+    // 좌측
+    if (pNode->neighborNodeList[2] && pNode->neighborNodeList[2]->lodLevel < pNode->lodLevel)
+        dwType += 8;
+    // 우측
+    if (pNode->neighborNodeList[3] && pNode->neighborNodeList[3]->lodLevel < pNode->lodLevel)
+        dwType += 2;
+
+    pNode->lodType = dwType;
+
+    return dwType;
+}
+
+UINT beforePos = 0;
+int SetLodIndexBuffer(std::shared_ptr<SectionNode>& pNode, DWORD& dwCurentIndex, DWORD dwA, DWORD dwB, DWORD dwC, DWORD dwType)
+{
+    int iNumFaces = 0;
+
+    if (dwType == 0)
+    {
+        indexList[dwCurentIndex + 0] = dwA;
+        indexList[dwCurentIndex + 1] = dwB;
+        indexList[dwCurentIndex + 2] = dwC;
+        iNumFaces += 1;
+        dwCurentIndex += 3;
+    }
+    else if (dwType == 8 || dwType == 2)// 좌우
+    {
+        DWORD dwCenter = (dwA + dwB) / 2;
+        indexList[dwCurentIndex + 0] = dwC;
+        indexList[dwCurentIndex + 1] = dwA;
+        indexList[dwCurentIndex + 2] = dwCenter;
+        indexList[dwCurentIndex + 3] = dwC;
+        indexList[dwCurentIndex + 4] = dwCenter;
+        indexList[dwCurentIndex + 5] = dwB;
+        iNumFaces += 2;
+        dwCurentIndex += 6;
+
+    }
+    else if (dwType == 1 || dwType == 4)// 상하
+    {
+        DWORD dwCenter = (dwB + dwC) / 2;
+        indexList[dwCurentIndex + 0] = dwA;
+        indexList[dwCurentIndex + 1] = dwB;
+        indexList[dwCurentIndex + 2] = dwCenter;
+        indexList[dwCurentIndex + 3] = dwA;
+        indexList[dwCurentIndex + 4] = dwCenter;
+        indexList[dwCurentIndex + 5] = dwC;
+        iNumFaces += 2;
+        dwCurentIndex += 6;
+    }
+    else if (dwType == 9 || dwType == 6)// 좌상, 우하
+    {
+        DWORD dwTopCenter = (dwB + dwC) / 2;
+        DWORD dwLeftCenter = (dwA + dwB) / 2;
+
+        indexList[dwCurentIndex + 0] = dwLeftCenter;
+        indexList[dwCurentIndex + 1] = dwB;
+        indexList[dwCurentIndex + 2] = dwTopCenter;
+        indexList[dwCurentIndex + 3] = dwLeftCenter;
+        indexList[dwCurentIndex + 4] = dwTopCenter;
+        indexList[dwCurentIndex + 5] = dwA;
+
+        indexList[dwCurentIndex + 6] = dwA;
+        indexList[dwCurentIndex + 7] = dwTopCenter;
+        indexList[dwCurentIndex + 8] = dwC;
+        iNumFaces += 3;
+        dwCurentIndex += 9;
+    }
+
+    return iNumFaces;
+}
+
+int UpdateIndexList(std::shared_ptr<SectionNode>& pNode, DWORD idxBufferIdx, DWORD lodLevel, DWORD width)
+{
+    int iNumFaces = 0; beforePos = 0;
+
+    DWORD dwTL = pNode->cornerIndexList[0];
+    DWORD dwTR = pNode->cornerIndexList[1];
+    DWORD dwBL = pNode->cornerIndexList[2];
+    DWORD dwBR = pNode->cornerIndexList[3];
+
+    /*ldiv_t divValue = ldiv( dwTL, m_dwWidth );
+    DWORD dwStartRow = divValue.quot;
+    DWORD dwStartCol = divValue.rem;
+
+    divValue = ldiv( dwBL, m_dwWidth );
+    DWORD dwEndRow = divValue.quot;
+
+    divValue = ldiv( dwTR, m_dwWidth );
+    DWORD dwEndCol = divValue.rem;*/
+
+    DWORD dwStartRow = dwTL / width;
+    DWORD dwEndRow = dwBL / width;
+
+    DWORD dwStartCol = dwTL % width;
+    DWORD dwEndCol = dwTR % width;
+
+    DWORD dwOffset = (DWORD)(pow(2.0f, (float)lodLevel));
+    DWORD dwCountX = ((dwEndCol - dwStartCol) / dwOffset) - 1;
+    DWORD dwCountY = ((dwEndRow - dwStartRow) / dwOffset) - 1;
+
+
+    DWORD dwYCell = 0;
+    for (DWORD dwRow = dwStartRow; dwRow < dwEndRow; dwRow += dwOffset, dwYCell++)
+    {
+        DWORD dwXCell = 0;
+        for (DWORD dwCol = dwStartCol; dwCol < dwEndCol; dwCol += dwOffset, dwXCell++)
+        {
+            //0	1    4   
+            //2	   3 5
+            DWORD dwNextRow = dwRow + dwOffset;
+            DWORD dwNextCol = dwCol + dwOffset;
+            if ((dwXCell == 0 && dwYCell == 0))
+            {
+                DWORD dwType = (pNode->lodType & 8) + (pNode->lodType & 1);
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwNextRow * width + dwCol,	// 2
+                    dwRow * width + dwCol,		// 0
+                    dwRow * width + dwNextCol,	// 1											
+                    dwType);
+            }
+            else if ((dwXCell == 0) && (pNode->lodType & 8))
+            {
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwNextRow * width + dwCol,	// 2
+                    dwRow * width + dwCol,		// 0
+                    dwRow * width + dwNextCol,	// 1											
+                    8);
+            }
+            else if ((dwYCell == 0) && (pNode->lodType & 1))
+            {
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwNextRow * width + dwCol,	// 2
+                    dwRow * width + dwCol,		// 0
+                    dwRow * width + dwNextCol,	// 1											
+                    1);
+            }
+            else
+            {
+                indexList[idxBufferIdx + 0] = dwNextRow * width + dwCol;
+                indexList[idxBufferIdx + 1] = dwRow * width + dwCol;
+                indexList[idxBufferIdx + 2] = dwRow * width + dwNextCol;
+                iNumFaces += 1;
+                idxBufferIdx += 3;
+            }
+
+
+
+            if ((dwXCell == dwCountX && dwYCell == dwCountY))
+            {
+                DWORD dwType = (pNode->lodType & 2) + (pNode->lodType & 4);
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwRow * width + dwNextCol,		// 2
+                    dwNextRow * width + dwNextCol,	// 3
+                    dwNextRow * width + dwCol,		// 0																					
+                    dwType);
+            }
+            else if ((dwXCell == dwCountX) && (pNode->lodType & 2))
+            {
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwRow * width + dwNextCol,		// 2
+                    dwNextRow * width + dwNextCol,	// 3
+                    dwNextRow * width + dwCol,		// 0																					
+                    2);
+            }
+            else if ((dwYCell == dwCountY) && (pNode->lodType & 4))
+            {
+                iNumFaces += SetLodIndexBuffer(pNode, idxBufferIdx,
+                    dwRow * width + dwNextCol,		// 2
+                    dwNextRow * width + dwNextCol,	// 3
+                    dwNextRow * width + dwCol,		// 0																					
+                    4);
+            }
+            else
+            {
+                indexList[idxBufferIdx + 0] = dwRow * width + dwNextCol;
+                indexList[idxBufferIdx + 1] = dwNextRow * width + dwNextCol;
+                indexList[idxBufferIdx + 2] = dwNextRow * width + dwCol;
+                iNumFaces += 1;
+                idxBufferIdx += 3;
+            }
+        }
+    }
+
+    std::shared_ptr<IndexBuffer> lodIndexBuffer = std::make_shared<IndexBuffer>();
+    std::vector<UINT> indexListTemp;
+
+    // copy current index list
+    for (int i = beforePos; i < beforePos + idxBufferIdx; ++i)
+        indexListTemp.push_back(indexList[i]);
+    beforePos = idxBufferIdx;
+
+    lodIndexBuffer->CreateIndexBuffer(indexListTemp);
+
+    lodIndexBufferMap[pNode->nodeIndex] = lodIndexBuffer;
+
+    return iNumFaces;
+}
+
+// -------------------------------------------------------------------------------
+// ------------------------------lod functions -----------------------------------
+// -------------------------------------------------------------------------------
+
+
+
 // -------------------------------------------------------------------------------
 // ------------------------------component functions -----------------------------
 // -------------------------------------------------------------------------------
@@ -36,6 +288,11 @@ void SpaceDivideTree::Init()
 	{
         debugDraw = std::make_shared<DebugDrawer>();
 	}
+
+    // temp lod
+    {
+        indexList.resize(terrain.lock()->rowNum * terrain.lock()->colNum * 2 * 3 * 2);
+    }
 
 	root = CreateNode(nullptr, 0, terrain.lock()->rowCellNum
         , terrain.lock()->rowNum * terrain.lock()->colCellNum
@@ -49,6 +306,17 @@ void SpaceDivideTree::Init()
     UINT leafNodeRowNum = box.max.x - box.min.x;
     UINT leafNodeColNum = box.max.z - box.min.z;
     CreateIndexBuffer(leafNodeRowNum, leafNodeColNum);
+
+
+    //temp test lod1 (use all vertex)
+    {
+        vertexBuffer = std::make_shared<VertexBuffer>();
+        vertexBuffer->CreateVertexBuffer(terrain.lock()->vertices);
+
+        // set patch count
+        int cellCount = (terrain.lock()->rowCellNum) / pow(2.0f, (float)maxDepth);
+        pacthCount = ( log( (float)cellCount / log(2.0f) ) );
+    }
 }
 
 void SpaceDivideTree::Update()
@@ -114,13 +382,45 @@ void SpaceDivideTree::Update()
     }
     
 	FindDrawNode();
+
+
+
+    // update lod indexlist
+    {
+        numFace = 0;
+
+        for (auto& i : drawNodeIndexList)
+        {
+            auto& node = leafNodeMap[i]; 
+            
+            GetLodSubIndex(node);
+            GetLodType(node);
+
+            numFace += UpdateIndexList(node, numFace * 3, node->lodLevel, terrain.lock()->rowNum); 
+        }
+    }
 }
+
 
 void SpaceDivideTree::Render()
 {
 
+    //test use all vertex buffer
+    {
+        UINT stride = vertexBuffer->GetStride();
+        UINT offset = vertexBuffer->GetOffset();
+
+        Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+        Global::g_immediateContext->IASetVertexBuffers(0, 1, vertexBuffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+    }
+
 	for (auto& index : drawNodeIndexList)
 	{
+        auto& node = leafNodeMap[index];
+
+        node->indexBuffer = lodIndexBufferMap[index];
+
 		leafNodeMap[index]->Render();
 	}
 

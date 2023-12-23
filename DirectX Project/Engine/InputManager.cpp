@@ -27,7 +27,7 @@ bool InputManager::InitKeyboard(HINSTANCE hInstance, HWND hwnd)
 		return false;
 	}
 
-	hr = pKeyboardDevice->SetCooperativeLevel(hwnd, DISCL_BACKGROUND | DISCL_NONEXCLUSIVE);
+	hr = pKeyboardDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
 		Utils::ShowErrorMessage(hr);
@@ -59,7 +59,7 @@ bool InputManager::InitMouse(HINSTANCE hInstance, HWND hwnd)
 		return false;
 	}
 
-	hr = pMouseDevice->SetCooperativeLevel(hwnd, DISCL_BACKGROUND | DISCL_NONEXCLUSIVE);
+	hr = pMouseDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
 		Utils::ShowErrorMessage(hr);

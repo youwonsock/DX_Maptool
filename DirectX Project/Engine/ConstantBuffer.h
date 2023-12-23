@@ -14,7 +14,10 @@ public:
 		this->device = device;
 		this->immediateContext = immediateContext;
 	}
-	~ConstantBuffer(){}
+	~ConstantBuffer()
+	{
+		constantBuffer.Reset();
+	}
 
 public:
 	ComPtr<ID3D11Buffer> GetConstantBuffer() { return constantBuffer; }

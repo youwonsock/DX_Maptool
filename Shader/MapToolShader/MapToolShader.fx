@@ -18,7 +18,7 @@ PNCTOutput VS(PNCTVertex input)
 	output.position = mul(output.position, ViewProjection);
 	
     // need to make uv pos
-    output.uv = input.uv * 10;
+    output.uv = input.uv;
     
 	output.normal = input.normal;
     output.color = input.color; // current not use;

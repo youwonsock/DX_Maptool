@@ -15,6 +15,7 @@ private:
 	bool gpuWrite = false;
 public:
 	VertexBuffer();
+	~VertexBuffer();
 
 	ComPtr<ID3D11Buffer> GetVertexBuffer() { return vertexBuffer; }
 	UINT GetStride() { return stride; }
