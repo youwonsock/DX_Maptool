@@ -90,6 +90,9 @@ void Terrain::Init()
 
 	// init color
 	splatting->SetVertexByTexture(vertices);
+	
+	// create leaf node index list(for picking)
+	CreateLeafNodeIndexList();
 }
 
 void Terrain::Update()
@@ -114,7 +117,7 @@ void Terrain::Update()
 			Vector3 pickPoint;
 
 			bool isFind = false;
-			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, spaceDivideTree->leafNodeIndexList
+			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, leafNodeIndexList
 				, spaceDivideTree->leafNodeMap
 				, pickPoint);
 
@@ -344,6 +347,35 @@ Vector3 Terrain::ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex
 	vNormal.Normalize();
 
 	return vNormal;
+}
+
+void Terrain::CreateLeafNodeIndexList()
+{
+	UINT leafRowCellNum = rowNum / pow(2, devideTreeDepth);
+
+	leafNodeIndexList.resize(leafRowCellNum * leafRowCellNum * 6);
+
+	UINT colNum = leafRowCellNum + 1;
+
+	UINT iIndex = 0;
+	for (int iRow = 0; iRow < leafRowCellNum; ++iRow)
+	{
+		for (int iCol = 0; iCol < leafRowCellNum; ++iCol)
+		{
+			int nextCol = iCol + 1;
+			int nextRow = iRow + 1;
+
+			leafNodeIndexList[iIndex + 0] = iRow * colNum + iCol;
+			leafNodeIndexList[iIndex + 1] = iRow * colNum + nextCol;
+			leafNodeIndexList[iIndex + 2] = nextRow * colNum + iCol;
+
+			leafNodeIndexList[iIndex + 3] = leafNodeIndexList[iIndex + 2];
+			leafNodeIndexList[iIndex + 4] = leafNodeIndexList[iIndex + 1];
+			leafNodeIndexList[iIndex + 5] = nextRow * colNum + nextCol;
+
+			iIndex += 6;
+		}
+	}
 }
 
 void Terrain::CalcVertexColor(Vector3 vLightDir)

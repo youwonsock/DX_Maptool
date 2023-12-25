@@ -51,18 +51,20 @@ public:
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
+	std::vector<UINT> leafNodeIndexList;
 
 	std::vector<Vector3> faceNormalList;
 	std::vector<int> normalVectorLookTable;
 
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<Texture> texture;
-	std::shared_ptr<RenderMgr> renderMgr;	// temp
 
 	std::shared_ptr<HeightMap> heightMap;
 	std::shared_ptr<Splatting> splatting;
 	std::shared_ptr<Picking> picking;
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
+
+	std::shared_ptr<RenderMgr> renderMgr;	// temp
 
 private:
 	// create map data
@@ -73,6 +75,7 @@ private:
 	void CalcPerVertexNormalsFastLookup();
 	void CalcFaceNormals();
 	Vector3 ComputeFaceNormal(DWORD dwIndex0, DWORD dwIndex1, DWORD dwIndex2);
+	void CreateLeafNodeIndexList();
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
