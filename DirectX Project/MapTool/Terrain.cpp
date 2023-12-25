@@ -63,6 +63,14 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		splatting = std::make_shared<Splatting>();
 		splatting->Init(splattingDesc);
 	}
+
+
+	// temp (object spawn)
+	{
+		model = std::make_shared<Model>();
+		model->ReadModel(L"Tower/Tower");
+		model->ReadMaterial(L"Tower/Tower");
+	}
 }
 
 Terrain::~Terrain()
@@ -93,6 +101,14 @@ void Terrain::Init()
 	
 	// create leaf node index list(for picking)
 	CreateLeafNodeIndexList();
+
+
+	// temp (object spawn)
+	{
+		objectShader = std::make_shared<Shader>(L"23. RenderDemo.fx");
+
+		RenderManager::GetInstance().Init(objectShader);
+	}
 }
 
 void Terrain::Update()
@@ -104,7 +120,7 @@ void Terrain::Update()
 	ImGui::InputInt("Picking Mode", &pickingMode);
 	ImGui::InputInt("Tilling Texture", &tillingTextureNum);
 
-	if (pickingMode < 0 || pickingMode > 1)
+	if (pickingMode < 0 || pickingMode > 2)
 		pickingMode = 0;
 	if (tillingTextureNum < 0 || tillingTextureNum > 4)
 		tillingTextureNum = 0;
@@ -124,8 +140,8 @@ void Terrain::Update()
 			if (pickNode)
 			{
 				picking->FindChangeVertex(pickPoint, radius, spaceDivideTree->leafNodeMap.size()
-											, pickNode
-											, vertices);
+					, pickNode
+					, vertices);
 
 				switch (pickingMode)
 				{
@@ -133,7 +149,11 @@ void Terrain::Update()
 					UpdateVertexHeight(pickPoint);
 					break;
 				case(1):
-					splatting->TillingTexture(pickPoint,tillingTextureNum, vertices, picking->UpdateVertexIdxList);
+					splatting->TillingTexture(pickPoint, tillingTextureNum, vertices, picking->UpdateVertexIdxList);
+					break;
+				case(2):
+					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
+						ObjectSpawn(pickPoint);
 					break;
 				default:
 					break;
@@ -169,6 +189,22 @@ void Terrain::Render()
 // -------------------------------------------------------------------------------
 // ------------------------------private functions -------------------------------
 // -------------------------------------------------------------------------------
+
+
+void Terrain::ObjectSpawn(Vector3 spawnPos)
+{
+	std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+
+	obj->GetTransform()->SetWorldPosition(spawnPos);
+	obj->GetTransform()->SetWorldScale(Vector3(0.01f));
+	obj->AddComponent(std::make_shared<ModelRenderer>(objectShader));
+
+	obj->GetModelRenderer()->SetModel(model);
+	obj->GetModelRenderer()->SetPass(1);
+
+	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+}
+
 
 void Terrain::UpdateVertexHeight(Vector3 centerPos)
 {

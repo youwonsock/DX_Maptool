@@ -35,6 +35,10 @@ private:
 	float changeHeight = 10.0f;
 	float radius = 10.0f;
 
+	// temp (object spawn)
+	std::shared_ptr<Model> model;
+	std::shared_ptr<Shader> objectShader;
+
 public:
 	UINT rowNum;
 	UINT colNum;
@@ -81,6 +85,8 @@ private:
 	void CalcVertexColor(Vector3 vLightDir);
 	void UpdateVertexHeight(Vector3 centerPos);
 
+	// temp
+	void ObjectSpawn(Vector3 spawnPos);
 public:
 	void Init() override;
 	void Update() override;

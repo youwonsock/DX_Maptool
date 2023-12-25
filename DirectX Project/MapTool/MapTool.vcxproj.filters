@@ -31,11 +31,14 @@
     <Filter Include="소스 파일\MapToolClasses\Debug">
       <UniqueIdentifier>{0ca65b1c-8b1e-43f1-b02f-e25523395773}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\MapToolClasses\Terrain">
-      <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\MapToolClasses\Map">
       <UniqueIdentifier>{64dc3f79-572d-474c-a3e3-402a088385f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Terrain Class">
+      <UniqueIdentifier>{cc6cd131-5627-41ad-83c7-14f412da83cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Component">
+      <UniqueIdentifier>{a053c474-0e01-4913-870b-bff126e47496}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -57,9 +60,6 @@
     <ClInclude Include="DebugDrawer.h">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
-    </ClInclude>
     <ClInclude Include="RenderMgr.h">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
@@ -67,16 +67,19 @@
       <Filter>소스 파일\MapToolClasses\Map</Filter>
     </ClInclude>
     <ClInclude Include="HeightMap.h">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClInclude>
     <ClInclude Include="Splatting.h">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClInclude>
     <ClInclude Include="Picking.h">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClInclude>
     <ClInclude Include="StaticLOD.h">
       <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>소스 파일\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +101,6 @@
     <ClCompile Include="DebugDrawer.cpp">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
-    </ClCompile>
     <ClCompile Include="RenderMgr.cpp">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClCompile>
@@ -108,16 +108,19 @@
       <Filter>소스 파일\MapToolClasses\Map</Filter>
     </ClCompile>
     <ClCompile Include="HeightMap.cpp">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClCompile>
     <ClCompile Include="Splatting.cpp">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClCompile>
     <ClCompile Include="Picking.cpp">
-      <Filter>소스 파일\MapToolClasses\Terrain</Filter>
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClCompile>
     <ClCompile Include="StaticLOD.cpp">
       <Filter>소스 파일\MapToolClasses\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>소스 파일\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

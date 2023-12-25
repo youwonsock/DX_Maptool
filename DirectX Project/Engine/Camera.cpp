@@ -55,7 +55,7 @@ void Camera::Update()
 
 	frustum.Update(viewMatrix, projectionMatrix);
 
-	return; // temp
+	// if render maanger is not initialized, error!
 	RenderManager::GetInstance().PushGlobalData(viewMatrix, projectionMatrix);
 }
 
