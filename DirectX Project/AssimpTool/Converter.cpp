@@ -19,10 +19,10 @@ void Converter::ReadAssetFile(const std::wstring& file)
 	auto p = std::filesystem::path(fullPath);
 	
 	if(!std::filesystem::exists(p))
-		ShowErrorMessage(L"File not found: " + fullPath);
+		Utils::ShowErrorMessage(L"File not found: " + fullPath);
 
 	scene = importer->ReadFile(
-		WStringToString(fullPath),
+		Utils::WStringToString(fullPath),
 		aiProcess_ConvertToLeftHanded |
 		aiProcess_Triangulate |
 		aiProcess_GenUVCoords |
@@ -31,7 +31,7 @@ void Converter::ReadAssetFile(const std::wstring& file)
 	);
 
 	if(scene == nullptr)
-		ShowErrorMessage(L"Failed to load model: " + fullPath);
+		Utils::ShowErrorMessage(L"Failed to load model: " + fullPath);
 }
 
 void Converter::ExportModelData(const std::wstring& savePath)
@@ -395,7 +395,11 @@ std::shared_ptr<asAnimationNode> Converter::ParseAnimationNode(std::shared_ptr<a
 	if (node->keyframes.size() < animation->frameCount)
 	{
 		UINT count = animation->frameCount - node->keyframes.size();
-		asKeyframeData keyFrame = node->keyframes.back();
+
+		asKeyframeData keyFrame;
+
+		if(node->keyframes.size() > 0)
+			keyFrame = node->keyframes.back();
 
 		for (UINT i = 0; i < count; ++i)
 			node->keyframes.push_back(keyFrame);
@@ -412,7 +416,7 @@ UINT Converter::GetBoneIndex(std::string name)
 			return bones[i]->index;
 	}
 
-	ShowErrorMessage(L"Bone not found: " + StringToWString(name));
+	Utils::ShowErrorMessage(L"Bone not found: " + Utils::StringToWString(name));
 	return -1;
 }
 
@@ -483,7 +487,7 @@ void Converter::WirteMaterialData(std::wstring filePath)
 		node->LinkEndChild(element);
 	}
 
-	document->SaveFile(WStringToString(filePath).c_str());
+	document->SaveFile(Utils::WStringToString(filePath).c_str());
 }
 
 std::string Converter::WirteTextureFile(std::string saveFolder, std::string file)
@@ -500,7 +504,7 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 		if (srcTexture->mHeight == 0)
 		{
 			std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
-			file->Open(StringToWString(pathStr), FileMode::Write);
+			file->Open(Utils::StringToWString(pathStr), FileMode::Write);
 			file->Write(srcTexture->pcData, srcTexture->mWidth);
 		}
 		else
@@ -523,24 +527,24 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 			HRESULT hr = Global::g_device->CreateTexture2D(&desc, &subResource, texture.GetAddressOf());
 			
 			if(FAILED(hr))
-				ShowErrorMessage(hr);
+				Utils::ShowErrorMessage(hr);
 
 			DirectX::ScratchImage img;
 			::CaptureTexture(Global::g_device.Get(), Global::g_immediateContext.Get(), texture.Get(), img);
 
 			// Save To File
-			hr = DirectX::SaveToDDSFile(*img.GetImages(), DirectX::DDS_FLAGS_NONE, StringToWString(fileName).c_str());
+			hr = DirectX::SaveToDDSFile(*img.GetImages(), DirectX::DDS_FLAGS_NONE, Utils::StringToWString(fileName).c_str());
 			if (FAILED(hr))
-				ShowErrorMessage(hr);
+				Utils::ShowErrorMessage(hr);
 		}
 	}
 	else
 	{
 		std::string originStr = (std::filesystem::path(assetPath) / folderName / file).string();
-		Replace(originStr, "\\", "/");
+		Utils::Replace(originStr, "\\", "/");
 
 		std::string pathStr = (std::filesystem::path(saveFolder) / fileName).string();
-		Replace(pathStr, "\\", "/");
+		Utils::Replace(pathStr, "\\", "/");
 
 		::CopyFileA(originStr.c_str(), pathStr.c_str(), false);
 	}

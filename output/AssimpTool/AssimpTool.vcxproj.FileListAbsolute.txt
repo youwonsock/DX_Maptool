@@ -1,2 +1,3 @@
 E:\GitRepo\DX_Practice\output\AssimpTool\AssimpTool.exe
 E:\Repository\DX_Practice\output\AssimpTool\AssimpTool.exe
+C:\Git Repositories\DirectX Project\output\AssimpTool\AssimpTool.exe

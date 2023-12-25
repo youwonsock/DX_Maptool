@@ -104,10 +104,10 @@ struct asBoneWeights
 
 struct asKeyframeData
 {
-	float time;
-	Vector3 scale;
-	Quaternion rotation;
-	Vector3 translation;
+	float time = 0;
+	Vector3 scale = {0,0,0};
+	Quaternion rotation = {0,0,0,0};
+	Vector3 translation = {0,0,0};
 };
 
 struct asKeyframe

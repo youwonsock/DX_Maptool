@@ -232,14 +232,30 @@ void ModelAnimator::UpdateTweenData()
 			std::shared_ptr<ModelAnimation> nextAnim = model->GetAnimationByIndex(desc.next.animIdx);
 			desc.next.sumTime += TimeManager::GetInstance().GetDeltaTime();
 
-			float timePerFrame = 1.f / (nextAnim->frameRate * desc.next.speed);
+			float frameRate;
+			UINT frameCount;
+
+			if (nextAnim.get() == NULL)
+			{
+				desc.ClearNextAnim();
+
+				frameRate = 1.f;
+				frameCount = 1;
+			}
+			else
+			{
+				frameRate = nextAnim->frameRate;
+				frameCount = nextAnim->frameCount;
+			}
+
+			float timePerFrame = 1.f / (frameRate * desc.next.speed);
 
 			if (desc.next.ratio >= 1.f)
 			{
 				desc.next.sumTime = 0;
 
-				desc.next.currentFrame = (desc.next.currentFrame + 1) % nextAnim->frameCount;
-				desc.next.nextFrame = (desc.next.currentFrame + 1) % nextAnim->frameCount;
+				desc.next.currentFrame = (desc.next.currentFrame + 1) % frameCount;
+				desc.next.nextFrame = (desc.next.currentFrame + 1) % frameCount;
 			}
 
 			desc.next.ratio = desc.next.sumTime / timePerFrame;

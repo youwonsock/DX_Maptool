@@ -28,15 +28,12 @@ void SceneDemo::Init()
 		light->GetLight()->SetLightDesc(lightDesc); 
 		SceneManager::GetInstance().GetCurrentScene()->Add(light);
 	}
-	
 
-	// anim
+	// turret
 	std::shared_ptr<Model> model1 = std::make_shared<Model>();
-	model1->ReadModel(L"Kachujin/Kachujin");
-	model1->ReadMaterial(L"Kachujin/Kachujin");
-	model1->ReadAnimation(L"Kachujin/Idle");
-	model1->ReadAnimation(L"Kachujin/Run");
-	model1->ReadAnimation(L"Kachujin/Slash");
+	model1->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
+	model1->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
+	model1->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
 
 	for (int i = 0; i < 500; ++i)
 	{
@@ -54,56 +51,80 @@ void SceneDemo::Init()
 		SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 	}
 
-	// model
-	std::shared_ptr<Model> model2 = std::make_shared<Model>();
-	model2->ReadModel(L"Tower/Tower");
-	model2->ReadMaterial(L"Tower/Tower");
+	//// anim
+	//std::shared_ptr<Model> model0 = std::make_shared<Model>();
+	//model0->ReadModel(L"Kachujin/Kachujin");
+	//model0->ReadMaterial(L"Kachujin/Kachujin");
+	//model0->ReadAnimation(L"Kachujin/Idle");
+	//model0->ReadAnimation(L"Kachujin/Run");
+	//model0->ReadAnimation(L"Kachujin/Slash");
 
-	for (int i = 0; i < 500; i++)
-	{
-		std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
-		obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
-		obj->GetTransform()->SetWorldScale(Vector3(0.01f));
-		obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+	//for (int i = 0; i < 500; ++i)
+	//{
+	//	auto obj = std::make_shared<GameObject>();
+	//	obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
+	//	obj->GetTransform()->SetWorldScale(Vector3(0.01f));
 
-		obj->GetModelRenderer()->SetModel(model2);
-		obj->GetModelRenderer()->SetPass(1);
+	//	obj->AddComponent(std::make_shared<ModelAnimator>(shader));
 
-		SceneManager::GetInstance().GetCurrentScene()->Add(obj);
-	}
+	//	{
+	//		obj->GetModelAnimator()->SetModel(model0);
+	//		obj->GetModelAnimator()->SetPass(2);
+	//	}
 
-	// mesh
+	//	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+	//}
 
-	// Material
-	{
-		std::shared_ptr<Material> material = std::make_shared<Material>();
-		material->SetShader(shader);
-		auto texture = ResourceManager::GetInstance().Load<Texture>(L"Chim", L"../../Res/Textures/Chim/YellowLemonChim.png");
-		material->SetDiffuseMap(texture); 
+	//// model
+	//std::shared_ptr<Model> model2 = std::make_shared<Model>();
+	//model2->ReadModel(L"Tower/Tower");
+	//model2->ReadMaterial(L"Tower/Tower");
 
-		MaterialDesc& desc = material->GetMaterialDesc();
-		desc.ambient = Vector4(1.f);
-		desc.diffuse = Vector4(1.f);
-		desc.specular = Vector4(1.f);
+	//for (int i = 0; i < 500; i++)
+	//{
+	//	std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+	//	obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
+	//	obj->GetTransform()->SetWorldScale(Vector3(0.01f));
+	//	obj->AddComponent(std::make_shared<ModelRenderer>(shader));
 
-		ResourceManager::GetInstance().Add(L"Chim", material);
-	}
+	//	obj->GetModelRenderer()->SetModel(model2);
+	//	obj->GetModelRenderer()->SetPass(1);
 
-	for (int i = 0; i < 500; ++i)
-	{
-		auto obj = std::make_shared<GameObject>();
-		obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
-		obj->AddComponent(std::make_shared<MeshRenderer>());
+	//	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+	//}
 
-		{
-			obj->GetMeshRenderer()->SetMaterial(ResourceManager::GetInstance().Get<Material>(L"Chim"));
+	//// mesh
 
-			auto mesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
-			obj->GetMeshRenderer()->SetMesh(mesh);
-		}
+	//// Material
+	//{
+	//	std::shared_ptr<Material> material = std::make_shared<Material>();
+	//	material->SetShader(shader);
+	//	auto texture = ResourceManager::GetInstance().Load<Texture>(L"Chim", L"../../Res/Textures/Chim/YellowLemonChim.png");
+	//	material->SetDiffuseMap(texture); 
 
-		SceneManager::GetInstance().GetCurrentScene()->Add(obj);
-	}
+	//	MaterialDesc& desc = material->GetMaterialDesc();
+	//	desc.ambient = Vector4(1.f);
+	//	desc.diffuse = Vector4(1.f);
+	//	desc.specular = Vector4(1.f);
+
+	//	ResourceManager::GetInstance().Add(L"Chim", material);
+	//}
+
+	//for (int i = 0; i < 500; ++i)
+	//{
+	//	auto obj = std::make_shared<GameObject>();
+	//	obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
+	//	obj->AddComponent(std::make_shared<MeshRenderer>());
+
+	//	{
+	//		obj->GetMeshRenderer()->SetMaterial(ResourceManager::GetInstance().Get<Material>(L"Chim"));
+
+	//		auto mesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
+	//		obj->GetMeshRenderer()->SetMesh(mesh);
+	//	}
+
+	//	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+	//}
 
 
 	RenderManager::GetInstance().Init(shader);
