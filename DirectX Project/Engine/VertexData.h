@@ -41,6 +41,15 @@ struct PNCTVertex
 	PNCTVertex(const Vector3& pos, const Vector2& uv, const Vector4& color, const Vector3& normal) : position(pos), uv(uv), normal(normal), color(color){}
 };
 
+struct VertexIWT
+{
+	Vector4 blendIndices = { 0, 0, 0, 0 };
+	Vector4 blendWeights = { 0, 0, 0, 0 };
+	Vector3 tangent = { 0, 0, 0 };
+
+	VertexIWT() = default;
+	VertexIWT(const Vector4& blendIndices, const Vector4& blendWeights, const Vector3& tangent) : blendIndices(blendIndices), blendWeights(blendWeights), tangent(tangent) {}
+};
 
 struct VertexTextureNormalTangentBlendData
 {

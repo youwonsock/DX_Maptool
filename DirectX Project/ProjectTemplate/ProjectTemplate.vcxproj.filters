@@ -285,5 +285,8 @@
     <FxCompile Include="..\..\Shader\00. Render.fx">
       <Filter>소스 파일\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Shader\00. DebugShader.fx">
+      <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -8,12 +8,13 @@ void SceneDemo::Init()
 	shader = std::make_shared<Shader>(L"23. RenderDemo.fx");
 
 	// camera
-	{	
-		auto cameraObject = std::make_shared<GameObject>();
-		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, -10));
-		cameraObject->AddComponent(std::make_shared<Camera>());
+	{
+		std::shared_ptr<GameObject>cameraObject = std::make_shared<GameObject>();
 		cameraObject->AddComponent(std::make_shared<TestCamera>());
-		SceneManager::GetInstance().GetCurrentScene()->Add(cameraObject);
+		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
+
+		CameraManager::GetInstance().AddCamera(L"MainCamera", cameraObject);
 	}
 
 	// light
@@ -26,30 +27,77 @@ void SceneDemo::Init()
 		lightDesc.specular = Vector4(0.1f);
 		lightDesc.direction = Vector3(1.f, 0.f, 1.f);
 		light->GetLight()->SetLightDesc(lightDesc); 
-		SceneManager::GetInstance().GetCurrentScene()->Add(light);
+		//SceneManager::GetInstance().GetCurrentScene()->Add(light);
 	}
 
 	// turret
-	std::shared_ptr<Model> model1 = std::make_shared<Model>();
-	model1->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
-	model1->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
-	model1->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
+	//std::shared_ptr<Model> model1 = std::make_shared<Model>();
+	//model1->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
+	//model1->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
+	//model1->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
 
-	for (int i = 0; i < 500; ++i)
+	//for (int i = 0; i < 1; ++i)
+	//{
+	//	auto obj = std::make_shared<GameObject>();
+	//	obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+	//	//obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
+	//	obj->GetTransform()->SetWorldScale(Vector3(1.f));
+
+	//	obj->AddComponent(std::make_shared<ModelAnimator>(shader));
+
+	//	{
+	//		obj->GetModelAnimator()->SetModel(model1);
+	//		obj->GetModelAnimator()->SetPass(2);
+	//	}
+
+	//	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+	//}	
+	
+	// ship
+	//std::shared_ptr<Model> model1 = std::make_shared<Model>();
+	//model1->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
+	//model1->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
+	//model1->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
+
+	//for (int i = 0; i < 1; ++i)
+	//{
+	//	auto obj = std::make_shared<GameObject>();
+	//	obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+	//	//obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
+	//	obj->GetTransform()->SetWorldScale(Vector3(1.f));
+
+	//	obj->AddComponent(std::make_shared<ModelAnimator>(shader));
+
+	//	{
+	//		obj->GetModelAnimator()->SetModel(model1);
+	//		obj->GetModelAnimator()->SetPass(2);
+	//	}
+
+	//	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+	//}	
+	
+	// multi camera
+	std::shared_ptr<Model> model3 = std::make_shared<Model>();
+	model3->ReadModel(L"MultiCameras/MultiCameras");
+	model3->ReadMaterial(L"MultiCameras/MultiCameras");
+
+	for (int i = 0; i < 1; ++i)
 	{
-		auto obj = std::make_shared<GameObject>();
-		obj->GetTransform()->SetWorldPosition(Vector3(rand() % 100, 0, rand() % 100));
-		obj->GetTransform()->SetWorldScale(Vector3(0.01f));
+		std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+		obj->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+		obj->GetTransform()->SetWorldScale(Vector3(1.f));
+		obj->AddComponent(std::make_shared<ModelRenderer>(shader));
 
-		obj->AddComponent(std::make_shared<ModelAnimator>(shader));
-
-		{
-			obj->GetModelAnimator()->SetModel(model1);
-			obj->GetModelAnimator()->SetPass(2);
-		}
+		obj->GetModelRenderer()->SetModel(model3);
+		obj->GetModelRenderer()->SetPass(1);
 
 		SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 	}
+
+
+
+
+	// ---------------------°­ÀÇ-----------------------------
 
 	//// anim
 	//std::shared_ptr<Model> model0 = std::make_shared<Model>();

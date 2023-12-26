@@ -229,16 +229,16 @@ void Converter::ReadMaterialData()
 		material->ambient = Color(color.r, color.g, color.b, 1.f);
 
 		//diffuse
-		srcMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		srcMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, color);
 		material->diffuse = Color(color.r, color.g, color.b, 1.f);
 
 		//specular
-		srcMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		srcMaterial->Get(AI_MATKEY_COLOR_SPECULAR, color);
 		material->specular = Color(color.r, color.g, color.b, 1.f);
 		srcMaterial->Get(AI_MATKEY_SHININESS, material->specular.w); // specular power
 
 		//emissive
-		srcMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		srcMaterial->Get(AI_MATKEY_COLOR_EMISSIVE, color);
 		material->emissive = Color(color.r, color.g, color.b, 1.f);
 
 		aiString file;

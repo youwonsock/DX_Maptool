@@ -11,8 +11,8 @@ void MapTool::Init()
 	{
 		TerrainDesc info;
 		
-		info.rowNum = 100;
-		info.colNum = 100;
+		info.rowNum = 200;
+		info.colNum = 200;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
 		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
@@ -25,7 +25,6 @@ void MapTool::Init()
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 
 		map->AddComponent(std::make_shared<Terrain>(info));
-
 	}
 
 	// skybox

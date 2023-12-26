@@ -23,5 +23,6 @@ public:
 
 	InstanceID GetInstanceID() const;
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
+	virtual void Render() override;
 };
 

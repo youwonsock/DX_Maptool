@@ -352,7 +352,5 @@ std::shared_ptr<SectionNode> SpaceDivideTree::CreateNode(std::shared_ptr<Section
 
     std::shared_ptr<SectionNode> NewNode = std::make_shared<SectionNode>(desc);
 
-
-
     return NewNode;
 }

@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>../../Library/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Library/include;../../Library/include/FBXSDK;../../Library/include/FBXSDK/fbxsdk;../../Library/include/FBXSDK/libxml2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -376,6 +376,7 @@
     <FxCompile Include="..\..\Shader\21. ModelInstancingDemo.fx" />
     <FxCompile Include="..\..\Shader\22. AnimInstancingDemo.fx" />
     <FxCompile Include="..\..\Shader\23. RenderDemo.fx" />
+    <FxCompile Include="..\..\Shader\00. DebugShader.fx" />
     <FxCompile Include="..\..\Shader\Default.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

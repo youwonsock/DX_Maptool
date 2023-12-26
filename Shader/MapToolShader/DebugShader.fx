@@ -1,6 +1,16 @@
+
 matrix World;
 matrix View;
 matrix Projection;
+
+#define MAX_MODEL_TRANSFORMS 50
+
+cbuffer BoneBuffer
+{
+    matrix BoneTransforms[MAX_MODEL_TRANSFORMS];
+};
+
+uint BoneIndex;
 
 struct PNCTVertex
 {
@@ -21,7 +31,7 @@ struct PNCTOutput
 PNCTOutput VS(PNCTVertex input)
 {
     PNCTOutput output;
-    output.position = input.position;
+    output.position = mul(input.position, BoneTransforms[BoneIndex]);
     output.position = mul(output.position, World);
     output.position = mul(output.position, View);
     output.position = mul(output.position, Projection);
@@ -38,9 +48,12 @@ RasterizerState FillModeWireFrame
     FillMode = wireframe;
 };
 
+Texture2D g_txDiffuse1 : register(t0);
+SamplerState sample0 : register(s0);
+
 float4 PS(PNCTOutput input) : SV_TARGET
 {
-    return input.color;
+    return g_txDiffuse1.Sample(sample0, input.uv) * input.color;
 }
 
 technique11 T0
