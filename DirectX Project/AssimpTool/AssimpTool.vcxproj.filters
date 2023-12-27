@@ -68,6 +68,9 @@
     <ClCompile Include="FBXModel.cpp">
       <Filter>소스 파일\Utils\FBXSDK</Filter>
     </ClCompile>
+    <ClCompile Include="FBXSDKTest.cpp">
+      <Filter>소스 파일\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -108,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="FBXLoader.h">
       <Filter>소스 파일\Utils\FBXSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXSDKTest.h">
+      <Filter>소스 파일\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,14 +92,16 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	if (node->mNumMeshes < 1)
 		return;
 
-	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
-	mesh->name = node->mName.C_Str();
-	mesh->boneIndex = bone;
-
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
+		std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
+		mesh->name = node->mName.C_Str();
+		mesh->boneIndex = bone;
+
 		UINT index = node->mMeshes[i];
 		const aiMesh* srcMesh = scene->mMeshes[index];
+
+		int temp = srcMesh->mMaterialIndex;
 
 		// Material Name
 		const aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
@@ -132,9 +134,11 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 			for (UINT k = 0; k < face.mNumIndices; k++)
 				mesh->indices.push_back(face.mIndices[k] + startVertex);
 		}
+
+		meshes.push_back(mesh);
 	}
 
-	meshes.push_back(mesh);
+	//meshes.push_back(mesh);
 }
 
 void Converter::ReadSkinData()

@@ -63,7 +63,7 @@ MeshOutput VS_Model(VertexModel input)
     MeshOutput output;
 	
     output.position = mul(input.position, BoneTransforms[BoneIndex]);
-    output.position = mul(output.position, input.world);
+   // output.position = mul(output.position, input.world);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
     output.uv = input.uv;

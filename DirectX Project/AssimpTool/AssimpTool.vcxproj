@@ -155,11 +155,22 @@
     </ClCompile>
     <ClCompile Include="AsTypes.cpp" />
     <ClCompile Include="Converter.cpp" />
-    <ClCompile Include="FBXAnimationLoad.cpp" />
-    <ClCompile Include="FBXData.cpp" />
-    <ClCompile Include="FBXDataLoad.cpp" />
-    <ClCompile Include="FBXLoader.cpp" />
-    <ClCompile Include="FBXModel.cpp" />
+    <ClCompile Include="FBXAnimationLoad.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FBXData.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FBXDataLoad.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FBXModel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="FBXSDKTest.cpp" />
     <ClCompile Include="ImGuiDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -193,9 +204,16 @@
     </ClInclude>
     <ClInclude Include="AsTypes.h" />
     <ClInclude Include="Converter.h" />
-    <ClInclude Include="FBXData.h" />
-    <ClInclude Include="FBXLoader.h" />
-    <ClInclude Include="FBXModel.h" />
+    <ClInclude Include="FBXData.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FBXLoader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FBXModel.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="FBXSDKTest.h" />
     <ClInclude Include="ImGuiDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

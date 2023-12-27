@@ -48,12 +48,42 @@ void AssimpTool::Init()
 		converter->ExportModelData(L"ship/ship");
 	}*/
 
+	// tower
+	//{
+	//	std::shared_ptr<Converter> converter = std::make_shared<Converter>();
+
+	//	converter->ReadAssetFile(L"Tower/Tower.fbx");
+	//	converter->ExportMaterialData(L"Tower/Tower");
+	//	converter->ExportModelData(L"Tower/Tower");
+	//}
+
+	//// multi camera
+	//{
+	//	std::shared_ptr<Converter> converter = std::make_shared<Converter>();
+
+	//	converter->ReadAssetFile(L"MultiCameras/MultiCameras.fbx");
+	//	converter->ExportMaterialData(L"MultiCameras/MultiCameras");
+	//	converter->ExportModelData(L"MultiCameras/MultiCameras");
+	//}
+
+	// ship
+	//{
+	//	std::shared_ptr<Converter> converter = std::make_shared<Converter>();
+
+	//	converter->ReadAssetFile(L"ship/ship.fbx");
+	//	converter->ExportMaterialData(L"ship/ship");
+	//	converter->ExportModelData(L"ship/ship");
+	//}
+
+
+	// turret
 	{
 		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
 
-		converter->ReadAssetFile(L"MultiCameras/MultiCameras.fbx");
-		converter->ExportMaterialData(L"MultiCameras/MultiCameras");
-		converter->ExportModelData(L"MultiCameras/MultiCameras");
+		converter->ReadAssetFile(L"Turret_Deploy1/Turret_Deploy1.fbx");
+		converter->ExportMaterialData(L"Turret_Deploy1/Turret_Deploy1");
+		converter->ExportModelData(L"Turret_Deploy1/Turret_Deploy1");
+		converter->ExportAnimationData(L"Turret_Deploy1/Turret_Deploy1");
 	}
 }
 
