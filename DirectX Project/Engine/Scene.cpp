@@ -41,8 +41,10 @@ void Scene::PreRender()
 
 void Scene::Render()
 {
-	//for (auto& gameObject : gameObjects)
-	//	gameObject->Render();
+	for (auto& gameObject : gameObjects)
+		gameObject->Render();
+
+	return;	// temp not use instancing
 
 	//instance render
 	std::vector<std::shared_ptr<GameObject>> temp;

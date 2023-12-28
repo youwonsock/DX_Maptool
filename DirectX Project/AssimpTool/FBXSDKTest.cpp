@@ -26,6 +26,10 @@ void FBXSDKTest::Init()
 	}
 
 	std::shared_ptr<Model> model3 = std::make_shared<Model>();
+	obj3 = std::make_shared<GameObject>();
+	obj3->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+	obj3->GetTransform()->SetWorldScale(Vector3(1.f));
+
 	//model3->ReadModel(L"Tower/Tower");
 	//model3->ReadMaterial(L"Tower/Tower");
 
@@ -34,17 +38,17 @@ void FBXSDKTest::Init()
 
 	//model3->ReadModel(L"MultiCameras/MultiCameras");
 	//model3->ReadMaterial(L"MultiCameras/MultiCameras");
+	// 
+	//obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
+	//obj3->GetModelRenderer()->SetModel(model3);
+	//obj3->GetModelRenderer()->SetPass(1);
 
+	//turret
 	model3->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
 	model3->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
 	model3->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
 
-	obj3 = std::make_shared<GameObject>();
-	obj3->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
-	obj3->GetTransform()->SetWorldScale(Vector3(1.f));
-	//obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
-	//obj3->AddComponent(std::make_shared<ModelAnimator>(shader));
-
+	obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
 	obj3->GetModelRenderer()->SetModel(model3);
 	obj3->GetModelRenderer()->SetPass(1);
 

@@ -24,10 +24,20 @@ void Converter::ReadAssetFile(const std::wstring& file)
 	scene = importer->ReadFile(
 		Utils::WStringToString(fullPath),
 		aiProcess_ConvertToLeftHanded |
-		aiProcess_Triangulate |
-		aiProcess_GenUVCoords |
-		aiProcess_GenNormals |
-		aiProcess_CalcTangentSpace
+		aiPostProcessSteps
+		(
+			aiProcess_CalcTangentSpace |
+			aiProcess_GenSmoothNormals |
+			aiProcess_RemoveRedundantMaterials |
+			aiProcess_Triangulate |
+			aiProcess_GenUVCoords |
+			aiProcess_SortByPType |
+			aiProcess_FindDegenerates |
+			aiProcess_FindInvalidData |
+			aiProcess_ValidateDataStructure |
+			aiProcess_OptimizeMeshes |
+			aiProcess_OptimizeGraph
+		)
 	);
 
 	if(scene == nullptr)
@@ -92,6 +102,11 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	if (node->mNumMeshes < 1)
 		return;
 
+
+	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
+	mesh->name = node->mName.C_Str();
+	mesh->boneIndex = bone;
+
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
 		std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
@@ -137,8 +152,6 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 
 		meshes.push_back(mesh);
 	}
-
-	//meshes.push_back(mesh);
 }
 
 void Converter::ReadSkinData()

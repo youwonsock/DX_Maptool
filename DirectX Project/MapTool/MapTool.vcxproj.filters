@@ -127,16 +127,16 @@
     <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\GlobalLight.fx">
-      <Filter>소스 파일\Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\Global.fx">
+    <FxCompile Include="..\..\Shader\MapToolShader\SkyBox.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Shader\MapToolShader\DebugShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\SkyBox.fx">
+    <FxCompile Include="..\..\Shader\MapToolShader\ObjectShader.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Shader\MapToolShader\MapToolGlobalShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
   </ItemGroup>

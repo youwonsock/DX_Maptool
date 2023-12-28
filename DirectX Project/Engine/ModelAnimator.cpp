@@ -14,8 +14,6 @@
 
 ModelAnimator::ModelAnimator(std::shared_ptr<Shader> shader) : Base(ComponentType::Animator), shader(shader)
 {
-	tweenDesc.next.animIdx = rand() % 3;
-	tweenDesc.tweenSumTime += rand() % 100;
 }
 
 ModelAnimator::~ModelAnimator()

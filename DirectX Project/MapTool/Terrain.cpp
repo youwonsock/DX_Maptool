@@ -68,8 +68,8 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	// temp (object spawn)
 	{
 		model = std::make_shared<Model>();
-		model->ReadModel(L"Tower/Tower");
-		model->ReadMaterial(L"Tower/Tower");
+		model->ReadModel(L"ship/ship");
+		model->ReadMaterial(L"ship/ship");
 	}
 }
 
@@ -105,7 +105,7 @@ void Terrain::Init()
 
 	// temp (object spawn)
 	{
-		objectShader = std::make_shared<Shader>(L"23. RenderDemo.fx");
+		objectShader = std::make_shared<Shader>(L"MapToolShader/ObjectShader.fx");
 
 		RenderManager::GetInstance().Init(objectShader);
 	}
@@ -153,7 +153,7 @@ void Terrain::Update()
 					break;
 				case(2):
 					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
-						ObjectSpawn(pickPoint);
+						ObjectSpawn(pickPoint);		// not use instancing
 					break;
 				default:
 					break;
@@ -196,11 +196,11 @@ void Terrain::ObjectSpawn(Vector3 spawnPos)
 	std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
 
 	obj->GetTransform()->SetWorldPosition(spawnPos);
-	obj->GetTransform()->SetWorldScale(Vector3(0.01f));
+	obj->GetTransform()->SetWorldScale(Vector3(1.0f));
 	obj->AddComponent(std::make_shared<ModelRenderer>(objectShader));
 
 	obj->GetModelRenderer()->SetModel(model);
-	obj->GetModelRenderer()->SetPass(1);
+	obj->GetModelRenderer()->SetPass(0);
 
 	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 }

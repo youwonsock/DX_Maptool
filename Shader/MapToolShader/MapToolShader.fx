@@ -1,4 +1,4 @@
-#include "Global.fx"
+#include "MapToolGlobalShader.fx"
 
 Texture2D MapBaseTexture;
 Texture2D MapAlphaTexture;
@@ -52,5 +52,5 @@ float4 PS_RED(PNCTOutput input) : SV_TARGET
 technique11 T0
 {
 	PASS_VP(P0, VS, PS)
-	PASS_RS_VP(P1, FillModeWireFrame, VS, PS_RED)
+	PASS_RS_VP(P1, FillModeWireFrame, VS, PS)
 };
