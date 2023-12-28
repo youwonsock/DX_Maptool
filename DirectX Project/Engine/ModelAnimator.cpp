@@ -63,19 +63,12 @@ void ModelAnimator::Render()
 		Global::g_immediateContext->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
 		Global::g_immediateContext->IASetIndexBuffer(mesh->indexBuffer->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
-		shader->DrawIndexed(0, pass, mesh->indexBuffer->GetIndexCount(), 0, 0);
+  		shader->DrawIndexed(0, pass, mesh->indexBuffer->GetIndexCount(), 0, 0);
 	}
 }
 
 void ModelAnimator::UpdateKeyframeDesc()
 {
-	int animIdx = 0;
-	UINT currentFrame = 0;
-	UINT nextFrame = 0;
-	float ratio = 0.f;
-	float sumTime = 0.f;
-	float speed = 1.f;
-
 	KeyframeDesc& desc = keyframeDesc;
 
 	desc.sumTime += TimeManager::GetInstance().GetDeltaTime();
@@ -190,11 +183,13 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 				ModelKeyframeData& data = frame->transforms[i];
 
 				Matrix S, R, T;
+
 				if(data.scale != Vector3::Zero)
 					S = Matrix::CreateScale(data.scale);
+				
+				R = Matrix::CreateFromQuaternion(data.rotation);
 
-					R = Matrix::CreateFromQuaternion(data.rotation);
-					T = Matrix::CreateTranslation(data.translation);
+				T = Matrix::CreateTranslation(data.translation);
 
 				matAnimation = S * R * T;
 			}
@@ -203,8 +198,8 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 				matAnimation = Matrix::Identity;
 			}
 
-			Matrix toRootMat = bone->transform;
-			Matrix invGlobal = toRootMat.Invert();
+			Matrix toRootMatrix = bone->transform;
+			Matrix invGlobal = toRootMatrix.Invert();
 
 			int parentIndex = bone->parentIndex;
 
@@ -284,9 +279,6 @@ void ModelAnimator::UpdateTweenData()
 		if (currentAnim)
 		{
 			float timePerFrame = 1 / (currentAnim->frameRate * desc.curr.speed);
-
-			// for random speed
-			timePerFrame *= (rand() % 10);
 
 			if (desc.curr.sumTime >= timePerFrame)
 			{

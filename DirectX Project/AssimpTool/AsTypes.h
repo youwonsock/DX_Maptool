@@ -19,6 +19,7 @@ struct asMesh
 	std::vector<VertexType> vertices;
 	std::vector<UINT> indices;
 
+
 	UINT boneIndex;
 	std::string materialName;
 };
