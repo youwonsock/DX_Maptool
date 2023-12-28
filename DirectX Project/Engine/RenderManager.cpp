@@ -102,7 +102,7 @@ void RenderManager::PushKeyframeData(const KeyframeDesc& desc)
 	keyframeDesc = desc;
 
 	keyframeBuffer->CopyData(keyframeDesc);
-	keyframeEffectBuffer->SetConstantBuffer(keyframeBuffer->GetConstantBuffer().Get());
+	HRESULT hr = keyframeEffectBuffer->SetConstantBuffer(keyframeBuffer->GetConstantBuffer().Get());
 }
 
 void RenderManager::PushTweenData(const TweenDesc& desc)

@@ -13,7 +13,7 @@ void FBXSDKTest::CreateKachujin()
 
 void FBXSDKTest::Init()
 {
-	shader = std::make_shared<Shader>(L"00. DebugShader.fx");
+	shader = std::make_shared<Shader>(L"MapToolShader/ObjectShader.fx");
 	
 	//camera
 	{
@@ -38,19 +38,19 @@ void FBXSDKTest::Init()
 
 	//model3->ReadModel(L"MultiCameras/MultiCameras");
 	//model3->ReadMaterial(L"MultiCameras/MultiCameras");
-	// 
+	 
 	//obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
 	//obj3->GetModelRenderer()->SetModel(model3);
-	//obj3->GetModelRenderer()->SetPass(1);
+	//obj3->GetModelRenderer()->SetPass(0);
 
 	//turret
 	model3->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
 	model3->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
 	model3->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
 
-	obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
-	obj3->GetModelRenderer()->SetModel(model3);
-	obj3->GetModelRenderer()->SetPass(1);
+	obj3->AddComponent(std::make_shared<ModelAnimator>(shader));
+	obj3->GetModelAnimator()->SetModel(model3);
+	obj3->GetModelAnimator()->SetPass(1);
 
 	RenderManager::GetInstance().Init(shader);
 }

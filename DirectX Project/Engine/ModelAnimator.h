@@ -27,6 +27,11 @@ private:
 
 	TweenDesc tweenDesc;
 
+
+	// tmep 
+	KeyframeDesc keyframeDesc;
+	void UpdateKeyframeDesc();
+
 private:
 	void CreateTexture();
 	void CreateAnimationTransform(UINT index);
@@ -35,6 +40,8 @@ public:
 	ModelAnimator(std::shared_ptr<Shader> shader);
 	virtual ~ModelAnimator();
 
+	virtual void Render() override;
+
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT pass) { this->pass = pass; }
 	TweenDesc& GetTweenDesc() { return tweenDesc; }
@@ -42,5 +49,6 @@ public:
 	InstanceID GetInstanceID() const;
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
 	void UpdateTweenData();
+
 };
 

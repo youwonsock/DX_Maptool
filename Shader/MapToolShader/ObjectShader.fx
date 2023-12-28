@@ -39,6 +39,16 @@ struct KeyframeDesc
     float2 padding;
 };
 
+struct TweenFrameDesc
+{
+    float tweenDuration;
+    float tweenRatio;
+    float tweenSumTime;
+    float padding;
+    KeyframeDesc curr;
+    KeyframeDesc next;
+};
+
 cbuffer KeyframeBuffer
 {
     KeyframeDesc Keyframes;
@@ -53,36 +63,23 @@ matrix GetAnimationMatrix(VertexModel input)
 
     int animIndex = Keyframes.animIndex;
     int currFrame = Keyframes.currentFrame;
-    int nextFrame = Keyframes.nextFrame;
-    float ratio = Keyframes.ratio;
 
     float4 c0, c1, c2, c3;
-    float4 n0, n1, n2, n3;
 
     matrix curr = 0;
-    matrix next = 0;
-    matrix transform = 0;
-
-    for (int i = 0; i < 4; i++)
-    {
-        c0 = TransformMap.Load(int4(indices[i] * 4 + 0, currFrame, animIndex, 0));
-        c1 = TransformMap.Load(int4(indices[i] * 4 + 1, currFrame, animIndex, 0));
-        c2 = TransformMap.Load(int4(indices[i] * 4 + 2, currFrame, animIndex, 0));
-        c3 = TransformMap.Load(int4(indices[i] * 4 + 3, currFrame, animIndex, 0));
-        curr = matrix(c0, c1, c2, c3);
-
-        n0 = TransformMap.Load(int4(indices[i] * 4 + 0, nextFrame, animIndex, 0));
-        n1 = TransformMap.Load(int4(indices[i] * 4 + 1, nextFrame, animIndex, 0));
-        n2 = TransformMap.Load(int4(indices[i] * 4 + 2, nextFrame, animIndex, 0));
-        n3 = TransformMap.Load(int4(indices[i] * 4 + 3, nextFrame, animIndex, 0));
-        next = matrix(n0, n1, n2, n3);
-
-        matrix result = lerp(curr, next, ratio);
-
-        transform += mul(weights[i], result);
-    }
-
-    return transform;
+    
+    //c0 = TransformMap.Load(int4(currFrame * 4 + 0, BoneIndex, 0, 0));
+    //c1 = TransformMap.Load(int4(currFrame * 4 + 1, BoneIndex, 0, 0));
+    //c2 = TransformMap.Load(int4(currFrame * 4 + 2, BoneIndex, 0, 0));
+    //c3 = TransformMap.Load(int4(currFrame * 4 + 3, BoneIndex, 0, 0));
+                                               
+    c0 = TransformMap.Load(int4(currFrame * 4 + 0,BoneIndex, animIndex, 0));
+    c1 = TransformMap.Load(int4(currFrame * 4 + 1,BoneIndex, animIndex, 0));
+    c2 = TransformMap.Load(int4(currFrame * 4 + 2,BoneIndex, animIndex, 0));
+    c3 = TransformMap.Load(int4(currFrame * 4 + 3,BoneIndex, animIndex, 0));
+    curr = matrix(c0, c1, c2, c3);
+    
+    return curr;
 }
 
 MeshOutput VS_Animation(VertexModel input)
@@ -90,9 +87,11 @@ MeshOutput VS_Animation(VertexModel input)
     MeshOutput output;
 	
     matrix m = GetAnimationMatrix(input);
-    
     output.position = mul(input.position, m);
-    output.position = mul(output.position, input.world);
+    
+    output.position = mul(output.position, BoneTransforms[BoneIndex]);
+    output.position = mul(output.position, World);
+    
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
     output.uv = input.uv;

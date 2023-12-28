@@ -102,11 +102,6 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	if (node->mNumMeshes < 1)
 		return;
 
-
-	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
-	mesh->name = node->mName.C_Str();
-	mesh->boneIndex = bone;
-
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
 		std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
