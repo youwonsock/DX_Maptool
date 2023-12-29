@@ -57,6 +57,10 @@ void ModelAnimator::Render()
 		// BoneIndex
 		shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
 
+		//auto animMat = animTransforms[0].transforms[mesh->boneIndex][keyframeDesc.currentFrame];
+		auto animMat = animTransforms[0].transforms[mesh->boneIndex][0];
+		shader->GetMatrix("AnimMatrix")->SetMatrix((const float*) &animMat);
+
 		UINT stride = mesh->vertexBuffer->GetStride();
 		UINT offset = mesh->vertexBuffer->GetOffset();
 
@@ -76,7 +80,7 @@ void ModelAnimator::UpdateKeyframeDesc()
 	std::shared_ptr<ModelAnimation> currentAnim = model->GetAnimationByIndex(desc.animIdx);
 	if (currentAnim)
 	{
-		float timePerFrame = 1 / (currentAnim->frameRate * desc.speed);
+		float timePerFrame = 1 / (currentAnim->frameRate * desc.speed * 0.5f);
 
 		if (desc.sumTime >= timePerFrame)
 		{
@@ -184,12 +188,21 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 
 				Matrix S, R, T;
 
-				if(data.scale != Vector3::Zero)
+				if (data.scale.x > 0.9f
+					&& data.scale.y > 0.9f
+					&& data.scale.z > 0.9f)
 					S = Matrix::CreateScale(data.scale);
 				
-				R = Matrix::CreateFromQuaternion(data.rotation);
+				if(data.rotation.x > 0.9f
+										&& data.rotation.y > 0.9f
+										&& data.rotation.z > 0.9f
+										&& data.rotation.w > 0.9f)
+					R = Matrix::CreateFromQuaternion(data.rotation);
 
-				T = Matrix::CreateTranslation(data.translation);
+				if (data.translation.x > 0.9f
+										&& data.translation.y > 0.9f
+										&& data.translation.z > 0.9f)
+					T = Matrix::CreateTranslation(data.translation);
 
 				matAnimation = S * R * T;
 			}
@@ -199,7 +212,6 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 			}
 
 			Matrix toRootMatrix = bone->transform;
-			Matrix invGlobal = toRootMatrix.Invert();
 
 			int parentIndex = bone->parentIndex;
 
@@ -209,7 +221,7 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 
 			tempAnimBoneTransforms[j] = matAnimation * matParent;
 
-			animTransforms[index].transforms[i][j] = invGlobal * tempAnimBoneTransforms[j];
+			animTransforms[index].transforms[i][j] = tempAnimBoneTransforms[j];
 		}
 	}
 }

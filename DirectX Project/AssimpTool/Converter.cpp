@@ -36,7 +36,7 @@ void Converter::ReadAssetFile(const std::wstring& file)
 			aiProcess_FindInvalidData |
 			aiProcess_ValidateDataStructure |
 			aiProcess_OptimizeMeshes |
-			aiProcess_OptimizeGraph
+			aiProcess_OptimizeGraph 
 		)
 	);
 
@@ -101,7 +101,7 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 {
 	if (node->mNumMeshes < 1)
 		return;
-
+	 
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
 		std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
@@ -154,6 +154,8 @@ void Converter::ReadSkinData()
 	for (UINT i = 0; i < scene->mNumMeshes; ++i)
 	{
 		const aiMesh* srcMesh = scene->mMeshes[i];
+
+		scene->mAnimations[0]->mChannels[0]->mPositionKeys[0].mTime;
 
 		if(srcMesh->HasBones() == false)
 			continue;
@@ -370,7 +372,7 @@ std::shared_ptr<asAnimationNode> Converter::ParseAnimationNode(std::shared_ptr<a
 		// Position
 		if (::fabsf((float)srcNode->mPositionKeys[k].mTime - (float)t) <= 0.0001f)
 		{
-			aiVectorKey key = srcNode->mPositionKeys[k];
+			aiVectorKey key = srcNode-> mPositionKeys[k];
 			frameData.time = (float)key.mTime;
 			::memcpy_s(&frameData.translation, sizeof(Vector3), &key.mValue, sizeof(aiVector3D));
 

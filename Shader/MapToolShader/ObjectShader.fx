@@ -39,58 +39,22 @@ struct KeyframeDesc
     float2 padding;
 };
 
-struct TweenFrameDesc
-{
-    float tweenDuration;
-    float tweenRatio;
-    float tweenSumTime;
-    float padding;
-    KeyframeDesc curr;
-    KeyframeDesc next;
-};
-
 cbuffer KeyframeBuffer
 {
     KeyframeDesc Keyframes;
 };
 
-Texture2DArray TransformMap;
-
-matrix GetAnimationMatrix(VertexModel input)
-{
-    float indices[4] = { input.blendIndices.x, input.blendIndices.y, input.blendIndices.z, input.blendIndices.w };
-    float weights[4] = { input.blendWeights.x, input.blendWeights.y, input.blendWeights.z, input.blendWeights.w };
-
-    int animIndex = Keyframes.animIndex;
-    int currFrame = Keyframes.currentFrame;
-
-    float4 c0, c1, c2, c3;
-
-    matrix curr = 0;
-    
-    c0 = TransformMap.Load(int4(currFrame * 4 + 0, BoneIndex, animIndex, 0));
-    c1 = TransformMap.Load(int4(currFrame * 4 + 1, BoneIndex, animIndex, 0));
-    c2 = TransformMap.Load(int4(currFrame * 4 + 2, BoneIndex, animIndex, 0));
-    c3 = TransformMap.Load(int4(currFrame * 4 + 3, BoneIndex, animIndex, 0));
-                                               
-    //c0 = TransformMap.Load(int4(BoneIndex * 4 + 0, currFrame, animIndex, 0));
-    //c1 = TransformMap.Load(int4(BoneIndex * 4 + 1, currFrame, animIndex, 0));
-    //c2 = TransformMap.Load(int4(BoneIndex * 4 + 2, currFrame, animIndex, 0));
-    //c3 = TransformMap.Load(int4(BoneIndex * 4 + 3, currFrame, animIndex, 0));
-    
-    curr = matrix(c0, c1, c2, c3);
-    
-    return curr;
-}
+matrix AnimMatrix;
 
 MeshOutput VS_Animation(VertexModel input)
 {
     MeshOutput output;
 	
-    matrix m = GetAnimationMatrix(input);
+    matrix m = AnimMatrix;
     
+    //output.position = mul(input.position, BoneTransforms[BoneIndex]);
     output.position = mul(input.position, m);
-    //output.position = mul(output.position, BoneTransforms[BoneIndex]);
+
     output.position = mul(output.position, World);
     
     output.worldPosition = output.position.xyz;
