@@ -14,6 +14,8 @@
 
 ModelRenderer::ModelRenderer(std::shared_ptr<Shader> shader) : Component(ComponentType::ModelRenderer), shader(shader)
 {
+	keyframeDesc.speed = rand() % 2 + 1;
+	keyframeDesc.currentFrame = rand() % 40;
 }
 
 ModelRenderer::~ModelRenderer()
@@ -53,6 +55,17 @@ void ModelRenderer::RenderInstancing(std::shared_ptr<class InstancingBuffer>& in
 		boneDesc.transforms[i] = bone->transform;
 	}
 	RenderManager::GetInstance().PushBoneData(boneDesc);
+
+	if (pass == 1) // use animation
+	{
+		if (texture == nullptr)
+			CreateTexture();
+
+		UpdateKeyframeDesc();
+		RenderManager::GetInstance().PushKeyframeData(keyframeDesc);
+
+		shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
+	}
 
 	const auto& meshes = model->GetMeshes();
 	for (auto& mesh : meshes)

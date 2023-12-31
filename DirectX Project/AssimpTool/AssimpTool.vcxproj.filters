@@ -14,9 +14,6 @@
     <Filter Include="소스 파일\Game">
       <UniqueIdentifier>{d3129313-f8e0-47d5-b321-3b505425b0d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Utils\FBXSDK">
-      <UniqueIdentifier>{f0c89f31-1189-4c81-a6c2-53eb04100a0c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Utils\헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -52,21 +49,6 @@
     </ClCompile>
     <ClCompile Include="SkyDemo.cpp">
       <Filter>소스 파일\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXAnimationLoad.cpp">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXData.cpp">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXDataLoad.cpp">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXLoader.cpp">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClCompile>
-    <ClCompile Include="FBXModel.cpp">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
     </ClCompile>
     <ClCompile Include="FBXSDKTest.cpp">
       <Filter>소스 파일\Game</Filter>
@@ -105,15 +87,6 @@
     </ClInclude>
     <ClInclude Include="SkyDemo.h">
       <Filter>소스 파일\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXModel.h">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXData.h">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
-    </ClInclude>
-    <ClInclude Include="FBXLoader.h">
-      <Filter>소스 파일\Utils\FBXSDK</Filter>
     </ClInclude>
     <ClInclude Include="FBXSDKTest.h">
       <Filter>소스 파일\Game</Filter>

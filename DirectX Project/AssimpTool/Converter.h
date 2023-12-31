@@ -8,7 +8,7 @@ enum UseLib
 	FBXSDK = 1
 };
 
-class Converter_FBXSDK;
+#include "Converter_FBXSDK.h"
 
 class Converter
 {
@@ -26,7 +26,7 @@ private:
 	std::vector<std::shared_ptr<asBone>> bones;
 
 	//fbx sdk
-	std::shared_ptr<Converter_FBXSDK> converter_fbxsdk;
+	std::shared_ptr<Converter_FBXSDK> converter_fbxsdk = std::make_shared<Converter_FBXSDK>();
 
 private:
 	//assimp
@@ -44,9 +44,6 @@ private:
 	void WirteMaterialData(std::wstring filePath);
 	std::string WirteTextureFile(std::string saveFolder, std::string file);
 	void WriteAnimationData(std::shared_ptr<asAnimation> animation, std::wstring filePath);
-
-	//fbx sdk
-
 
 public:
 	Converter();

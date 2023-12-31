@@ -13,6 +13,7 @@
 void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObjects)
 {
 	ClearData();
+	ClearBuffer();
 
 	RenderMeshRenderer(gameObjects);
 	RenderModelRenderer(gameObjects);
@@ -68,8 +69,9 @@ void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObje
 
 	for (auto& pair : cache)
 	{
-		const std::vector<std::shared_ptr<GameObject>>& gameObjects = pair.second;
+		std::shared_ptr<InstancedKeyFrameDesc> keyFramesDesc = std::make_shared<InstancedKeyFrameDesc>();
 
+		const std::vector<std::shared_ptr<GameObject>>& gameObjects = pair.second;
 		const InstanceID instanceID = pair.first;
 
 		for (int i = 0; i < gameObjects.size(); ++i)
@@ -80,7 +82,11 @@ void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObje
 			data.world = gameObj->GetTransform()->GetWorldMatrix();
 
 			AddData(instanceID, data);
+
+			gameObj->GetModelRenderer()->UpdateKeyframeDesc();
+			keyFramesDesc->keyframes[i] = gameObj->GetModelRenderer()->GetKeyFrameDesc();
 		}
+		RenderManager::GetInstance().PushInstancedKeyFrameData(*(keyFramesDesc.get()));
 
 		std::shared_ptr<InstancingBuffer>& buffer = buffers[instanceID];
 		gameObjects[0]->GetModelRenderer()->RenderInstancing(buffer);

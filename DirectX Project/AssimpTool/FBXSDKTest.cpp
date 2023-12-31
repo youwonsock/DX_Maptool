@@ -25,32 +25,88 @@ void FBXSDKTest::Init()
 		CameraManager::GetInstance().AddCamera(L"MainCamera", cameraObject);
 	}
 
-	std::shared_ptr<Model> model3 = std::make_shared<Model>();
-	obj3 = std::make_shared<GameObject>();
-	obj3->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
-	obj3->GetTransform()->SetWorldScale(Vector3(1.f));
+	int count = 200;
+	// tower
+	{
+		std::shared_ptr<Model> model = std::make_shared<Model>();
+		model->ReadModel(L"Tower/Tower");
+		model->ReadMaterial(L"Tower/Tower");
 
-	//model3->ReadModel(L"Tower/Tower");
-	//model3->ReadMaterial(L"Tower/Tower");
+		for (int i = 0; i < count; ++i)
+		{
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(rand() % 1000, 0, rand() % 1000));
+			obj->GetTransform()->SetWorldScale(Vector3(3.f));
+			obj->GetTransform()->SetWorldRotation(Vector3(rand() % 360, rand() % 360, rand() % 360));
 
-	//model3->ReadModel(L"ship/ship");
-	//model3->ReadMaterial(L"ship/ship");
+			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+			obj->GetModelRenderer()->SetModel(model);
+			obj->GetModelRenderer()->SetPass(0);
 
-	//model3->ReadModel(L"MultiCameras/MultiCameras");
-	//model3->ReadMaterial(L"MultiCameras/MultiCameras");
-	 
-	obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
-	obj3->GetModelRenderer()->SetModel(model3);
-	obj3->GetModelRenderer()->SetPass(0);
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+	}
+	// ship
+	{
+		std::shared_ptr<Model> model = std::make_shared<Model>();
+		model->ReadModel(L"ship/ship");
+		model->ReadMaterial(L"ship/ship");
 
-	////turret
-	//model3->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
-	//model3->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
-	//model3->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
+		for (int i = 0; i < count; ++i)
+		{
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(rand() % 1000, 0, rand() % 1000));
+			obj->GetTransform()->SetWorldScale(Vector3(0.1f));
+			obj->GetTransform()->SetWorldRotation(Vector3(rand() % 360, rand() % 360, rand() % 360));
 
-	//obj3->AddComponent(std::make_shared<ModelRenderer>(shader));
-	//obj3->GetModelRenderer()->SetModel(model3);
-	//obj3->GetModelRenderer()->SetPass(1);
+			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+			obj->GetModelRenderer()->SetModel(model);
+			obj->GetModelRenderer()->SetPass(0);
+
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+	}
+	// multi
+	{
+		std::shared_ptr<Model> model = std::make_shared<Model>();
+		model->ReadModel(L"MultiCameras/MultiCameras");
+		model->ReadMaterial(L"MultiCameras/MultiCameras");
+
+		for (int i = 0; i < count; ++i)
+		{
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(rand() % 1000, 0, rand() % 1000));
+			obj->GetTransform()->SetWorldScale(Vector3(0.1f));
+			obj->GetTransform()->SetWorldRotation(Vector3(rand() % 360, rand() % 360, rand() % 360));
+
+			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+			obj->GetModelRenderer()->SetModel(model);
+			obj->GetModelRenderer()->SetPass(0);
+
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+	}
+	// turret
+	{
+		std::shared_ptr<Model> model = std::make_shared<Model>();
+		model->ReadModel(L"Turret_Deploy1/Turret_Deploy1");
+		model->ReadMaterial(L"Turret_Deploy1/Turret_Deploy1");
+		model->ReadAnimation(L"Turret_Deploy1/Turret_Deploy1");
+
+		for (int i = 0; i < count; ++i)
+		{
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
+			obj->GetTransform()->SetWorldPosition(Vector3(rand() % 1000, 0, rand() % 1000));
+			obj->GetTransform()->SetWorldScale(Vector3(1.f));
+			obj->GetTransform()->SetWorldRotation(Vector3(rand() % 360, rand() % 360, rand() % 360));
+
+			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+			obj->GetModelRenderer()->SetModel(model);
+			obj->GetModelRenderer()->SetPass(1);
+
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
+		}
+	}
 
 	RenderManager::GetInstance().Init(shader);
 }
@@ -61,7 +117,11 @@ void FBXSDKTest::FixedUpdate()
 
 void FBXSDKTest::Update()
 {
-	RenderManager::GetInstance().Update();
+	//show FPS
+	{
+		std::wstring str = std::to_wstring(TimeManager::GetInstance().GetFPS());
+		SetWindowText(Global::g_hWnd, str.c_str());
+	}
 
 	{
 		LightDesc lightDesc;
@@ -84,7 +144,6 @@ void FBXSDKTest::PreRender()
 void FBXSDKTest::Render()
 {
 	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	obj3->Render();
 }
 
 void FBXSDKTest::PostRender()

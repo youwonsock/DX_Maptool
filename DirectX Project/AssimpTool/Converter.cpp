@@ -7,7 +7,6 @@
 Converter::Converter()
 {
 	importer = std::make_shared<Assimp::Importer>();
-	converter_fbxsdk = std::make_shared<Converter_FBXSDK>();
 }
 
 Converter::~Converter()
@@ -74,7 +73,9 @@ void Converter::ExportMaterialData(const std::wstring& savePath)
 void Converter::ExportAnimationData(const std::wstring& savePath, UINT index, UseLib type)
 {
 	std::wstring fullPath = modelPath + savePath + L".anim";
-	assert(index < scene->mNumAnimations);
+	
+	bool t = index < scene->mNumAnimations;
+	assert(t);
 
 	if (type == UseLib::ASSIMP)
 	{
@@ -124,7 +125,6 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
 	mesh->name = node->mName.C_Str();
 	mesh->boneIndex = bone;
-
 
 	// 2) Root (Local)
 	auto geometricMat = converter_fbxsdk->GetGeometrMatrix(node->mName.C_Str());

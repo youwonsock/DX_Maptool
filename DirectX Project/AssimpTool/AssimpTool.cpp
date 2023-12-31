@@ -2,7 +2,6 @@
 #include "AssimpTool.h"
 
 #include "Converter.h"
-#include "Converter_FBXSDK.h"
 
 void AssimpTool::Init()
 {
@@ -31,23 +30,6 @@ void AssimpTool::Init()
 	//	converter->ReadAssetFile(L"Kachujin/Slash.fbx");
 	//	converter->ExportAnimationData(L"Kachujin/Slash");
 	//}
-
-	/*{
-		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
-
-		converter->ReadAssetFile(L"Turret_Deploy1/Turret_Deploy1.fbx");
-		converter->ExportMaterialData(L"Turret_Deploy1/Turret_Deploy1");
-		converter->ExportModelData(L"Turret_Deploy1/Turret_Deploy1");
-		converter->ExportAnimationData(L"Turret_Deploy1/Turret_Deploy1");
-	}
-
-	{
-		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
-
-		converter->ReadAssetFile(L"ship/ship.fbx");
-		converter->ExportMaterialData(L"ship/ship");
-		converter->ExportModelData(L"ship/ship");
-	}*/
 
 	// tower
 	{
@@ -78,14 +60,12 @@ void AssimpTool::Init()
 
 	// turret
 	{
-		std::shared_ptr<Converter> converter1 = std::make_shared<Converter>();
-		std::shared_ptr<Converter_FBXSDK> converter2 = std::make_shared<Converter_FBXSDK>();
+		std::shared_ptr<Converter> converter = std::make_shared<Converter>();
 
-		converter1->ReadAssetFile(L"Turret_Deploy1/Turret_Deploy1.fbx");
-		converter1->ExportMaterialData(L"Turret_Deploy1/Turret_Deploy1");
-		converter1->ExportModelData(L"Turret_Deploy1/Turret_Deploy1");
-
-		converter1->ExportAnimationData(L"Turret_Deploy1/Turret_Deploy1",0,UseLib::FBXSDK);
+		converter->ReadAssetFile(L"Turret_Deploy1/Turret_Deploy1.fbx");
+		converter->ExportMaterialData(L"Turret_Deploy1/Turret_Deploy1");
+		converter->ExportModelData(L"Turret_Deploy1/Turret_Deploy1");
+		converter->ExportAnimationData(L"Turret_Deploy1/Turret_Deploy1",0,UseLib::FBXSDK);
 	}
 }
 

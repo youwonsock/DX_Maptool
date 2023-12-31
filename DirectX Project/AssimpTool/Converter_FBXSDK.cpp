@@ -40,8 +40,11 @@ void Converter_FBXSDK::WriteAnimationData(std::shared_ptr<asAnimation> animation
 void Converter_FBXSDK::LoadFBX(std::wstring fileName)
 {
 	std::string cFileName = Utils::WStringToString(fileName);
-	assert(pFbxImporter->Initialize(cFileName.c_str()));
-	assert(pFbxImporter->Import(pFbxScene));
+	
+	bool t = pFbxImporter->Initialize(cFileName.c_str());
+	assert(t);
+	t = pFbxImporter->Import(pFbxScene);
+	assert(t);
 
 	pFbxRootNode = pFbxScene->GetRootNode();
 	if (pFbxRootNode)

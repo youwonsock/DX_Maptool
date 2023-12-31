@@ -88,6 +88,12 @@ struct InstancedTweenDesc
 	TweenDesc tweens[MAX_MODEL_INSTANCE];
 };
 
+struct InstancedKeyFrameDesc
+{
+	KeyframeDesc keyframes[MAX_MODEL_INSTANCE];
+};
+
+
 class RenderManager : public Singleton<RenderManager>
 {
 private:
@@ -104,6 +110,7 @@ private:
 	std::shared_ptr<ConstantBuffer<KeyframeDesc>> keyframeBuffer;
 	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer;
 	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer;
+	std::shared_ptr<ConstantBuffer<InstancedKeyFrameDesc>> instancedKeyFrameBuffer;
 
 	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
@@ -113,6 +120,7 @@ private:
 	ComPtr<ID3DX11EffectConstantBuffer> keyframeEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer;
 	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedKeyFrameEffectBuffer;
 
 	TransformDesc transformDesc;
 	GlobalDesc globalDesc;
@@ -122,6 +130,7 @@ private:
 	KeyframeDesc keyframeDesc;
 	TweenDesc tweenDesc;
 	InstancedTweenDesc instancedTweenDesc;
+	InstancedKeyFrameDesc instancedKeyFrameDesc;
 public:
 	void Init(const std::shared_ptr<Shader>& shader);
 	void Update();
@@ -134,6 +143,7 @@ public:
 	void PushMaterialData(const MaterialDesc& desc);
 	void PushBoneData(const BoneDesc& desc);
 	void PushKeyframeData(const KeyframeDesc& desc);
+	void PushInstancedKeyFrameData(const InstancedKeyFrameDesc& desc);
 	void PushTweenData(const TweenDesc& desc);
 	void PushInstancedTweenData(const InstancedTweenDesc& desc);
 };

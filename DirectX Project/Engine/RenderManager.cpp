@@ -41,6 +41,10 @@ void RenderManager::Init(const std::shared_ptr<Shader>& shader)
 	instancedTweenBuffer = std::make_shared<ConstantBuffer<InstancedTweenDesc>>(Global::g_device, Global::g_immediateContext);
 	instancedTweenBuffer->Create();
 	instancedTweenEffectBuffer = shader->GetConstantBuffer("InstancedTweenBuffer");
+
+	instancedKeyFrameBuffer = std::make_shared<ConstantBuffer<InstancedKeyFrameDesc>>(Global::g_device, Global::g_immediateContext);
+	instancedKeyFrameBuffer->Create();
+	instancedKeyFrameEffectBuffer = shader->GetConstantBuffer("InstancedKeyframeBuffer");
 }
 
 void RenderManager::Update()
@@ -103,6 +107,14 @@ void RenderManager::PushKeyframeData(const KeyframeDesc& desc)
 
 	keyframeBuffer->CopyData(keyframeDesc);
 	HRESULT hr = keyframeEffectBuffer->SetConstantBuffer(keyframeBuffer->GetConstantBuffer().Get());
+}
+
+void RenderManager::PushInstancedKeyFrameData(const InstancedKeyFrameDesc& desc)
+{
+	instancedKeyFrameDesc = desc;
+
+	instancedKeyFrameBuffer->CopyData(instancedKeyFrameDesc);
+	instancedKeyFrameEffectBuffer->SetConstantBuffer(instancedKeyFrameBuffer->GetConstantBuffer().Get());
 }
 
 void RenderManager::PushTweenData(const TweenDesc& desc)

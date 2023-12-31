@@ -14,10 +14,7 @@ private:
 	std::shared_ptr<Model>	model;
 	UINT8					pass = 0;
 
-	//animation data
-
 	std::vector<AnimTransform> animTransforms;
-
 	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> textureSRV;
 
@@ -26,7 +23,6 @@ private:
 private:
 	void CreateTexture();
 	void CreateAnimationTransform(UINT index);
-	void UpdateKeyframeDesc();
 
 public: 
 	ModelRenderer(std::shared_ptr<Shader> shader);
@@ -34,9 +30,12 @@ public:
 
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT8 pass) { this->pass = pass; }
+	KeyframeDesc& GetKeyFrameDesc() { return keyframeDesc; }
 
 	InstanceID GetInstanceID() const;
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
+	void UpdateKeyframeDesc();
+
 	virtual void Render() override;
 };
 
