@@ -9,3 +9,7 @@ using Quaternion = DirectX::SimpleMath::Quaternion;
 using Matrix = DirectX::SimpleMath::Matrix;
 
 using InstanceID = std::pair<UINT, UINT>;
+
+#define MAX_MODEL_TRANSFORMS 250
+#define MAX_MODEL_KEYFRAMES 500
+#define MAX_MODEL_INSTANCE 500

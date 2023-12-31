@@ -20,85 +20,6 @@ ModelAnimator::~ModelAnimator()
 {
 }
 
-void ModelAnimator::Render()
-{
-	if (model == nullptr)
-		return;
-	if (texture == nullptr)
-		CreateTexture();
-
-	shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
-
-	// Bones
-	BoneDesc boneDesc;
-
-	const UINT boneCount = model->GetBoneCount();
-	auto& boneList = model->GetBones();
-	for (UINT i = 0; i < boneCount; i++)
-	{
-		std::shared_ptr<ModelBone> bone = boneList[i];
-		boneDesc.transforms[i] = bone->transform;
-	}
-	RenderManager::GetInstance().PushBoneData(boneDesc);
-
-	// Transform
-	auto world = GetTransform()->GetWorldMatrix();
-	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
-
-	UpdateKeyframeDesc();
-	RenderManager::GetInstance().PushKeyframeData(keyframeDesc);
-
-	const auto& meshes = model->GetMeshes();
-	for (auto& mesh : meshes)
-	{
-		if (mesh->material)
-			mesh->material->Update();
-
-		// BoneIndex
-		shader->GetScalar("BoneIndex")->SetInt(mesh->boneIndex);
-
-		//auto animMat = animTransforms[0].transforms[mesh->boneIndex][keyframeDesc.currentFrame];
-		auto animMat = animTransforms[0].transforms[mesh->boneIndex][0];
-		shader->GetMatrix("AnimMatrix")->SetMatrix((const float*) &animMat);
-
-		UINT stride = mesh->vertexBuffer->GetStride();
-		UINT offset = mesh->vertexBuffer->GetOffset();
-
-		Global::g_immediateContext->IASetVertexBuffers(0, 1, mesh->vertexBuffer->GetVertexBuffer().GetAddressOf(), &stride, &offset);
-		Global::g_immediateContext->IASetIndexBuffer(mesh->indexBuffer->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
-
-  		shader->DrawIndexed(0, pass, mesh->indexBuffer->GetIndexCount(), 0, 0);
-	}
-}
-
-void ModelAnimator::UpdateKeyframeDesc()
-{
-	KeyframeDesc& desc = keyframeDesc;
-
-	desc.sumTime += TimeManager::GetInstance().GetDeltaTime();
-
-	std::shared_ptr<ModelAnimation> currentAnim = model->GetAnimationByIndex(desc.animIdx);
-	if (currentAnim)
-	{
-		float timePerFrame = 1 / (currentAnim->frameRate * desc.speed * 0.5f);
-
-		if (desc.sumTime >= timePerFrame)
-		{
-			desc.sumTime = 0;
-			desc.currentFrame = (desc.currentFrame + 1) % currentAnim->frameCount;
-			desc.nextFrame = (desc.currentFrame + 1) % currentAnim->frameCount;
-
-			if (model->GetAnimations()[desc.animIdx]->keyframes.size()  < desc.currentFrame)
-			{
-				desc.currentFrame = 0;
-				desc.nextFrame = 1;
-			}
-		}
-
-		desc.ratio = (desc.sumTime / timePerFrame);
-	}
-}
-
 void ModelAnimator::CreateTexture()
 {
 	if(model->GetAnimationCount() == 0)
@@ -188,21 +109,9 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 
 				Matrix S, R, T;
 
-				if (data.scale.x > 0.9f
-					&& data.scale.y > 0.9f
-					&& data.scale.z > 0.9f)
-					S = Matrix::CreateScale(data.scale);
-				
-				if(data.rotation.x > 0.9f
-										&& data.rotation.y > 0.9f
-										&& data.rotation.z > 0.9f
-										&& data.rotation.w > 0.9f)
-					R = Matrix::CreateFromQuaternion(data.rotation);
-
-				if (data.translation.x > 0.9f
-										&& data.translation.y > 0.9f
-										&& data.translation.z > 0.9f)
-					T = Matrix::CreateTranslation(data.translation);
+				S = Matrix::CreateScale(data.scale);
+				R = Matrix::CreateFromQuaternion(data.rotation);
+				T = Matrix::CreateTranslation(data.translation);
 
 				matAnimation = S * R * T;
 			}
@@ -210,8 +119,8 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 			{
 				matAnimation = Matrix::Identity;
 			}
-
 			Matrix toRootMatrix = bone->transform;
+			Matrix invGlobal = toRootMatrix.Invert();
 
 			int parentIndex = bone->parentIndex;
 
@@ -221,7 +130,7 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 
 			tempAnimBoneTransforms[j] = matAnimation * matParent;
 
-			animTransforms[index].transforms[i][j] = tempAnimBoneTransforms[j];
+			animTransforms[index].transforms[i][j] = invGlobal * tempAnimBoneTransforms[j];
 		}
 	}
 }

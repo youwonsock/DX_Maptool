@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{5c3e82e6-43b7-471b-8d7d-e1e3db531baa}</UniqueIdentifier>
     </Filter>
@@ -21,13 +17,17 @@
     <Filter Include="소스 파일\Utils\FBXSDK">
       <UniqueIdentifier>{f0c89f31-1189-4c81-a6c2-53eb04100a0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utils\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>소스 파일\Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Utils\헤더 파일</Filter>
     </ClCompile>
     <ClCompile Include="Converter.cpp">
       <Filter>소스 파일\Utils</Filter>
@@ -71,13 +71,16 @@
     <ClCompile Include="FBXSDKTest.cpp">
       <Filter>소스 파일\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Converter_FBXSDK.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
       <Filter>소스 파일\Main</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>소스 파일\Utils\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Converter.h">
       <Filter>소스 파일\Utils</Filter>
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="FBXSDKTest.h">
       <Filter>소스 파일\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Converter_FBXSDK.h">
+      <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

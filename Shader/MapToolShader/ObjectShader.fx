@@ -44,19 +44,40 @@ cbuffer KeyframeBuffer
     KeyframeDesc Keyframes;
 };
 
-matrix AnimMatrix;
+Texture2DArray TransformMap;
+
+matrix GetAnimationMatrix()
+{
+    int animIndex = Keyframes.animIndex;
+    int currFrame = Keyframes.currentFrame;
+    
+    float4 c0, c1, c2, c3;
+
+    matrix curr = 0;
+    
+    c0 = TransformMap.Load(int4(BoneIndex * 4 + 0, currFrame, animIndex, 0));
+    c1 = TransformMap.Load(int4(BoneIndex * 4 + 1, currFrame, animIndex, 0));
+    c2 = TransformMap.Load(int4(BoneIndex * 4 + 2, currFrame, animIndex, 0));
+    c3 = TransformMap.Load(int4(BoneIndex * 4 + 3, currFrame, animIndex, 0));
+    
+    //c0 = TransformMap.Load(int4(BoneIndex * 4 + 0, 1, animIndex, 0));
+    //c1 = TransformMap.Load(int4(BoneIndex * 4 + 1, 1, animIndex, 0));
+    //c2 = TransformMap.Load(int4(BoneIndex * 4 + 2, 1, animIndex, 0));
+    //c3 = TransformMap.Load(int4(BoneIndex * 4 + 3, 1, animIndex, 0));
+       
+    curr = matrix(c0, c1, c2, c3);
+
+    return curr;
+}
 
 MeshOutput VS_Animation(VertexModel input)
 {
     MeshOutput output;
-	
-    matrix m = AnimMatrix;
     
-    //output.position = mul(input.position, BoneTransforms[BoneIndex]);
+    matrix m = GetAnimationMatrix();
     output.position = mul(input.position, m);
-
-    output.position = mul(output.position, World);
     
+    output.position = mul(output.position, World);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
     output.uv = input.uv;

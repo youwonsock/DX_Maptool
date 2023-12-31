@@ -2,10 +2,12 @@
 #include "Converter.h"
 
 #include "Engine/tinyxml2.h"
+#include "Converter_FBXSDK.h"
 
 Converter::Converter()
 {
 	importer = std::make_shared<Assimp::Importer>();
+	converter_fbxsdk = std::make_shared<Converter_FBXSDK>();
 }
 
 Converter::~Converter()
@@ -26,22 +28,31 @@ void Converter::ReadAssetFile(const std::wstring& file)
 		aiProcess_ConvertToLeftHanded |
 		aiPostProcessSteps
 		(
-			aiProcess_CalcTangentSpace |
-			aiProcess_GenSmoothNormals |
-			aiProcess_RemoveRedundantMaterials |
 			aiProcess_Triangulate |
-			aiProcess_GenUVCoords |
+			aiProcess_GenSmoothNormals |
+			aiProcess_CalcTangentSpace |
+			aiProcess_FlipUVs |
+			aiProcess_JoinIdenticalVertices |
 			aiProcess_SortByPType |
+			aiProcess_ImproveCacheLocality |
 			aiProcess_FindDegenerates |
 			aiProcess_FindInvalidData |
-			aiProcess_ValidateDataStructure |
 			aiProcess_OptimizeMeshes |
-			aiProcess_OptimizeGraph 
+			aiProcess_OptimizeGraph |
+			aiProcess_RemoveRedundantMaterials |
+			aiProcess_GenUVCoords |
+			aiProcess_TransformUVCoords |
+			aiProcess_FindInstances |
+			aiProcess_ValidateDataStructure |
+			aiProcess_Debone
 		)
 	);
 
 	if(scene == nullptr)
 		Utils::ShowErrorMessage(L"Failed to load model: " + fullPath);
+
+	// load fbx sdk
+	converter_fbxsdk->ReadAssetFile(file);
 }
 
 void Converter::ExportModelData(const std::wstring& savePath)
@@ -60,13 +71,20 @@ void Converter::ExportMaterialData(const std::wstring& savePath)
 	WirteMaterialData(fullPath);
 }
 
-void Converter::ExportAnimationData(const std::wstring& savePath, UINT index)
+void Converter::ExportAnimationData(const std::wstring& savePath, UINT index, UseLib type)
 {
 	std::wstring fullPath = modelPath + savePath + L".anim";
 	assert(index < scene->mNumAnimations);
 
-	std::shared_ptr<asAnimation> animation = ReadAnimationData(scene->mAnimations[index]);
-	WriteAnimationData(animation, fullPath);
+	if (type == UseLib::ASSIMP)
+	{
+		std::shared_ptr<asAnimation> animation = ReadAnimationData(scene->mAnimations[index]);
+		WriteAnimationData(animation, fullPath);
+	}
+	else if (type == UseLib::FBXSDK)
+	{
+		converter_fbxsdk->ExportAnimationData(savePath, index);
+	}
 }
 
 void Converter::ReadModelData(aiNode* node, int index, int parent)
@@ -78,7 +96,8 @@ void Converter::ReadModelData(aiNode* node, int index, int parent)
 
 	// Relative Transform
 	Matrix transform(node->mTransformation[0]);
-	bone->transform = transform.Transpose();
+
+	bone->transform= transform.Transpose();
 
 	// 2) Root (Local)
 	Matrix matParent = Matrix::Identity;
@@ -102,6 +121,17 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 	if (node->mNumMeshes < 1)
 		return;
 	 
+	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
+	mesh->name = node->mName.C_Str();
+	mesh->boneIndex = bone;
+
+
+	// 2) Root (Local)
+	auto geometricMat = converter_fbxsdk->GetGeometrMatrix(node->mName.C_Str());
+	auto normalMat = geometricMat;
+	normalMat = normalMat.Invert();
+	normalMat = normalMat.Transpose();
+
 	for (UINT i = 0; i < node->mNumMeshes; i++)
 	{
 		std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
@@ -112,7 +142,7 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 		const aiMesh* srcMesh = scene->mMeshes[index];
 
 		int temp = srcMesh->mMaterialIndex;
-
+		
 		// Material Name
 		const aiMaterial* material = scene->mMaterials[srcMesh->mMaterialIndex];
 		mesh->materialName = material->GetName().C_Str();
@@ -123,7 +153,11 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 		{
 			// Vertex
 			VertexType vertex;
+
 			::memcpy(&vertex.position, &srcMesh->mVertices[v], sizeof(Vector3));
+			vertex.position.z *= -1.f;
+			vertex.position = Vector3::Transform(vertex.position, geometricMat);
+			std::swap(vertex.position.y, vertex.position.z);
 
 			// UV
 			if (srcMesh->HasTextureCoords(0))
@@ -132,6 +166,23 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 			// Normal
 			if (srcMesh->HasNormals())
 				::memcpy(&vertex.normal, &srcMesh->mNormals[v], sizeof(Vector3));
+			vertex.normal.z *= -1.f;
+			vertex.normal = Vector3::Transform(vertex.normal, normalMat);
+			vertex.normal.Normalize();
+			std::swap(vertex.normal.y, vertex.normal.z);
+
+
+			//이것들이 필요함 시발
+			//FbxAMatrix geometircMat, normalMat;
+			//geometircMat.SetT(fbxNode->GetGeometricTranslation(FbxNode::eSourcePivot));
+			//geometircMat.SetR(fbxNode->GetGeometricRotation(FbxNode::eSourcePivot));
+			//geometircMat.SetS(fbxNode->GetGeometricScaling(FbxNode::eSourcePivot));
+			//normalMat = geometircMat;
+			//normalMat = normalMat.Inverse();
+			//normalMat = normalMat.Transpose();
+			// 
+			//auto finalPos = geometircMat.MultT(v);
+			//auto finalnomal = normalMat.MultT(v);
 
 			mesh->vertices.push_back(vertex);
 		}

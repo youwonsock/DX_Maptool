@@ -2,9 +2,18 @@
 
 #include "AsTypes.h"
 
+enum UseLib
+{
+	ASSIMP = 0,
+	FBXSDK = 1
+};
+
+class Converter_FBXSDK;
+
 class Converter
 {
 private:
+	//assimp
 	std::shared_ptr<Assimp::Importer> importer;
 	const aiScene* scene;
 
@@ -15,7 +24,12 @@ private:
 	std::vector<std::shared_ptr<asMaterial>> materials;
 	std::vector<std::shared_ptr<asMesh>> meshes;
 	std::vector<std::shared_ptr<asBone>> bones;
+
+	//fbx sdk
+	std::shared_ptr<Converter_FBXSDK> converter_fbxsdk;
+
 private:
+	//assimp
 	void ReadModelData(aiNode* node, int index, int parent);
 	void ReadMeshData(aiNode* node, int bone);
 	void ReadSkinData();
@@ -31,6 +45,9 @@ private:
 	std::string WirteTextureFile(std::string saveFolder, std::string file);
 	void WriteAnimationData(std::shared_ptr<asAnimation> animation, std::wstring filePath);
 
+	//fbx sdk
+
+
 public:
 	Converter();
 	~Converter();
@@ -38,6 +55,6 @@ public:
 	void ReadAssetFile(const std::wstring& file);
 	void ExportModelData(const std::wstring& savePath);
 	void ExportMaterialData(const std::wstring& savePath);
-	void ExportAnimationData(const std::wstring& savePath, UINT index = 0);
+	void ExportAnimationData(const std::wstring& savePath, UINT index = 0, UseLib type = ASSIMP);
 };
 

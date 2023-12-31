@@ -16,6 +16,7 @@ private:
 	std::shared_ptr<Mesh> mesh;
 	std::shared_ptr<Material> material;
 	UINT pass = 0;
+
 public:
 	MeshRenderer();
 	~MeshRenderer();

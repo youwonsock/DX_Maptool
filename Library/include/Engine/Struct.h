@@ -34,3 +34,10 @@ struct ShaderDesc
 	ComPtr<ID3DBlob> blob;
 	ComPtr<ID3DX11Effect> effect;
 };
+
+struct AnimTransform
+{
+	using TransformArrayType = std::array<Matrix, MAX_MODEL_TRANSFORMS>;
+
+	std::array<TransformArrayType, MAX_MODEL_KEYFRAMES> transforms;
+};
