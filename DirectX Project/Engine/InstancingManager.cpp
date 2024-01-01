@@ -10,7 +10,7 @@
 #include "Transform.h"
 
 
-void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::Render(std::set<std::shared_ptr<GameObject>>& gameObjects)
 {
 	ClearData();
 	ClearBuffer();
@@ -20,11 +20,11 @@ void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObj
 	RenderAnimRenderer(gameObjects);
 }
 
-void InstancingManager::RenderMeshRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderMeshRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 
-	for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	for (auto& gameObject : gameObjects)
 	{
 		if (gameObject->GetMeshRenderer() == nullptr)
 			continue;
@@ -54,11 +54,11 @@ void InstancingManager::RenderMeshRenderer(std::vector<std::shared_ptr<GameObjec
 	}
 }
 
-void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderModelRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 
-	for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	for(auto& gameObject : gameObjects)
 	{
 		if (gameObject->GetModelRenderer() == nullptr)
 			continue;
@@ -93,11 +93,11 @@ void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObje
 	}
 }
 
-void InstancingManager::RenderAnimRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderAnimRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 
-	for (std::shared_ptr<GameObject>& gameObject : gameObjects)
+	for (auto& gameObject : gameObjects)
 	{
 		if (gameObject->GetModelAnimator() == nullptr)
 			continue;

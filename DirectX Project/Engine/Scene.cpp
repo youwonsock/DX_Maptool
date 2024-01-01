@@ -5,74 +5,143 @@
 
 void Scene::Init()
 {
-	for(auto& gameObject : gameObjects)
-		gameObject->Init();
+	for(auto& gameObject : gameObjectsMap)
+	{ 
+		for (auto& gameObject : gameObject.second)
+			gameObject->Init();
+	}
 }
 
 void Scene::BeginPlay()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->BeginPlay();
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+			gameObject->BeginPlay();
+	}
 }
 
 void Scene::FixedUpdate()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->FixedUpdate();
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+			gameObject->FixedUpdate();
+	}
 }
 
 void Scene::Update()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->Update();
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+			gameObject->Update();
+	}
 }
 
 void Scene::PostUpdate()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->PostUpdate();
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+			gameObject->PostUpdate();
+	}
 }
 
 void Scene::PreRender()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->PreRender();
+	if (drawNodeIdxList.size() > 0)
+	{
+		for (auto& nodeIdx : drawNodeIdxList)
+		{
+			for (auto& gameObject : gameObjectsMap[nodeIdx])
+				gameObject->PreRender();
+		}
+	}
+	else
+	{
+		for (auto& gameObject : gameObjectsMap)
+		{
+			for (auto& gameObject : gameObject.second)
+				gameObject->PreRender();
+		}
+	}
 }
 
 void Scene::Render()
 {
-	//for (auto& gameObject : gameObjects)
-	//	gameObject->Render();
+	//for (auto& gameObjects : gameObjectsMap)
+	//{
+	//	for (auto& gameObject : gameObjects.second)
+	//		gameObject->Render();
+	//}
+	//return;
 
 	//instance render
-	std::vector<std::shared_ptr<GameObject>> temp;
-	temp.insert(temp.end(), gameObjects.begin(), gameObjects.end());
-	InstancingManager::GetInstance().Render(temp);
+	std::set<std::shared_ptr<GameObject>> temp;
+
+	if (drawNodeIdxList.size() > 0)
+	{
+		for (auto& nodeIdx : drawNodeIdxList)
+		{
+			for (auto& gameObject : gameObjectsMap[nodeIdx])
+				temp.insert(gameObject);
+		}
+		InstancingManager::GetInstance().Render(temp);
+	}
+	else
+	{
+		for (auto& gameObjects : gameObjectsMap)
+		{
+			for (auto& gameObject : gameObjects.second)
+				temp.insert(gameObject);
+		}
+		InstancingManager::GetInstance().Render(temp);
+	}
 }
 
 void Scene::PostRender()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->PostRender();
+	if (drawNodeIdxList.size() > 0)
+	{
+		for (auto& nodeIdx : drawNodeIdxList)
+		{
+			for (auto& gameObject : gameObjectsMap[nodeIdx])
+				gameObject->PostRender();
+		}
+	}
+	else
+	{
+		for (auto& gameObject : gameObjectsMap)
+		{
+			for (auto& gameObject : gameObject.second)
+				gameObject->PostRender();
+		}
+	}
+
+	drawNodeIdxList.clear();
 }
 
 void Scene::Release()
 {
-	for (auto& gameObject : gameObjects)
-		gameObject->Release();
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+			gameObject->Release();
+	}
 }
 
-void Scene::Add(std::shared_ptr<GameObject> gameObject)
+void Scene::Add(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 {
-	gameObjects.insert(gameObject);
+	gameObjectsMap[nodeIdx].insert(gameObject);
 
 	if (gameObject->GetLight() != nullptr)
 		lights.insert(gameObject);
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> gameObject)
+void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 {
-	gameObjects.erase(gameObject);
+	gameObjectsMap[nodeIdx].erase(gameObject);
 
 	if (gameObject->GetLight() != nullptr)
 		lights.erase(gameObject);

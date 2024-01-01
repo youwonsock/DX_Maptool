@@ -18,6 +18,20 @@ PNCTOutput VS(PNCTVertex input)
     return output;
 }
 
+PNCTOutput VS_UseWorldMat(PNCTVertex input)
+{
+    PNCTOutput output;
+    output.position = mul(input.position, WorldD);
+    output.position = mul(output.position, ViewD);
+    output.position = mul(output.position, ProjectionD);
+	
+    output.color = input.color;
+    output.normal = input.normal;
+    output.uv = input.uv;
+	
+    return output;
+}
+
 
 float4 PS(PNCTOutput input) : SV_TARGET
 {
@@ -25,11 +39,18 @@ float4 PS(PNCTOutput input) : SV_TARGET
 }
 
 technique11 T0
-{        
-    pass P0                                               
-    {                                            
+{
+    pass P0
+    {
         SetRasterizerState(FillModeWireFrame);
         SetVertexShader(CompileShader(vs_5_0, VS()));
         SetPixelShader(CompileShader(ps_5_0, PS()));
-    }                                                       
+    }
+
+    pass P1
+    {
+        SetRasterizerState(FillModeWireFrame);
+        SetVertexShader(CompileShader(vs_5_0, VS_UseWorldMat()));
+        SetPixelShader(CompileShader(ps_5_0, PS()));
+    }
 };

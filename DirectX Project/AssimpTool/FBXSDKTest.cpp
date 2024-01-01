@@ -31,7 +31,6 @@ void FBXSDKTest::Init()
 	std::shared_ptr<Model> model = std::make_shared<Model>();
 	model->ReadModel(L"Tower/Tower");
 	model->ReadMaterial(L"Tower/Tower");
-	//model->ReadAnimation(L"Tower/Tower");
 
 	obj1 = std::make_shared<GameObject>();
 
@@ -44,9 +43,11 @@ void FBXSDKTest::Init()
 	//obj1->GetTransform()->SetWorldScale(Vector3(1.f,1.f,1.f));
 	obj1->GetTransform()->SetWorldRotation(Vector3(90, 0, 90));
 
+	SceneManager::GetInstance().GetCurrentScene()->Add(obj1);
+
 	//instancing
 	{
-		int count = 0;
+		int count = 300;
 		// tower
 		{
 			std::shared_ptr<Model> model = std::make_shared<Model>();

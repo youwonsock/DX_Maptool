@@ -155,6 +155,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Picking.h" />
     <ClInclude Include="RenderMgr.h" />
+    <ClInclude Include="Scene_SpaceDivide.h" />
     <ClInclude Include="SectionNode.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="SpaceDivideTree.h" />
@@ -175,6 +176,7 @@
     </ClCompile>
     <ClCompile Include="Picking.cpp" />
     <ClCompile Include="RenderMgr.cpp" />
+    <ClCompile Include="Scene_SpaceDivide.cpp" />
     <ClCompile Include="SectionNode.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="SpaceDivideTree.cpp" />
@@ -233,6 +235,9 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </EntryPointName>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MapTool.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

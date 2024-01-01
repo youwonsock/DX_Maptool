@@ -19,14 +19,14 @@ public:
 
 
 private:
-	void RenderMeshRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects);
-	void RenderModelRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects);
-	void RenderAnimRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects);
+	void RenderMeshRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects);
+	void RenderModelRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects);
+	void RenderAnimRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects);
 
 	void AddData(InstanceID instanceID, InstancingData& data);
 
 public:
-	void Render(std::vector<std::shared_ptr<GameObject>>& gameObjects);
+	void Render(std::set<std::shared_ptr<GameObject>>& gameObjects);
 	void ClearData();
 	void ClearBuffer();
 };

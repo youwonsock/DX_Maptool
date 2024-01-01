@@ -10,7 +10,7 @@ MeshOutput VS_Model(VertexModel input)
 {
     MeshOutput output;
 	
-    output.position = mul(input.position, World);
+    output.position = mul(input.position, input.world);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
     output.uv = input.uv;

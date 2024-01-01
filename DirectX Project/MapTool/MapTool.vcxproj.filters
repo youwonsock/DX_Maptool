@@ -40,6 +40,9 @@
     <Filter Include="소스 파일\Component">
       <UniqueIdentifier>{a053c474-0e01-4913-870b-bff126e47496}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\MapToolClasses\Scene">
+      <UniqueIdentifier>{a0b8dd29-384f-47db-856c-fd0430f88b1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene_SpaceDivide.h">
+      <Filter>소스 파일\MapToolClasses\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +128,9 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>소스 파일\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Scene_SpaceDivide.cpp">
+      <Filter>소스 파일\MapToolClasses\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
@@ -139,5 +148,10 @@
     <FxCompile Include="..\..\Shader\MapToolShader\MapToolGlobalShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MapTool.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

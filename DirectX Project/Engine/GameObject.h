@@ -17,6 +17,7 @@ protected:
 	std::array<std::shared_ptr<Component>, (UINT)ComponentType::FixedComponentCount> componentArr = { nullptr, };
 	std::vector<std::shared_ptr<MonoBehaviour>> scriptArr;
 
+	bool isRender = false;
 public:
 	virtual void Init();
 	virtual void BeginPlay();
@@ -28,7 +29,6 @@ public:
 	virtual void PostRender();
 	virtual void Release();
 
-	
 	std::shared_ptr<Component> GetFixedComponent(ComponentType type);
 	std::shared_ptr<Transform> GetTransform();
 	std::shared_ptr<Camera> GetCamera();
