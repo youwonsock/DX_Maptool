@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Transform.h"
+#include "Figure.h"
 
 Transform::Transform() : Base(ComponentType::Transform)
 {
@@ -38,6 +39,16 @@ Vector3 Transform::ToEulerAngles(Quaternion q)
 	angles.z = std::atan2(siny_cosp, cosy_cosp);
 
 	return angles;
+}
+
+Cube& Transform::GetBoundingBox()
+{
+	return boundingBox;
+}
+
+void Transform::SetDefaultBoundingBox(std::shared_ptr<Cube> boundingBox)
+{
+	defaultBoundingBox = boundingBox;
 }
 
 void Transform::UpdateTransform()
@@ -114,4 +125,31 @@ void Transform::SetWorldScale(const Vector3& scale)
 	}
 	else
 		SetLocalScale(scale);
+}
+
+void Transform::SetLocalPosition(const Vector3& position)
+{
+	localPosition = position;
+	UpdateTransform();
+
+	if(defaultBoundingBox)
+		boundingBox = defaultBoundingBox->GetOBBCube(worldMatrix);
+}
+
+void Transform::SetLocalRotation(const Vector3& rotation)
+{
+	localRotation = rotation;
+	UpdateTransform();
+
+	if (defaultBoundingBox)
+		boundingBox = defaultBoundingBox->GetOBBCube(worldMatrix);
+}
+
+void Transform::SetLocalScale(const Vector3& scale)
+{
+	localScale = scale;
+	UpdateTransform();
+
+	if (defaultBoundingBox)
+		boundingBox = defaultBoundingBox->GetOBBCube(worldMatrix);
 }

@@ -32,6 +32,9 @@ Cube::Cube(Vector3& center, float x, float y, float z)
 	min = center - size * 0.5f;
 	max = center + size * 0.5f;
 
+	//  0   1   4   5
+	//
+	//  2   3   6   7
 	Vector3 c0, c2, c3, c6;
 	c2 = min;
 	c3 = min; c3.x += size.x;
@@ -40,6 +43,15 @@ Cube::Cube(Vector3& center, float x, float y, float z)
 	axisVector[0] = (c3 - c2) * 0.5f;
 	axisVector[1] = (c0 - c2) * 0.5f;
 	axisVector[2] = (c6 - c2) * 0.5f;
+
+	points[0] = c0;
+	points[1] = c0; points[1].x += size.x;
+	points[2] = c2;
+	points[3] = c3;
+	points[4] = c6; points[4].y += size.y;
+	points[5] = points[1]; points[5].z += size.z;
+	points[6] = c6;
+	points[7] = c3; points[7].z += size.z;
 }
 
 Cube::Cube(Vector3& min, Vector3& max)
@@ -58,6 +70,15 @@ Cube::Cube(Vector3& min, Vector3& max)
 	axisVector[0] = (c3 - c2) * 0.5f;
 	axisVector[1] = (c0 - c2) * 0.5f;
 	axisVector[2] = (c6 - c2) * 0.5f;
+
+	points[0] = c0;
+	points[1] = c0; points[1].x += size.x;
+	points[2] = c2;
+	points[3] = c3;
+	points[4] = c6; points[4].y += size.y;
+	points[5] = points[1]; points[5].z += size.z;
+	points[6] = c6;
+	points[7] = c3; points[7].z += size.z;
 }
 
 void Cube::SetCube(Vector3& center, float x, float y, float z)
@@ -76,6 +97,15 @@ void Cube::SetCube(Vector3& center, float x, float y, float z)
 	axisVector[0] = (c3 - c2) * 0.5f;
 	axisVector[1] = (c0 - c2) * 0.5f;
 	axisVector[2] = (c6 - c2) * 0.5f;
+
+	points[0] = c0;
+	points[1] = c0; points[1].x += size.x;
+	points[2] = c2;
+	points[3] = c3;
+	points[4] = c6; points[4].y += size.y;
+	points[5] = points[1]; points[5].z += size.z;
+	points[6] = c6;
+	points[7] = c3; points[7].z += size.z;
 }
 
 void Cube::SetCube(Vector3& min, Vector3& max)
@@ -94,6 +124,15 @@ void Cube::SetCube(Vector3& min, Vector3& max)
 	axisVector[0] = (c3 - c2) * 0.5f;
 	axisVector[1] = (c0 - c2) * 0.5f;
 	axisVector[2] = (c6 - c2) * 0.5f;
+
+	points[0] = c0;
+	points[1] = c0; points[1].x += size.x;
+	points[2] = c2;
+	points[3] = c3;
+	points[4] = c6; points[4].y += size.y;
+	points[5] = points[1]; points[5].z += size.z;
+	points[6] = c6;
+	points[7] = c3; points[7].z += size.z;
 }
 
 void Cube::SetHeight(float minY, float maxY)
@@ -107,6 +146,37 @@ void Cube::SetHeight(float minY, float maxY)
 	c2 = min;
 	c0 = c2; c0.y += size.y;
 	axisVector[1] = (c0 - c2) * 0.5f;
+}
+
+Cube Cube::GetOBBCube(Matrix worldMat) //????
+{
+	Cube obbCube;
+
+	Vector3::TransformNormal(axisVector[0], worldMat, obbCube.axisVector[0]);
+	Vector3::TransformNormal(axisVector[1], worldMat, obbCube.axisVector[1]);
+	Vector3::TransformNormal(axisVector[2], worldMat, obbCube.axisVector[2]);
+
+	Vector3::Transform(center, worldMat, obbCube.center);
+
+	Vector3::Transform(points[0], worldMat, obbCube.points[0]);
+	Vector3::Transform(points[1], worldMat, obbCube.points[1]);
+	Vector3::Transform(points[2], worldMat, obbCube.points[2]);
+	Vector3::Transform(points[3], worldMat, obbCube.points[3]);
+	Vector3::Transform(points[4], worldMat, obbCube.points[4]);
+	Vector3::Transform(points[5], worldMat, obbCube.points[5]);
+	Vector3::Transform(points[6], worldMat, obbCube.points[6]);
+	Vector3::Transform(points[7], worldMat, obbCube.points[7]);
+
+	obbCube.min = obbCube.points[0];
+	obbCube.max = obbCube.points[5];
+
+	float x, y, z;
+	x = (points[1] - points[0]).Length() * worldMat._11;
+	y = (points[0] - points[2]).Length() * worldMat._22;
+	z = (points[4] - points[0]).Length() * worldMat._33;
+	obbCube.size = Vector3(x, y, z);
+
+	return obbCube;
 }
 
 // --------------------------------- Plane ---------------------------------//

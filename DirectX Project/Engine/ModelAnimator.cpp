@@ -12,6 +12,9 @@
 
 #include "InstancingBuffer.h"
 
+#include "GameObject.h"
+#include "Figure.h"
+
 ModelAnimator::ModelAnimator(std::shared_ptr<Shader> shader) : Base(ComponentType::Animator), shader(shader)
 {
 }
@@ -138,6 +141,8 @@ void ModelAnimator::CreateAnimationTransform(UINT index)
 void ModelAnimator::SetModel(std::shared_ptr<Model> model)
 {
 	this->model = model;
+
+	this->owner.lock()->GetTransform()->SetDefaultBoundingBox(model->GetBoundingBox());
 
 	const auto& materials = model->GetMaterials();
 

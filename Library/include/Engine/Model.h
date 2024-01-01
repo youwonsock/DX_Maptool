@@ -3,6 +3,7 @@
 struct ModelBone;
 struct ModelMesh;
 struct ModelAnimation;
+struct Cube;
 class Material;
 
 class Model : public std::enable_shared_from_this<Model>
@@ -16,6 +17,8 @@ private:
 	std::vector<std::shared_ptr<ModelBone>> bones;
 	std::vector<std::shared_ptr<ModelMesh>> meshes;
 	std::vector<std::shared_ptr<ModelAnimation>> animations;
+
+	std::shared_ptr<Cube> defaultBoundingBox;
 private:
 	void BindCacheInfo();
 
@@ -46,4 +49,6 @@ public:
 	std::vector<std::shared_ptr<ModelAnimation>>& GetAnimations() { return animations; }
 	std::shared_ptr<ModelAnimation> GetAnimationByIndex(UINT index) { return (index < 0 || index >= animations.size()) ? nullptr : animations[index]; }
 	std::shared_ptr<ModelAnimation> GetAnimationByName(const std::wstring& name);
+
+	std::shared_ptr<Cube> GetBoundingBox();
 };

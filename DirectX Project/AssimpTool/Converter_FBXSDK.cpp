@@ -123,6 +123,9 @@ void Converter_FBXSDK::GetAnimationData(std::shared_ptr<asAnimation>& animation)
 	FbxTime frameTime;
 	for(auto& node : fbxNodeList)
 	{
+		if(node.second == nullptr)
+			continue;
+
 		std::shared_ptr<asKeyframe> keyframe = std::make_shared<asKeyframe>();
 		keyframe->boneName = node.first;
 

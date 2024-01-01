@@ -43,7 +43,8 @@ void Converter::ReadAssetFile(const std::wstring& file)
 			aiProcess_TransformUVCoords |
 			aiProcess_FindInstances |
 			aiProcess_ValidateDataStructure |
-			aiProcess_Debone
+			aiProcess_Debone |
+			aiProcess_GenBoundingBoxes
 		)
 	);
 
@@ -121,10 +122,6 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 {
 	if (node->mNumMeshes < 1)
 		return;
-	 
-	std::shared_ptr<asMesh> mesh = std::make_shared<asMesh>();
-	mesh->name = node->mName.C_Str();
-	mesh->boneIndex = bone;
 
 	// 2) Root (Local)
 	auto geometricMat = converter_fbxsdk->GetGeometrMatrix(node->mName.C_Str());
@@ -260,8 +257,23 @@ void Converter::WriteModelFile(std::wstring filePath)
 		file->Write<Matrix>(bone->transform);
 	}
 
+	// bounding box
+	auto box = scene->mMeshes[0]->mAABB;
+	Vector3 min = Vector3(box.mMin.x, box.mMin.y, -box.mMin.z);
+	Vector3 max = Vector3(box.mMax.x, box.mMax.y, -box.mMax.z);
+	Matrix geometricMat = converter_fbxsdk->GetGeometrMatrix(scene->mRootNode->mName.C_Str());
+
+	min = Vector3::Transform(min, geometricMat);
+	max = Vector3::Transform(max, geometricMat);
+	std::swap(min.y, min.z);
+	std::swap(max.y, max.z);
+
+	file->Write<Vector3>(min);
+	file->Write<Vector3>(max);
+
 	// Mesh Data
 	file->Write<unsigned __int32>(meshes.size());
+
 	for (std::shared_ptr<asMesh>& meshData : meshes)
 	{
 		file->Write<std::string>(meshData->name);

@@ -38,6 +38,11 @@ struct Cube
 	Vector3 axisVector[3] = { {1,0,0}, {0,1,0}, {0,0,1} };
 	Vector3 size = { 0,0,0 };
 
+	//  0   1   4   5
+	//
+	//  2   3   6   7
+	Vector3 points[8];
+
 	Cube() {};
 	Cube(Vector3& center, float x, float y, float z);
 	Cube(Vector3& min, Vector3& max);
@@ -45,6 +50,8 @@ struct Cube
 	void SetCube(Vector3& center, float x, float y, float z);
 	void SetCube(Vector3& min, Vector3& max);
 	void SetHeight(float minY, float maxY);
+
+	Cube GetOBBCube(Matrix worldMat);
 };
 
 // --------------------------------- Plane ---------------------------------//

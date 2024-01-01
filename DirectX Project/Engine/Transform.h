@@ -1,11 +1,16 @@
 #pragma once
 
 #include "Component.h"
+#include "Figure.h"
 
 class Transform : public Component
 {
 private:
 	using Base = Component;
+
+	// bounding box
+	std::shared_ptr<Cube> defaultBoundingBox = nullptr;
+	Cube boundingBox;
 
 	// local
 	Vector3 localPosition;
@@ -24,7 +29,7 @@ private:
 	Vector3 right;
 	Vector3 up;
 
-private:
+	// °èÃþ ±¸Á¶
 	std::shared_ptr<Transform> parent;
 	std::vector<std::shared_ptr<Transform>> children;
 
@@ -39,14 +44,18 @@ public:
 	void UpdateTransform();
 	Vector3 ToEulerAngles(Quaternion q);
 
+	// bounding box
+	Cube& GetBoundingBox();
+	void SetDefaultBoundingBox(std::shared_ptr<Cube> boundingBox);
+
 	// local
 	Vector3 GetLocalPosition() const				{ return localPosition;}
 	Vector3 GetLocalRotation() const				{ return localRotation;}
 	Vector3 GetLocalScale() const					{ return localScale;}
 	Matrix GetLocalMatrix()							{ return localMatrix;}
-	void SetLocalPosition(const Vector3& position)  { localPosition = position; UpdateTransform(); }
-	void SetLocalRotation(const Vector3& rotation)  { localRotation = rotation; UpdateTransform();}
-	void SetLocalScale(const Vector3& scale)		{ localScale = scale; UpdateTransform();}
+	void SetLocalPosition(const Vector3& position);
+	void SetLocalRotation(const Vector3& rotation);
+	void SetLocalScale(const Vector3& scale);
 
 	// world
 	Vector3 GetWorldPosition() const				{ return worldPosition;}

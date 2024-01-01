@@ -1,13 +1,15 @@
 #pragma once
 
+#include "DebugDrawer.h"
+
 class FBXSDKTest : public IExecute
 {
 private:
 	std::shared_ptr<Shader> shader;
 	std::shared_ptr<GameObject> obj1;
-	std::shared_ptr<GameObject> obj2;
-	std::shared_ptr<GameObject> obj3;
 	std::shared_ptr<GameObject> camera;
+
+	std::shared_ptr<DebugDrawer> debugDrawer;
 
 	void CreateKachujin();
 public:

@@ -56,6 +56,9 @@
     <ClCompile Include="Converter_FBXSDK.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="DebugDrawer.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -92,6 +95,9 @@
       <Filter>소스 파일\Game</Filter>
     </ClInclude>
     <ClInclude Include="Converter_FBXSDK.h">
+      <Filter>소스 파일\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugDrawer.h">
       <Filter>소스 파일\Utils</Filter>
     </ClInclude>
   </ItemGroup>

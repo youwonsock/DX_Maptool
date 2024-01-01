@@ -6,18 +6,11 @@
 #define MAX_MODEL_KEYFRAMES 500
 #define MAX_MODEL_INSTANCE 500
 
-cbuffer BoneBuffer
-{
-    matrix BoneTransforms[MAX_MODEL_TRANSFORMS];
-};
-uint BoneIndex;
-
 MeshOutput VS_Model(VertexModel input)
 {
     MeshOutput output;
 	
-    output.position = mul(input.position, BoneTransforms[BoneIndex]); 
-    output.position = mul(input.position, input.world);
+    output.position = mul(input.position, World);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
     output.uv = input.uv;
@@ -46,6 +39,7 @@ cbuffer InstancedKeyframeBuffer
     KeyframeDesc Keyframes[MAX_MODEL_INSTANCE];
 };
 
+uint BoneIndex;
 Texture2DArray TransformMap;
 
 matrix GetAnimationMatrix(VertexModel input)

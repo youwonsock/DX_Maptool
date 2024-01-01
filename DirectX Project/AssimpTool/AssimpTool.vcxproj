@@ -156,6 +156,7 @@
     <ClCompile Include="AsTypes.cpp" />
     <ClCompile Include="Converter.cpp" />
     <ClCompile Include="Converter_FBXSDK.cpp" />
+    <ClCompile Include="DebugDrawer.cpp" />
     <ClCompile Include="FBXSDKTest.cpp" />
     <ClCompile Include="ImGuiDemo.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -191,6 +192,7 @@
     <ClInclude Include="AsTypes.h" />
     <ClInclude Include="Converter.h" />
     <ClInclude Include="Converter_FBXSDK.h" />
+    <ClInclude Include="DebugDrawer.h" />
     <ClInclude Include="FBXSDKTest.h" />
     <ClInclude Include="ImGuiDemo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

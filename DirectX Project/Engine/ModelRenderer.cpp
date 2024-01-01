@@ -11,6 +11,8 @@
 #include "InstancingBuffer.h"
 
 #include "ModelAnimation.h"
+#include "GameObject.h"
+#include "Figure.h"
 
 ModelRenderer::ModelRenderer(std::shared_ptr<Shader> shader) : Component(ComponentType::ModelRenderer), shader(shader)
 {
@@ -25,6 +27,8 @@ ModelRenderer::~ModelRenderer()
 void ModelRenderer::SetModel(std::shared_ptr<Model> model)
 {
 	this->model = model;
+
+	this->owner.lock()->GetTransform()->SetDefaultBoundingBox(model->GetBoundingBox());
 
 	const auto& materials = model->GetMaterials();
 	for (const auto& material : materials)
@@ -42,19 +46,6 @@ void ModelRenderer::RenderInstancing(std::shared_ptr<class InstancingBuffer>& in
 {
 	if (model == nullptr)
 		return;
-
-	// Bones
-	BoneDesc boneDesc;
-
-	const UINT boneCount = model->GetBoneCount();
-
-	for (UINT i = 0; i < boneCount; i++)
-	{
-		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
-
-		boneDesc.transforms[i] = bone->transform;
-	}
-	RenderManager::GetInstance().PushBoneData(boneDesc);
 
 	if (pass == 1) // use animation
 	{
@@ -89,17 +80,6 @@ void ModelRenderer::Render()
 {
 	if (model == nullptr)
 		return;
-
-	// Bones
-	BoneDesc boneDesc;
-
-	const UINT boneCount = model->GetBoneCount();
-	for (UINT i = 0; i < boneCount; i++)
-	{
-		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
-		boneDesc.transforms[i] = bone->transform;
-	}
-	RenderManager::GetInstance().PushBoneData(boneDesc);
 
 	if (pass == 1) // use animation
 	{

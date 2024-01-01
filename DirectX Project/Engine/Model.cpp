@@ -5,6 +5,7 @@
 #include "tinyxml2.h"
 #include "ResourceHeader.h"
 #include "PipeLineHeaders.h"
+#include "Figure.h"
 
 Model::Model()
 {
@@ -196,6 +197,14 @@ void Model::ReadModel(std::wstring filename)
 		}
 	}
 
+	//bounding box
+	{
+		defaultBoundingBox = std::make_shared<Cube>();
+		Vector3 min = file->Read<Vector3>();
+		Vector3 max = file->Read<Vector3>();
+		defaultBoundingBox->SetCube(min, max);
+	}
+
 	// Mesh
 	{
 		const UINT count = file->Read<UINT>();
@@ -320,4 +329,9 @@ std::shared_ptr<ModelAnimation> Model::GetAnimationByName(const std::wstring& na
 	}
 
 	return nullptr;
+}
+
+std::shared_ptr<Cube> Model::GetBoundingBox()
+{ 
+	return defaultBoundingBox;
 }

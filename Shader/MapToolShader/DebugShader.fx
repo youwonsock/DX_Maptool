@@ -7,7 +7,7 @@ matrix ProjectionD;
 PNCTOutput VS(PNCTVertex input)
 {
     PNCTOutput output;
-    output.position = mul(input.position, WorldD);
+    output.position = input.position;
     output.position = mul(output.position, ViewD);
     output.position = mul(output.position, ProjectionD);
 	
@@ -25,7 +25,11 @@ float4 PS(PNCTOutput input) : SV_TARGET
 }
 
 technique11 T0
-{
-	PASS_VP(P0, VS, PS)
-	PASS_RS_VP(P1, FillModeWireFrame, VS, PS)
+{        
+    pass P0                                               
+    {                                            
+        SetRasterizerState(FillModeWireFrame);
+        SetVertexShader(CompileShader(vs_5_0, VS()));
+        SetPixelShader(CompileShader(ps_5_0, PS()));
+    }                                                       
 };
