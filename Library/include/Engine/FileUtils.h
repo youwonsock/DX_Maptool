@@ -15,7 +15,7 @@ public:
 	FileUtils();
 	~FileUtils();
 
-	__declspec(noinline) void Open(const std::wstring& filePath, FileMode mode);
+	__declspec(noinline) bool Open(const std::wstring& filePath, FileMode mode);
 
 	template<typename T>
 	__declspec(noinline) void Write(const T& data)

@@ -5,6 +5,7 @@ class Terrain;
 class RenderMgr;
 class DebugDrawer;
 class StaticLOD;
+class ObjectManager;
 
 class SpaceDivideTree
 {
@@ -18,6 +19,7 @@ public:
 	std::vector<int> drawNodeIndexList;
 
 	std::shared_ptr<StaticLOD> staticLOD;
+	std::shared_ptr<ObjectManager> objectManager;
 
 	// temp : for debug
 	std::shared_ptr<DebugDrawer> debugDraw;

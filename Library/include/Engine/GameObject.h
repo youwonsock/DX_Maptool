@@ -17,7 +17,10 @@ protected:
 	std::array<std::shared_ptr<Component>, (UINT)ComponentType::FixedComponentCount> componentArr = { nullptr, };
 	std::vector<std::shared_ptr<MonoBehaviour>> scriptArr;
 
+public:
 	bool isRender = false;
+	std::vector<int> groupNodeIdxList;
+
 public:
 	virtual void Init();
 	virtual void BeginPlay();

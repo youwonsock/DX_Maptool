@@ -85,7 +85,10 @@ void Scene::Render()
 		for (auto& nodeIdx : drawNodeIdxList)
 		{
 			for (auto& gameObject : gameObjectsMap[nodeIdx])
-				temp.insert(gameObject);
+			{
+				if (!gameObject->isRender)
+					temp.insert(gameObject);
+			}
 		}
 		InstancingManager::GetInstance().Render(temp);
 	}
@@ -94,7 +97,10 @@ void Scene::Render()
 		for (auto& gameObjects : gameObjectsMap)
 		{
 			for (auto& gameObject : gameObjects.second)
-				temp.insert(gameObject);
+			{
+				if (!gameObject->isRender)
+					temp.insert(gameObject);
+			}
 		}
 		InstancingManager::GetInstance().Render(temp);
 	}
@@ -118,8 +124,6 @@ void Scene::PostRender()
 				gameObject->PostRender();
 		}
 	}
-
-	drawNodeIdxList.clear();
 }
 
 void Scene::Release()
@@ -145,4 +149,9 @@ void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 
 	if (gameObject->GetLight() != nullptr)
 		lights.erase(gameObject);
+}
+
+void Scene::LoadScnene(std::wstring fileName)
+{
+	// to do load scene data
 }

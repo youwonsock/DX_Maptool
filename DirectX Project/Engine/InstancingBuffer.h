@@ -19,6 +19,7 @@ private:
 
 public:
 
+
 private:
 	void CreateBuffer(UINT maxCount = MAX_MESH_INSTANCE);
 

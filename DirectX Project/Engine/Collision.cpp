@@ -3,6 +3,21 @@
 
 #include "Figure.h"
 
+bool Collision::SeperatingPlane(const Vector3& pos, const Vector3& dir, const Cube& cube1, const Cube& cube2)
+{
+	float val1 = fabs(pos.Dot(dir));
+
+	float val2 = 0;
+	val2 += fabs((cube1.axisVector[0] * cube1.size.x * 0.5f).Dot(dir));
+	val2 += fabs((cube1.axisVector[1] * cube1.size.y * 0.5f).Dot(dir));
+	val2 += fabs((cube1.axisVector[2] * cube1.size.z * 0.5f).Dot(dir));
+	val2 += fabs((cube2.axisVector[0] * cube2.size.x * 0.5f).Dot(dir));
+	val2 += fabs((cube2.axisVector[1] * cube2.size.y * 0.5f).Dot(dir));
+	val2 += fabs((cube2.axisVector[2] * cube2.size.z * 0.5f).Dot(dir));
+
+	return val1 > val2;
+}
+
 bool Collision::RayToFace(const Ray& ray, const Vector3& v0, const Vector3& v1, const Vector3& v2, Vector3* pickPoint)
 {
 	Vector3 edge1 = v1 - v0;
@@ -136,6 +151,33 @@ bool Collision::CubeToPlane(const Cube& cube, const Plane& plane)
 
 	if (fPlaneToCenter < -fDist)
 		return false;
+
+	return true;
+}
+
+bool Collision::CubeToCube(const Cube& cube1, const Cube& cube2)
+{
+	Vector3 pos = cube2.center - cube1.center;
+
+	if(SeperatingPlane(pos, cube1.axisVector[0], cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[1], cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[2], cube1, cube2))return false;
+
+	if(SeperatingPlane(pos, cube2.axisVector[0], cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube2.axisVector[1], cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube2.axisVector[2], cube1, cube2))return false;
+
+	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[0]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[1]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[2]), cube1, cube2))return false;
+
+	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[0]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[1]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[2]), cube1, cube2))return false;
+
+	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[0]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[1]), cube1, cube2))return false;
+	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[2]), cube1, cube2))return false;	
 
 	return true;
 }

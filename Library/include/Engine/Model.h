@@ -26,6 +26,8 @@ public:
 	Model();
 	~Model();
 
+	bool HasAnimation() { return (animations.size() > 0); };
+
 	void ReadMaterial(std::wstring filename);
 	void ReadModel(std::wstring filename);
 	void ReadAnimation(std::wstring filename);

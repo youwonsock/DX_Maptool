@@ -8,6 +8,7 @@
 #include "Splatting.h"
 #include "RenderMgr.h"
 #include "Picking.h"
+#include "ObjectManager.h"
 
 #include <fstream>
 
@@ -15,6 +16,13 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
 	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
 		assert(false);
+
+
+	this->textureFilePath = desc.textureFilePath;
+	this->shaderFilePath = desc.shaderFilePath;
+	this->heightMapFilePath = desc.heightMapFilePath;
+	this->alphaTexPath = desc.alphaTexPath;
+	this->sceneFilePath = desc.sceneFilePath;
 
 	devideTreeDepth = desc.DevideTreeDepth;
 	cellDistance = desc.cellDistance;
@@ -63,6 +71,7 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		splatting = std::make_shared<Splatting>();
 		splatting->Init(splattingDesc);
 	}
+
 
 
 	// temp (object spawn)

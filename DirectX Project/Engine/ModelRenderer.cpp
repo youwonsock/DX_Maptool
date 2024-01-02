@@ -52,9 +52,6 @@ void ModelRenderer::RenderInstancing(std::shared_ptr<class InstancingBuffer>& in
 		if (texture == nullptr)
 			CreateTexture();
 
-		UpdateKeyframeDesc();
-		RenderManager::GetInstance().PushKeyframeData(keyframeDesc);
-
 		shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
 	}
 

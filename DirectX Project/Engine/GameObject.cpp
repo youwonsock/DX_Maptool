@@ -73,6 +73,8 @@ void GameObject::PreRender()
 
 	for (auto& script : scriptArr)
 		script->PreRender();
+
+	isRender = true;
 }
 
 void GameObject::Render()
@@ -97,6 +99,8 @@ void GameObject::PostRender()
 
 	for (auto& script : scriptArr)
 		script->PostRender();
+
+	isRender = false;
 }
 
 void GameObject::Release()

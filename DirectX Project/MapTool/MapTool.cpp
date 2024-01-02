@@ -19,6 +19,7 @@ void MapTool::Init()
 		info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
 		info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
 		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
+		info.sceneFilePath;
 		info.DevideTreeDepth = 2;
 
 		map = std::make_shared<GameObject>();

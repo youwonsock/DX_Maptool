@@ -256,7 +256,8 @@ void Model::ReadAnimation(std::wstring filename)
 	std::wstring fullPath = modelPath + filename + L".anim";
 
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
-	file->Open(fullPath, FileMode::Read);
+	if(!file->Open(fullPath, FileMode::Read))
+		return;
 
 	std::shared_ptr<ModelAnimation> animation = std::make_shared<ModelAnimation>();
 

@@ -6,6 +6,7 @@ class HeightMap;
 class Splatting;
 class RenderMgr;
 class Picking;
+class ObjectManager;
 
 struct TerrainDesc
 {
@@ -17,6 +18,7 @@ struct TerrainDesc
 	std::wstring textureFilePath   = L"";
 	std::wstring heightMapFilePath = L"";
 	std::wstring shaderFilePath    = L"";
+	std::wstring sceneFilePath     = L"";
 
 	std::wstring alphaTexPath = L"";
 
@@ -52,6 +54,9 @@ public:
 
 	std::wstring textureFilePath;
 	std::wstring shaderFilePath;
+	std::wstring heightMapFilePath;
+	std::wstring alphaTexPath;
+	std::wstring sceneFilePath = L"";
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;

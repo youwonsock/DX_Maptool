@@ -4,6 +4,7 @@
 #include "SectionNode.h"
 #include "Terrain.h"
 #include "StaticLOD.h"
+#include "ObjectManager.h"
 
 #include "RenderMgr.h"
 #include "DebugDrawer.h"
@@ -49,6 +50,13 @@ void SpaceDivideTree::Init()
 
     // lod
     staticLOD->SetLod(terrain.lock()->rowNum, maxDepth);
+
+
+    // object manager
+    {
+		objectManager = std::make_shared<ObjectManager>();
+		objectManager->Init(terrain.lock()->sceneFilePath);
+	}
 }
 
 void SpaceDivideTree::Update()

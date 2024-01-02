@@ -14,7 +14,7 @@ FileUtils::~FileUtils()
 	}
 }
 
-void FileUtils::Open(const std::wstring& filePath, FileMode mode)
+bool FileUtils::Open(const std::wstring& filePath, FileMode mode)
 {
 	if (mode == FileMode::Write)
 	{
@@ -42,7 +42,9 @@ void FileUtils::Open(const std::wstring& filePath, FileMode mode)
 		);
 	}
 	if(handle == INVALID_HANDLE_VALUE)
-		Utils::ShowErrorMessage(L"File Open Failed");
+		return false;
+
+	return true;
 }
 
 void FileUtils::Write(void* data, unsigned __int32 dataSize)

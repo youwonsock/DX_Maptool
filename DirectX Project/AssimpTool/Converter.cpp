@@ -168,19 +168,6 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 			vertex.normal.Normalize();
 			std::swap(vertex.normal.y, vertex.normal.z);
 
-
-			//이것들이 필요함 시발
-			//FbxAMatrix geometircMat, normalMat;
-			//geometircMat.SetT(fbxNode->GetGeometricTranslation(FbxNode::eSourcePivot));
-			//geometircMat.SetR(fbxNode->GetGeometricRotation(FbxNode::eSourcePivot));
-			//geometircMat.SetS(fbxNode->GetGeometricScaling(FbxNode::eSourcePivot));
-			//normalMat = geometircMat;
-			//normalMat = normalMat.Inverse();
-			//normalMat = normalMat.Transpose();
-			// 
-			//auto finalPos = geometircMat.MultT(v);
-			//auto finalnomal = normalMat.MultT(v);
-
 			mesh->vertices.push_back(vertex);
 		}
 
