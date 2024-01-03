@@ -11,18 +11,18 @@ protected:
 	std::wstring path;
 	UINT id = 0;
 
-protected:
+public:
 	virtual bool Save(const std::wstring& path) { return false; };
 	virtual bool Load(const std::wstring& path) { return false; };
-
-public:
-	ResourceBase(ResourceType type);
-	virtual ~ResourceBase();
 
 	ResourceType& GetType() { return resourceType; };
 
 	void SetName(const std::wstring& name) { this->name = name; };
 	std::wstring& GetName() { return name; };
+	std::wstring& GetPath() { return path; };
 	UINT& GetID() { return id; };
+
+	ResourceBase(ResourceType type);
+	virtual ~ResourceBase();
 };
 

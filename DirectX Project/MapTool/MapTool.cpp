@@ -15,10 +15,10 @@ void MapTool::Init()
 		info.colNum = 200;
 		info.cellDistance = 1;
 		info.heightScale = 0.25f;
-		info.shaderFilePath = L"MapToolShader/MapToolShader.fx";
-		info.heightMapFilePath = L"../../Res/Textures/Terrain/height129.PNG";
-		info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
-		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
+		info.shaderFilePath = L"Shader/MapToolShader/MapToolShader.fx";
+		info.heightMapFilePath = L"Textures/Terrain/height129.PNG";
+		info.alphaTexPath = L"Textures/Terrain/heightExported.PNG";
+		info.textureFilePath = L"Textures/Terrain/grass.jpg";
 		info.sceneFilePath;
 		info.DevideTreeDepth = 2;
 

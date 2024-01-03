@@ -27,7 +27,7 @@ void Ray::UpdateRay(const Matrix& viewMat, const Matrix& projectionMat)
 Cube::Cube(Vector3& center, float x, float y, float z)
 {
 	this->center = center;	
-	size = Vector3(x, y, z);
+	size = Vector3(fabs(x), fabs(y), fabs(z));
 
 	min = center - size * 0.5f;
 	max = center + size * 0.5f;
@@ -84,7 +84,7 @@ Cube::Cube(Vector3& min, Vector3& max)
 void Cube::SetCube(Vector3& center, float x, float y, float z)
 {
 	this->center = center;
-	size = Vector3(x, y, z);
+	size = Vector3(fabs(x), fabs(y), fabs(z));
 
 	min = center - size * 0.5f;
 	max = center + size * 0.5f;
@@ -115,6 +115,9 @@ void Cube::SetCube(Vector3& min, Vector3& max)
 
 	center = (max + min) * 0.5f;
 	size = max - min;
+	size.x = fabs(size.x);
+	size.y = fabs(size.y);
+	size.z = fabs(size.z);
 
 	Vector3 c0, c2, c3, c6;
 	c2 = min;
@@ -148,7 +151,7 @@ void Cube::SetHeight(float minY, float maxY)
 	axisVector[1] = (c0 - c2) * 0.5f;
 }
 
-Cube Cube::GetOBBCube(Matrix worldMat) //????
+Cube Cube::GetOBBCube(Matrix worldMat)
 {
 	Cube obbCube;
 
@@ -167,7 +170,7 @@ Cube Cube::GetOBBCube(Matrix worldMat) //????
 	Vector3::Transform(points[6], worldMat, obbCube.points[6]);
 	Vector3::Transform(points[7], worldMat, obbCube.points[7]);
 
-	obbCube.min = obbCube.points[0];
+	obbCube.min = obbCube.points[2];
 	obbCube.max = obbCube.points[5];
 
 	float x, y, z;

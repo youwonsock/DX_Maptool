@@ -3,8 +3,20 @@
 
 #include "ShaderManager.h"
 
-Shader::Shader(std::wstring file) : file(L"..\\..\\Shader\\" + file)
+Shader::Shader() : ResourceBase(ResourceType::Shader)
 {
+	initialStateBlock = std::make_shared<StateBlock>();
+	{
+		Global::g_immediateContext->RSGetState(initialStateBlock->RSRasterizerState.GetAddressOf());
+		Global::g_immediateContext->OMGetBlendState(initialStateBlock->OMBlendState.GetAddressOf(), initialStateBlock->OMBlendFactor, &initialStateBlock->OMSampleMask);
+		Global::g_immediateContext->OMGetDepthStencilState(initialStateBlock->OMDepthStencilState.GetAddressOf(), &initialStateBlock->OMStencilRef);
+	}
+
+}
+
+Shader::Shader(std::wstring file) : file(L"..\\..\\Res\\Shader\\" + file), ResourceBase(ResourceType::Shader)
+{
+
 	initialStateBlock = std::make_shared<StateBlock>();
 	{
 		Global::g_immediateContext->RSGetState(initialStateBlock->RSRasterizerState.GetAddressOf());
@@ -285,6 +297,16 @@ ComPtr<ID3DX11EffectSamplerVariable> Shader::GetSampler(std::string name)
 ComPtr<ID3DX11EffectUnorderedAccessViewVariable> Shader::GetUAV(std::string name)
 {
 	return shaderDesc.effect->GetVariableByName(name.c_str())->AsUnorderedAccessView();
+}
+
+bool Shader::Load(const std::wstring& path)
+{
+	this->path = path;
+	this->file = path;
+
+	CreateEffect();
+
+	return true;
 }
 
 

@@ -10,7 +10,7 @@ struct Circle;
 class Collision
 {
 private:
-	static bool SeperatingPlane(const Vector3& pos, const Vector3& dir, const Cube& cube1, const Cube& cube2);
+	static bool SeperatingPlane(const Vector3& pos, const Vector3& dir,const Vector3 axixExtentVec1[], const Vector3 axixExtentVec2[]);
 
 public:
 	// --------------------------------- Ray ---------------------------------//

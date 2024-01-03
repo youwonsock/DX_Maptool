@@ -7,7 +7,7 @@
 #include "PipeLineHeaders.h"
 #include "Figure.h"
 
-Model::Model()
+Model::Model() : ResourceBase(ResourceType::Model)
 {
 }
 
@@ -85,7 +85,7 @@ void Model::ReadMaterial(std::wstring filename)
 			std::wstring textureStr = Utils::StringToWString(node->GetText());
 			if (textureStr.length() > 0)
 			{
-				auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
+				auto texture = ResourceManager::GetInstance().Load<Texture>(textureStr, (parentPath / textureStr).wstring());
 				material->SetDiffuseMap(texture);
 			}
 		}
@@ -100,7 +100,7 @@ void Model::ReadMaterial(std::wstring filename)
 				std::wstring textureStr = Utils::StringToWString(node->GetText());
 				if (textureStr.length() > 0)
 				{
-					auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
+					auto texture = ResourceManager::GetInstance().Load<Texture>(textureStr, (parentPath / textureStr).wstring());
 					material->SetSpecularMap(texture);
 				}
 			}
@@ -113,7 +113,7 @@ void Model::ReadMaterial(std::wstring filename)
 			std::wstring textureStr = Utils::StringToWString(node->GetText());
 			if (textureStr.length() > 0)
 			{
-				auto texture = ResourceManager::GetInstance().GetTexture(textureStr, (parentPath / textureStr).wstring());
+				auto texture = ResourceManager::GetInstance().Load<Texture>(textureStr, (parentPath / textureStr).wstring());
 				material->SetNormalMap(texture);
 			}
 		}
@@ -335,4 +335,15 @@ std::shared_ptr<ModelAnimation> Model::GetAnimationByName(const std::wstring& na
 std::shared_ptr<Cube> Model::GetBoundingBox()
 { 
 	return defaultBoundingBox;
+}
+
+bool Model::Load(const std::wstring& path)
+{
+	this->path = path;
+
+	ReadModel(path);
+	ReadMaterial(path);
+	ReadAnimation(path);
+
+	return true;
 }

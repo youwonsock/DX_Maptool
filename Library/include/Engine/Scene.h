@@ -9,7 +9,6 @@ private:
 
 	 std::unordered_set<std::shared_ptr<GameObject>> lights;
 
-
 	 std::vector<int> drawNodeIdxList;
 public:
 	virtual void Init();
@@ -28,6 +27,6 @@ public:
 	virtual void Add(std::shared_ptr<GameObject> gameObject, int nodeIdx = -1);
 	virtual void Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx = -1);
 
-	virtual void LoadScnene(std::wstring fileName);
+	virtual void LoadScene(std::wstring fileName);
 };
 

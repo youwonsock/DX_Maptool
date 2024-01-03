@@ -40,9 +40,6 @@
     <Filter Include="소스 파일\Component">
       <UniqueIdentifier>{a053c474-0e01-4913-870b-bff126e47496}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\MapToolClasses\Scene">
-      <UniqueIdentifier>{a0b8dd29-384f-47db-856c-fd0430f88b1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\MapToolClasses\ObjectSpawner">
       <UniqueIdentifier>{bd4e077f-b8ea-4ad0-a1ca-7b89de50fc5a}</UniqueIdentifier>
     </Filter>
@@ -66,7 +63,7 @@
     <ClInclude Include="DebugDrawer.h">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
     </ClInclude>
-    <ClInclude Include="RenderMgr.h">
+    <ClInclude Include="MapRenderer.h">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
@@ -86,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>소스 파일\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene_SpaceDivide.h">
-      <Filter>소스 파일\MapToolClasses\Scene</Filter>
     </ClInclude>
     <ClInclude Include="ObjectManager.h">
       <Filter>소스 파일\MapToolClasses\ObjectSpawner</Filter>
@@ -113,7 +107,7 @@
     <ClCompile Include="DebugDrawer.cpp">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="RenderMgr.cpp">
+    <ClCompile Include="MapRenderer.cpp">
       <Filter>소스 파일\MapToolClasses</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
@@ -134,33 +128,25 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>소스 파일\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Scene_SpaceDivide.cpp">
-      <Filter>소스 파일\MapToolClasses\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>소스 파일\MapToolClasses\ObjectSpawner</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Shader\MapToolShader\MapToolShader.fx">
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\MapToolShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\SkyBox.fx">
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\ObjectShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\DebugShader.fx">
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\SkyBox.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\ObjectShader.fx">
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\DebugShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Shader\MapToolShader\MapToolGlobalShader.fx">
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\MapToolGlobalShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="MapTool.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

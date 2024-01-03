@@ -34,9 +34,11 @@ enum class ProjectionType
 enum class ResourceType
 {
 	Unknown = -1,
+	Texture,
+	Model,
+
 	Mesh,
 	Shader,
-	Texture,
 	Material,
 	Animation,
 

@@ -6,20 +6,7 @@
 #include "StaticLOD.h"
 #include "ObjectManager.h"
 
-#include "RenderMgr.h"
 #include "DebugDrawer.h"
-
-void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
-{
-    for (auto& idx : updateNodeIdxList)
-    {
-        auto& node = leafNodeMap[idx];
-
-        UpdateVertexList(node);
-        node->SetBoundingBox();
-        node->UpdateVertexBuffer();
-    }
-}
 
 SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
 {
@@ -55,7 +42,7 @@ void SpaceDivideTree::Init()
     // object manager
     {
 		objectManager = std::make_shared<ObjectManager>();
-		objectManager->Init(terrain.lock()->sceneFilePath);
+		objectManager->Init(terrain.lock()->sceneFilePath, L"make shader manager ");
 	}
 }
 
@@ -116,12 +103,16 @@ void SpaceDivideTree::Update()
 
         // draw box
         {
-            for(auto& box : leafNodeMap)
-				debugDraw->DrawBox(box.second->boundingBox, Vector4(1, 0, 0, 0));
+            for (auto& idx : drawNodeIndexList)
+            {
+                auto& box = leafNodeMap[idx];
+                debugDraw->DrawBox(box->boundingBox, Vector4(1, 0, 0, 0));
+            }
         }
     }
     
 	FindDrawNode();
+
 }
 
 
@@ -141,6 +132,27 @@ void SpaceDivideTree::Render()
     {
         debugDraw->Render();
     }
+}
+
+// -------------------------------------------------------------------------------
+// ------------------------------ tree functions -----------------------------
+// -------------------------------------------------------------------------------
+
+void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
+{
+    for (auto& idx : updateNodeIdxList)
+    {
+        auto& node = leafNodeMap[idx];
+
+        UpdateVertexList(node);
+        node->SetBoundingBox();
+        node->UpdateVertexBuffer();
+    }
+}
+
+void SpaceDivideTree::SpawnObject(Vector3& spawnPoint)
+{
+    objectManager->SpawnObject(L"Tower", spawnPoint, leafNodeMap);
 }
 
 void SpaceDivideTree::FindDrawNode()
@@ -166,6 +178,8 @@ void SpaceDivideTree::FindDrawNode()
         if(isDraw)
 			drawNodeIndexList.push_back(leafNodeMap[i]->nodeIndex);
 	}
+
+    SceneManager::GetInstance().GetCurrentScene()->SetDrawNodeIdxList(drawNodeIndexList);
 }
 
 

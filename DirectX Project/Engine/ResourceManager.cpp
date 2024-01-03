@@ -17,11 +17,7 @@ void ResourceManager::CreateDefaultMesh()
 	std::shared_ptr<Mesh> mesh3 = std::make_shared<Mesh>();
 	mesh3->CreateSphere();
 	Add(L"Sphere", mesh3);
-}
 
-void ResourceManager::Init()
-{
-	CreateDefaultMesh();
 
 	// make default Texture;
 	std::shared_ptr<Texture> texture = std::make_shared<Texture>();
@@ -29,16 +25,7 @@ void ResourceManager::Init()
 	Add(L"Default", texture);
 }
 
-std::shared_ptr<Texture> ResourceManager::GetTexture(const std::wstring& key, const std::wstring& path)
+void ResourceManager::Init()
 {
-	std::shared_ptr<Texture> texture = Get<Texture>(key);
-
-	if (texture == nullptr)
-	{
-		texture = std::make_shared<Texture>();
-		texture->Load(path);
-		Add<Texture>(key, texture);
-	}
-
-	return texture;
+	CreateDefaultMesh();
 }

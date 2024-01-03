@@ -1,5 +1,5 @@
 #pragma once
-class RenderMgr
+class MapRenderer
 {
 private:
 	std::shared_ptr<Shader> shader;
@@ -14,10 +14,9 @@ private:
 	TransformDesc transformDesc;
 
 public:
-	void Init(std::shared_ptr<Shader> shader);
 	void Update();
 
-	RenderMgr();
-	~RenderMgr();
+	MapRenderer();
+	~MapRenderer();
 };
 

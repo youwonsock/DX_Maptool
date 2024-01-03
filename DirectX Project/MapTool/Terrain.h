@@ -4,7 +4,7 @@ class SpaceDivideTree;
 class Picking;
 class HeightMap;
 class Splatting;
-class RenderMgr;
+class MapRenderer;
 class Picking;
 class ObjectManager;
 
@@ -36,10 +36,6 @@ private:
 	int changeHeightMode = 0;
 	float changeHeight = 10.0f;
 	float radius = 10.0f;
-
-	// temp (object spawn)
-	std::shared_ptr<Model> model;
-	std::shared_ptr<Shader> objectShader;
 
 public:
 	UINT rowNum;
@@ -73,7 +69,7 @@ public:
 	std::shared_ptr<Picking> picking;
 	std::shared_ptr<SpaceDivideTree> spaceDivideTree;
 
-	std::shared_ptr<RenderMgr> renderMgr;	// temp
+	std::shared_ptr<MapRenderer> mapRenderer;
 
 private:
 	// create map data
@@ -90,8 +86,6 @@ private:
 	void CalcVertexColor(Vector3 vLightDir);
 	void UpdateVertexHeight(Vector3 centerPos);
 
-	// temp
-	void ObjectSpawn(Vector3 spawnPos);
 public:
 	void Init() override;
 	void Update() override;

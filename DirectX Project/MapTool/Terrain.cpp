@@ -6,7 +6,7 @@
 
 #include "HeightMap.h"
 #include "Splatting.h"
-#include "RenderMgr.h"
+#include "MapRenderer.h"
 #include "Picking.h"
 #include "ObjectManager.h"
 
@@ -29,25 +29,29 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 
 	// shader, texture, (temp)renderMgr
 	{
-		shader = std::make_shared<Shader>(desc.shaderFilePath);
-		texture = std::make_shared<Texture>();
-		texture->Load(desc.textureFilePath);
+		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", desc.shaderFilePath);
+
+		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", desc.textureFilePath);
+		ResourceManager::GetInstance().Load<Texture>(L"MapToolAlphaTexture", desc.alphaTexPath);
+		ResourceManager::GetInstance().Load<Texture>(L"HeightMapTexture", desc.heightMapFilePath);
+
+
 		picking = std::make_shared<Picking>();
 
 		// temp
-		renderMgr = std::make_shared<RenderMgr>();
-		renderMgr->Init(shader);
+		mapRenderer = std::make_shared<MapRenderer>();
 	}
 
 
 	// height map
 	{
+
 		heightMap = std::make_shared<HeightMap>();
 		
 		rowNum = desc.rowNum;
 		colNum = desc.colNum;
 
-		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
+		heightMap->Init(rowNum, colNum, desc.heightScale);
 
 		// after height map create rowNum, colNum is power of 2 + 1
 		rowCellNum = rowNum - 1;
@@ -70,15 +74,6 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 
 		splatting = std::make_shared<Splatting>();
 		splatting->Init(splattingDesc);
-	}
-
-
-
-	// temp (object spawn)
-	{
-		model = std::make_shared<Model>();
-		model->ReadModel(L"ship/ship");
-		model->ReadMaterial(L"ship/ship");
 	}
 }
 
@@ -110,14 +105,6 @@ void Terrain::Init()
 	
 	// create leaf node index list(for picking)
 	CreateLeafNodeIndexList();
-
-
-	// temp (object spawn)
-	{
-		objectShader = std::make_shared<Shader>(L"MapToolShader/ObjectShader.fx");
-
-		RenderManager::GetInstance().Init(objectShader);
-	}
 }
 
 void Terrain::Update()
@@ -162,9 +149,11 @@ void Terrain::Update()
 					break;
 				case(2):
 					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
-						ObjectSpawn(pickPoint);		// not use instancing
+						spaceDivideTree->SpawnObject(pickPoint);
 					break;
 				default:
+					// do object picking(space tree에서 실행 예정)
+
 					break;
 				}
 
@@ -185,7 +174,7 @@ void Terrain::Update()
 	splatting->SetSRV(shader);
 
 	// temp
-	renderMgr->Update();
+	mapRenderer->Update();
 }
 
 void Terrain::Render()
@@ -198,21 +187,6 @@ void Terrain::Render()
 // -------------------------------------------------------------------------------
 // ------------------------------private functions -------------------------------
 // -------------------------------------------------------------------------------
-
-
-void Terrain::ObjectSpawn(Vector3 spawnPos)
-{
-	std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
-
-	obj->GetTransform()->SetWorldPosition(spawnPos);
-	obj->GetTransform()->SetWorldScale(Vector3(1.0f));
-	obj->AddComponent(std::make_shared<ModelRenderer>(objectShader));
-
-	obj->GetModelRenderer()->SetModel(model);
-	obj->GetModelRenderer()->SetPass(0);
-
-	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
-}
 
 
 void Terrain::UpdateVertexHeight(Vector3 centerPos)

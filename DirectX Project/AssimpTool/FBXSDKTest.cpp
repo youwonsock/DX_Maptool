@@ -38,16 +38,16 @@ void FBXSDKTest::Init()
 	obj1->GetModelRenderer()->SetModel(model);
 	obj1->GetModelRenderer()->SetPass(0);
 
-	obj1->GetTransform()->SetWorldPosition(Vector3(5, 5, 0));
-	obj1->GetTransform()->SetWorldScale(Vector3(0.5f,0.5f,0.5f));
+	obj1->GetTransform()->SetWorldPosition(Vector3(5, 5, 5));
+	obj1->GetTransform()->SetWorldScale(Vector3(1.f,0.5f,1.f));
 	//obj1->GetTransform()->SetWorldScale(Vector3(1.f,1.f,1.f));
-	obj1->GetTransform()->SetWorldRotation(Vector3(90, 0, 90));
+	obj1->GetTransform()->SetWorldRotation(Vector3(45, 45, 45));
 
 	SceneManager::GetInstance().GetCurrentScene()->Add(obj1);
 
 	//instancing
 	{
-		int count = 300;
+		int count = 0;
 		// tower
 		{
 			std::shared_ptr<Model> model = std::make_shared<Model>();

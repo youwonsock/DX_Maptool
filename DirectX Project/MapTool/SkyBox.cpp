@@ -19,7 +19,7 @@ void SkyBox::Render()
 SkyBox::SkyBox()
 {
 	shader = std::make_unique<Shader>(L"MapToolShader/SkyBox.fx");
-	texture = ResourceManager::GetInstance().GetTexture(L"sky", L"../../Res/Textures/Sky01.jpg");
+	//texture = ResourceManager::GetInstance().GetTexture(L"sky", L"../../Res/Textures/Sky01.jpg");
 
 	skyMesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
 }

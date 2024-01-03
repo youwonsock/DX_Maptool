@@ -42,6 +42,8 @@ public:
 
 	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
 
+	void SpawnObject(Vector3& spawnPoint);
+
 	SpaceDivideTree(std::shared_ptr<Terrain> owner);
 	~SpaceDivideTree();
 };

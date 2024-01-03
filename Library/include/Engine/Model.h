@@ -6,7 +6,7 @@ struct ModelAnimation;
 struct Cube;
 class Material;
 
-class Model : public std::enable_shared_from_this<Model>
+class Model : public std::enable_shared_from_this<Model>, public ResourceBase
 {
 private:
 	std::wstring modelPath = L"../../Res/Models/";
@@ -53,4 +53,7 @@ public:
 	std::shared_ptr<ModelAnimation> GetAnimationByName(const std::wstring& name);
 
 	std::shared_ptr<Cube> GetBoundingBox();
+
+	// ResourceBase override
+	virtual bool Load(const std::wstring& path) override;
 };

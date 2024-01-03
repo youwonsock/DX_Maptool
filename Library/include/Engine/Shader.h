@@ -3,12 +3,13 @@
 #include "Technique.h"
 #include "Struct.h"
 
-class Shader
+class Shader : public std::enable_shared_from_this<Shader>, public ResourceBase
 {
 public:
 	friend struct Pass;
 
 public:
+	Shader();
 	Shader(std::wstring file);
 	~Shader();
 
@@ -38,6 +39,8 @@ public:
 	ComPtr<ID3DX11EffectRasterizerVariable> GetRasterizer(std::string name);
 	ComPtr<ID3DX11EffectSamplerVariable> GetSampler(std::string name);
 
+	// resource base override
+	virtual bool Load(const std::wstring& path) override;
 private:
 	void CreateEffect();
 	ComPtr<ID3D11InputLayout> CreateInputLayout(ComPtr<ID3DBlob> fxBlob, D3DX11_EFFECT_SHADER_DESC* effectVsDesc, std::vector<D3D11_SIGNATURE_PARAMETER_DESC>& params);

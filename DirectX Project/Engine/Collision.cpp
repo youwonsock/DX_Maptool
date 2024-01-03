@@ -3,21 +3,6 @@
 
 #include "Figure.h"
 
-bool Collision::SeperatingPlane(const Vector3& pos, const Vector3& dir, const Cube& cube1, const Cube& cube2)
-{
-	float val1 = fabs(pos.Dot(dir));
-
-	float val2 = 0;
-	val2 += fabs((cube1.axisVector[0] * cube1.size.x * 0.5f).Dot(dir));
-	val2 += fabs((cube1.axisVector[1] * cube1.size.y * 0.5f).Dot(dir));
-	val2 += fabs((cube1.axisVector[2] * cube1.size.z * 0.5f).Dot(dir));
-	val2 += fabs((cube2.axisVector[0] * cube2.size.x * 0.5f).Dot(dir));
-	val2 += fabs((cube2.axisVector[1] * cube2.size.y * 0.5f).Dot(dir));
-	val2 += fabs((cube2.axisVector[2] * cube2.size.z * 0.5f).Dot(dir));
-
-	return val1 > val2;
-}
-
 bool Collision::RayToFace(const Ray& ray, const Vector3& v0, const Vector3& v1, const Vector3& v2, Vector3* pickPoint)
 {
 	Vector3 edge1 = v1 - v0;
@@ -155,29 +140,64 @@ bool Collision::CubeToPlane(const Cube& cube, const Plane& plane)
 	return true;
 }
 
+bool Collision::SeperatingPlane(const Vector3& pos, const Vector3& dir, const Vector3 axixExtentVec1[], const Vector3 axixExtentVec2[])
+{
+	float val1 = fabs(pos.Dot(dir));
+
+	float val2 = 0;
+	val2 += fabs((axixExtentVec1[0]).Dot(dir));
+	val2 += fabs((axixExtentVec1[1]).Dot(dir));
+	val2 += fabs((axixExtentVec1[2]).Dot(dir));
+	val2 += fabs((axixExtentVec2[0]).Dot(dir));
+	val2 += fabs((axixExtentVec2[1]).Dot(dir));
+	val2 += fabs((axixExtentVec2[2]).Dot(dir));
+
+	return val1 > val2;
+}
+
 bool Collision::CubeToCube(const Cube& cube1, const Cube& cube2)
 {
 	Vector3 pos = cube2.center - cube1.center;
 
-	if(SeperatingPlane(pos, cube1.axisVector[0], cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[1], cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[2], cube1, cube2))return false;
+	Vector3 axisVec1[3];
+	axisVec1[0] = cube1.points[1] - cube1.points[0]; axisVec1[0].Normalize();
+	axisVec1[1] = cube1.points[0] - cube1.points[2]; axisVec1[1].Normalize();
+	axisVec1[2] = cube1.points[4] - cube1.points[0]; axisVec1[2].Normalize();
 
-	if(SeperatingPlane(pos, cube2.axisVector[0], cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube2.axisVector[1], cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube2.axisVector[2], cube1, cube2))return false;
+	Vector3 axisVec2[3];
+	axisVec2[0] = cube2.points[1] - cube2.points[0]; axisVec2[0].Normalize();
+	axisVec2[1] = cube2.points[0] - cube2.points[2]; axisVec2[1].Normalize();
+	axisVec2[2] = cube2.points[4] - cube2.points[0]; axisVec2[2].Normalize();
 
-	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[0]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[1]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[0].Cross(cube2.axisVector[2]), cube1, cube2))return false;
+	Vector3 axisExtentVec1[3];
+	axisExtentVec1[0] = axisVec1[0] * (cube1.size.x * 0.5f);
+	axisExtentVec1[1] = axisVec1[1] * (cube1.size.y * 0.5f);
+	axisExtentVec1[2] = axisVec1[2] * (cube1.size.z * 0.5f);
 
-	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[0]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[1]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[1].Cross(cube2.axisVector[2]), cube1, cube2))return false;
+	Vector3 axisExtentVec2[3];
+	axisExtentVec2[0] = axisVec2[0] * (cube2.size.x * 0.5f);
+	axisExtentVec2[1] = axisVec2[1] * (cube2.size.y * 0.5f);
+	axisExtentVec2[2] = axisVec2[2] * (cube2.size.z * 0.5f);
 
-	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[0]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[1]), cube1, cube2))return false;
-	if(SeperatingPlane(pos, cube1.axisVector[2].Cross(cube2.axisVector[2]), cube1, cube2))return false;	
+	if(SeperatingPlane(pos, axisVec1[0], axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[1], axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[2], axisExtentVec1, axisExtentVec2))return false;
+
+	if(SeperatingPlane(pos, axisVec2[0], axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec2[1], axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec2[2], axisExtentVec1, axisExtentVec2))return false;
+
+	if(SeperatingPlane(pos, axisVec1[0].Cross(axisVec2[0]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[0].Cross(axisVec2[1]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[0].Cross(axisVec2[2]), axisExtentVec1, axisExtentVec2))return false;
+
+	if(SeperatingPlane(pos, axisVec1[1].Cross(axisVec2[0]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[1].Cross(axisVec2[1]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[1].Cross(axisVec2[2]), axisExtentVec1, axisExtentVec2))return false;
+
+	if(SeperatingPlane(pos, axisVec1[2].Cross(axisVec2[0]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[2].Cross(axisVec2[1]), axisExtentVec1, axisExtentVec2))return false;
+	if(SeperatingPlane(pos, axisVec1[2].Cross(axisVec2[2]), axisExtentVec1, axisExtentVec2))return false;
 
 	return true;
 }

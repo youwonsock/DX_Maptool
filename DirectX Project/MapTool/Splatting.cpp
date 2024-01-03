@@ -96,10 +96,15 @@ void Splatting::Init(SplattingDesc& desc)
 	texture4 = std::make_shared<Texture>();
 	texture4->Load(desc.texture4Path);
 
-	alphaTexture = std::make_shared<Texture>();
+	alphaTexture = ResourceManager::GetInstance().Get<Texture>(L"MapToolAlphaTexture");
 
-	if (!alphaTexture->Load(desc.alphaTexPath))
+	if (alphaTexture == nullptr)
+	{
+		alphaTexture = std::make_shared<Texture>();
 		alphaTexture->CreateTexture(desc.rowNum, desc.colNum);
+
+		ResourceManager::GetInstance().Add<Texture>(L"MapToolAlphaTexture", alphaTexture);
+	}
 }
 
 /// <summary>

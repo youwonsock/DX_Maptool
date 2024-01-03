@@ -246,8 +246,8 @@ void Converter::WriteModelFile(std::wstring filePath)
 
 	// bounding box
 	auto box = scene->mMeshes[0]->mAABB;
-	Vector3 min = Vector3(box.mMin.x, box.mMin.y, -box.mMin.z);
-	Vector3 max = Vector3(box.mMax.x, box.mMax.y, -box.mMax.z);
+	Vector3 min = Vector3(box.mMin.x, box.mMin.y, -box.mMax.z);
+	Vector3 max = Vector3(box.mMax.x, box.mMax.y, -box.mMin.z);
 	Matrix geometricMat = converter_fbxsdk->GetGeometrMatrix(scene->mRootNode->mName.C_Str());
 
 	min = Vector3::Transform(min, geometricMat);

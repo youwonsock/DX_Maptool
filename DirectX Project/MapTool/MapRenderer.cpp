@@ -1,20 +1,7 @@
 #include "pch.h"
-#include "RenderMgr.h"
+#include "MapRenderer.h"
 
-void RenderMgr::Init(std::shared_ptr<Shader> shader)
-{
-	this->shader = shader;
-
-	globalBuffer = std::make_shared<ConstantBuffer<GlobalDesc>>(Global::g_device, Global::g_immediateContext);
-	globalBuffer->Create();
-	globalEffectBuffer = shader->GetConstantBuffer("GlobalBuffer");
-
-	transformBuffer = std::make_shared<ConstantBuffer<TransformDesc>>(Global::g_device, Global::g_immediateContext);
-	transformBuffer->Create();
-	transformEffectBuffer = shader->GetConstantBuffer("TransformBuffer");
-}
-
-void RenderMgr::Update()
+void MapRenderer::Update()
 {
 	globalDesc.View = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
 	globalDesc.Projection = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
@@ -23,18 +10,26 @@ void RenderMgr::Update()
 
 	globalBuffer->CopyData(globalDesc);
 	globalEffectBuffer->SetConstantBuffer(globalBuffer->GetConstantBuffer().Get());
+}
 
+MapRenderer::MapRenderer()
+{
+	shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
+
+	globalBuffer = std::make_shared<ConstantBuffer<GlobalDesc>>(Global::g_device, Global::g_immediateContext);
+	globalBuffer->Create();
+	globalEffectBuffer = shader->GetConstantBuffer("GlobalBuffer");
+
+	transformBuffer = std::make_shared<ConstantBuffer<TransformDesc>>(Global::g_device, Global::g_immediateContext);
+	transformBuffer->Create();
+	transformEffectBuffer = shader->GetConstantBuffer("TransformBuffer");
 
 	transformDesc.World = Matrix::Identity;
-	
+
 	transformBuffer->CopyData(transformDesc);
 	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
 }
 
-RenderMgr::RenderMgr()
-{
-}
-
-RenderMgr::~RenderMgr()
+MapRenderer::~MapRenderer()
 {
 }
