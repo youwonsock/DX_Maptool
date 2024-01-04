@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Materials>
+    <Material>
+        <Name>4</Name>
+        <DiffuseFile>0_st02_sc00_g04.tga</DiffuseFile>
+        <SpecularFile>0_st02_sc00_g04.tga</SpecularFile>
+        <NormalFile>0_st02_sc00_g04.tga</NormalFile>
+        <Ambient R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Diffuse R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Specular R="0.89999998" G="0.89999998" B="0.89999998" A="1.0717734"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>0</Name>
+        <DiffuseFile>0_st02_sc00_g00.tga</DiffuseFile>
+        <SpecularFile>0_st02_sc00_g00.tga</SpecularFile>
+        <NormalFile>0_st02_sc00_g00.tga</NormalFile>
+        <Ambient R="0.588" G="0.588" B="0.588" A="1"/>
+        <Diffuse R="0.588" G="0.588" B="0.588" A="1"/>
+        <Specular R="0.89999998" G="0.89999998" B="0.89999998" A="1.0717734"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>1</Name>
+        <DiffuseFile>0_st02_sc00_g01.tga</DiffuseFile>
+        <SpecularFile>0_st02_sc00_g01.tga</SpecularFile>
+        <NormalFile>0_st02_sc00_g01.tga</NormalFile>
+        <Ambient R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Diffuse R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Specular R="0.89999998" G="0.89999998" B="0.89999998" A="1.0717734"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>3</Name>
+        <DiffuseFile>0_st02_sc00_g03.tga</DiffuseFile>
+        <SpecularFile>0_st02_sc00_g03.tga</SpecularFile>
+        <NormalFile>0_st02_sc00_g03.tga</NormalFile>
+        <Ambient R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Diffuse R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Specular R="0.89999998" G="0.89999998" B="0.89999998" A="1.0717734"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+    <Material>
+        <Name>2</Name>
+        <DiffuseFile>0_st02_sc00_g02.tga</DiffuseFile>
+        <SpecularFile>0_st02_sc00_g02.tga</SpecularFile>
+        <NormalFile>0_st02_sc00_g02.tga</NormalFile>
+        <Ambient R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Diffuse R="0.58823532" G="0.58823532" B="0.58823532" A="1"/>
+        <Specular R="0.89999998" G="0.89999998" B="0.89999998" A="1.0717734"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Material>
+</Materials>

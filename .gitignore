@@ -3,7 +3,7 @@
 
 *.lib
 *.dll
-[Rr]es/
+[Rr]es/[Aa]ssets/
 [Oo]utput/
 
 ### VisualStudioCode ###
