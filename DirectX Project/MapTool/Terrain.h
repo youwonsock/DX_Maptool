@@ -17,7 +17,6 @@ struct TerrainDesc
 
 	std::wstring textureFilePath   = L"";
 	std::wstring heightMapFilePath = L"";
-	std::wstring shaderFilePath    = L"";
 	std::wstring sceneFilePath     = L"";
 
 	std::wstring alphaTexPath = L"";
@@ -48,8 +47,6 @@ public:
 
 	int devideTreeDepth = 1;
 
-	std::wstring textureFilePath;
-	std::wstring shaderFilePath;
 	std::wstring heightMapFilePath;
 	std::wstring alphaTexPath;
 	std::wstring sceneFilePath = L"";
@@ -90,6 +87,9 @@ public:
 	void Init() override;
 	void Update() override;
 	void Render() override;
+
+	void SaveMapData();
+	void LoadMapData();
 
 	Terrain(TerrainDesc desc);
 	~Terrain();

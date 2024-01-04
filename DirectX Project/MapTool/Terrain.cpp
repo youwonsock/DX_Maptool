@@ -12,14 +12,18 @@
 
 #include <fstream>
 
+// todo : desc를 이용한 초기화를 load로 이전 예정
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
-	if (desc.textureFilePath.length() < 1 || desc.shaderFilePath.length() < 1)
-		assert(false);
+	// 생성자에서 초기화 할 것들
+	{
+		heightMap = std::make_shared<HeightMap>();
+		splatting = std::make_shared<Splatting>();
+		spaceDivideTree = std::make_shared<SpaceDivideTree>();
+		picking = std::make_shared<Picking>();
+		mapRenderer = std::make_shared<MapRenderer>();
+	}
 
-
-	this->textureFilePath = desc.textureFilePath;
-	this->shaderFilePath = desc.shaderFilePath;
 	this->heightMapFilePath = desc.heightMapFilePath;
 	this->alphaTexPath = desc.alphaTexPath;
 	this->sceneFilePath = desc.sceneFilePath;
@@ -27,31 +31,23 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 	devideTreeDepth = desc.DevideTreeDepth;
 	cellDistance = desc.cellDistance;
 
-	// shader, texture, (temp)renderMgr
+	// set resource, make picking, map renderer
 	{
-		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", desc.shaderFilePath);
+		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", L"Shader/MapToolShader/MapToolShader.fx");
+		
+		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", desc.textureFilePath, false);
+		shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
 
-		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", desc.textureFilePath);
-		ResourceManager::GetInstance().Load<Texture>(L"MapToolAlphaTexture", desc.alphaTexPath);
-		ResourceManager::GetInstance().Load<Texture>(L"HeightMapTexture", desc.heightMapFilePath);
-
-
-		picking = std::make_shared<Picking>();
-
-		// temp
-		mapRenderer = std::make_shared<MapRenderer>();
+		mapRenderer->Init();
 	}
 
 
 	// height map
-	{
-
-		heightMap = std::make_shared<HeightMap>();
-		
+	{	
 		rowNum = desc.rowNum;
 		colNum = desc.colNum;
 
-		heightMap->Init(rowNum, colNum, desc.heightScale);
+		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
 
 		// after height map create rowNum, colNum is power of 2 + 1
 		rowCellNum = rowNum - 1;
@@ -72,7 +68,6 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		splattingDesc.texture3Path = L"../../Res/Textures/Terrain/Blue.PNG";
 		splattingDesc.texture4Path = L"../../Res/Textures/Terrain/White.PNG";
 
-		splatting = std::make_shared<Splatting>();
 		splatting->Init(splattingDesc);
 	}
 }
@@ -96,9 +91,7 @@ void Terrain::Init()
 	CalcPerVertexNormalsFastLookup();
 
 	// quad tree
-	spaceDivideTree = std::make_shared<SpaceDivideTree>(shared_from_this());
-	spaceDivideTree->maxDepth = devideTreeDepth;
-	spaceDivideTree->Init();
+	spaceDivideTree->Init(shared_from_this());
 
 	// init color
 	splatting->SetVertexByTexture(vertices);
@@ -109,9 +102,9 @@ void Terrain::Init()
 
 void Terrain::Update()
 {
-	ImGui::InputInt("Change Mode", &changeHeightMode);
-	ImGui::InputFloat("Change Height", &changeHeight);
-	ImGui::InputFloat("Radius", &radius);
+	ImGui::InputInt("Change Mode", &changeHeightMode); // 볼록하게, 평평하게
+	ImGui::InputFloat("Change Height", &changeHeight); // 바뀌는 높이
+	ImGui::InputFloat("Radius", &radius);			   // 브러쉬 사이즈	
 
 	ImGui::InputInt("Picking Mode", &pickingMode);
 	ImGui::InputInt("Tilling Texture", &tillingTextureNum);
@@ -171,17 +164,20 @@ void Terrain::Update()
 	}
 
 	spaceDivideTree->Update();
-	splatting->SetSRV(shader);
-
-	// temp
 	mapRenderer->Update();
 }
 
 void Terrain::Render()
 {
-	shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
-
 	spaceDivideTree->Render();
+}
+
+void Terrain::SaveMapData()
+{
+}
+
+void Terrain::LoadMapData()
+{
 }
 
 // -------------------------------------------------------------------------------

@@ -8,7 +8,7 @@
 
 #include "DebugDrawer.h"
 
-SpaceDivideTree::SpaceDivideTree(std::shared_ptr<Terrain> owner) : terrain(owner)
+SpaceDivideTree::SpaceDivideTree()
 {
     staticLOD = std::make_shared<StaticLOD>();
 }
@@ -21,28 +21,31 @@ SpaceDivideTree::~SpaceDivideTree()
 // ------------------------------component functions -----------------------------
 // -------------------------------------------------------------------------------
 
-void SpaceDivideTree::Init()
+void SpaceDivideTree::Init(std::shared_ptr<Terrain> owner)
 {
 	{
         debugDraw = std::make_shared<DebugDrawer>();
 	}
 
-	root = CreateNode(nullptr, 0, terrain.lock()->rowCellNum
-        , terrain.lock()->rowNum * terrain.lock()->colCellNum
-        , terrain.lock()->rowNum * terrain.lock()->colNum - 1);
+    terrain = owner;
+    maxDepth = terrain.lock()->devideTreeDepth;
+
+	root = CreateNode(nullptr, 0, owner->rowCellNum
+        , owner->rowNum * owner->colCellNum
+        , owner->rowNum * owner->colNum - 1);
 	BuildTree(root);
 
     // set neighbor node
     SetNeighborNode();
 
     // lod
-    staticLOD->SetLod(terrain.lock()->rowNum, maxDepth);
+    staticLOD->SetLod(owner->rowNum, maxDepth);
 
 
     // object manager
     {
 		objectManager = std::make_shared<ObjectManager>();
-		objectManager->Init(terrain.lock()->sceneFilePath, L"make shader manager ");
+		objectManager->Init(owner->sceneFilePath, L"make shader manager ");
 	}
 }
 
@@ -212,7 +215,6 @@ bool SpaceDivideTree::SubDivide(std::shared_ptr<SectionNode> pNode)
 
         pNode->SetVertexBuffer();
         pNode->SetBoundingBox();
-        pNode->shader = terrain.lock()->shader;
 
         leafNodeMap.insert(std::make_pair(pNode->nodeIndex, pNode));
 

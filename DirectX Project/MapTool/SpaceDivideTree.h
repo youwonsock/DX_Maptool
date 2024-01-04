@@ -36,7 +36,7 @@ private:
 	std::shared_ptr<SectionNode> CreateNode(std::shared_ptr<SectionNode> pParent, DWORD LT, DWORD RT, DWORD LB, DWORD RB);
 
 public:
-	void Init();
+	void Init(std::shared_ptr<Terrain> owner);
 	void Update();
 	void Render();
 
@@ -44,7 +44,7 @@ public:
 
 	void SpawnObject(Vector3& spawnPoint);
 
-	SpaceDivideTree(std::shared_ptr<Terrain> owner);
+	SpaceDivideTree();
 	~SpaceDivideTree();
 };
 

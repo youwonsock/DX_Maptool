@@ -12,7 +12,7 @@ void MapRenderer::Update()
 	globalEffectBuffer->SetConstantBuffer(globalBuffer->GetConstantBuffer().Get());
 }
 
-MapRenderer::MapRenderer()
+void MapRenderer::Init()
 {
 	shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
 
@@ -28,6 +28,10 @@ MapRenderer::MapRenderer()
 
 	transformBuffer->CopyData(transformDesc);
 	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
+}
+
+MapRenderer::MapRenderer()
+{
 }
 
 MapRenderer::~MapRenderer()

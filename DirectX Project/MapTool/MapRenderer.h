@@ -15,6 +15,7 @@ private:
 
 public:
 	void Update();
+	void Init();
 
 	MapRenderer();
 	~MapRenderer();

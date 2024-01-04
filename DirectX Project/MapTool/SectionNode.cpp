@@ -74,7 +74,7 @@ SectionNode::SectionNode()
 {
 	vertexBuffer = nullptr;
 	indexBuffer = nullptr;
-	shader = nullptr;
+    shader = nullptr;
 }
 
 SectionNode::SectionNode(SectionNodeDesc& desc)
@@ -96,4 +96,6 @@ SectionNode::SectionNode(SectionNodeDesc& desc)
 
     UINT dwNumPatchCount = (UINT)pow(2.0f, (float)depth);
     nodeIndex = element.y * dwNumPatchCount + element.x;
+
+    shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
 }

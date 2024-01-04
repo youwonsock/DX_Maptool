@@ -175,7 +175,7 @@ std::shared_ptr<SectionNode>& Picking::FindPickFace(Ray& ray, std::vector<UINT>&
 			Vector3 v2 = leafVertices[leafNodeIdxList[j + 2]].position;
 
 			if (Collision::RayToFace(ray, v0, v1, v2, &pickPoint))
-				return leafNodeMap[i];
+				return leafNodeMap[sectionList[i]->nodeIndex];
 		}
 	}
 

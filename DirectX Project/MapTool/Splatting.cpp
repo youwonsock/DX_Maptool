@@ -6,6 +6,7 @@ void Splatting::TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector
 	float distance = 0.0f;
 	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
 
+	Vector2 center = Vector2(centerPos.x, centerPos.z);
 	for (UINT i : updateIdxList)
 	{
 		distance = (vertexList[i].position - centerPos).Length();
@@ -14,7 +15,7 @@ void Splatting::TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector
 			distance = 1.0;
 
 		distance = (1 / distance);
-		distance *= 100.0f;
+		distance *= deltaTime * 100;
 
 		switch (tillingTexNum)
 		{
@@ -83,6 +84,7 @@ void Splatting::SaveAlphaTexture(std::wstring savePath)
 void Splatting::Init(SplattingDesc& desc)
 {
 	// texture is BGRA so in imgui Red is 2, Green is 1, Blue is 0, Alpha is 3
+	shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
 
 	texture1 = std::make_shared<Texture>();
 	texture1->Load(desc.texture1Path);
@@ -96,21 +98,19 @@ void Splatting::Init(SplattingDesc& desc)
 	texture4 = std::make_shared<Texture>();
 	texture4->Load(desc.texture4Path);
 
-	alphaTexture = ResourceManager::GetInstance().Get<Texture>(L"MapToolAlphaTexture");
-
 	if (alphaTexture == nullptr)
-	{
 		alphaTexture = std::make_shared<Texture>();
+
+	if (!alphaTexture->Load(desc.alphaTexPath))
 		alphaTexture->CreateTexture(desc.rowNum, desc.colNum);
 
-		ResourceManager::GetInstance().Add<Texture>(L"MapToolAlphaTexture", alphaTexture);
-	}
+	SetSRV();
 }
 
 /// <summary>
 /// set srv
 /// </summary>
-void Splatting::SetSRV(std::shared_ptr<Shader> shader)
+void Splatting::SetSRV()
 {
 	shader->GetSRV("MapAlphaTexture")->SetResource(alphaTexture->GetShaderResourceView().Get());
 

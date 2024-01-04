@@ -43,6 +43,9 @@
     <Filter Include="소스 파일\MapToolClasses\ObjectSpawner">
       <UniqueIdentifier>{bd4e077f-b8ea-4ad0-a1ca-7b89de50fc5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Renderer">
+      <UniqueIdentifier>{531ba9f4-f949-4ed3-8155-7502d1485623}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -62,9 +65,6 @@
     </ClInclude>
     <ClInclude Include="DebugDrawer.h">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="MapRenderer.h">
-      <Filter>소스 파일\MapToolClasses</Filter>
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>소스 파일\MapToolClasses\Map</Filter>
@@ -87,6 +87,9 @@
     <ClInclude Include="ObjectManager.h">
       <Filter>소스 파일\MapToolClasses\ObjectSpawner</Filter>
     </ClInclude>
+    <ClInclude Include="MapRenderer.h">
+      <Filter>소스 파일\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -106,9 +109,6 @@
     </ClCompile>
     <ClCompile Include="DebugDrawer.cpp">
       <Filter>소스 파일\MapToolClasses\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="MapRenderer.cpp">
-      <Filter>소스 파일\MapToolClasses</Filter>
     </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>소스 파일\MapToolClasses\Map</Filter>
@@ -130,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="ObjectManager.cpp">
       <Filter>소스 파일\MapToolClasses\ObjectSpawner</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRenderer.cpp">
+      <Filter>소스 파일\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

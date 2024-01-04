@@ -7,6 +7,8 @@ private:
 	UINT colNum;
 	float heightScale = 0.0f;
 
+	std::shared_ptr<Texture> heightMapTexture = nullptr;
+
 public:
 	std::vector<float> heightList;
 
@@ -17,7 +19,7 @@ private:
 
 public:
 
-	void Init(UINT& rowNum, UINT& colNum, float heightScale);
+	void Init(UINT& rowNum, UINT& colNum, float heightScale, std::wstring heightMapTexturePath);
 	void SaveHeightMap(std::wstring savePath);
 	float GetHeightByRowCol(int row, int col);
 	float GetHeightByIdx(UINT index);

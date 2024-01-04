@@ -14,13 +14,12 @@ void MapTool::Init()
 		info.rowNum = 200;
 		info.colNum = 200;
 		info.cellDistance = 1;
-		info.heightScale = 0.25f;
-		info.shaderFilePath = L"Shader/MapToolShader/MapToolShader.fx";
-		info.heightMapFilePath = L"Textures/Terrain/height129.PNG";
-		info.alphaTexPath = L"Textures/Terrain/heightExported.PNG";
-		info.textureFilePath = L"Textures/Terrain/grass.jpg";
+		info.heightScale = 1.f;
+		info.heightMapFilePath = L"../../Res/Textures/Terrain/height513.PNG";
+		//info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
+		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
 		info.sceneFilePath;
-		info.DevideTreeDepth = 2;
+		info.DevideTreeDepth = 4;
 
 		map = std::make_shared<GameObject>();
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));

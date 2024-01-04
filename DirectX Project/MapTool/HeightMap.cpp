@@ -30,11 +30,12 @@ float HeightMap::GetHeightByIdx(UINT index)
 	return heightList[index] * heightScale;
 }
 
-void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale)
+void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale, std::wstring heightMapTexturePath)
 {
-	auto heightMapTexture = ResourceManager::GetInstance().Get<Texture>(L"HeightMapTexture");
+	if(heightMapTexture == nullptr)
+		heightMapTexture = std::make_shared<Texture>();
 
-	if (heightMapTexture != nullptr)
+	if (heightMapTexture->Load(heightMapTexturePath))
 	{
 		Vector2 size = heightMapTexture->GetSize();
 		auto& info = heightMapTexture->GetInfo();
@@ -66,8 +67,6 @@ void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale)
 	}
 	else
 	{
-		heightMapTexture = std::make_shared<Texture>();
-
 		if (!CheckSquare(rowNum - 1))
 			this->rowNum = rowNum = ResizeMap(rowNum);
 		if (!CheckSquare(colNum - 1))
@@ -79,8 +78,6 @@ void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale)
 
 		for (UINT i = 0; i < heightList.size(); i++)
 			heightList[i] = 0.0f;
-
-		ResourceManager::GetInstance().Add<Texture>(L"HeightMapTexture", heightMapTexture);
 	}
 }
 
@@ -97,7 +94,6 @@ void HeightMap::SaveHeightMap(std::wstring savePath)
 		heightListByte[i * 4 + 3] = (BYTE)heightList[i];
 	}
 
-	auto heightMapTexture = ResourceManager::GetInstance().Get<Texture>(L"HeightMapTexture");
 	heightMapTexture->UpdateTexture(heightListByte);
 	heightMapTexture->SaveTexture(savePath);
 }
