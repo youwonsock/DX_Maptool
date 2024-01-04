@@ -76,7 +76,8 @@ void Converter::ExportAnimationData(const std::wstring& savePath, UINT index, Us
 	std::wstring fullPath = modelPath + savePath + L".anim";
 	
 	bool t = index < scene->mNumAnimations;
-	assert(t);
+	if (!t)
+		return;
 
 	if (type == UseLib::ASSIMP)
 	{

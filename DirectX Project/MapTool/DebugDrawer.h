@@ -7,7 +7,6 @@ class DebugDrawer
 	std::vector<std::shared_ptr<VertexBuffer>> vertexBufferList;
 	std::vector<std::shared_ptr<IndexBuffer>> indexBufferList;
 
-	int pass = 0;
 public:
 	DebugDrawer();
 	~DebugDrawer();

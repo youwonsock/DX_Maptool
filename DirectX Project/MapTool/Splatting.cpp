@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Splatting.h"
 
-void Splatting::TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList)
+void Splatting::TillingTexture(Vector3 centerPos, float brushSize, std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList)
 {
 	float distance = 0.0f;
 	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
@@ -9,13 +9,12 @@ void Splatting::TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector
 	Vector2 center = Vector2(centerPos.x, centerPos.z);
 	for (UINT i : updateIdxList)
 	{
-		distance = (vertexList[i].position - centerPos).Length();
+		distance = (Vector2(vertexList[i].position.x, vertexList[i].position.z) - center).Length();
 
-		if (distance < 1.0f)
-			distance = 1.0;
-
-		distance = (1 / distance);
-		distance *= deltaTime * 100;
+		distance = (Vector2(vertexList[i].position.x, vertexList[i].position.z) - center).Length();
+		distance = (distance / brushSize);
+		distance = -(distance - 1);
+		distance *= deltaTime * brushScale;
 
 		switch (tillingTexNum)
 		{
@@ -79,6 +78,81 @@ void Splatting::SetVertexByTexture(std::vector<PNCTVertex>& vertexList)
 void Splatting::SaveAlphaTexture(std::wstring savePath)
 {
 	alphaTexture->SaveTexture(savePath);
+}
+
+void Splatting::ShowUI()
+{
+	ImGui::SliderFloat("Splatting Scale", &brushScale, 500, 5000);
+
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+	ImGui::Text("Tilling Texture Num");
+	ImGui::RadioButton("1", &tillingTexNum, 0); ImGui::SameLine();
+	ImGui::RadioButton("2", &tillingTexNum, 1); ImGui::SameLine();
+	ImGui::RadioButton("3", &tillingTexNum, 2); ImGui::SameLine();
+	ImGui::RadioButton("4", &tillingTexNum, 3); ImGui::SameLine();
+	ImGui::RadioButton("Erase", &tillingTexNum, 4);
+
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+	ImGui::Text("Texture1"); ImGui::SameLine(90);
+	ImGui::Text("Texture2"); ImGui::SameLine(180);
+	ImGui::Text("Texture3"); ImGui::SameLine(270);
+	ImGui::Text("Texture4");
+	ImGui::Image(texture1->GetShaderResourceView().Get(), ImVec2(50, 50)); ImGui::SameLine(90);
+	ImGui::Image(texture2->GetShaderResourceView().Get(), ImVec2(50, 50)); ImGui::SameLine(180);
+	ImGui::Image(texture3->GetShaderResourceView().Get(), ImVec2(50, 50)); ImGui::SameLine(270);
+	ImGui::Image(texture4->GetShaderResourceView().Get(), ImVec2(50, 50));
+
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+		ImGuiFileDialog::Instance()->OpenDialog("embedded", "Select File"
+			, "Image files (*.png *.gif *.jpg *.jpeg){.png,.gif,.jpg,.jpeg}"
+			, "../../Res/Textures/",1, nullptr,
+			ImGuiFileDialogFlags_NoDialog |
+			ImGuiFileDialogFlags_DisableBookmarkMode |
+			ImGuiFileDialogFlags_DisableCreateDirectoryButton |
+			ImGuiFileDialogFlags_DisableQuickPathSelection |
+			ImGuiFileDialogFlags_DisableThumbnailMode |
+			ImGuiFileDialogFlags_HideColumnDate |
+			ImGuiFileDialogFlags_HideColumnSize |
+			ImGuiFileDialogFlags_HideColumnType);
+
+	if (ImGuiFileDialog::Instance()->Display("embedded", ImGuiWindowFlags_NoCollapse, ImVec2(0, 0), ImVec2(300, 300)))
+	{
+		if (ImGuiFileDialog::Instance()->IsOk())
+		{
+			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+			std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+
+			switch (tillingTexNum)
+			{
+			case(0):
+				texture1->Load(Utils::StringToWString(filePathName));
+				shader->GetSRV("Texture1")->SetResource(texture1->GetShaderResourceView().Get());
+				break;
+			case(1):
+				texture2->Load(Utils::StringToWString(filePathName));
+				shader->GetSRV("Texture2")->SetResource(texture2->GetShaderResourceView().Get());
+				break;
+			case(2):
+				texture3->Load(Utils::StringToWString(filePathName));
+				shader->GetSRV("Texture3")->SetResource(texture3->GetShaderResourceView().Get());
+				break;
+			case(3):
+				texture4->Load(Utils::StringToWString(filePathName));
+				shader->GetSRV("Texture4")->SetResource(texture4->GetShaderResourceView().Get());
+				break;
+			default:
+				texture1->Load(Utils::StringToWString(filePathName));
+				shader->GetSRV("Texture1")->SetResource(texture1->GetShaderResourceView().Get());
+				break;
+			}
+		}
+
+		// close
+		ImGuiFileDialog::Instance()->Close();
+	}
 }
 
 void Splatting::Init(SplattingDesc& desc)

@@ -14,7 +14,7 @@ struct Frustum
 
 class Camera : public Component
 {
-private:
+protected:
 	using Base = Component;
 
 	ProjectionType projectionType = ProjectionType::Perspective;
@@ -22,8 +22,6 @@ private:
 	float farRange = 1000.0f;
 
 	Frustum frustum;
-
-protected:
 	Ray ray;
 
 public:
@@ -39,6 +37,7 @@ public:
 	virtual ~Camera();
 
 	virtual void Update() override;
+	virtual void PostUpdate() override;
 
 	void SetProjectionType(ProjectionType projectionType) { this->projectionType = projectionType; };
 	void SetNearRange(float nearRange) { this->nearRange = nearRange; };

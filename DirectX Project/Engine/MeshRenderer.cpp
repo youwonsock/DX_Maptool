@@ -44,6 +44,11 @@ UINT MeshRenderer::GetPass() const
 	return pass;
 }
 
+std::wstring MeshRenderer::GetMeshName() const
+{ 
+	return mesh->GetName();
+}
+
 InstanceID MeshRenderer::GetInstanceID() const
 {
 	return std::make_pair((UINT)mesh.get(), (UINT)material.get());

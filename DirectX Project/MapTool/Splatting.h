@@ -24,13 +24,16 @@ private:
 	std::shared_ptr<Texture> texture3;
 	std::shared_ptr<Texture> texture4;
 
+	float brushScale = 500.0f;
+	int tillingTexNum = 0;
 private:
 	void SetSRV();
 
 public:
-	void TillingTexture(Vector3 centerPos, int tillingTexNum, std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList);
+	void TillingTexture(Vector3 centerPos, float brushSize, std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList);
 	void SetVertexByTexture(std::vector<PNCTVertex>& vertexList);
 	void SaveAlphaTexture(std::wstring savePath);
+	void ShowUI();
 
 	void Init(SplattingDesc& desc);
 };

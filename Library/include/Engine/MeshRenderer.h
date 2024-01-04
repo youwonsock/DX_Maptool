@@ -28,6 +28,7 @@ public:
 	std::shared_ptr<Mesh> GetMesh() const;
 	std::shared_ptr<Material> GetMaterial() const;
 	UINT GetPass() const;
+	std::wstring GetMeshName() const;
 
 	InstanceID GetInstanceID() const;
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);

@@ -14,9 +14,6 @@ void TestCamera::Update()
 
 	ray.UpdateRay(viewMatrix, projectionMatrix);
 
-	ImGui::InputFloat("cam move speed"	  , &speed);
-	ImGui::InputFloat("cam rotation speed", &rotationSpeed);
-
 	double deltaTime = TimeManager::GetInstance().GetDeltaTime();
 
 	Vector3 pos = GetTransform()->GetLocalPosition();
@@ -50,4 +47,19 @@ void TestCamera::Update()
 
 	GetTransform()->SetLocalPosition(pos);
 	GetTransform()->SetLocalRotation(rotation);
+}
+
+void TestCamera::PostUpdate()
+{
+	ImGui::Begin("Camera", nullptr, window_flags);
+	{
+		ImGui::SetWindowSize("Camera", ImVec2(350, 125));
+		ImGui::SetWindowPos("Camera", ImVec2(Global::g_windowWidth - 350, Global::g_windowHeight - 125));
+
+		ImGui::InputFloat("near range", &nearRange);
+		ImGui::InputFloat("far range", &farRange);
+		ImGui::InputFloat("cam move speed", &speed);
+		ImGui::InputFloat("cam rotation speed", &rotationSpeed);
+	}
+	ImGui::End();
 }

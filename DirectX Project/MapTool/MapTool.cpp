@@ -63,7 +63,6 @@ void MapTool::Update()
 void MapTool::PostUpdate()
 {
 	map->PostUpdate();
-
 }
 
 void MapTool::PreRender()

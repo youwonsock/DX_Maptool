@@ -31,6 +31,7 @@ public:
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT pass) { this->pass = pass; }
 	TweenDesc& GetTweenDesc() { return tweenDesc; }
+	std::wstring GetModelName() const;
 
 	InstanceID GetInstanceID() const;
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);

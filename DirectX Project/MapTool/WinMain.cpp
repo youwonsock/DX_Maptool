@@ -9,8 +9,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.appName = L"MapTool";
 	gameDesc.hInstance = hInstance;
 	gameDesc.vsync = false;
-	gameDesc.width = 800;
-	gameDesc.height = 600;
+	gameDesc.width = 1280;
+	gameDesc.height = 720;
 
 	gameDesc.app = std::make_shared<MapTool>();
 

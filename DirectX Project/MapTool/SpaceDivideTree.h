@@ -36,13 +36,13 @@ private:
 	std::shared_ptr<SectionNode> CreateNode(std::shared_ptr<SectionNode> pParent, DWORD LT, DWORD RT, DWORD LB, DWORD RB);
 
 public:
+	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
+	void SpawnObject(Vector3& spawnPoint);
+	void ShowObjectManagerUI();
+
 	void Init(std::shared_ptr<Terrain> owner);
 	void Update();
 	void Render();
-
-	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
-
-	void SpawnObject(Vector3& spawnPoint);
 
 	SpaceDivideTree();
 	~SpaceDivideTree();

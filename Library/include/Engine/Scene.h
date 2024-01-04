@@ -10,6 +10,7 @@ private:
 	 std::unordered_set<std::shared_ptr<GameObject>> lights;
 
 	 std::vector<int> drawNodeIdxList;
+
 public:
 	virtual void Init();
 	virtual void BeginPlay();

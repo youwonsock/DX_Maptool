@@ -3,6 +3,10 @@
 
 #include "GameObject.h"
 
+#include "MeshRenderer.h"
+#include "ModelRenderer.h"
+#include "ModelAnimator.h"
+
 void Scene::Init()
 {
 	for(auto& gameObject : gameObjectsMap)

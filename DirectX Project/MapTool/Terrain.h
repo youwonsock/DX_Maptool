@@ -8,6 +8,14 @@ class MapRenderer;
 class Picking;
 class ObjectManager;
 
+enum Mode
+{
+	Mode_Height = 0,
+	Mode_Splatting,
+	Mode_Object,
+	Mode_ObjPicking
+};
+
 struct TerrainDesc
 {
 	UINT rowNum = 0;
@@ -30,11 +38,9 @@ private:
 	using Base = Component;
 
 	// imgui value
-	int pickingMode = 0;
-	int tillingTextureNum = 0;
-	int changeHeightMode = 0;
-	float changeHeight = 10.0f;
-	float radius = 10.0f;
+	ImGuiWindowFlags window_flags = 0;
+	Mode mode = Mode_Height;
+	float brushSize = 10.0f;
 
 public:
 	UINT rowNum;
@@ -81,11 +87,11 @@ private:
 
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
-	void UpdateVertexHeight(Vector3 centerPos);
 
 public:
 	void Init() override;
 	void Update() override;
+	void PostUpdate() override;
 	void Render() override;
 
 	void SaveMapData();

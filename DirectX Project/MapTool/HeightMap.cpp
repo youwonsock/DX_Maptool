@@ -81,6 +81,53 @@ void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale, std::wstring
 	}
 }
 
+void HeightMap::ShowUI()
+{
+	ImGui::SliderFloat("Height Scale", &changeHeight, -100, 100);
+
+	for (int i = 0; i < 5; ++i)
+		ImGui::Spacing();
+
+	ImGui::Text("Height Mode");
+	if (ImGui::RadioButton("Round", mode == HeightMode::Mode_Round))
+	{
+		mode = HeightMode::Mode_Round;
+	}ImGui::SameLine();
+	if (ImGui::RadioButton("Flat", mode == HeightMode::Mode_Flat))
+	{
+		mode = HeightMode::Mode_Flat;
+	}ImGui::SameLine();
+}
+
+void HeightMap::UpdateVertexHeight(std::vector<PNCTVertex>& vertexList, std::vector<UINT>& updateIdxList, Vector3 centerPos, float brushSize)
+{
+	float distance = 0.0f;
+	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
+
+	Vector2 center = Vector2(centerPos.x, centerPos.z);
+	for (UINT i : updateIdxList)
+	{
+		distance = (Vector2(vertexList[i].position.x, vertexList[i].position.z) - center).Length();
+		distance = (distance / brushSize);
+		distance = -(distance - 1);
+
+
+		switch (mode)
+		{
+		case HeightMode::Mode_Round:
+			vertexList[i].position.y += (distance * changeHeight * deltaTime);
+			break;
+		case HeightMode::Mode_Flat:
+			vertexList[i].position.y += (changeHeight * deltaTime);
+			break;
+		default:
+			break;
+		}
+
+		heightList[i] = vertexList[i].position.y;
+	}
+}
+
 void HeightMap::SaveHeightMap(std::wstring savePath)
 {
 	std::vector<BYTE> heightListByte;

@@ -12,6 +12,8 @@
 
 #include <fstream>
 
+
+
 // todo : desc를 이용한 초기화를 load로 이전 예정
 Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 {
@@ -22,6 +24,11 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		spaceDivideTree = std::make_shared<SpaceDivideTree>();
 		picking = std::make_shared<Picking>();
 		mapRenderer = std::make_shared<MapRenderer>();
+
+		window_flags |= ImGuiWindowFlags_NoResize;
+		window_flags |= ImGuiWindowFlags_NoMove;
+		window_flags |= ImGuiWindowFlags_NoCollapse;
+		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 	}
 
 	this->heightMapFilePath = desc.heightMapFilePath;
@@ -102,19 +109,6 @@ void Terrain::Init()
 
 void Terrain::Update()
 {
-	ImGui::InputInt("Change Mode", &changeHeightMode); // 볼록하게, 평평하게
-	ImGui::InputFloat("Change Height", &changeHeight); // 바뀌는 높이
-	ImGui::InputFloat("Radius", &radius);			   // 브러쉬 사이즈	
-
-	ImGui::InputInt("Picking Mode", &pickingMode);
-	ImGui::InputInt("Tilling Texture", &tillingTextureNum);
-
-	if (pickingMode < 0 || pickingMode > 2)
-		pickingMode = 0;
-	if (tillingTextureNum < 0 || tillingTextureNum > 4)
-		tillingTextureNum = 0;
-
-	// temp : for picking
 	{
 		if (InputManager::GetInstance().GetMouseState(0) > KeyState::UP)
 		{
@@ -122,25 +116,21 @@ void Terrain::Update()
 			Vector3 pickPoint;
 
 			bool isFind = false;
-			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, leafNodeIndexList
-				, spaceDivideTree->leafNodeMap
-				, pickPoint);
+			std::shared_ptr<SectionNode>& pickNode = picking->FindPickFace(ray, leafNodeIndexList, spaceDivideTree->leafNodeMap, pickPoint);
 
 			if (pickNode)
 			{
-				picking->FindChangeVertex(pickPoint, radius, spaceDivideTree->leafNodeMap.size()
-					, pickNode
-					, vertices);
-
-				switch (pickingMode)
+				switch (mode)
 				{
-				case(0):
-					UpdateVertexHeight(pickPoint);
+				case(Mode_Height):
+					picking->FindChangeVertex(pickPoint, brushSize, spaceDivideTree->leafNodeMap.size(), pickNode, vertices);
+					heightMap->UpdateVertexHeight(vertices, picking->UpdateVertexIdxList, pickPoint, brushSize);
 					break;
-				case(1):
-					splatting->TillingTexture(pickPoint, tillingTextureNum, vertices, picking->UpdateVertexIdxList);
+				case(Mode_Splatting):
+					picking->FindChangeVertex(pickPoint, brushSize, spaceDivideTree->leafNodeMap.size(), pickNode, vertices);
+					splatting->TillingTexture(pickPoint, brushSize, vertices, picking->UpdateVertexIdxList);
 					break;
-				case(2):
+				case(Mode_Object):
 					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
 						spaceDivideTree->SpawnObject(pickPoint);
 					break;
@@ -167,6 +157,59 @@ void Terrain::Update()
 	mapRenderer->Update();
 }
 
+void Terrain::PostUpdate()
+{
+	ImGui::Begin("Terrain", nullptr, window_flags);
+	{
+		ImGui::SetWindowSize("Terrain", ImVec2(350, Global::g_windowHeight));
+		ImGui::SetWindowPos("Terrain", ImVec2(Global::g_windowWidth - 350, 0));
+
+		if (ImGui::RadioButton("Object", mode == Mode::Mode_Object))
+		{
+			mode = Mode::Mode_Object;
+		}ImGui::SameLine();
+		if (ImGui::RadioButton("Obj Picking", mode == Mode::Mode_ObjPicking))
+		{
+			mode = Mode::Mode_ObjPicking;
+		}ImGui::SameLine();
+		if (ImGui::RadioButton("Height", mode == Mode::Mode_Height))
+		{
+			mode = Mode::Mode_Height;
+		}ImGui::SameLine();
+		if (ImGui::RadioButton("Texture", mode == Mode::Mode_Splatting))
+		{
+			mode = Mode::Mode_Splatting;
+		}
+
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
+		if (mode == Mode::Mode_Splatting || mode == Mode::Mode_Height)
+		{
+			ImGui::Text("Set Brush");
+			ImGui::SliderFloat("Brush Size", &brushSize, 10, 100);
+		}
+
+		switch (mode)
+		{
+		case Mode_Height:
+			heightMap->ShowUI();
+			break;
+		case Mode_Splatting:
+			splatting->ShowUI();
+			break;
+		case Mode_Object:
+			spaceDivideTree->ShowObjectManagerUI();
+			break;
+		case Mode_ObjPicking:
+
+			break;
+		default:
+			break;
+		}
+	}
+	ImGui::End();
+}
+
 void Terrain::Render()
 {
 	spaceDivideTree->Render();
@@ -183,36 +226,6 @@ void Terrain::LoadMapData()
 // -------------------------------------------------------------------------------
 // ------------------------------private functions -------------------------------
 // -------------------------------------------------------------------------------
-
-
-void Terrain::UpdateVertexHeight(Vector3 centerPos)
-{
-	float distance = 0.0f;
-	float deltaTime = TimeManager::GetInstance().GetDeltaTime();
-
-
-	Vector2 center = Vector2(centerPos.x, centerPos.z);
-	for (UINT i : picking->UpdateVertexIdxList)
-	{
-		distance = ( Vector2(vertices[i].position.x, vertices[i].position.z) - center).Length();
-		distance = (distance / radius);
-		distance = -(distance - 1);
-
-		switch (changeHeightMode)
-		{
-		case 0:
-			vertices[i].position.y += (distance * changeHeight * deltaTime);
-			break;
-		case 1:
-			vertices[i].position.y += (changeHeight * deltaTime);
-			break;
-		default:
-			break;
-		}
-
-		heightMap->heightList[i] = vertices[i].position.y;
-	}
-}
 
 void Terrain::CreateVertexData()
 {

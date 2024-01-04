@@ -280,6 +280,12 @@
     <ClInclude Include="CameraManager.h">
       <Filter>소스 파일\Engine\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuiFileDialog.h">
+      <Filter>소스 파일\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiFileDialogConfig.h">
+      <Filter>소스 파일\ImGUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -449,6 +455,9 @@
     </ClCompile>
     <ClCompile Include="CameraManager.cpp">
       <Filter>소스 파일\Engine\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiFileDialog.cpp">
+      <Filter>소스 파일\ImGUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

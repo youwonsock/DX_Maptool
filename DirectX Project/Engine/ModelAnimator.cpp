@@ -150,6 +150,11 @@ void ModelAnimator::SetModel(std::shared_ptr<Model> model)
 		material->SetShader(shader);
 }
 
+std::wstring ModelAnimator::GetModelName() const
+{
+	return model->GetName();
+}
+
 InstanceID ModelAnimator::GetInstanceID() const
 {
 	return std::make_pair((UINT)model.get(), (UINT)shader.get());

@@ -47,9 +47,6 @@ Camera::~Camera()
 void Camera::Update()
 {
 	// set perspective range
-	ImGui::InputFloat("near range", &nearRange);
-	ImGui::InputFloat("far range", &farRange);
-
 	UpdateViewMatrix();
 	position = GetTransform()->GetWorldPosition();
 
@@ -57,6 +54,16 @@ void Camera::Update()
 
 	// if render maanger is not initialized, error!
 	RenderManager::GetInstance().PushGlobalData(viewMatrix, projectionMatrix);
+}
+
+void Camera::PostUpdate()
+{
+	ImGui::Begin("Camera");
+	{
+		ImGui::InputFloat("near range", &nearRange);
+		ImGui::InputFloat("far range", &farRange);
+	}
+	ImGui::End();
 }
 
 void Camera::UpdateViewMatrix()

@@ -20,6 +20,7 @@ protected:
 public:
 	bool isRender = false;
 	std::vector<int> groupNodeIdxList;
+	std::wstring objectName = L"";
 
 public:
 	virtual void Init();

@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <optional>
 
+#include <filesystem>
 #include <iostream>
 #include <stdlib.h>
 #include <string>

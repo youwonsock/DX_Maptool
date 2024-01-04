@@ -45,7 +45,7 @@ void SpaceDivideTree::Init(std::shared_ptr<Terrain> owner)
     // object manager
     {
 		objectManager = std::make_shared<ObjectManager>();
-		objectManager->Init(owner->sceneFilePath, L"make shader manager ");
+		objectManager->Init(owner->sceneFilePath);
 	}
 }
 
@@ -156,6 +156,11 @@ void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
 void SpaceDivideTree::SpawnObject(Vector3& spawnPoint)
 {
     objectManager->SpawnObject(L"Tower", spawnPoint, leafNodeMap);
+}
+
+void SpaceDivideTree::ShowObjectManagerUI()
+{
+    objectManager->ShowUI();
 }
 
 void SpaceDivideTree::FindDrawNode()

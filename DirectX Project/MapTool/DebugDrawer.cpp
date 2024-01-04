@@ -144,14 +144,6 @@ void DebugDrawer::DrawRect(std::vector<Vector3>& points, Color color)
 
 void DebugDrawer::Update()
 {
-	ImGui::InputInt("Pass", &pass);
-
-	if (pass < 0)
-		pass = 0;
-
-	if (pass > 1)
-		pass = 1;
-
 	if (InputManager::GetInstance().GetKeyState(DIK_I) == KeyState::PUSH)
 	{
 		vertexBufferList.clear();
@@ -176,6 +168,6 @@ void DebugDrawer::Render()
 		Global::g_immediateContext->IASetVertexBuffers(0, 1, vertexBufferList[i]->GetVertexBuffer().GetAddressOf(), &stride, &offset);
 		Global::g_immediateContext->IASetIndexBuffer(indexBufferList[i]->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
-		shader->DrawIndexed(0, pass, indexBufferList[i]->GetIndexCount());
+		shader->DrawIndexed(0, 0, indexBufferList[i]->GetIndexCount());
 	}
 }
