@@ -134,9 +134,11 @@ void Terrain::Update()
 					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
 						spaceDivideTree->SpawnObject(pickPoint);
 					break;
+				case(Mode_ObjPicking):
+					if (InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
+						spaceDivideTree->ObjectPicking(ray);
+					break;
 				default:
-					// do object picking(space tree에서 실행 예정)
-
 					break;
 				}
 
@@ -198,10 +200,10 @@ void Terrain::PostUpdate()
 			splatting->ShowUI();
 			break;
 		case Mode_Object:
-			spaceDivideTree->ShowObjectManagerUI();
+			spaceDivideTree->ShowObjectUI();
 			break;
 		case Mode_ObjPicking:
-
+			spaceDivideTree->ShowObjectPickingUI();
 			break;
 		default:
 			break;

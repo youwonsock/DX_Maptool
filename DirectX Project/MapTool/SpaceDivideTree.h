@@ -37,8 +37,12 @@ private:
 
 public:
 	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
+	
 	void SpawnObject(Vector3& spawnPoint);
-	void ShowObjectManagerUI();
+	void ShowObjectUI();
+
+	void ObjectPicking(Ray& ray);
+	void ShowObjectPickingUI();
 
 	void Init(std::shared_ptr<Terrain> owner);
 	void Update();

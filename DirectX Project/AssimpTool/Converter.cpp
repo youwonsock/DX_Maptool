@@ -565,7 +565,6 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 	{
 		std::string pathStr  = (std::filesystem::path(saveFolder) / fileName).string();
 		
-
 		if (srcTexture->mHeight == 0)
 		{
 			std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
@@ -605,7 +604,7 @@ std::string Converter::WirteTextureFile(std::string saveFolder, std::string file
 	}
 	else
 	{
-		std::string originStr = (std::filesystem::path(assetPath) / folderName / file).string();
+		std::string originStr = (std::filesystem::path(assetPath) / folderName / fileName).string();
 		Utils::Replace(originStr, "\\", "/");
 
 		std::string pathStr = (std::filesystem::path(saveFolder) / fileName).string();

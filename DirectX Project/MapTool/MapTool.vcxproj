@@ -186,6 +186,9 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssimpTool\AssimpTool.vcxproj">
+      <Project>{8e961ceb-0270-4a77-be35-278865dc9127}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Engine\Engine.vcxproj">
       <Project>{5ed5f2f8-f519-4a3e-b9bc-cc7f6d6c21c7}</Project>
     </ProjectReference>
