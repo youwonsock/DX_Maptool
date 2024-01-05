@@ -29,5 +29,6 @@ public:
 	virtual void Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx = -1);
 
 	virtual void LoadScene(std::wstring fileName);
+	virtual void SaveScene(std::wstring fileName);
 };
 

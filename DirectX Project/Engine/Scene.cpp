@@ -7,6 +7,8 @@
 #include "ModelRenderer.h"
 #include "ModelAnimator.h"
 
+#include "Model.h"
+
 void Scene::Init()
 {
 	for(auto& gameObject : gameObjectsMap)
@@ -166,4 +168,21 @@ void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 void Scene::LoadScene(std::wstring fileName)
 {
 	// to do load scene data
+}
+
+void Scene::SaveScene(std::wstring fileName)
+{
+	// key : model
+	std::map<std::wstring, std::set<std::shared_ptr<GameObject>>> temp;
+
+	for (auto& gameObject : gameObjectsMap)
+	{
+		for (auto& gameObject : gameObject.second)
+		{
+			if (gameObject->GetModelRenderer() != nullptr)
+				std::wstring modelName = gameObject->GetModelRenderer()->GetModelName()->GetName();
+
+				
+		}
+	}
 }

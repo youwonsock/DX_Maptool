@@ -37,6 +37,7 @@ LRESULT Window::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 		// do something
 
+
 		break;
 	}
 
