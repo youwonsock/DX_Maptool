@@ -53,10 +53,15 @@ void Transform::SetDefaultBoundingBox(std::shared_ptr<Cube> boundingBox)
 
 void Transform::UpdateTransform()
 {
+	Vector3 localRotationRad;
+	localRotationRad.x = XMConvertToRadians(localRotation.x);
+	localRotationRad.y = XMConvertToRadians(localRotation.y);
+	localRotationRad.z = XMConvertToRadians(localRotation.z);
+
 	Matrix matScale = Matrix::CreateScale(localScale);
-	Matrix matRotation = Matrix::CreateRotationX(localRotation.x);
-	matRotation *= Matrix::CreateRotationY(localRotation.y);
-	matRotation *= Matrix::CreateRotationZ(localRotation.z);
+	Matrix matRotation = Matrix::CreateRotationX(localRotationRad.x);
+	matRotation *= Matrix::CreateRotationY(localRotationRad.y);
+	matRotation *= Matrix::CreateRotationZ(localRotationRad.z);
 	Matrix matTranslation = Matrix::CreateTranslation(localPosition);
 
 	localMatrix = matScale * matRotation * matTranslation;

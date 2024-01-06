@@ -11,7 +11,7 @@ void SectionNode::SetBoundingBox()
     Vector2 vHeight = GetHeight();
     if (vHeight.x == vHeight.y)
         vHeight.y -= 1.0f;
-
+    
     min.x = dwV0Pos.x;
     min.y = vHeight.y;
     min.z = dwV1Pos.z;
