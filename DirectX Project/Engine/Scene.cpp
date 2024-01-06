@@ -165,24 +165,3 @@ void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 		lights.erase(gameObject);
 }
 
-void Scene::LoadScene(std::wstring fileName)
-{
-	// to do load scene data
-}
-
-void Scene::SaveScene(std::wstring fileName)
-{
-	// key : model
-	std::map<std::wstring, std::set<std::shared_ptr<GameObject>>> temp;
-
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-		{
-			if (gameObject->GetModelRenderer() != nullptr)
-				std::wstring modelName = gameObject->GetModelRenderer()->GetModelName()->GetName();
-
-				
-		}
-	}
-}

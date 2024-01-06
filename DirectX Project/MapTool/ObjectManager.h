@@ -24,10 +24,15 @@ private:
 
 public:
 	std::shared_ptr<GameObject> SpawnObject(Vector3& spawnPoint);
-	void ObjectPicking(Ray& ray);
-	void ShowObjectUI();
 	std::shared_ptr<GameObject> ShowObjectPickingUI();
 	
+	void ObjectPicking(Ray& ray);
+	void ShowObjectUI();
+	
+	void Save(std::wstring sceneFilePath);
+	void Load(std::wstring sceneFilePath);
+
+
 	void Init(std::wstring sceneFilePath);
 
 	ObjectManager();

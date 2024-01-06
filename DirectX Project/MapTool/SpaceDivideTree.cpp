@@ -11,6 +11,7 @@
 SpaceDivideTree::SpaceDivideTree()
 {
     staticLOD = std::make_shared<StaticLOD>();
+    objectManager = std::make_shared<ObjectManager>();
 }
 
 SpaceDivideTree::~SpaceDivideTree()
@@ -43,10 +44,7 @@ void SpaceDivideTree::Init(std::shared_ptr<Terrain> owner)
 
 
     // object manager
-    {
-		objectManager = std::make_shared<ObjectManager>();
-		objectManager->Init(owner->sceneFilePath);
-	}
+	objectManager->Init(owner->sceneFilePath);
 }
 
 void SpaceDivideTree::Update()
@@ -200,6 +198,11 @@ void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
         node->SetBoundingBox();
         node->UpdateVertexBuffer();
     }
+}
+
+void SpaceDivideTree::SaveScene(std::wstring sceneFilePath)
+{
+    objectManager->Save(sceneFilePath);
 }
 
 void SpaceDivideTree::FindDrawNode()

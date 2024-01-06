@@ -37,7 +37,8 @@ private:
 
 public:
 	void UpdateVertex(std::vector<SHORT> updateNodeIdxList);
-	
+	void SaveScene(std::wstring sceneFilePath);
+
 	void SpawnObject(Vector3& spawnPoint);
 	void ShowObjectUI();
 

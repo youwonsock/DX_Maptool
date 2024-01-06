@@ -152,6 +152,7 @@ void Terrain::Update()
 		{
 			heightMap->SaveHeightMap(L"../../Res/Textures/Terrain/height129.PNG");
 			splatting->SaveAlphaTexture(L"../../Res/Textures/Terrain/heightExported.PNG");
+			spaceDivideTree->SaveScene(L"../../Res/Textures/Terrain/scene.sceneData");
 		}
 	}
 

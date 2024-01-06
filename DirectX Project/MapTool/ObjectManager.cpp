@@ -6,7 +6,9 @@
 
 void ObjectManager::Init(std::wstring sceneFilePath)
 {
-	SceneManager::GetInstance().GetCurrentScene()->LoadScene(sceneFilePath);
+	//load
+	Load(sceneFilePath);
+
 	// shader
 	shader = ResourceManager::GetInstance().Load<Shader>(L"ObjectShader", L"Shader/MapToolShader/ObjectShader.fx");
 	RenderManager::GetInstance().Init(shader);
@@ -130,6 +132,104 @@ void ObjectManager::ShowObjectUI()
 	}
 }
 
+void ObjectManager::Save(std::wstring sceneFilePath)
+{
+	std::map<std::wstring, std::vector<std::shared_ptr<GameObject>>> objectMap;
+
+	for (auto& obj : objectList)
+	{
+		std::wstring modelName = obj->GetModelRenderer()->GetModelName();
+		objectMap[modelName].push_back(obj);
+	}
+
+	auto path = std::filesystem::path(sceneFilePath);
+
+	std::filesystem::create_directory(path.parent_path());
+
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	file->Open(sceneFilePath, FileMode::Write);
+
+	for (auto& object : objectMap)
+	{
+		file->Write<std::string>(Utils::WStringToString(object.first));
+		file->Write<UINT>(object.second.size());
+
+		for (auto& obj : object.second)
+		{
+			file->Write<std::string>(Utils::WStringToString(obj->objectName));
+
+			file->Write<int>(obj->groupNodeIdxList.size());
+			for (auto& nodeIdx : obj->groupNodeIdxList)
+				file->Write<int>(nodeIdx);
+
+			file->Write<Vector3>(obj->GetTransform()->GetWorldPosition());
+			file->Write<Vector3>(obj->GetTransform()->GetWorldRotation());
+			file->Write<Vector3>(obj->GetTransform()->GetWorldScale());
+		}
+	}
+}
+
+void ObjectManager::Load(std::wstring sceneFilePath)
+{
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	if (!file->Open(sceneFilePath, FileMode::Read))
+		return;
+
+	while (true)
+	{
+		std::string modelNameStr = file->Read<std::string>();
+		std::wstring modelName = Utils::StringToWString(modelNameStr);
+		//if (modelName == L"")
+		//	break;
+
+		UINT objectCount = file->Read<UINT>();
+
+		for (UINT i = 0; i < objectCount; i++)
+		{
+			std::string objectName = file->Read<std::string>();
+
+			int groupNodeCount = file->Read<int>();
+			std::vector<int> groupNodeIdxList;
+			for (int i = 0; i < groupNodeCount; i++)
+			{
+				int nodeIdx = file->Read<int>();
+				groupNodeIdxList.push_back(nodeIdx);
+			}
+
+			Vector3 pos = file->Read<Vector3>();
+			Vector3 rot = file->Read<Vector3>();
+			Vector3 scale = file->Read<Vector3>();
+
+			std::shared_ptr<GameObject> obj = nullptr;
+
+			// load model
+			auto model = ResourceManager::GetInstance().Load<Model>(modelName, modelName + L"/" + modelName, false);
+
+			if (model == nullptr)
+				continue;
+
+			// make object
+			obj = std::make_shared<GameObject>();
+			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
+
+			obj->GetModelRenderer()->SetModel(model);
+			int pass = model->HasAnimation() ? 1 : 0;
+			obj->GetModelRenderer()->SetPass(pass);
+
+			obj->GetTransform()->SetWorldPosition(pos);
+			obj->GetTransform()->SetWorldRotation(rot);
+			obj->GetTransform()->SetWorldScale(scale);
+
+			obj->objectName = Utils::StringToWString(objectName);
+			objectList.push_back(obj);
+
+			obj->groupNodeIdxList = groupNodeIdxList;
+			for(auto& nodeIdx : groupNodeIdxList)
+				SceneManager::GetInstance().GetCurrentScene()->Add(obj, nodeIdx);
+		}
+	}
+}
+
 std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 {
 	if (pickObject != nullptr || selectedObjectIdx != -1)
@@ -142,14 +242,15 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 		bool iChange = 0;
 
 		auto transform = pickObject->GetTransform();
-		Vector3 pos = transform->GetWorldPosition();
-		Vector3 rot = transform->GetWorldRotation();
-		Vector3 scale = transform->GetWorldScale();
+		Vector3 pos = transform->GetLocalPosition();
+		Vector3 rot = transform->GetLocalRotation();
+		Vector3 scale = transform->GetLocalScale();
 
 		ImGui::Text("Position");
 		iChange += ImGui::InputFloat("Position X ##", &pos.x); 
 		iChange += ImGui::InputFloat("Position Y ##", &pos.y); 
 		iChange += ImGui::InputFloat("Position Z ##", &pos.z);
+
 		ImGui::Text("Rotate");
 		iChange += ImGui::InputFloat("Rotate X ##", &rot.x);
 		iChange += ImGui::InputFloat("Rotate Y ##", &rot.y);
@@ -162,9 +263,9 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 		//오브젝트 위치, 회전, 스케일 변경시 적용되는 조건문
 		if (iChange > 0)
 		{
-			pickObject->GetTransform()->SetWorldPosition(pos);
-			pickObject->GetTransform()->SetWorldRotation(rot);
-			pickObject->GetTransform()->SetWorldScale(scale);
+			pickObject->GetTransform()->SetLocalPosition(pos);
+			pickObject->GetTransform()->SetLocalRotation(rot);
+			pickObject->GetTransform()->SetLocalScale(scale);
 		}
 		if (ImGui::Button("delete"))
 		{
