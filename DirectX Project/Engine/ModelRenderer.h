@@ -31,9 +31,9 @@ public:
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT8 pass) { this->pass = pass; }
 	KeyframeDesc& GetKeyFrameDesc() { return keyframeDesc; }
-	std::wstring GetModelName() const;
 
 	InstanceID GetInstanceID() const;
+	std::shared_ptr<Model>& GetModel() { return model; }
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
 	void UpdateKeyframeDesc();
 

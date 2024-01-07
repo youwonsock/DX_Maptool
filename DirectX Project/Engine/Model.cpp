@@ -339,7 +339,10 @@ std::shared_ptr<Cube> Model::GetBoundingBox()
 
 bool Model::Load(const std::wstring& path)
 {
+	PathString fullPath(path.c_str());
+
 	this->path = path;
+	this->name = fullPath.Filename;
 
 	ReadModel(path);
 	ReadMaterial(path);

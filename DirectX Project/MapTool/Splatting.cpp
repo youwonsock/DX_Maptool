@@ -155,30 +155,69 @@ void Splatting::ShowUI()
 	}
 }
 
-void Splatting::Init(SplattingDesc& desc)
+void Splatting::Init(std::wstring filePath, int rowNum, int colNum)
 {
-	// texture is BGRA so in imgui Red is 2, Green is 1, Blue is 0, Alpha is 3
-	shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
-
-	texture1 = std::make_shared<Texture>();
-	texture1->Load(desc.texture1Path);
-
-	texture2 = std::make_shared<Texture>();
-	texture2->Load(desc.texture2Path);
-
-	texture3 = std::make_shared<Texture>();
-	texture3->Load(desc.texture3Path);
-
-	texture4 = std::make_shared<Texture>();
-	texture4->Load(desc.texture4Path);
-
-	if (alphaTexture == nullptr)
+	if (texture1 == nullptr)
+	{
+		shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
+		texture1 = std::make_shared<Texture>();
+		texture2 = std::make_shared<Texture>();
+		texture3 = std::make_shared<Texture>();
+		texture4 = std::make_shared<Texture>();
 		alphaTexture = std::make_shared<Texture>();
+	}
 
-	if (!alphaTexture->Load(desc.alphaTexPath))
-		alphaTexture->CreateTexture(desc.rowNum, desc.colNum);
+	this->rowNum = rowNum;
+	this->colNum = colNum;
+
+	Load(filePath);
 
 	SetSRV();
+}
+
+void Splatting::Save(std::wstring filePath, std::wstring alphaTexturePath)
+{
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	file->Open(filePath, FileMode::Write);
+	
+	file->Write<std::string>(Utils::WStringToString(texture1->GetPath()));
+	file->Write<std::string>(Utils::WStringToString(texture2->GetPath()));
+	file->Write<std::string>(Utils::WStringToString(texture3->GetPath()));
+	file->Write<std::string>(Utils::WStringToString(texture4->GetPath()));
+	file->Write<std::string>(Utils::WStringToString(alphaTexturePath));
+	
+	alphaTexture->SaveTexture(alphaTexturePath);
+}
+
+void Splatting::Load(std::wstring filePath)
+{
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>(); 
+	if (file->Open(filePath, FileMode::Read))
+	{
+		std::string tex1, tex2, tex3, tex4, alphaTex;
+
+		tex1 = file->Read<std::string>();
+		tex2 = file->Read<std::string>();
+		tex3 = file->Read<std::string>();
+		tex4 = file->Read<std::string>();
+		alphaTex = file->Read<std::string>();
+
+		texture1->Load(Utils::StringToWString(tex1));
+		texture2->Load(Utils::StringToWString(tex2));
+		texture3->Load(Utils::StringToWString(tex3));
+		texture4->Load(Utils::StringToWString(tex4));
+
+		if (!alphaTexture->Load(Utils::StringToWString(alphaTex)))
+			alphaTexture->CreateTexture(rowNum, colNum);
+	}
+	else
+	{
+		texture1->Load(L"../../Res/Textures/Terrain/Red.png");
+		texture2->Load(L"../../Res/Textures/Terrain/Green.png");
+		texture3->Load(L"../../Res/Textures/Terrain/Blue.png");
+		texture4->Load(L"../../Res/Textures/Terrain/White.png");
+		alphaTexture->CreateTexture(rowNum, colNum);
+	}
 }
 
 /// <summary>

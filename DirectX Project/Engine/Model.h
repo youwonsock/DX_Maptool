@@ -12,13 +12,13 @@ private:
 	std::wstring modelPath = L"../../Res/Models/";
 	std::wstring texturePath = L"../../Res/Textures/";
 	
-	std::shared_ptr<ModelBone> root;
+	std::shared_ptr<ModelBone> root = nullptr;
 	std::vector<std::shared_ptr<Material>> materials;
 	std::vector<std::shared_ptr<ModelBone>> bones;
 	std::vector<std::shared_ptr<ModelMesh>> meshes;
 	std::vector<std::shared_ptr<ModelAnimation>> animations;
 
-	std::shared_ptr<Cube> defaultBoundingBox;
+	std::shared_ptr<Cube> defaultBoundingBox = nullptr;
 private:
 	void BindCacheInfo();
 

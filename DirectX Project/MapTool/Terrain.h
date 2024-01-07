@@ -16,22 +16,6 @@ enum Mode
 	Mode_ObjPicking
 };
 
-struct TerrainDesc
-{
-	UINT rowNum = 0;
-	UINT colNum = 0;
-	float cellDistance = 0;
-	float heightScale = 0;
-
-	std::wstring textureFilePath   = L"";
-	std::wstring heightMapFilePath = L"";
-	std::wstring sceneFilePath     = L"";
-
-	std::wstring alphaTexPath = L"";
-
-	int DevideTreeDepth = 1;
-};
-
 class Terrain : public Component, public std::enable_shared_from_this<Terrain>
 {
 private:
@@ -42,6 +26,16 @@ private:
 	Mode mode = Mode_Height;
 	float brushSize = 10.0f;
 
+	struct MapDataDesc
+	{
+		float heightScale = 1;
+		int rowNum = 129;
+		int colNum = 129;
+		float devideTreeDepth = 2;
+		float cellDistance = 1;
+	};
+	MapDataDesc mapDataDesc;
+
 public:
 	UINT rowNum;
 	UINT colNum;
@@ -50,12 +44,14 @@ public:
 	UINT vertexCount;
 	UINT faceCount;
 	float cellDistance;
+	float heightScale;
 
 	int devideTreeDepth = 1;
 
+	std::wstring baseTexturePath;
+	std::wstring splattingDataPath;
 	std::wstring heightMapFilePath;
-	std::wstring alphaTexPath;
-	std::wstring sceneFilePath = L"";
+	std::wstring sceneFilePath;
 
 	std::vector<PNCTVertex> vertices;
 	std::vector<UINT> indices;
@@ -88,16 +84,16 @@ private:
 	// calc function
 	void CalcVertexColor(Vector3 vLightDir);
 
+	void SaveMapData(std::wstring mapDataPath);
+	void LoadMapData(std::wstring mapDataPath);
+
 public:
 	void Init() override;
 	void Update() override;
 	void PostUpdate() override;
 	void Render() override;
 
-	void SaveMapData();
-	void LoadMapData();
-
-	Terrain(TerrainDesc desc);
+	Terrain();
 	~Terrain();
 };
 

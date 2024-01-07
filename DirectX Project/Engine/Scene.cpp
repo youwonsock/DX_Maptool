@@ -165,3 +165,12 @@ void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 		lights.erase(gameObject);
 }
 
+void Scene::ClearScene()
+{
+	for (auto& gameObject : gameObjectsMap)
+		gameObject.second.clear();
+
+	gameObjectsMap.clear();
+	lights.clear();
+}
+

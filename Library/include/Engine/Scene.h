@@ -27,5 +27,6 @@ public:
 	virtual void SetDrawNodeIdxList(std::vector<int>& drawNodeIdxList) { this->drawNodeIdxList = drawNodeIdxList; }
 	virtual void Add(std::shared_ptr<GameObject> gameObject, int nodeIdx = -1);
 	virtual void Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx = -1);
+	virtual void ClearScene();
 };
 

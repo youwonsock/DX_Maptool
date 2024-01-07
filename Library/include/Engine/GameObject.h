@@ -42,5 +42,8 @@ public:
 	std::shared_ptr<Light> GetLight();
 
 	void AddComponent(std::shared_ptr<Component> component);
+
+	GameObject();
+	virtual ~GameObject();
 };
 

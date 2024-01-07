@@ -15,7 +15,7 @@
 
 
 // todo : desc를 이용한 초기화를 load로 이전 예정
-Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
+Terrain::Terrain() : Base(ComponentType::Terrain)
 {
 	// 생성자에서 초기화 할 것들
 	{
@@ -30,53 +30,6 @@ Terrain::Terrain(TerrainDesc desc) : Base(ComponentType::Terrain)
 		window_flags |= ImGuiWindowFlags_NoCollapse;
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus;
 	}
-
-	this->heightMapFilePath = desc.heightMapFilePath;
-	this->alphaTexPath = desc.alphaTexPath;
-	this->sceneFilePath = desc.sceneFilePath;
-
-	devideTreeDepth = desc.DevideTreeDepth;
-	cellDistance = desc.cellDistance;
-
-	// set resource, make picking, map renderer
-	{
-		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", L"Shader/MapToolShader/MapToolShader.fx");
-		
-		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", desc.textureFilePath, false);
-		shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
-
-		mapRenderer->Init();
-	}
-
-
-	// height map
-	{	
-		rowNum = desc.rowNum;
-		colNum = desc.colNum;
-
-		heightMap->Init(rowNum, colNum, desc.heightScale, desc.heightMapFilePath);
-
-		// after height map create rowNum, colNum is power of 2 + 1
-		rowCellNum = rowNum - 1;
-		colCellNum = colNum - 1;
-		vertexCount = rowNum * colNum;
-		faceCount = rowCellNum * colCellNum * 2;
-	}
-
-
-	// splatting
-	{
-		SplattingDesc splattingDesc;
-		splattingDesc.rowNum = rowNum;
-		splattingDesc.colNum = colNum;
-		splattingDesc.alphaTexPath = desc.heightMapFilePath.length() < 1 ? L"" : desc.alphaTexPath;
-		splattingDesc.texture1Path = L"../../Res/Textures/Terrain/Red.PNG";
-		splattingDesc.texture2Path = L"../../Res/Textures/Terrain/Green.PNG";
-		splattingDesc.texture3Path = L"../../Res/Textures/Terrain/Blue.PNG";
-		splattingDesc.texture4Path = L"../../Res/Textures/Terrain/White.PNG";
-
-		splatting->Init(splattingDesc);
-	}
 }
 
 Terrain::~Terrain()
@@ -89,22 +42,7 @@ Terrain::~Terrain()
 
 void Terrain::Init()
 {
-	CreateVertexData();
-	CreateIndexData();
-
-	// GenerateVertexNormal, make normal table;
-	InitFaceNormal();
-	GenNormalLookupTable();
-	CalcPerVertexNormalsFastLookup();
-
-	// quad tree
-	spaceDivideTree->Init(shared_from_this());
-
-	// init color
-	splatting->SetVertexByTexture(vertices);
-	
-	// create leaf node index list(for picking)
-	CreateLeafNodeIndexList();
+	LoadMapData(L"../../Res/MapData/mapData.mapData");
 }
 
 void Terrain::Update()
@@ -146,14 +84,6 @@ void Terrain::Update()
 				spaceDivideTree->UpdateVertex(picking->UpdateNodeIdxList);
 			}
 		}
-
-		// save
-		if (InputManager::GetInstance().GetKeyState(DIK_M) == KeyState::PUSH)
-		{
-			heightMap->SaveHeightMap(L"../../Res/Textures/Terrain/height129.PNG");
-			splatting->SaveAlphaTexture(L"../../Res/Textures/Terrain/heightExported.PNG");
-			spaceDivideTree->SaveScene(L"../../Res/Textures/Terrain/scene.sceneData");
-		}
 	}
 
 	spaceDivideTree->Update();
@@ -162,8 +92,48 @@ void Terrain::Update()
 
 void Terrain::PostUpdate()
 {
+	// make ui
+	ImGui::BeginMainMenuBar();
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Save"))
+			{
+			}
+			if (ImGui::MenuItem("Load"))
+			{
+				ImGuiFileDialog::Instance()->OpenDialog("Load", "Choose File", ".mapData", "../../Res/MapData/");
+
+				// display
+				if (ImGuiFileDialog::Instance()->Display("Load"))
+				{
+					// action if OK
+					if (ImGuiFileDialog::Instance()->IsOk())
+					{
+						std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+						std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+
+						std::wstring fullFileName = Utils::StringToWString(filePath + fileName);
+
+						LoadMapData(fullFileName);
+					}
+
+					// close
+					ImGuiFileDialog::Instance()->Close();
+				}
+			}
+			if (ImGui::MenuItem("Create"))
+			{
+
+			}
+			ImGui::EndMenu();
+		}
+	}
+	ImGui::EndMainMenuBar();
+
 	ImGui::Begin("Terrain", nullptr, window_flags);
 	{
+
 		ImGui::SetWindowSize("Terrain", ImVec2(350, Global::g_windowHeight));
 		ImGui::SetWindowPos("Terrain", ImVec2(Global::g_windowWidth - 350, 0));
 
@@ -218,12 +188,118 @@ void Terrain::Render()
 	spaceDivideTree->Render();
 }
 
-void Terrain::SaveMapData()
+void Terrain::SaveMapData(std::wstring mapDataPath)
 {
+	// imgui로 저장 파일 경로 설정 기능
+
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	file->Open(mapDataPath, FileMode::Write);
+
+	file->Write<std::string>(Utils::WStringToString(baseTexturePath));
+	file->Write<std::string>(Utils::WStringToString(splattingDataPath));
+	file->Write<std::string>(Utils::WStringToString(heightMapFilePath));
+	file->Write<std::string>(Utils::WStringToString(sceneFilePath));
+
+	file->Write<float>(heightScale);
+	file->Write<UINT>(rowNum);
+	file->Write<UINT>(colNum);
+	file->Write<int>(devideTreeDepth);
+	file->Write<float>(cellDistance);
+
+	heightMap->SaveHeightMap(heightMapFilePath);
+
+	PathString alphaPath(heightMapFilePath.c_str());
+	std::wstring alphaDrive = alphaPath.Drive;
+	std::wstring alphaDir = alphaPath.Dir;
+	std::wstring alphaFileName = alphaPath.Filename;
+	std::wstring alphaTexPath = alphaDrive + alphaDir + alphaFileName + L"_alpha.png";
+
+	splatting->Save(splattingDataPath, alphaTexPath);
+
+	spaceDivideTree->SaveScene(sceneFilePath);
 }
 
-void Terrain::LoadMapData()
+void Terrain::LoadMapData(std::wstring mapDataPath)
 {
+	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
+	
+	// imgui로 수동 입력 만들기?
+
+
+	heightScale = mapDataDesc.heightScale;
+	this->rowNum = mapDataDesc.rowNum;
+	this->colNum = mapDataDesc.colNum;
+	devideTreeDepth = mapDataDesc.devideTreeDepth;
+	cellDistance = mapDataDesc.cellDistance;
+
+	baseTexturePath = L"../../Res/MapData/grass.jpg";
+	splattingDataPath = L"../../Res/MapData/splattingData" + std::to_wstring(rowNum) + L".splattingData";
+	heightMapFilePath = L"../../Res/MapData/heightMapTexture" + std::to_wstring(rowNum) + L".png";
+	sceneFilePath = L"../../Res/MapData/sceneFile" + std::to_wstring(rowNum) + L".sceneData";
+
+	if (file->Open(mapDataPath, FileMode::Read))
+	{
+		std::string baseTexture = file->Read<std::string>();
+		baseTexturePath = Utils::StringToWString(baseTexture);
+
+		std::string splattingData = file->Read<std::string>();
+		splattingDataPath = Utils::StringToWString(splattingData);
+
+		std::string heightMap = file->Read<std::string>();
+		heightMapFilePath = Utils::StringToWString(heightMap);
+
+		std::string scene = file->Read<std::string>();
+		sceneFilePath = Utils::StringToWString(scene);
+
+		heightScale = file->Read<float>();
+		rowNum = file->Read<UINT>();
+		colNum = file->Read<UINT>();
+		devideTreeDepth = file->Read<int>();
+		cellDistance = file->Read<float>();
+	}
+
+	// set resource, make picking, map renderer
+	{
+		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", L"Shader/MapToolShader/MapToolShader.fx");
+
+		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", baseTexturePath, false);
+		shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
+
+		mapRenderer->Init();
+	}
+
+	// height map
+	{
+		heightMap->Init(rowNum, colNum, heightScale, heightMapFilePath);
+
+		// after height map create rowNum, colNum is power of 2 + 1
+		rowCellNum = rowNum - 1;
+		colCellNum = colNum - 1;
+		vertexCount = rowNum * colNum;
+		faceCount = rowCellNum * colCellNum * 2;
+	}
+
+	// splatting
+	{
+		splatting->Init(splattingDataPath, rowNum, colNum);
+	}
+
+	CreateVertexData();
+	CreateIndexData();
+
+	// GenerateVertexNormal, make normal table;
+	InitFaceNormal();
+	GenNormalLookupTable();
+	CalcPerVertexNormalsFastLookup();
+
+	// quad tree
+	spaceDivideTree->Init(shared_from_this());
+
+	// init color
+	splatting->SetVertexByTexture(vertices);
+
+	// create leaf node index list(for picking)
+	CreateLeafNodeIndexList();
 }
 
 // -------------------------------------------------------------------------------

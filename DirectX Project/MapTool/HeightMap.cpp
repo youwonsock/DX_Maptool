@@ -69,8 +69,12 @@ void HeightMap::Init(UINT& rowNum, UINT& colNum, float heightScale, std::wstring
 	{
 		if (!CheckSquare(rowNum - 1))
 			this->rowNum = rowNum = ResizeMap(rowNum);
+		else
+			this->rowNum = rowNum;
 		if (!CheckSquare(colNum - 1))
 			this->colNum = colNum = ResizeMap(colNum);
+		else
+			this->colNum = colNum;
 
 		heightMapTexture->CreateTexture(rowNum, colNum);
 

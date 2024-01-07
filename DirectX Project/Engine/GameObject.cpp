@@ -178,3 +178,11 @@ void GameObject::AddComponent(std::shared_ptr<Component> component)
 	else
 		scriptArr.push_back(std::dynamic_pointer_cast<MonoBehaviour>(component));
 }
+
+GameObject::GameObject()
+{
+}
+
+GameObject::~GameObject()
+{
+}

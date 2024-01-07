@@ -37,11 +37,6 @@ void ModelRenderer::SetModel(std::shared_ptr<Model> model)
 	}
 }
 
-std::wstring ModelRenderer::GetModelName() const
-{
-	return model->GetName();
-}
-
 InstanceID ModelRenderer::GetInstanceID() const
 {
 	return std::make_pair((UINT)model.get(), (UINT)shader.get());

@@ -9,22 +9,10 @@
 void MapTool::Init()
 {
 	{
-		TerrainDesc info;
-		
-		info.rowNum = 200;
-		info.colNum = 200;
-		info.cellDistance = 1;
-		info.heightScale = 1.f;
-		info.heightMapFilePath = L"../../Res/Textures/Terrain/height513.PNG";
-		//info.alphaTexPath = L"../../Res/Textures/Terrain/heightExported.PNG";
-		info.textureFilePath = L"../../Res/Textures/Terrain/grass.jpg";
-		info.sceneFilePath = L"../../Res/Textures/Terrain/scene.sceneData";
-		info.DevideTreeDepth = 4;
-
 		map = std::make_shared<GameObject>();
 		map->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 
-		map->AddComponent(std::make_shared<Terrain>(info));
+		map->AddComponent(std::make_shared<Terrain>());
 	}
 
 	// skybox
@@ -32,6 +20,7 @@ void MapTool::Init()
 		//map->AddComponent(std::make_shared<SkyBox>());
 	}
 		
+	
 	map->Init();
 
 	// camera

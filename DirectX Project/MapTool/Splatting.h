@@ -19,13 +19,17 @@ private:
 	std::shared_ptr<Shader> shader;
 
 	std::shared_ptr<Texture> alphaTexture = nullptr;
-	std::shared_ptr<Texture> texture1;
-	std::shared_ptr<Texture> texture2;
-	std::shared_ptr<Texture> texture3;
-	std::shared_ptr<Texture> texture4;
+	std::shared_ptr<Texture> texture1 = nullptr;
+	std::shared_ptr<Texture> texture2 = nullptr;
+	std::shared_ptr<Texture> texture3 = nullptr;
+	std::shared_ptr<Texture> texture4 = nullptr;
+
+	int rowNum = 0;
+	int colNum = 0;
 
 	float brushScale = 500.0f;
 	int tillingTexNum = 0;
+
 private:
 	void SetSRV();
 
@@ -35,6 +39,9 @@ public:
 	void SaveAlphaTexture(std::wstring savePath);
 	void ShowUI();
 
-	void Init(SplattingDesc& desc);
+	void Init(std::wstring filePath, int rowNum, int colNum);
+
+	void Save(std::wstring filePath, std::wstring alphaTexturePath);
+	void Load(std::wstring filePath);
 };
 

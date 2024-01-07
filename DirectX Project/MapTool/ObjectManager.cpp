@@ -6,15 +6,13 @@
 
 void ObjectManager::Init(std::wstring sceneFilePath)
 {
-	//load
-	Load(sceneFilePath);
-
-	// shader
 	shader = ResourceManager::GetInstance().Load<Shader>(L"ObjectShader", L"Shader/MapToolShader/ObjectShader.fx");
 	RenderManager::GetInstance().Init(shader);
-
-	ReadObjectModelNameList();
 	objectCount = 0;
+	ReadObjectModelNameList();
+
+	//load
+	Load(sceneFilePath);
 }
 
 void ObjectManager::ReadObjectModelNameList()
@@ -55,6 +53,8 @@ std::shared_ptr<GameObject> ObjectManager::SpawnObject(Vector3& spawnPoint)
 	objectList.push_back(obj);
 
 	obj->objectName = modelName + std::to_wstring(objectCount++);
+
+	objectCount++;
 
 	return obj;
 }
@@ -138,7 +138,7 @@ void ObjectManager::Save(std::wstring sceneFilePath)
 
 	for (auto& obj : objectList)
 	{
-		std::wstring modelName = obj->GetModelRenderer()->GetModelName();
+		std::wstring modelName = obj->GetModelRenderer()->GetModel()->GetName();
 		objectMap[modelName].push_back(obj);
 	}
 
@@ -148,6 +148,8 @@ void ObjectManager::Save(std::wstring sceneFilePath)
 
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
 	file->Open(sceneFilePath, FileMode::Write);
+
+	file->Write<UINT>(objectCount);
 
 	for (auto& object : objectMap)
 	{
@@ -171,20 +173,27 @@ void ObjectManager::Save(std::wstring sceneFilePath)
 
 void ObjectManager::Load(std::wstring sceneFilePath)
 {
+	objectList.clear();
+	SceneManager::GetInstance().GetCurrentScene()->ClearScene();
+
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
 	if (!file->Open(sceneFilePath, FileMode::Read))
 		return;
 
+	objectCount = file->Read<UINT>();
+
+	int count = 0;
 	while (true)
 	{
-		std::string modelNameStr = file->Read<std::string>();
-		std::wstring modelName = Utils::StringToWString(modelNameStr);
-		//if (modelName == L"")
-		//	break;
+		std::string modelName = file->Read<std::string>();
+		if (modelName.length() < 0)
+			break;
 
-		UINT objectCount = file->Read<UINT>();
+		if(objectCount == count)
+			break;
 
-		for (UINT i = 0; i < objectCount; i++)
+		UINT objCount = file->Read<UINT>();
+		for (UINT i = 0; i < objCount; i++)
 		{
 			std::string objectName = file->Read<std::string>();
 
@@ -200,16 +209,15 @@ void ObjectManager::Load(std::wstring sceneFilePath)
 			Vector3 rot = file->Read<Vector3>();
 			Vector3 scale = file->Read<Vector3>();
 
-			std::shared_ptr<GameObject> obj = nullptr;
-
 			// load model
-			auto model = ResourceManager::GetInstance().Load<Model>(modelName, modelName + L"/" + modelName, false);
+			std::wstring wModelName = Utils::StringToWString(modelName);
+			auto model = ResourceManager::GetInstance().Load<Model>(wModelName, wModelName + L"/" + wModelName, false);
 
 			if (model == nullptr)
 				continue;
 
 			// make object
-			obj = std::make_shared<GameObject>();
+			std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
 			obj->AddComponent(std::make_shared<ModelRenderer>(shader));
 
 			obj->GetModelRenderer()->SetModel(model);
@@ -220,12 +228,16 @@ void ObjectManager::Load(std::wstring sceneFilePath)
 			obj->GetTransform()->SetWorldRotation(rot);
 			obj->GetTransform()->SetWorldScale(scale);
 
-			obj->objectName = Utils::StringToWString(objectName);
+			obj->objectName  =  Utils::StringToWString(objectName);
 			objectList.push_back(obj);
 
-			obj->groupNodeIdxList = groupNodeIdxList;
 			for(auto& nodeIdx : groupNodeIdxList)
+				obj->groupNodeIdxList.push_back(nodeIdx);
+
+			for (auto& nodeIdx : groupNodeIdxList)
 				SceneManager::GetInstance().GetCurrentScene()->Add(obj, nodeIdx);
+
+			++count;
 		}
 	}
 }
@@ -276,6 +288,7 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 
 			pickObject = nullptr;
 			selectedObjectIdx = -1;
+			objectCount--;
 		}
 	}
 	else
