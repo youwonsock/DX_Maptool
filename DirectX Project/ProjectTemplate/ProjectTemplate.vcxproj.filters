@@ -42,6 +42,12 @@
     <Filter Include="소스 파일\Shaders\Chapter9">
       <UniqueIdentifier>{8c96a171-6936-4820-b5fc-3c06dc8df695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Game\Chapter 10">
+      <UniqueIdentifier>{22c69ca2-50e4-40e7-a824-f6991d59c6a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Shaders\Chapter10">
+      <UniqueIdentifier>{2b8fd77a-7923-4c23-9a2f-09ecc8b67e91}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WinMain.h">
@@ -122,6 +128,12 @@
     <ClInclude Include="SceneDemo.h">
       <Filter>소스 파일\Game\Chapter 9</Filter>
     </ClInclude>
+    <ClInclude Include="RawBufferDemo.h">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupDemo.h">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -201,6 +213,12 @@
     </ClCompile>
     <ClCompile Include="SceneDemo.cpp">
       <Filter>소스 파일\Game\Chapter 9</Filter>
+    </ClCompile>
+    <ClCompile Include="RawBufferDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +305,12 @@
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\00. DebugShader.fx">
       <Filter>소스 파일\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\24. RawBufferDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter10</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\25. GroupDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter10</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

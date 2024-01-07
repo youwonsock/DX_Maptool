@@ -77,6 +77,12 @@
     <Filter Include="소스 파일\Engine\Scene">
       <UniqueIdentifier>{c27c093a-886b-42ba-ac2c-1bd5ff09e969}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\ComputeShader">
+      <UniqueIdentifier>{7b951baf-639e-42c9-9dc0-4dcb8f8cbbdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ComputeShader\Buffer">
+      <UniqueIdentifier>{2696449b-246c-4e15-bdc1-4c1a88028baa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -286,6 +292,9 @@
     <ClInclude Include="ImGuiFileDialogConfig.h">
       <Filter>소스 파일\ImGUI</Filter>
     </ClInclude>
+    <ClInclude Include="RawBuffer.h">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -458,6 +467,9 @@
     </ClCompile>
     <ClCompile Include="ImGuiFileDialog.cpp">
       <Filter>소스 파일\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="RawBuffer.cpp">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

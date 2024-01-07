@@ -6,5 +6,6 @@
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
+#include "RawBuffer.h"
 
 #include "VertexData.h"
