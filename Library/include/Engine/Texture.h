@@ -18,10 +18,15 @@ public:
 	virtual ~Texture();
 
 	virtual bool Load(const std::wstring& path) override;
+
+	virtual void LoadDefaultFlagTexture(const std::wstring& path);
 	
 	ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() { return shaderResourceView; }
+	ComPtr<ID3D11Texture2D> GetTexture2D();
 	Vector2 GetSize() { return size; }
 	const std::shared_ptr<DirectX::ScratchImage> GetInfo();
+
+	void SetShaderResourceView(ComPtr<ID3D11ShaderResourceView> srv) { shaderResourceView = srv; }
 
 	void CreateTexture(int width, int height);
 	void UpdateTexture(const std::vector<BYTE>& colors);

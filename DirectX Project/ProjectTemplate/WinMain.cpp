@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WinMain.h"
 
-#include "GroupDemo.h"
+#include "StructredBufferDemo.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.vsync = false;
 	gameDesc.width = 800;
 	gameDesc.height = 600;
-	gameDesc.app = std::make_shared<GroupDemo>();
+	gameDesc.app = std::make_shared<StructredBufferDemo>();
 
 	Engine game(gameDesc);
 

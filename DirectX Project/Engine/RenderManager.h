@@ -3,6 +3,9 @@
 #include "Singleton.hpp"
 #include "Struct.h"
 
+// render manager는 bind shader desc로 바뀜
+// camera, light는 meshRenderer에서 shader에 접근해서 설정
+
 class Shader;
 
 template <typename T>

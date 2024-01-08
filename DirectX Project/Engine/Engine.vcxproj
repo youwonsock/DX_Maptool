@@ -212,7 +212,9 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     </ClInclude>
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="TestCamera.h" />
+    <ClInclude Include="TextureBuffer.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineHeader.h" />
@@ -307,7 +309,9 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     </ClCompile>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="TestCamera.cpp" />
+    <ClCompile Include="TextureBuffer.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />

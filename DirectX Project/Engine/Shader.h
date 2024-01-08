@@ -39,6 +39,16 @@ public:
 	ComPtr<ID3DX11EffectRasterizerVariable> GetRasterizer(std::string name);
 	ComPtr<ID3DX11EffectSamplerVariable> GetSampler(std::string name);
 
+	void PushGlobalData(const Matrix& view, const Matrix& projection);
+	void PushTransformData(const TransformDesc& desc);
+	void PushLightData(const LightDesc& desc);
+	void PushMaterialData(const MaterialDesc& desc);
+	void PushBoneData(const BoneDesc& desc);
+	void PushKeyframeData(const KeyframeDesc& desc);
+	void PushInstancedKeyFrameData(const InstancedKeyFrameDesc& desc);
+	void PushTweenData(const TweenDesc& desc);
+	void PushInstancedTweenData(const InstancedTweenDesc& desc);
+
 	// resource base override
 	virtual bool Load(const std::wstring& path) override;
 private:
@@ -51,4 +61,34 @@ private:
 	D3DX11_EFFECT_DESC effectDesc;
 	std::shared_ptr<StateBlock> initialStateBlock;
 	std::vector<Technique> techniques;
+
+	std::shared_ptr<ConstantBuffer<GlobalDesc>> globalBuffer;
+	std::shared_ptr<ConstantBuffer<TransformDesc>> transformBuffer;
+	std::shared_ptr<ConstantBuffer<LightDesc>> lightBuffer;
+	std::shared_ptr<ConstantBuffer<MaterialDesc>> materialBuffer;
+	std::shared_ptr<ConstantBuffer<BoneDesc>> boneBuffer;
+	std::shared_ptr<ConstantBuffer<KeyframeDesc>> keyframeBuffer;
+	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer;
+	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer;
+	std::shared_ptr<ConstantBuffer<InstancedKeyFrameDesc>> instancedKeyFrameBuffer;
+
+	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> lightEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> materialEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> boneEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> keyframeEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedKeyFrameEffectBuffer;
+
+	TransformDesc transformDesc;
+	GlobalDesc globalDesc;
+	LightDesc lightDesc;
+	MaterialDesc materialDesc;
+	BoneDesc boneDesc;
+	KeyframeDesc keyframeDesc;
+	TweenDesc tweenDesc;
+	InstancedTweenDesc instancedTweenDesc;
+	InstancedKeyFrameDesc instancedKeyFrameDesc;
 };

@@ -9,6 +9,14 @@ Texture::~Texture()
 {
 }
 
+ComPtr<ID3D11Texture2D> Texture::GetTexture2D()
+{
+    ComPtr<ID3D11Texture2D> texture;
+	shaderResourceView->GetResource((ID3D11Resource**)texture.GetAddressOf());
+
+	return texture;
+}
+
 const std::shared_ptr<DirectX::ScratchImage> Texture::GetInfo()
 {
     ComPtr<ID3D11Texture2D> texture;
@@ -23,6 +31,9 @@ const std::shared_ptr<DirectX::ScratchImage> Texture::GetInfo()
 	return image;
 }
 
+
+// map, unmap 사용 시 usage 는 dynamic, cpu access flag 는 write
+// compute shader 에서는 unordered access view 를 사용하기 떄문에 dynamic 사용 불가능
 bool Texture::Load(const std::wstring& path)
 {
     this->path = path;
@@ -119,6 +130,23 @@ bool Texture::Load(const std::wstring& path)
     }
 
     return false;
+}
+
+void Texture::LoadDefaultFlagTexture(const std::wstring& path)
+{
+    DirectX::TexMetadata md;
+    DirectX::ScratchImage _img;
+
+    HRESULT hr = ::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, &md, _img);
+    if (FAILED(hr))
+		Utils::ShowErrorMessage(hr);
+
+    hr = ::CreateShaderResourceView(Global::g_device.Get(), _img.GetImages(), _img.GetImageCount(), md, shaderResourceView.GetAddressOf());
+    if (FAILED(hr))
+        Utils::ShowErrorMessage(hr);
+
+    size.x = md.width;
+    size.y = md.height;
 }
 
 void Texture::CreateTexture(int width, int height)

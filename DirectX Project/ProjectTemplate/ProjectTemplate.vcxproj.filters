@@ -134,6 +134,12 @@
     <ClInclude Include="GroupDemo.h">
       <Filter>소스 파일\Game\Chapter 10</Filter>
     </ClInclude>
+    <ClInclude Include="TextureBufferDemo.h">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClInclude>
+    <ClInclude Include="StructredBufferDemo.h">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -218,6 +224,12 @@
       <Filter>소스 파일\Game\Chapter 10</Filter>
     </ClCompile>
     <ClCompile Include="GroupDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBufferDemo.cpp">
+      <Filter>소스 파일\Game\Chapter 10</Filter>
+    </ClCompile>
+    <ClCompile Include="StructredBufferDemo.cpp">
       <Filter>소스 파일\Game\Chapter 10</Filter>
     </ClCompile>
   </ItemGroup>
@@ -310,6 +322,12 @@
       <Filter>소스 파일\Shaders\Chapter10</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Res\Shader\25. GroupDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter10</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\26. TextureBufferDemo.fx">
+      <Filter>소스 파일\Shaders\Chapter10</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\27. StructuredBufferDemo.fx">
       <Filter>소스 파일\Shaders\Chapter10</Filter>
     </FxCompile>
   </ItemGroup>

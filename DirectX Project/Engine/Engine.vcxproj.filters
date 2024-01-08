@@ -295,6 +295,12 @@
     <ClInclude Include="RawBuffer.h">
       <Filter>소스 파일\ComputeShader\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="TextureBuffer.h">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="StructuredBuffer.h">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -469,6 +475,12 @@
       <Filter>소스 파일\ImGUI</Filter>
     </ClCompile>
     <ClCompile Include="RawBuffer.cpp">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureBuffer.cpp">
+      <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="StructuredBuffer.cpp">
       <Filter>소스 파일\ComputeShader\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
