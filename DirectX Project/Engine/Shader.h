@@ -3,6 +3,9 @@
 #include "Technique.h"
 #include "Struct.h"
 
+template <typename T>
+class ConstantBuffer;
+
 class Shader : public std::enable_shared_from_this<Shader>, public ResourceBase
 {
 public:
@@ -62,25 +65,25 @@ private:
 	std::shared_ptr<StateBlock> initialStateBlock;
 	std::vector<Technique> techniques;
 
-	std::shared_ptr<ConstantBuffer<GlobalDesc>> globalBuffer;
-	std::shared_ptr<ConstantBuffer<TransformDesc>> transformBuffer;
-	std::shared_ptr<ConstantBuffer<LightDesc>> lightBuffer;
-	std::shared_ptr<ConstantBuffer<MaterialDesc>> materialBuffer;
-	std::shared_ptr<ConstantBuffer<BoneDesc>> boneBuffer;
-	std::shared_ptr<ConstantBuffer<KeyframeDesc>> keyframeBuffer;
-	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer;
-	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer;
-	std::shared_ptr<ConstantBuffer<InstancedKeyFrameDesc>> instancedKeyFrameBuffer;
+	std::shared_ptr<ConstantBuffer<GlobalDesc>> globalBuffer						= nullptr;
+	std::shared_ptr<ConstantBuffer<TransformDesc>> transformBuffer					= nullptr;
+	std::shared_ptr<ConstantBuffer<LightDesc>> lightBuffer							= nullptr;
+	std::shared_ptr<ConstantBuffer<MaterialDesc>> materialBuffer					= nullptr;
+	std::shared_ptr<ConstantBuffer<BoneDesc>> boneBuffer							= nullptr;
+	std::shared_ptr<ConstantBuffer<KeyframeDesc>> keyframeBuffer					= nullptr;
+	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer							= nullptr;
+	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer		= nullptr;
+	std::shared_ptr<ConstantBuffer<InstancedKeyFrameDesc>> instancedKeyframeBuffer	= nullptr;
 
-	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> lightEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> materialEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> boneEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> keyframeEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer;
-	ComPtr<ID3DX11EffectConstantBuffer> instancedKeyFrameEffectBuffer;
+	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer				= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer			= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> lightEffectBuffer				= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> materialEffectBuffer			= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> boneEffectBuffer				= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> keyframeEffectBuffer			= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer				= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer		= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> instancedKeyframeEffectBuffer	= nullptr;
 
 	TransformDesc transformDesc;
 	GlobalDesc globalDesc;
@@ -90,5 +93,5 @@ private:
 	KeyframeDesc keyframeDesc;
 	TweenDesc tweenDesc;
 	InstancedTweenDesc instancedTweenDesc;
-	InstancedKeyFrameDesc instancedKeyFrameDesc;
+	InstancedKeyFrameDesc instancedKeyframeDesc;
 };

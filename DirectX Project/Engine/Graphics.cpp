@@ -3,14 +3,9 @@
 
 #include "ExLib.h"
 
-void Graphics::CreateViewPort(int topLeftX, int topLeftY, int width, int height, int minDepth, int maxDepth)
+void Graphics::CreateViewPort(int width, int height, int topLeftX, int topLeftY, int minDepth, int maxDepth)
 {
-    pViewPort.TopLeftX = topLeftX;
-    pViewPort.TopLeftY = topLeftY;
-    pViewPort.Width = width;
-    pViewPort.Height = height;
-    pViewPort.MinDepth = minDepth;
-    pViewPort.MaxDepth = maxDepth;
+    viewport.SetViewport(width, height, topLeftX, topLeftY, minDepth, maxDepth);
 }
 
 void Graphics::CreateRenderTargetView()
@@ -134,7 +129,7 @@ void Graphics::Init()
     CreateRenderTargetView();
     CreateDepthStencilView();
 
-    CreateViewPort(0, 0, Global::g_windowWidth, Global::g_windowHeight, 0.0f, 1.0f);
+    CreateViewPort(Global::g_windowWidth, Global::g_windowHeight, 0, 0, 0.0f, 1.0f);
 }
 
 void Graphics::PreRender()
@@ -143,7 +138,7 @@ void Graphics::PreRender()
     pImmediateContext->ClearRenderTargetView(pRenderTargetView.Get(), (float*)&clearColor);
     pImmediateContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-    pImmediateContext->RSSetViewports(1, &pViewPort);
+    viewport.RSSetViewport();
                 
 }
 

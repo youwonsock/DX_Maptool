@@ -51,9 +51,6 @@ void Camera::Update()
 	position = GetTransform()->GetWorldPosition();
 
 	frustum.Update(viewMatrix, projectionMatrix);
-
-	// if render maanger is not initialized, error!
-	RenderManager::GetInstance().PushGlobalData(viewMatrix, projectionMatrix);
 }
 
 void Camera::PostUpdate()

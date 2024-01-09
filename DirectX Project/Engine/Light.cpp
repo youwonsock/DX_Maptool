@@ -11,5 +11,5 @@ Light::~Light()
 
 void Light::Update()
 {
-	RenderManager::GetInstance().PushLightData(lightDesc);
+	//RenderManager::GetInstance().PushLightData(lightDesc);
 }

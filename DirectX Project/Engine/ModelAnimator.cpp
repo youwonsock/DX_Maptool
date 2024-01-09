@@ -167,7 +167,6 @@ void ModelAnimator::RenderInstancing(std::shared_ptr<class InstancingBuffer>& in
 	if (texture == nullptr)
 		CreateTexture();
 
-
 	shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
 
 	// Bones
@@ -179,7 +178,7 @@ void ModelAnimator::RenderInstancing(std::shared_ptr<class InstancingBuffer>& in
 		std::shared_ptr<ModelBone> bone = model->GetBoneByIndex(i);
 		boneDesc.transforms[i] = bone->transform;
 	}
-	RenderManager::GetInstance().PushBoneData(boneDesc);
+	shader->PushBoneData(boneDesc);
 
 	const auto& meshes = model->GetMeshes();
 	for (auto& mesh : meshes)

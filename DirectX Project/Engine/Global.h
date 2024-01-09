@@ -3,7 +3,6 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "TimeManager.h"
-#include "RenderManager.h"
 #include "ImGuiManager.h"	
 #include "InstancingManager.h"
 #include "SceneManager.h"

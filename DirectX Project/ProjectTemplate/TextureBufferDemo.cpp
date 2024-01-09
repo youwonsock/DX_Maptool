@@ -78,9 +78,6 @@ void TextureBufferDemo::Init()
 
 		SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 	}
-
-
-	RenderManager::GetInstance().Init(shader);
 }
  
 void TextureBufferDemo::FixedUpdate()
@@ -89,6 +86,9 @@ void TextureBufferDemo::FixedUpdate()
 
 void TextureBufferDemo::Update()
 {
+
+	shader->PushGlobalData(CameraManager::GetInstance().GetMainCamera()->viewMatrix, CameraManager::GetInstance().GetMainCamera()->projectionMatrix);
+
 	//show FPS
 	{
 		std::wstring str = std::to_wstring(TimeManager::GetInstance().GetFPS());

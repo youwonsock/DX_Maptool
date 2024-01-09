@@ -66,7 +66,7 @@ void Material::Update()
 	if (shader == nullptr)
 		return;
 
-	RenderManager::GetInstance().PushMaterialData(desc);
+	shader->PushMaterialData(desc);
 
 	if (diffuseMap != nullptr)
 		diffuseEffectBuffer->SetResource(diffuseMap->GetShaderResourceView().Get());

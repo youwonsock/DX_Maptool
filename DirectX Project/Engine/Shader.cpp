@@ -2,6 +2,7 @@
 #include "Shader.h"
 
 #include "ShaderManager.h"
+#include "ConstantBuffer.h"
 
 Shader::Shader() : ResourceBase(ResourceType::Shader)
 {
@@ -309,4 +310,141 @@ bool Shader::Load(const std::wstring& path)
 	return true;
 }
 
+void Shader::PushGlobalData(const Matrix& view, const Matrix& projection)
+{
+	if (globalEffectBuffer == nullptr)
+	{
+		globalBuffer = std::make_shared<ConstantBuffer<GlobalDesc>>(Global::g_device, Global::g_immediateContext);
+		globalBuffer->Create();
+		globalEffectBuffer = GetConstantBuffer("GlobalBuffer");
+	}
+
+	globalDesc.View = view;
+	globalDesc.Projection = projection;
+	globalDesc.VirwProjection = view * projection;
+	globalDesc.ViewInverse = view.Invert();
+
+	globalBuffer->CopyData(globalDesc);
+	globalEffectBuffer->SetConstantBuffer(globalBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushTransformData(const TransformDesc& desc)
+{
+	if (transformEffectBuffer == nullptr)
+	{
+		transformBuffer = std::make_shared<ConstantBuffer<TransformDesc>>(Global::g_device, Global::g_immediateContext);
+		transformBuffer->Create();
+		transformEffectBuffer = GetConstantBuffer("TransformBuffer");
+	}
+
+	transformDesc = desc;
+
+	transformBuffer->CopyData(desc);
+	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushLightData(const LightDesc& desc)
+{
+	if (lightEffectBuffer == nullptr)
+	{
+		lightBuffer = std::make_shared<ConstantBuffer<LightDesc>>(Global::g_device, Global::g_immediateContext);
+		lightBuffer->Create();
+		lightEffectBuffer = GetConstantBuffer("LightBuffer");
+	}
+
+	lightDesc = desc;
+
+	lightBuffer->CopyData(desc);
+	lightEffectBuffer->SetConstantBuffer(lightBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushMaterialData(const MaterialDesc& desc)
+{
+	if (materialEffectBuffer == nullptr)
+	{
+		materialBuffer = std::make_shared<ConstantBuffer<MaterialDesc>>(Global::g_device, Global::g_immediateContext);
+		materialBuffer->Create();
+		materialEffectBuffer = GetConstantBuffer("MaterialBuffer");
+	}
+
+	materialDesc = desc;
+
+	materialBuffer->CopyData(desc);
+	materialEffectBuffer->SetConstantBuffer(materialBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushBoneData(const BoneDesc& desc)
+{
+	if (boneEffectBuffer == nullptr)
+	{
+		boneBuffer = std::make_shared<ConstantBuffer<BoneDesc>>(Global::g_device, Global::g_immediateContext);
+		boneBuffer->Create();
+		boneEffectBuffer = GetConstantBuffer("BoneBuffer");
+	}
+
+	boneDesc = desc;
+
+	boneBuffer->CopyData(desc);
+	boneEffectBuffer->SetConstantBuffer(boneBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushKeyframeData(const KeyframeDesc& desc)
+{
+	if (keyframeEffectBuffer == nullptr)
+	{
+		keyframeBuffer = std::make_shared<ConstantBuffer<KeyframeDesc>>(Global::g_device, Global::g_immediateContext);
+		keyframeBuffer->Create();
+		keyframeEffectBuffer = GetConstantBuffer("KeyframeBuffer");
+	}
+
+	keyframeDesc = desc;
+
+	keyframeBuffer->CopyData(desc);
+	keyframeEffectBuffer->SetConstantBuffer(keyframeBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushInstancedKeyFrameData(const InstancedKeyFrameDesc& desc)
+{
+	if (instancedKeyframeEffectBuffer == nullptr)
+	{
+		instancedKeyframeBuffer = std::make_shared<ConstantBuffer<InstancedKeyFrameDesc>>(Global::g_device, Global::g_immediateContext);
+		instancedKeyframeBuffer->Create();
+		instancedKeyframeEffectBuffer = GetConstantBuffer("InstancedKeyframeBuffer");
+	}
+
+	instancedKeyframeDesc = desc;
+
+	instancedKeyframeBuffer->CopyData(desc);
+	instancedKeyframeEffectBuffer->SetConstantBuffer(instancedKeyframeBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushTweenData(const TweenDesc& desc)
+{
+	if (tweenEffectBuffer == nullptr)
+	{
+		tweenBuffer = std::make_shared<ConstantBuffer<TweenDesc>>(Global::g_device, Global::g_immediateContext);
+		tweenBuffer->Create();
+		tweenEffectBuffer = GetConstantBuffer("TweenBuffer");
+	}
+
+	tweenDesc = desc;
+
+	tweenBuffer->CopyData(desc);
+	tweenEffectBuffer->SetConstantBuffer(tweenBuffer->GetConstantBuffer().Get());
+}
+
+void Shader::PushInstancedTweenData(const InstancedTweenDesc& desc)
+{
+	if (instancedTweenEffectBuffer == nullptr)
+	{
+		instancedTweenBuffer = std::make_shared<ConstantBuffer<InstancedTweenDesc>>(Global::g_device, Global::g_immediateContext);
+		instancedTweenBuffer->Create();
+		instancedTweenEffectBuffer = GetConstantBuffer("InstancedTweenBuffer");
+	}
+
+	instancedTweenDesc = desc;
+
+	instancedTweenBuffer->CopyData(desc);
+	instancedTweenEffectBuffer->SetConstantBuffer(instancedTweenBuffer->GetConstantBuffer().Get());
+}
 

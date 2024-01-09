@@ -84,14 +84,14 @@ void ModelRenderer::Render()
 			CreateTexture();
 
 		UpdateKeyframeDesc();
-		RenderManager::GetInstance().PushKeyframeData(keyframeDesc);
+		shader->PushKeyframeData(keyframeDesc);
 
 		shader->GetSRV("TransformMap")->SetResource(textureSRV.Get());
 	}
 
 	// Transform
 	auto world = GetTransform()->GetWorldMatrix();
-	RenderManager::GetInstance().PushTransformData(TransformDesc{ world });
+	shader->PushTransformData(TransformDesc{ world });
 
 	const auto& meshes = model->GetMeshes();
 	for (auto& mesh : meshes)

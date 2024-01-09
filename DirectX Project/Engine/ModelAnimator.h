@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Component.h"
+#include "Struct.h"
 
 class Model;
 class Shader;
@@ -30,12 +31,13 @@ public:
 
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT pass) { this->pass = pass; }
+
 	TweenDesc& GetTweenDesc() { return tweenDesc; }
 	std::wstring GetModelName() const;
-
 	InstanceID GetInstanceID() const;
+	std::shared_ptr<Shader>& GetShader() { return shader; }
+
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
 	void UpdateTweenData();
-
 };
 

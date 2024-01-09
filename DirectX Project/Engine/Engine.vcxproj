@@ -177,6 +177,8 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseCollider.h" />
+    <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collision.h" />
@@ -206,12 +208,9 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="ModelRenderer.h" />
     <ClInclude Include="RawBuffer.h" />
-    <ClInclude Include="RenderManager.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SphereCollider.h" />
     <ClInclude Include="StructuredBuffer.h" />
     <ClInclude Include="TestCamera.h" />
     <ClInclude Include="TextureBuffer.h" />
@@ -251,9 +250,12 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     <ClInclude Include="Types.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexData.h" />
+    <ClInclude Include="Viewport.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseCollider.cpp" />
+    <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -303,12 +305,9 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="ModelRenderer.cpp" />
     <ClCompile Include="RawBuffer.cpp" />
-    <ClCompile Include="RenderManager.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SphereCollider.cpp" />
     <ClCompile Include="StructuredBuffer.cpp" />
     <ClCompile Include="TestCamera.cpp" />
     <ClCompile Include="TextureBuffer.cpp" />
@@ -344,6 +343,7 @@ copy "*.lib" "..\\..\\Library\\lib\\Engine"</Command>
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
+    <ClCompile Include="Viewport.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

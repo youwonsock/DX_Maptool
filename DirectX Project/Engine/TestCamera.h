@@ -6,7 +6,7 @@ class TestCamera : public Camera
 {
 private:
 	float speed = 100.0f;
-	float rotationSpeed = 5.0f;
+	float rotationSpeed = 90.0f;
 
 	ImGuiWindowFlags window_flags = 0;
 

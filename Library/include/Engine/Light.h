@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "Types.h"
+#include "Struct.h"
 
 class Light : public Component
 {

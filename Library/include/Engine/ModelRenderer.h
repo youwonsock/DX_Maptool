@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Component.h"
+#include "Struct.h"
 
 class Model;
 class Shader;
@@ -30,10 +32,12 @@ public:
 
 	void SetModel(std::shared_ptr<Model> model);
 	void SetPass(UINT8 pass) { this->pass = pass; }
-	KeyframeDesc& GetKeyFrameDesc() { return keyframeDesc; }
 
+	KeyframeDesc& GetKeyFrameDesc() { return keyframeDesc; }
 	InstanceID GetInstanceID() const;
 	std::shared_ptr<Model>& GetModel() { return model; }
+	std::shared_ptr<Shader>& GetShader() { return shader; }
+
 	void RenderInstancing(std::shared_ptr<class InstancingBuffer>& instancingBuffer);
 	void UpdateKeyframeDesc();
 

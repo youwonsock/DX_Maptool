@@ -7,6 +7,7 @@ using Vector4 = DirectX::SimpleMath::Vector4;
 
 using Quaternion = DirectX::SimpleMath::Quaternion;
 using Matrix = DirectX::SimpleMath::Matrix;
+using SMRay = DirectX::SimpleMath::Ray;
 
 using InstanceID = std::pair<UINT, UINT>;
 

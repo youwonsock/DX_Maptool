@@ -83,6 +83,9 @@
     <Filter Include="소스 파일\ComputeShader\Buffer">
       <UniqueIdentifier>{2696449b-246c-4e15-bdc1-4c1a88028baa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Component\Collider">
+      <UniqueIdentifier>{1a7156d9-e1e0-4980-8dc8-78553683ffd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -205,9 +208,6 @@
     <ClInclude Include="GeometryHelper.h">
       <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>소스 파일\Engine\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClInclude>
@@ -300,6 +300,18 @@
     </ClInclude>
     <ClInclude Include="StructuredBuffer.h">
       <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewport.h">
+      <Filter>소스 파일\Engine\EngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCollider.h">
+      <Filter>소스 파일\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereCollider.h">
+      <Filter>소스 파일\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>소스 파일\Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -396,9 +408,6 @@
     <ClCompile Include="GeometryHelper.cpp">
       <Filter>소스 파일\Graphics\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>소스 파일\Engine\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>소스 파일\Engine\Resource</Filter>
     </ClCompile>
@@ -482,6 +491,18 @@
     </ClCompile>
     <ClCompile Include="StructuredBuffer.cpp">
       <Filter>소스 파일\ComputeShader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewport.cpp">
+      <Filter>소스 파일\Engine\EngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCollider.cpp">
+      <Filter>소스 파일\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereCollider.cpp">
+      <Filter>소스 파일\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>소스 파일\Component\Collider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

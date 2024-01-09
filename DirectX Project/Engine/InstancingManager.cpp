@@ -8,7 +8,7 @@
 #include "ModelAnimator.h"
 
 #include "Transform.h"
-
+#include "Shader.h"
 
 void InstancingManager::Render(std::set<std::shared_ptr<GameObject>>& gameObjects)
 {
@@ -86,7 +86,7 @@ void InstancingManager::RenderModelRenderer(std::set<std::shared_ptr<GameObject>
 			gameObj->GetModelRenderer()->UpdateKeyframeDesc();
 			keyFramesDesc->keyframes[i] = gameObj->GetModelRenderer()->GetKeyFrameDesc();
 		}
-		RenderManager::GetInstance().PushInstancedKeyFrameData(*(keyFramesDesc.get()));
+		gameObjects[0]->GetModelRenderer()->GetShader()->PushInstancedKeyFrameData(*(keyFramesDesc.get()));
 
 		std::shared_ptr<InstancingBuffer>& buffer = buffers[instanceID];
 		gameObjects[0]->GetModelRenderer()->RenderInstancing(buffer);
@@ -126,7 +126,7 @@ void InstancingManager::RenderAnimRenderer(std::set<std::shared_ptr<GameObject>>
 			tweenDesc->tweens[i] = gameObj->GetModelAnimator()->GetTweenDesc();
 		}
 
-		RenderManager::GetInstance().PushInstancedTweenData(*(tweenDesc.get()));
+		gameObjects[0]->GetModelAnimator()->GetShader()->PushInstancedTweenData(*(tweenDesc.get()));
 
 		std::shared_ptr<InstancingBuffer>& buffer = buffers[instanceID];
 		gameObjects[0]->GetModelAnimator()->RenderInstancing(buffer);
