@@ -39,15 +39,17 @@ bool SphereCollider::Intersects(std::shared_ptr<BaseCollider>& other)
 
 void SphereCollider::SetRadius(float radius)
 {
+	this->radius = radius;
 }
 
 BoundingSphere& SphereCollider::GetBoundingSphere()
 {
-
+	return boundingSphere;
 }
 
 SphereCollider::SphereCollider(float radius) : BaseCollider(ColliderType::Sphere)
 {
+	this->radius = radius;
 }
 
 SphereCollider::~SphereCollider()

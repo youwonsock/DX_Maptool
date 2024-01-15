@@ -16,6 +16,7 @@ enum class ComponentType
 	Camera,
 	Animator,
 	Light,
+	Collider,
 
 	// temp for maptool
 	Terrain,

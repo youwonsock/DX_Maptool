@@ -102,6 +102,9 @@ void Terrain::PostUpdate()
 			}
 			if (ImGui::MenuItem("Load"))
 			{
+				if (ImGui::Button("Load FBX File"))
+					ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", "FBX files(*.fbx *.FBX){ .fbx, .FBX}", "../../Res/Assets/");
+
 				ImGuiFileDialog::Instance()->OpenDialog("Load", "Choose File", ".mapData", "../../Res/MapData/");
 
 				// display
@@ -222,9 +225,6 @@ void Terrain::SaveMapData(std::wstring mapDataPath)
 void Terrain::LoadMapData(std::wstring mapDataPath)
 {
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
-	
-	// imgui로 수동 입력 만들기?
-
 
 	heightScale = mapDataDesc.heightScale;
 	this->rowNum = mapDataDesc.rowNum;

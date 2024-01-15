@@ -132,8 +132,6 @@ void FBXSDKTest::Init()
 	}
 
 	debugDrawer->DrawBox(obj1->GetTransform()->GetBoundingBox(), Color(1,0,0,0));
-
-	RenderManager::GetInstance().Init(shader);
 }
 
 void FBXSDKTest::FixedUpdate()
@@ -154,7 +152,7 @@ void FBXSDKTest::Update()
 		lightDesc.diffuse = Vector4(1.f);
 		lightDesc.specular = Vector4(0.f);
 		lightDesc.direction = Vector3(1.f, 0.f, 1.f);
-		RenderManager::GetInstance().PushLightData(lightDesc);
+		shader->PushLightData(lightDesc);
 	}
 	obj1->Update();
 

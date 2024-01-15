@@ -7,7 +7,6 @@
 void ObjectManager::Init(std::wstring sceneFilePath)
 {
 	shader = ResourceManager::GetInstance().Load<Shader>(L"ObjectShader", L"Shader/MapToolShader/ObjectShader.fx");
-	RenderManager::GetInstance().Init(shader);
 	objectCount = 0;
 	ReadObjectModelNameList();
 
