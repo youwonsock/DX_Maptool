@@ -24,6 +24,15 @@ SpaceDivideTree::~SpaceDivideTree()
 
 void SpaceDivideTree::Init(std::shared_ptr<Terrain> owner)
 {
+    if (root != nullptr)
+    {
+        root->Release();
+        root.reset();
+		
+        leafNodeMap.clear();
+		drawNodeIndexList.clear();
+    }
+
 	{
         debugDraw = std::make_shared<DebugDrawer>();
 	}

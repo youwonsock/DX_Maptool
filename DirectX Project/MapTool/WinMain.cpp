@@ -3,6 +3,10 @@
 
 #include "MapTool.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	EngineDesc gameDesc;
@@ -15,6 +19,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	gameDesc.app = std::make_shared<MapTool>();
 
 	Engine game(gameDesc);
+
+	_CrtDumpMemoryLeaks();
 
 	return 0;
 };

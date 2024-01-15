@@ -23,6 +23,23 @@ void SectionNode::SetBoundingBox()
     boundingBox.SetCube(min, max);
 }
 
+void SectionNode::Release()
+{
+    for (int i = 0; i < childNodeList.size(); ++i)
+    {
+        childNodeList[i]->Release();
+        childNodeList[i].reset();
+    }
+
+    childNodeList.clear();
+	neighborNodeList.clear();
+	vertices.clear();
+	cornerIndexList.clear();
+	vertexBuffer.reset();
+	indexBuffer.reset();
+    shader = nullptr;
+}
+
 Vector2 SectionNode::GetHeight()
 {
     Vector2 vHeight;

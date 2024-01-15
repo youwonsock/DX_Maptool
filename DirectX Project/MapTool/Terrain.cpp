@@ -42,7 +42,7 @@ Terrain::~Terrain()
 
 void Terrain::Init()
 {
-	LoadMapData(L"../../Res/MapData/mapData.mapData");
+	LoadMapData(L"");
 }
 
 void Terrain::Update()
@@ -90,25 +90,47 @@ void Terrain::Update()
 	mapRenderer->Update();
 }
 
+bool save = false;
+bool load = false;
+bool create = false;
+
 void Terrain::PostUpdate()
 {
-	// make ui
-	ImGui::BeginMainMenuBar();
+	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
 			if (ImGui::MenuItem("Save"))
 			{
+				save = true;
 			}
 			if (ImGui::MenuItem("Load"))
 			{
-				if (ImGui::Button("Load FBX File"))
-					ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", "FBX files(*.fbx *.FBX){ .fbx, .FBX}", "../../Res/Assets/");
+				load = true;
+			}
+			if (ImGui::MenuItem("Create"))
+			{
+				create = true;
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
-				ImGuiFileDialog::Instance()->OpenDialog("Load", "Choose File", ".mapData", "../../Res/MapData/");
+	if(ImGui::Begin("Terrain", nullptr, window_flags))
+	{
+		// save, load, create
+		{
+			if (save)
+			{
+
+			}
+			if (load)
+			{
+				ImGuiFileDialog::Instance()->OpenDialog("LoadMap", "Choose MapData", ".mapData", "../../Res/MapData/");
 
 				// display
-				if (ImGuiFileDialog::Instance()->Display("Load"))
+				if (ImGuiFileDialog::Instance()->Display("LoadMap"))
 				{
 					// action if OK
 					if (ImGuiFileDialog::Instance()->IsOk())
@@ -123,19 +145,24 @@ void Terrain::PostUpdate()
 
 					// close
 					ImGuiFileDialog::Instance()->Close();
+
+					load = false;
 				}
 			}
-			if (ImGui::MenuItem("Create"))
+			if (create)
 			{
+				mapDataDesc.heightScale = heightScale;
+				mapDataDesc.rowNum = 513;
+				mapDataDesc.colNum = 513;
+				mapDataDesc.devideTreeDepth = 4;
+				mapDataDesc.cellDistance = cellDistance;
+					
+				LoadMapData(L"");	
 
+				create = false;
 			}
-			ImGui::EndMenu();
 		}
-	}
-	ImGui::EndMainMenuBar();
 
-	ImGui::Begin("Terrain", nullptr, window_flags);
-	{
 
 		ImGui::SetWindowSize("Terrain", ImVec2(350, Global::g_windowHeight));
 		ImGui::SetWindowPos("Terrain", ImVec2(Global::g_windowWidth - 350, 0));
@@ -182,8 +209,9 @@ void Terrain::PostUpdate()
 		default:
 			break;
 		}
+
+		ImGui::End();
 	}
-	ImGui::End();
 }
 
 void Terrain::Render()

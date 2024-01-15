@@ -50,6 +50,8 @@ public:
 	void UpdateVertexBuffer();
 	void SetBoundingBox();
 
+	void Release();
+
 	SectionNode();
 	SectionNode(SectionNodeDesc& desc);
 };
