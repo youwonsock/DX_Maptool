@@ -4,7 +4,6 @@
 
 #include "Engine/Model.h"
 #include "Engine/ModelRenderer.h"
-#include "Engine/RenderManager.h"
 #include "Engine/GameObject.h"
 
 void FBXSDKTest::CreateKachujin()
