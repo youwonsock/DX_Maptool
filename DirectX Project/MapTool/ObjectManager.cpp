@@ -53,8 +53,6 @@ std::shared_ptr<GameObject> ObjectManager::SpawnObject(Vector3& spawnPoint)
 
 	obj->objectName = modelName + std::to_wstring(objectCount++);
 
-	objectCount++;
-
 	return obj;
 }
 
@@ -188,7 +186,7 @@ void ObjectManager::Load(std::wstring sceneFilePath)
 		if (modelName.length() < 0)
 			break;
 
-		if(objectCount == count)
+		if(objectCount <= count)
 			break;
 
 		UINT objCount = file->Read<UINT>();
@@ -287,7 +285,7 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 
 			pickObject = nullptr;
 			selectedObjectIdx = -1;
-			objectCount--;
+			--objectCount;
 		}
 	}
 	else

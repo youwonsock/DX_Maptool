@@ -1,5 +1,7 @@
 #pragma once
 
+#define NULL_NUM 3435973836
+
 enum FileMode : UINT
 {
 	Read = 0,
@@ -41,6 +43,10 @@ public:
 		DWORD numOfBytes = 0;
 
 		auto t = ::ReadFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
+
+		if(t && numOfBytes == 0)
+			return;
+
 		assert(t);
 	}
 	template<typename T>

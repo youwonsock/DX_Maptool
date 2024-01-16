@@ -103,14 +103,23 @@ void Terrain::PostUpdate()
 			if (ImGui::MenuItem("Save"))
 			{
 				save = true;
+				load = false;
+				create = false;
+				ImGuiFileDialog::Instance()->Close();
 			}
 			if (ImGui::MenuItem("Load"))
 			{
 				load = true;
+				save = false;
+				create = false;
+				ImGuiFileDialog::Instance()->Close();
 			}
 			if (ImGui::MenuItem("Create"))
 			{
 				create = true;
+				save = false;
+				load = false;
+				ImGuiFileDialog::Instance()->Close();
 			}
 			ImGui::EndMenu();
 		}
@@ -123,7 +132,25 @@ void Terrain::PostUpdate()
 		{
 			if (save)
 			{
+				ImGuiFileDialog::Instance()->OpenDialog("SaveMap", "Save MapData", ".mapData", "../../Res/MapData/");
 
+				if (ImGuiFileDialog::Instance()->Display("SaveMap"))
+				{
+					if (ImGuiFileDialog::Instance()->IsOk())
+					{
+						std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+						std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+
+						std::wstring fullFileName = Utils::StringToWString(filePath + "\\" + fileName);
+
+						SaveMapData(fullFileName);
+					}
+
+					// close
+					ImGuiFileDialog::Instance()->Close();
+
+					save = false;
+				}
 			}
 			if (load)
 			{
@@ -138,7 +165,7 @@ void Terrain::PostUpdate()
 						std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
 						std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
 
-						std::wstring fullFileName = Utils::StringToWString(filePath + fileName);
+						std::wstring fullFileName = Utils::StringToWString(filePath + "\\" + fileName);
 
 						LoadMapData(fullFileName);
 					}
@@ -151,15 +178,27 @@ void Terrain::PostUpdate()
 			}
 			if (create)
 			{
-				mapDataDesc.heightScale = heightScale;
-				mapDataDesc.rowNum = 513;
-				mapDataDesc.colNum = 513;
-				mapDataDesc.devideTreeDepth = 4;
-				mapDataDesc.cellDistance = cellDistance;
-					
-				LoadMapData(L"");	
+				ImGui::OpenPopup("Create");
 
-				create = false;
+				if (ImGui::BeginPopup("Create"))
+				{
+					ImGui::InputFloat("HeightScale", &mapDataDesc.heightScale);
+					ImGui::InputFloat("DevideTreeDepth", &mapDataDesc.devideTreeDepth);
+					ImGui::InputFloat("CellDistance", &mapDataDesc.cellDistance);
+					ImGui::InputInt("Row, Col Num", (int*)&mapDataDesc.rowNum);
+					mapDataDesc.colNum = mapDataDesc.rowNum;
+
+					if (ImGui::Button("Create"))
+					{
+						LoadMapData(L"");
+
+						create = false;
+					}
+					if (ImGui::Button("Cancel"))
+						create = false;
+
+					ImGui::EndPopup();
+				}
 			}
 		}
 
@@ -221,8 +260,6 @@ void Terrain::Render()
 
 void Terrain::SaveMapData(std::wstring mapDataPath)
 {
-	// imgui로 저장 파일 경로 설정 기능
-
 	std::shared_ptr<FileUtils> file = std::make_shared<FileUtils>();
 	file->Open(mapDataPath, FileMode::Write);
 
@@ -292,8 +329,6 @@ void Terrain::LoadMapData(std::wstring mapDataPath)
 
 		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", baseTexturePath, false);
 		shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
-
-		mapRenderer->Init();
 	}
 
 	// height map
@@ -328,6 +363,9 @@ void Terrain::LoadMapData(std::wstring mapDataPath)
 
 	// create leaf node index list(for picking)
 	CreateLeafNodeIndexList();
+
+	// init map renderer
+	mapRenderer->Init();
 }
 
 // -------------------------------------------------------------------------------

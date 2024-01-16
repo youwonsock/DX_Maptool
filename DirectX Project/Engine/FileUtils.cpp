@@ -78,7 +78,7 @@ void FileUtils::Read(OUT std::string& data)
 {
 	unsigned __int32 size = Read<unsigned __int32>();
 
-	if (size == 0)
+	if (size == 0 || size == NULL_NUM)
 		return;
 
 	char* temp = new char[size + 1];

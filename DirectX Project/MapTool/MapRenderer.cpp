@@ -3,31 +3,22 @@
 
 void MapRenderer::Update()
 {
-	globalDesc.View = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
-	globalDesc.Projection = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
-	globalDesc.VirwProjection = globalDesc.View * globalDesc.Projection;
-	globalDesc.ViewInverse = globalDesc.View.Invert();
+	view = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
+	proj = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
 
-	globalBuffer->CopyData(globalDesc);
-	globalEffectBuffer->SetConstantBuffer(globalBuffer->GetConstantBuffer().Get());
+	terrainShader->PushGlobalData(view, proj);
+	objectShader->PushGlobalData(view, proj);
 }
 
 void MapRenderer::Init()
 {
-	shader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
+	terrainShader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
+	objectShader = ResourceManager::GetInstance().Get<Shader>(L"ObjectShader");
 
-	globalBuffer = std::make_shared<ConstantBuffer<GlobalDesc>>(Global::g_device, Global::g_immediateContext);
-	globalBuffer->Create();
-	globalEffectBuffer = shader->GetConstantBuffer("GlobalBuffer");
-
-	transformBuffer = std::make_shared<ConstantBuffer<TransformDesc>>(Global::g_device, Global::g_immediateContext);
-	transformBuffer->Create();
-	transformEffectBuffer = shader->GetConstantBuffer("TransformBuffer");
-
+	TransformDesc transformDesc;
 	transformDesc.World = Matrix::Identity;
-
-	transformBuffer->CopyData(transformDesc);
-	transformEffectBuffer->SetConstantBuffer(transformBuffer->GetConstantBuffer().Get());
+	
+	terrainShader->PushTransformData(transformDesc);
 }
 
 MapRenderer::MapRenderer()
