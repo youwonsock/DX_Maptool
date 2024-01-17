@@ -1,4 +1,4 @@
-#include "MapToolGlobalShader.fx"
+#include "MapToolLight.fx"
  
 // instancing 적용 시 월드 행렬 변경 필요 (별도의 쉐이더 함수를 만들까?)
 
@@ -13,8 +13,16 @@ MeshOutput VS_Model(VertexModel input)
     output.position = mul(input.position, input.world);
     output.worldPosition = output.position.xyz;
     output.position = mul(output.position, ViewProjection);
+    
     output.uv = input.uv;
-    output.normal = input.normal;
+    
+    float3 normal = mul(input.normal, (float3x3) input.world);
+    float3 tangent = mul(input.tangent, (float3x3) input.world);
+    float3x3 TBNMat = ComputeTBN(normal, tangent);
+    
+    output.eye = normalize(GetCameraPosition() - output.worldPosition);
+    output.eye = mul(output.eye, TBNMat);
+    output.lightDir = mul(GlobalLight.direction, TBNMat);
     
     return output;
 }
@@ -72,8 +80,13 @@ MeshOutput VS_Animation(VertexModel input)
     output.position = mul(output.position, ViewProjection);
     
     output.uv = input.uv;
-    output.normal = mul(input.normal, (float3x3) input.world);
-    output.tangent = mul(input.tangent, (float3x3) input.world);
+    
+    //temp
+    output.eye = normalize(GetCameraPosition() - output.worldPosition);
+    output.lightDir = mul(GlobalLight.direction, (float3x3) input.world);
+    
+    //output.normal = mul(input.normal, (float3x3) input.world);
+    //output.tangent = mul(input.tangent, (float3x3) input.world);
     
     return output;
 }
@@ -83,13 +96,12 @@ MeshOutput VS_Animation(VertexModel input)
 //-------------------------------PS-------------------------------
 //----------------------------------------------------------------
 
-Texture2D DiffuseMap;
-
 float4 PS(MeshOutput input) : SV_TARGET
 {
-    float4 color = DiffuseMap.Sample(LinearSampler, input.uv);
-
-    return color;
+    float4 map = NormalMap.Sample(LinearSampler, input.uv);
+    float3 tangentSpaceNormal = (map * 2.0f) - 1.0f;
+    
+    return ComputeLight(tangentSpaceNormal, input.uv, input.eye, input.lightDir);
 }
 
 

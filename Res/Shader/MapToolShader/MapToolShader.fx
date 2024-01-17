@@ -1,4 +1,5 @@
 #include "MapToolGlobalShader.fx"
+#include "MapToolLight.fx"
 
 Texture2D MapBaseTexture;
 Texture2D MapAlphaTexture;
@@ -41,6 +42,9 @@ float4 PS(PNCTOutput input) : SV_TARGET
     result = lerp(result, texColor3, alpha.b);
     result = lerp(result, texColor4, alpha.a);
 	
+    float val = dot(normalize(input.normal), -GlobalLight.direction);
+    result = result * val * GlobalLight.diffuse;
+    
     return result;
 }
 

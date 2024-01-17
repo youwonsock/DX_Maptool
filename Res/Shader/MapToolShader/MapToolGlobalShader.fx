@@ -22,8 +22,10 @@ struct VertexModel
     float3 normal : NORMAL;
     float2 uv : TEXCOORD;
     float3 tangent : TANGENT;
-    float4 blendIndices : BLENDINDICES;
-    float4 blendWeights : BLENDWEIGHT;
+    
+    // skinning animation
+    //float4 blendIndices : BLENDINDICES;
+    //float4 blendWeights : BLENDWEIGHT;
     
     uint instanceID : SV_INSTANCEID;
     matrix world : INST;
@@ -46,10 +48,13 @@ struct PNCTVertex
 struct MeshOutput
 {
     float4 position : SV_POSITION;
-    float3 normal : NORMAL;
     float2 uv : TEXCOORD;
+    float3 eye : EYE;
+    float3 lightDir : LIGHTDIR;
+    
     float3 worldPosition : POSITION1;
-    float3 tangent : TANGENT;
+    
+    //float3 tangent : TANGENT;
 };
 
 struct PNCTOutput
@@ -126,7 +131,6 @@ pass name                                               \
 float3 GetCameraPosition()
 {
     return ViewInverse._41_42_43;
-    
 }
 
 #endif

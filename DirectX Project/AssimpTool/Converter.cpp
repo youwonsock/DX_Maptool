@@ -169,6 +169,10 @@ void Converter::ReadMeshData(aiNode* node, int bone)
 			vertex.normal.Normalize();
 			std::swap(vertex.normal.y, vertex.normal.z);
 
+			// Tangent
+			if (srcMesh->HasTangentsAndBitangents())
+				::memcpy(&vertex.tangent, &srcMesh->mTangents[v], sizeof(Vector3));
+
 			mesh->vertices.push_back(vertex);
 		}
 
@@ -291,6 +295,10 @@ void Converter::ReadMaterialData()
 		aiColor3D color;
 		//ambient
 		srcMaterial->Get(AI_MATKEY_COLOR_AMBIENT, color);
+
+		if (color.r < 0.1f && color.g < 0.1f && color.b < 0.1f)
+			color = aiColor3D(0.1f, 0.1f, 0.1f);
+
 		material->ambient = Color(color.r, color.g, color.b, 1.f);
 
 		//diffuse

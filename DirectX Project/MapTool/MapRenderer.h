@@ -8,6 +8,8 @@ private:
 	Matrix view;
 	Matrix proj;
 
+	LightDesc lightDesc;
+
 public:
 	void Update();
 	void Init();

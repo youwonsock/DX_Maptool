@@ -151,5 +151,8 @@
     <FxCompile Include="..\..\Res\Shader\MapToolShader\MapToolGlobalShader.fx">
       <Filter>소스 파일\Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\Res\Shader\MapToolShader\MapToolLight.fx">
+      <Filter>소스 파일\Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

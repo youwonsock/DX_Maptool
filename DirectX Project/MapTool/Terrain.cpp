@@ -88,6 +88,9 @@ void Terrain::Update()
 
 	spaceDivideTree->Update();
 	mapRenderer->Update();
+
+	// normal test
+	//CalcPerVertexNormalsFastLookup();
 }
 
 bool save = false;
@@ -494,7 +497,7 @@ void Terrain::CalcPerVertexNormalsFastLookup()
 		vertices[i].normal = avgNormal;
 	}
 
-	CalcVertexColor(Vector3(0,-1,0));
+	//CalcVertexColor(Vector3(0,-1,0));
 }
 
 void Terrain::CalcFaceNormals()
