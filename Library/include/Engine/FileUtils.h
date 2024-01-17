@@ -1,7 +1,5 @@
 #pragma once
 
-#define NULL_NUM 3435973836
-
 enum FileMode : UINT
 {
 	Read = 0,
@@ -38,26 +36,29 @@ public:
 
 
 	template<typename T>
-	__declspec(noinline) void Read(OUT T& data)
+	__declspec(noinline) bool Read(OUT T& data)
 	{
 		DWORD numOfBytes = 0;
 
 		auto t = ::ReadFile(handle, &data, sizeof(T), (LPDWORD)&numOfBytes, nullptr);
 
 		if(t && numOfBytes == 0)
-			return;
+			return false;
 
-		assert(t);
+		return true;
 	}
 	template<typename T>
 	__declspec(noinline) T Read()
 	{
 		T data;
-		Read(data);
+
+		if(!Read(data))
+			ZeroMemory(&data, sizeof(T));
+
 		return data;
 	}
 
 	__declspec(noinline) void Read(void** data, unsigned __int32 dataSize);
-	__declspec(noinline) void Read(OUT std::string& data);
+	__declspec(noinline) bool Read(OUT std::string& data);
 };
 

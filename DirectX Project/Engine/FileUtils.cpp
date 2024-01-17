@@ -74,16 +74,18 @@ void FileUtils::Read(void** data, unsigned __int32 dataSize)
 	assert(t);
 }
 
-void FileUtils::Read(OUT std::string& data)
+bool FileUtils::Read(OUT std::string& data)
 {
 	unsigned __int32 size = Read<unsigned __int32>();
 
-	if (size == 0 || size == NULL_NUM)
-		return;
+	if (size == 0)
+		return false;
 
 	char* temp = new char[size + 1];
 	temp[size] = 0;
 	Read((void**)&temp, size);
 	data = temp;
 	delete[] temp;
+	
+	return true;
 }

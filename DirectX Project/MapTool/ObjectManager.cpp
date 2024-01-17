@@ -162,7 +162,13 @@ void ObjectManager::Save(std::wstring sceneFilePath)
 				file->Write<int>(nodeIdx);
 
 			file->Write<Vector3>(obj->GetTransform()->GetWorldPosition());
-			file->Write<Vector3>(obj->GetTransform()->GetWorldRotation());
+
+			Vector3 rot = obj->GetTransform()->GetWorldRotation();
+			rot.x = XMConvertToDegrees(rot.x);
+			rot.y = XMConvertToDegrees(rot.y);
+			rot.z = XMConvertToDegrees(rot.z);
+			file->Write<Vector3>(rot);
+
 			file->Write<Vector3>(obj->GetTransform()->GetWorldScale());
 		}
 	}

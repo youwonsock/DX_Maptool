@@ -19,16 +19,16 @@ void Splatting::TillingTexture(Vector3 centerPos, float brushSize, std::vector<P
 		switch (tillingTexNum)
 		{
 		case(0):
-			vertexList[i].color.x += distance;
-			vertexList[i].color.x = std::clamp(vertexList[i].color.x, 0.0f, 255.0f);
+			vertexList[i].color.z += distance;
+			vertexList[i].color.z = std::clamp(vertexList[i].color.z, 0.0f, 255.0f);
 			break;
 		case(1):
 			vertexList[i].color.y += distance;
 			vertexList[i].color.y = std::clamp(vertexList[i].color.y, 0.0f, 255.0f);
 			break;
 		case(2):
-			vertexList[i].color.z += distance;
-			vertexList[i].color.z = std::clamp(vertexList[i].color.z, 0.0f, 255.0f);
+			vertexList[i].color.x += distance;
+			vertexList[i].color.x = std::clamp(vertexList[i].color.x, 0.0f, 255.0f);
 			break;
 		case(3):
 			vertexList[i].color.w += distance;
@@ -142,6 +142,8 @@ void Splatting::ShowUI()
 			case(3):
 				texture4->Load(Utils::StringToWString(filePathName));
 				shader->GetSRV("Texture4")->SetResource(texture4->GetShaderResourceView().Get());
+				break;
+			case(4):
 				break;
 			default:
 				texture1->Load(Utils::StringToWString(filePathName));
