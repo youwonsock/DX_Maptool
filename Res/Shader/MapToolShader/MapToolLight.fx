@@ -45,6 +45,40 @@ cbuffer MaterialBuffer
 /// constant buffer ///
 
 
+
+/// Function ///
+
+float ComputeFresnel_Map(float3 reflect, float3 normal, float F0)
+{
+    float cosAngle = 1 - saturate(dot(reflect, normal));
+    float result = pow(cosAngle, 5.0f);
+    result = saturate(mad(result, 1 - saturate(F0), F0));
+    return result;
+}
+
+float ComputeFresnel_Light(float3 light, float3 normal, float F0)
+{
+    float cosAngle = 1 - saturate(dot(light, normal));
+    float result = cosAngle * cosAngle;
+    result = result * result;
+    result = result * cosAngle;
+    result = saturate(mad(result, 1 - saturate(F0), F0));
+    return result;
+}
+
+float3 Refraction(float3 normal, float3 incident, float eta)
+{
+    float cosl = dot(normal, incident);
+    float cosT2 = 1.0f - eta * eta * (1.0f - cosl * cosl);
+    
+    return eta * incident - (eta * cosl + sqrt(abs(cosT2))) * normal;
+}
+
+float3 GetHalfVector(float3 lightDirection, float3 viewDirection)
+{
+    return normalize(lightDirection + viewDirection);
+}
+
 float4 ComputeLight(float3 normal, float2 uv, float3 eye, float3 lightDirection)
 {
     float4 ambientColor = 0;

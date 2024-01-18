@@ -1,4 +1,3 @@
-#include "MapToolGlobalShader.fx"
 #include "MapToolLight.fx"
 
 Texture2D MapBaseTexture;

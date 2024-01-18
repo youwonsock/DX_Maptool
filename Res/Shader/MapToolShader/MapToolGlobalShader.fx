@@ -85,6 +85,13 @@ SamplerState PointSampler
     AddressV = Wrap;
 };
 
+SamplerState ClampSampler
+{
+    Filter = MIN_MAG_MIP_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
+};
+
 /// Sampler State ///
 
 

@@ -23,13 +23,13 @@ void MapRenderer::Init()
 	cubemapSRV = skyboxShader->GetSRV("CubeMapTexture");
 	HRESULT hr = cubemapSRV->SetResource(cubemapTexture->GetShaderResourceView().Get());
 
-	boxs = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
+	box = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
+
+	mappingMesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
 }
 
 void MapRenderer::Render()
 {
-
-
 	UINT stride = box->GetVertexBuffer()->GetStride();
 	UINT offset = box->GetVertexBuffer()->GetOffset();
 
@@ -39,6 +39,21 @@ void MapRenderer::Render()
 	Global::g_immediateContext->IASetIndexBuffer(box->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
 	skyboxShader->DrawIndexed(0, 0, box->GetIndexBuffer()->GetIndexCount());
+
+	// 환경 매핑
+	{
+		transformDesc.World = Matrix::CreateScale(10);
+
+		skyboxShader->PushTransformData(transformDesc);
+
+		stride = mappingMesh->GetVertexBuffer()->GetStride();
+		offset = mappingMesh->GetVertexBuffer()->GetOffset();
+
+		Global::g_immediateContext->IASetVertexBuffers(0, 1, mappingMesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+		Global::g_immediateContext->IASetIndexBuffer(mappingMesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+
+		skyboxShader->DrawIndexed(0, 1, mappingMesh->GetIndexBuffer()->GetIndexCount());
+	}
 }
 
 void MapRenderer::Update()
@@ -51,7 +66,7 @@ void MapRenderer::Update()
 	
 	skyboxShader->PushGlobalData(view, proj);
 	
-	transformDesc.World = CameraManager::GetInstance().GetMainCamera()->GetTransform()->GetWorldMatrix();
+	transformDesc.World = Matrix::Identity;
 	skyboxShader->PushTransformData(transformDesc);
 
 	// set global light

@@ -1,4 +1,4 @@
-#include "MapToolGlobalShader.fx"
+#include "MapToolLight.fx"
 
 TextureCube CubeMapTexture;
 
@@ -27,10 +27,51 @@ PNTROutput VS(PNCTVertex input)
 
 float4 PS(PNTROutput input) : SV_TARGET
 {
-    float4 fColor = float4(1, 1, 1, 1);
-    fColor = CubeMapTexture.Sample(PointSampler, input.Reflect);
+    float4 fColor = CubeMapTexture.Sample(PointSampler, input.Reflect);
     return fColor;
 }
+
+
+struct PNFROutput
+{
+    float4 position : SV_POSITION;
+    float3 normal : NORMAL;
+    float3 Refraction : TEXCOORD0; // ±¼Àý
+    float3 Reflect : TEXCOORD1;    // ¹Ý»ç
+};
+
+PNFROutput Object_VS(PNCTVertex input)
+{
+    PNFROutput output = (PNFROutput) 0;
+    
+    float4 vWorldPos = mul(float4(input.position.xyz, 1.0f), World);
+    float4 vViewPos = mul(vWorldPos, View);
+    output.position = mul(vViewPos, Projection);
+    float3 Incident = normalize(vWorldPos.xyz - GetCameraPosition());
+    float3 vNormal = normalize(mul(input.normal, (float3x3) World));
+    
+    output.normal = vNormal;
+    output.Reflect = normalize(reflect(Incident, vNormal));
+    output.Refraction = normalize(Refraction(Incident, vNormal, 1.33f));
+    
+    return output;
+}
+
+float4 Object_PS(PNFROutput input) : SV_TARGET
+{
+    float4 ReflectedColor = CubeMapTexture.Sample(ClampSampler, input.Reflect);
+    float4 RefractedColor = CubeMapTexture.Sample(ClampSampler, input.Refraction);
+    
+    // ref_at_norm_incidence = 1
+    float R0 = pow(1.0 - 1, 2.0) / pow(1.0 + 1, 2.0);
+    float fresnel = ComputeFresnel_Map(input.Reflect, input.normal, R0);
+    
+    float4 color = lerp(RefractedColor, ReflectedColor, fresnel * 2);
+    color.a = 1.0f;
+    
+    return color;
+}
+
 
 technique11 T0
 {
@@ -39,5 +80,12 @@ technique11 T0
         SetRasterizerState(FrontCounterClockwise);
         SetVertexShader(CompileShader(vs_5_0, VS()));
         SetPixelShader(CompileShader(ps_5_0, PS()));
+    }
+
+    pass P1
+    {
+       // SetRasterizerState(FrontCounterClockwise);
+        SetVertexShader(CompileShader(vs_5_0, Object_VS()));
+        SetPixelShader(CompileShader(ps_5_0, Object_PS()));
     }
 };
