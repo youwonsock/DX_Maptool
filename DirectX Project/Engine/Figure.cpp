@@ -174,9 +174,9 @@ Cube Cube::GetOBBCube(Matrix worldMat)
 	obbCube.max = obbCube.points[5];
 
 	float x, y, z;
-	x = (points[1] - points[0]).Length() * worldMat._11;
-	y = (points[0] - points[2]).Length() * worldMat._22;
-	z = (points[4] - points[0]).Length() * worldMat._33;
+	x = (obbCube.points[1] - obbCube.points[0]).Length();
+	y = (obbCube.points[0] - obbCube.points[2]).Length();
+	z = (obbCube.points[4] - obbCube.points[0]).Length();
 	obbCube.size = Vector3(x, y, z);
 
 	return obbCube;

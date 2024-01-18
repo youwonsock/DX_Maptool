@@ -2,6 +2,8 @@
 
 class SectionNode;
 
+class DebugDrawer;
+
 class ObjectManager
 {
 private:
@@ -23,8 +25,8 @@ private:
 	void ReadObjectModelNameList();
 
 public:
-	std::shared_ptr<GameObject> SpawnObject(Vector3& spawnPoint);
-	std::shared_ptr<GameObject> ShowObjectPickingUI();
+	void SpawnObject(Vector3& spawnPoint);
+	void ShowObjectPickingUI();
 	
 	void ObjectPicking(Ray& ray);
 	void ShowObjectUI();
@@ -32,8 +34,11 @@ public:
 	void Save(std::wstring sceneFilePath);
 	void Load(std::wstring sceneFilePath);
 
-
 	void Init(std::wstring sceneFilePath);
+
+
+	//show bounding box
+	void ShowBoundingBox(std::shared_ptr<DebugDrawer>& debugDraw);
 
 	ObjectManager();
 	~ObjectManager();

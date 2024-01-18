@@ -122,8 +122,7 @@ void Splatting::ShowUI()
 	{
 		if (ImGuiFileDialog::Instance()->IsOk())
 		{
-			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
-			std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+			std::string filePathName = "../../Res/Textures/" + ImGuiFileDialog::Instance()->GetCurrentFileName();
 
 			switch (tillingTexNum)
 			{

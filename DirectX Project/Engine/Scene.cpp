@@ -3,75 +3,44 @@
 
 #include "GameObject.h"
 
-#include "MeshRenderer.h"
-#include "ModelRenderer.h"
-#include "ModelAnimator.h"
-
-#include "Model.h"
+#include "Collision.h"
+#include "Transform.h"
+#include "Camera.h"
 
 void Scene::Init()
 {
-	for(auto& gameObject : gameObjectsMap)
-	{ 
-		for (auto& gameObject : gameObject.second)
-			gameObject->Init();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->Init();
 }
 
 void Scene::BeginPlay()
 {
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-			gameObject->BeginPlay();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->BeginPlay();
 }
 
 void Scene::FixedUpdate()
 {
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-			gameObject->FixedUpdate();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->FixedUpdate();
 }
 
 void Scene::Update()
 {
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-			gameObject->Update();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->Update();
 }
 
 void Scene::PostUpdate()
 {
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-			gameObject->PostUpdate();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->PostUpdate();
 }
 
 void Scene::PreRender()
 {
-	if (drawNodeIdxList.size() > 0)
-	{
-		for (auto& nodeIdx : drawNodeIdxList)
-		{
-			for (auto& gameObject : gameObjectsMap[nodeIdx])
-				gameObject->PreRender();
-		}
-	}
-	else
-	{
-		for (auto& gameObject : gameObjectsMap)
-		{
-			for (auto& gameObject : gameObject.second)
-				gameObject->PreRender();
-		}
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->PreRender();
 }
 
 void Scene::Render()
@@ -84,82 +53,52 @@ void Scene::Render()
 	return;*/
 
 	//instance render
-	std::set<std::shared_ptr<GameObject>> temp;
+	std::vector<std::shared_ptr<GameObject>> temp;
+	auto& frustum =	CameraManager::GetInstance().GetMainCamera()->GetFrustum();
 
-	if (drawNodeIdxList.size() > 0)
+	for (auto& gameObject : gameObjects)
 	{
-		for (auto& nodeIdx : drawNodeIdxList)
+		bool isDraw = true;
+
+		for (int j = 0; j < 6; ++j)
 		{
-			for (auto& gameObject : gameObjectsMap[nodeIdx])
+			if (!Collision::CubeToPlane(gameObject->GetTransform()->GetBoundingBox(), frustum.planes[j]))
 			{
-				if (!gameObject->isRender)
-				{
-					temp.insert(gameObject);
-					gameObject->isRender = true;
-				}
+				isDraw = false;
+				break;
 			}
 		}
-		InstancingManager::GetInstance().Render(temp);
+
+		if (isDraw)
+			temp.push_back(gameObject);
 	}
-	else
-	{
-		for (auto& gameObjects : gameObjectsMap)
-		{
-			for (auto& gameObject : gameObjects.second)
-			{
-				if (!gameObject->isRender)
-				{
-					temp.insert(gameObject);
-					gameObject->isRender = true;
-				}
-			}
-		}
-		InstancingManager::GetInstance().Render(temp);
-	}
+	
+	InstancingManager::GetInstance().Render(temp);
 }
 
 void Scene::PostRender()
 {
-	if (drawNodeIdxList.size() > 0)
-	{
-		for (auto& nodeIdx : drawNodeIdxList)
-		{
-			for (auto& gameObject : gameObjectsMap[nodeIdx])
-				gameObject->PostRender();
-		}
-	}
-	else
-	{
-		for (auto& gameObject : gameObjectsMap)
-		{
-			for (auto& gameObject : gameObject.second)
-				gameObject->PostRender();
-		}
-	}
-
-	drawNodeIdxList.clear();
+	for (auto& gameObject : gameObjects)
+		gameObject->PostRender();
 }
 
 void Scene::Release()
 {
-	for (auto& gameObject : gameObjectsMap)
-	{
-		for (auto& gameObject : gameObject.second)
-			gameObject->Release();
-	}
+	for (auto& gameObject : gameObjects)
+		gameObject->Release();
 }
 
-void Scene::Add(std::shared_ptr<GameObject> gameObject, int nodeIdx)
+void Scene::Add(std::shared_ptr<GameObject> gameObject)
 {
-	gameObjectsMap[nodeIdx].insert(gameObject);
+	gameObjects.insert(gameObject);
 
 	if (gameObject->GetLight() != nullptr)
 		lights.insert(gameObject);
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
+void Scene::Remove(std::shared_ptr<GameObject> gameObject)
 {
-	gameObjectsMap[nodeIdx].erase(gameObject);
+	gameObjects.erase(gameObject);
 
 	if (gameObject->GetLight() != nullptr)
 		lights.erase(gameObject);
@@ -167,10 +106,7 @@ void Scene::Remove(std::shared_ptr<GameObject> gameObject, int nodeIdx)
 
 void Scene::ClearScene()
 {
-	for (auto& gameObject : gameObjectsMap)
-		gameObject.second.clear();
-
-	gameObjectsMap.clear();
+	gameObjects.clear();
 	lights.clear();
 }
 

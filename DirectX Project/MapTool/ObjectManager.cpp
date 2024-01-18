@@ -4,6 +4,8 @@
 #include "SectionNode.h"
 #include "AssimpTool\Converter.h"
 
+#include "DebugDrawer.h"
+
 void ObjectManager::Init(std::wstring sceneFilePath)
 {
 	shader = ResourceManager::GetInstance().Load<Shader>(L"ObjectShader", L"Shader/MapToolShader/ObjectShader.fx");
@@ -26,19 +28,19 @@ void ObjectManager::ReadObjectModelNameList()
 	}
 }
 
-std::shared_ptr<GameObject> ObjectManager::SpawnObject(Vector3& spawnPoint)
+void ObjectManager::SpawnObject(Vector3& spawnPoint)
 {
 	std::shared_ptr<GameObject> obj = nullptr;
 
 	if(selectedModelIdx < 0)
-		return obj;
+		return;
 
 	// load model
 	std::wstring modelName = Utils::StringToWString(objectModelNameList[selectedModelIdx]);
 	auto model = ResourceManager::GetInstance().Load<Model>(modelName, modelName + L"/" + modelName, false);
 
 	if(model == nullptr)
-		return obj;
+		return;
 
 	// make object
 	obj = std::make_shared<GameObject>();
@@ -53,7 +55,7 @@ std::shared_ptr<GameObject> ObjectManager::SpawnObject(Vector3& spawnPoint)
 
 	obj->objectName = modelName + std::to_wstring(objectCount++);
 
-	return obj;
+	SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 }
 
 void ObjectManager::ObjectPicking(Ray& ray)
@@ -63,13 +65,12 @@ void ObjectManager::ObjectPicking(Ray& ray)
 		if (Collision::CubeToRay(obj->GetTransform()->GetBoundingBox(), ray))
 		{
 			pickObject = obj;
-			selectedObjectIdx = -1;
+			
+			selectedObjectIdx = std::find(objectList.begin(), objectList.end(), obj) - objectList.begin();
+
 			return;
 		}
 	}
-
-	pickObject = nullptr; 
-	selectedObjectIdx = -1;
 }
 
 void ObjectManager::ShowObjectUI()
@@ -157,10 +158,6 @@ void ObjectManager::Save(std::wstring sceneFilePath)
 		{
 			file->Write<std::string>(Utils::WStringToString(obj->objectName));
 
-			file->Write<int>(obj->groupNodeIdxList.size());
-			for (auto& nodeIdx : obj->groupNodeIdxList)
-				file->Write<int>(nodeIdx);
-
 			file->Write<Vector3>(obj->GetTransform()->GetWorldPosition());
 
 			Vector3 rot = obj->GetTransform()->GetWorldRotation();
@@ -200,14 +197,6 @@ void ObjectManager::Load(std::wstring sceneFilePath)
 		{
 			std::string objectName = file->Read<std::string>();
 
-			int groupNodeCount = file->Read<int>();
-			std::vector<int> groupNodeIdxList;
-			for (int i = 0; i < groupNodeCount; i++)
-			{
-				int nodeIdx = file->Read<int>();
-				groupNodeIdxList.push_back(nodeIdx);
-			}
-
 			Vector3 pos = file->Read<Vector3>();
 			Vector3 rot = file->Read<Vector3>();
 			Vector3 scale = file->Read<Vector3>();
@@ -233,19 +222,14 @@ void ObjectManager::Load(std::wstring sceneFilePath)
 
 			obj->objectName  =  Utils::StringToWString(objectName);
 			objectList.push_back(obj);
-
-			for(auto& nodeIdx : groupNodeIdxList)
-				obj->groupNodeIdxList.push_back(nodeIdx);
-
-			for (auto& nodeIdx : groupNodeIdxList)
-				SceneManager::GetInstance().GetCurrentScene()->Add(obj, nodeIdx);
+			SceneManager::GetInstance().GetCurrentScene()->Add(obj);
 
 			++count;
 		}
 	}
 }
 
-std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
+void ObjectManager::ShowObjectPickingUI()
 {
 	if (pickObject != nullptr || selectedObjectIdx != -1)
 	{
@@ -285,12 +269,15 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 		if (ImGui::Button("delete"))
 		{
 			objectList.erase(std::find(objectList.begin(), objectList.end(), pickObject));
-
-			for (auto& nodeIdx : pickObject->groupNodeIdxList)
-				SceneManager::GetInstance().GetCurrentScene()->Remove(pickObject, nodeIdx);
+			SceneManager::GetInstance().GetCurrentScene()->Remove(pickObject);
 
 			pickObject = nullptr;
-			selectedObjectIdx = -1;
+
+			if(objectList.size() > 0)	
+				selectedObjectIdx = selectedObjectIdx % objectList.size();
+			else 
+				selectedObjectIdx = -1;
+
 			--objectCount;
 		}
 	}
@@ -316,8 +303,12 @@ std::shared_ptr<GameObject> ObjectManager::ShowObjectPickingUI()
 		}
 		ImGui::EndListBox();
 	}
+}
 
-	return pickObject;
+void ObjectManager::ShowBoundingBox(std::shared_ptr<DebugDrawer>& debugDraw)
+{
+	for (auto& obj : objectList)
+		debugDraw->DrawBox(obj->GetTransform()->GetBoundingBox(), Color(0,0,1,0));
 }
 
 ObjectManager::ObjectManager()

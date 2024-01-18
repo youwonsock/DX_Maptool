@@ -10,7 +10,7 @@
 #include "Transform.h"
 #include "Shader.h"
 
-void InstancingManager::Render(std::set<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObjects)
 {
 	ClearData();
 	ClearBuffer();
@@ -20,7 +20,7 @@ void InstancingManager::Render(std::set<std::shared_ptr<GameObject>>& gameObject
 	RenderAnimRenderer(gameObjects);
 }
 
-void InstancingManager::RenderMeshRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderMeshRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 
@@ -54,7 +54,7 @@ void InstancingManager::RenderMeshRenderer(std::set<std::shared_ptr<GameObject>>
 	}
 }
 
-void InstancingManager::RenderModelRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 
@@ -93,7 +93,7 @@ void InstancingManager::RenderModelRenderer(std::set<std::shared_ptr<GameObject>
 	}
 }
 
-void InstancingManager::RenderAnimRenderer(std::set<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::RenderAnimRenderer(std::vector<std::shared_ptr<GameObject>>& gameObjects)
 {
 	std::map<InstanceID, std::vector<std::shared_ptr<GameObject>>> cache;
 

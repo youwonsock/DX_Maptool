@@ -97,8 +97,6 @@ void GameObject::PostRender()
 
 	for (auto& script : scriptArr)
 		script->PostRender();
-
-	isRender = false;
 }
 
 void GameObject::Release()

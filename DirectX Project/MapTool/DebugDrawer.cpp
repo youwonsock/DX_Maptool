@@ -37,8 +37,6 @@ void DebugDrawer::DrawBox(Cube box, Color color)
 {
 	std::vector<PNCTVertex> vtx(24);
 
-	
-
 	float w2 = 0.5f;
 	float h2 = 0.5f;
 	float d2 = 0.5f;
@@ -49,14 +47,14 @@ void DebugDrawer::DrawBox(Cube box, Color color)
 	Vector3 c0, c1, c2, c3, c4, c5, c6, c7;
 	Vector3 size = box.size;
 
-	c0 = box.min; c0.y += size.y;
-	c1 = box.min; c1.x += size.x; c1.y += size.y;
-	c2 = box.min;
-	c3 = box.min; c3.x += size.x;
-	c4 = box.min; c4.z += size.z; c4.y += size.y;
-	c5 = box.max;
-	c6 = box.min; c6.z += size.z;
-	c7 = box.max; c7.y -= size.y;
+	c0 = box.points[0];
+	c1 = box.points[1]; 
+	c2 = box.points[2]; 
+	c3 = box.points[3]; 
+	c4 = box.points[4]; 
+	c5 = box.points[5]; 
+	c6 = box.points[6]; 
+	c7 = box.points[7]; 
 
 	// ¾Õ¸é
 	vtx[0] = PNCTVertex(c0, Vector2(0.0f, 0.0f), color, Vector3(0.0f, 0.0f, 0.0f));

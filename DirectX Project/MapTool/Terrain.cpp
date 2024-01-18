@@ -72,16 +72,23 @@ void Terrain::Update()
 					if(InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
 						spaceDivideTree->SpawnObject(pickPoint);
 					break;
-				case(Mode_ObjPicking):
-					if (InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
-						spaceDivideTree->ObjectPicking(ray);
-					break;
 				default:
 					break;
 				}
 
 				// update vertex buffer
-				spaceDivideTree->UpdateVertex(picking->UpdateNodeIdxList);
+
+				if(mode != Mode_Object && mode != Mode_ObjPicking)
+					spaceDivideTree->UpdateVertex(picking->UpdateNodeIdxList);
+			}
+			switch (mode)
+			{
+			case(Mode_ObjPicking):
+				if (InputManager::GetInstance().GetMouseState(0) == KeyState::PUSH)
+					spaceDivideTree->ObjectPicking(ray);
+				break;
+			default:
+				break;
 			}
 		}
 	}

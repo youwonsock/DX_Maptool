@@ -7,7 +7,7 @@ matrix ProjectionD;
 PNCTOutput VS(PNCTVertex input)
 {
     PNCTOutput output;
-    output.position = mul(input.position, WorldD);
+    output.position = input.position, WorldD;
     output.position = mul(output.position, ViewD);
     output.position = mul(output.position, ProjectionD);
 	
@@ -20,7 +20,7 @@ PNCTOutput VS(PNCTVertex input)
 
 float4 PS(PNCTOutput input) : SV_TARGET
 {
-    return float4(1,0,0,1);
+    return input.color;
 }
 
 technique11 T0

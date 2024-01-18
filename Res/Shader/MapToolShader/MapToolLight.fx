@@ -61,7 +61,7 @@ float4 ComputeLight(float3 normal, float2 uv, float3 eye, float3 lightDirection)
     //diffuse
     {
         float4 color = DiffuseMap.Sample(LinearSampler, uv);
-        float val = dot(normalize(normal), lightDirection);
+        float val = dot(normalize(normal), -lightDirection);
         diffuseColor = color * val * Matreal.diffuse * GlobalLight.diffuse;
     }
     

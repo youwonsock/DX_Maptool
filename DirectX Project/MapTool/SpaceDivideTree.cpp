@@ -119,6 +119,8 @@ void SpaceDivideTree::Update()
                 debugDraw->DrawBox(box->boundingBox, Vector4(1, 0, 0, 0));
             }
         }
+
+        objectManager->ShowBoundingBox(debugDraw);
     }
     
 	FindDrawNode();
@@ -160,41 +162,12 @@ void SpaceDivideTree::ObjectPicking(Ray& ray)
 
 void SpaceDivideTree::ShowObjectPickingUI()
 {
-    auto obj = objectManager->ShowObjectPickingUI();
-
-    if (obj == nullptr)
-        return;
-
-    // delete from scene
-    for (auto& nodeIdx : obj->groupNodeIdxList)
-		SceneManager::GetInstance().GetCurrentScene()->Remove(obj, nodeIdx);
-
-    obj->groupNodeIdxList.clear();
-    for (auto& leafNode : leafNodeMap)
-    {
-        if (Collision::CubeToCube(leafNode.second->boundingBox, obj->GetTransform()->GetBoundingBox()))
-        {
-            obj->groupNodeIdxList.push_back(leafNode.first);
-            SceneManager::GetInstance().GetCurrentScene()->Add(obj, leafNode.first);
-        }
-    }
+    objectManager->ShowObjectPickingUI();
 }
 
 void SpaceDivideTree::SpawnObject(Vector3& spawnPoint)
 {
-    auto obj = objectManager->SpawnObject(spawnPoint);
-
-    if(obj == nullptr)
-		return;
-
-    for (auto& leafNode : leafNodeMap)
-    {
-        if (Collision::CubeToCube(leafNode.second->boundingBox, obj->GetTransform()->GetBoundingBox()))
-        {
-            obj->groupNodeIdxList.push_back(leafNode.first);
-            SceneManager::GetInstance().GetCurrentScene()->Add(obj, leafNode.first);
-        }
-    }
+    objectManager->SpawnObject(spawnPoint);
 }
 
 void SpaceDivideTree::UpdateVertex(std::vector<SHORT> updateNodeIdxList)
@@ -237,8 +210,6 @@ void SpaceDivideTree::FindDrawNode()
         if(isDraw)
 			drawNodeIndexList.push_back(leafNodeMap[i]->nodeIndex);
 	}
-
-    SceneManager::GetInstance().GetCurrentScene()->SetDrawNodeIdxList(drawNodeIndexList);
 }
 
 
