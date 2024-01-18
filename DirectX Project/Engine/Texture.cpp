@@ -278,3 +278,101 @@ void Texture::GetTextureRGBAData(std::vector<BYTE>& colors)
         }
     }
 }
+
+void Texture::CreateCubemapTexture(const std::wstring& path)
+{
+    this->path = path;
+
+    ComPtr<ID3D11Texture2D> texture;
+    auto imageobj = std::make_shared<DirectX::ScratchImage>();
+    DirectX::TexMetadata mdata;
+
+    // load dds Texture file
+    HRESULT hr = DirectX::GetMetadataFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, mdata);
+    if (SUCCEEDED(hr))
+    {
+        hr = DirectX::LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, &mdata, *imageobj);
+        if (SUCCEEDED(hr))
+        {
+            hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                , mdata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0
+                , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
+            if (SUCCEEDED(hr))
+            {
+                size.x = mdata.width;
+                size.y = mdata.height;
+                return;
+            }
+            else
+            {
+                Utils::ShowErrorMessage(hr);
+                return;
+            }
+        }
+        else
+        {
+            Utils::ShowErrorMessage(hr);
+            return;
+        }
+    }
+
+    // load png, jpg, etc Texture file
+    hr = DirectX::GetMetadataFromWICFile(path.c_str(), DirectX::WIC_FLAGS_NONE, mdata);
+    if (SUCCEEDED(hr))
+    {
+        hr = DirectX::LoadFromWICFile(path.c_str(), DirectX::WIC_FLAGS_NONE, &mdata, *imageobj);
+        if (SUCCEEDED(hr))
+        {
+            hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                , mdata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0
+                , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
+            if (SUCCEEDED(hr))
+            {
+                size.x = mdata.width;
+                size.y = mdata.height;
+                return;
+            }
+            else
+            {
+                Utils::ShowErrorMessage(hr);
+                return;
+            }
+        }
+        else
+        {
+            Utils::ShowErrorMessage(hr);
+            return;
+        }
+    }
+
+    // load tga Texture file
+    hr = DirectX::GetMetadataFromTGAFile(path.c_str(), DirectX::TGA_FLAGS_NONE, mdata);
+    if (SUCCEEDED(hr))
+    {
+        hr = DirectX::LoadFromTGAFile(path.c_str(), DirectX::TGA_FLAGS_NONE, &mdata, *imageobj);
+        if (SUCCEEDED(hr))
+        {
+            hr = DirectX::CreateShaderResourceViewEx(Global::g_device.Get(), imageobj->GetImages(), imageobj->GetImageCount()
+                , mdata, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0
+                , CREATETEX_DEFAULT, shaderResourceView.ReleaseAndGetAddressOf());
+            if (SUCCEEDED(hr))
+            {
+                size.x = mdata.width;
+                size.y = mdata.height;
+                return;
+            }
+            else
+            {
+                Utils::ShowErrorMessage(hr);
+                return;
+            }
+        }
+        else
+        {
+            Utils::ShowErrorMessage(hr);
+            return;
+        }
+    }
+
+    return;
+}

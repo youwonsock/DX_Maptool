@@ -1,7 +1,6 @@
 #include "MapToolGlobalShader.fx"
 
-TextureCube cubeMapTexture;
-SamplerState pointClamp;
+TextureCube CubeMapTexture;
 
 struct PNTROutput
 {
@@ -14,9 +13,10 @@ struct PNTROutput
 PNTROutput VS(PNCTVertex input)
 {
     PNTROutput output = (PNTROutput) 0;
-
-    output.position = mul(input.position, World);
-    output.position = mul(output.position, ViewProjection);
+    
+    float4 viewPosition = mul(float4(input.position.xyz, 0), View);
+    output.position = mul(viewPosition, Projection);
+    output.position.z = output.position.w * 0.999999f;
     
     output.normal = input.normal;
     output.uv = input.uv;
@@ -28,7 +28,7 @@ PNTROutput VS(PNCTVertex input)
 float4 PS(PNTROutput input) : SV_TARGET
 {
     float4 fColor = float4(1, 1, 1, 1);
-    fColor = cubeMapTexture.Sample(pointClamp, input.Reflect);
+    fColor = CubeMapTexture.Sample(PointSampler, input.Reflect);
     return fColor;
 }
 

@@ -33,5 +33,8 @@ public:
 	void SaveTexture(const std::wstring& path);
 
 	void GetTextureRGBAData(std::vector<BYTE>& colors);
+
+	// get cubemap 
+	void CreateCubemapTexture(const std::wstring& path);
 };
 

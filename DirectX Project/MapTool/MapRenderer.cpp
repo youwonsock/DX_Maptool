@@ -16,11 +16,33 @@ void MapRenderer::Init()
 
 
 	skyboxShader = ResourceManager::GetInstance().Load<Shader>(L"SkyboxShader", L"Shader/MapToolShader/SkyBox.fx");
-	cubemapTexture->Load(L"../../Res/Textures/Terrain/grassenvmap1024.dds");
+	cubemapTexture = std::make_shared<Texture>();
+	cubemapTexture->CreateCubemapTexture(L"../../Res/Textures/Terrain/grassenvmap1024.dds");
+
+
+	cubemapSRV = skyboxShader->GetSRV("CubeMapTexture");
+	HRESULT hr = cubemapSRV->SetResource(cubemapTexture->GetShaderResourceView().Get());
+
+	boxs = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
+}
+
+void MapRenderer::Render()
+{
+
+
+	UINT stride = box->GetVertexBuffer()->GetStride();
+	UINT offset = box->GetVertexBuffer()->GetOffset();
+
+	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	Global::g_immediateContext->IASetVertexBuffers(0, 1, box->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+	Global::g_immediateContext->IASetIndexBuffer(box->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+
+	skyboxShader->DrawIndexed(0, 0, box->GetIndexBuffer()->GetIndexCount());
 }
 
 void MapRenderer::Update()
-{z
+{
 	view = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
 	proj = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
 

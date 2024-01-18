@@ -32,6 +32,7 @@ public:
 	ComPtr<ID3DX11EffectMatrixVariable> GetMatrix(std::string name);
 	ComPtr<ID3DX11EffectStringVariable> GetString(std::string name);
 	ComPtr<ID3DX11EffectShaderResourceVariable> GetSRV(std::string name);
+	ComPtr<ID3DX11EffectShaderResourceVariable> GetCubemapSRV(std::string name);
 	ComPtr<ID3DX11EffectRenderTargetViewVariable> GetRTV(std::string name);
 	ComPtr<ID3DX11EffectDepthStencilViewVariable> GetDSV(std::string name);
 	ComPtr<ID3DX11EffectUnorderedAccessViewVariable> GetUAV(std::string name);

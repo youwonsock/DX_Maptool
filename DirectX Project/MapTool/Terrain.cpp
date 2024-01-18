@@ -266,6 +266,8 @@ void Terrain::PostUpdate()
 void Terrain::Render()
 {
 	spaceDivideTree->Render();
+
+	mapRenderer->Render();
 }
 
 void Terrain::SaveMapData(std::wstring mapDataPath)
