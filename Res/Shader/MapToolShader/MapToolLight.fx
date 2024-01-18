@@ -52,17 +52,17 @@ float4 ComputeLight(float3 normal, float2 uv, float3 eye, float3 lightDirection)
     float4 specularColor = 0;
     float4 emissiveColor = 0;
     
+    float4 defaultColor = DiffuseMap.Sample(LinearSampler, uv);
+    
     // ambient
     {
-        float4 color = GlobalLight.ambient * Matreal.ambient;
-        ambientColor = DiffuseMap.Sample(LinearSampler, uv) * color;
+        ambientColor = GlobalLight.ambient * Matreal.ambient;
     }
     
     //diffuse
     {
-        float4 color = DiffuseMap.Sample(LinearSampler, uv);
         float val = dot(normalize(normal), -lightDirection);
-        diffuseColor = color * val * Matreal.diffuse * GlobalLight.diffuse;
+        diffuseColor = val * Matreal.diffuse * GlobalLight.diffuse;
     }
     
     //specular
@@ -87,7 +87,8 @@ float4 ComputeLight(float3 normal, float2 uv, float3 eye, float3 lightDirection)
         emissiveColor = GlobalLight.emissive * Matreal.emissive * emissive;
     }
     
-    return ambientColor + diffuseColor + specularColor + emissiveColor;
+    float3 color = ambientColor + diffuseColor + specularColor + emissiveColor;
+    return defaultColor * float4(color.xyz, 1.0);
 }
 
 float3x3 ComputeTBN(float3 normal, float3 tangent)

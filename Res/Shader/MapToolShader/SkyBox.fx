@@ -1,26 +1,35 @@
-#include "Global.fx"
+#include "MapToolGlobalShader.fx"
 
-Texture2D Texture0;
-Matrix view;
-Matrix projection;
+TextureCube cubeMapTexture;
+SamplerState pointClamp;
 
-PNCTOutput VS(PNCTVertex input)
+struct PNTROutput
 {
-    PNCTOutput output;
-    output.position = mul(float4(input.position.xyz, 0), view);
-    output.position = mul(output.position, projection);
-    output.position.z = output.position.w * 0.999999f;
+    float4 position : SV_POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD0;
+    float3 Reflect : TEXCOORD1;
+};
+
+PNTROutput VS(PNCTVertex input)
+{
+    PNTROutput output = (PNTROutput) 0;
+
+    output.position = mul(input.position, World);
+    output.position = mul(output.position, ViewProjection);
     
+    output.normal = input.normal;
     output.uv = input.uv;
-	output.normal = input.normal;
-	output.color = input.color;
-	
-	return output;
+    output.Reflect = normalize(input.position.xyz);
+    
+    return output;
 }
 
-float4 PS(PNCTOutput input) : SV_TARGET
+float4 PS(PNTROutput input) : SV_TARGET
 {
-    return Texture0.Sample(LinearSampler, input.uv);
+    float4 fColor = float4(1, 1, 1, 1);
+    fColor = cubeMapTexture.Sample(pointClamp, input.Reflect);
+    return fColor;
 }
 
 technique11 T0
