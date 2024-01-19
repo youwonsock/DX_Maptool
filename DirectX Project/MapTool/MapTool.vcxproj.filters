@@ -90,6 +90,9 @@
     <ClInclude Include="MapRenderer.h">
       <Filter>소스 파일\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="DepthMapShadow.h">
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="MapRenderer.cpp">
       <Filter>소스 파일\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthMapShadow.cpp">
+      <Filter>소스 파일\MapToolClasses\Terrain Class</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

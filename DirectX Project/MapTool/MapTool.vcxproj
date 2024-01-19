@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DebugDrawer.h" />
+    <ClInclude Include="DepthMapShadow.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="ObjectManager.h" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugDrawer.cpp" />
+    <ClCompile Include="DepthMapShadow.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="ObjectManager.cpp" />

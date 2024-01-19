@@ -18,8 +18,6 @@ public:
 	virtual ~Texture();
 
 	virtual bool Load(const std::wstring& path) override;
-
-	virtual void LoadDefaultFlagTexture(const std::wstring& path);
 	
 	ComPtr<ID3D11ShaderResourceView> GetShaderResourceView() { return shaderResourceView; }
 	ComPtr<ID3D11Texture2D> GetTexture2D();
@@ -34,7 +32,8 @@ public:
 
 	void GetTextureRGBAData(std::vector<BYTE>& colors);
 
-	// get cubemap 
-	void CreateCubemapTexture(const std::wstring& path);
+	// cubemap 
+	void LoadCubemapTexture(const std::wstring& path);
+	void CreateCubemapTexture(float width, float hight);
 };
 

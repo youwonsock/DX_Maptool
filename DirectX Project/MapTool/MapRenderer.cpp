@@ -17,7 +17,7 @@ void MapRenderer::Init()
 
 	skyboxShader = ResourceManager::GetInstance().Load<Shader>(L"SkyboxShader", L"Shader/MapToolShader/SkyBox.fx");
 	cubemapTexture = std::make_shared<Texture>();
-	cubemapTexture->CreateCubemapTexture(L"../../Res/Textures/Terrain/grassenvmap1024.dds");
+	cubemapTexture->LoadCubemapTexture(L"../../Res/Textures/Terrain/grassenvmap1024.dds");
 
 
 	cubemapSRV = skyboxShader->GetSRV("CubeMapTexture");
@@ -42,7 +42,7 @@ void MapRenderer::Render()
 
 	// 환경 매핑
 	{
-		transformDesc.World = Matrix::CreateScale(10);
+		transformDesc.World = Matrix::CreateScale(100);
 
 		skyboxShader->PushTransformData(transformDesc);
 
@@ -72,7 +72,8 @@ void MapRenderer::Update()
 	// set global light
 	{
 		double gt = TimeManager::GetInstance().GetGameTime();
-		lightDesc.direction = Vector3(cosf(gt), -1.0f, sinf(gt));
+		//lightDesc.direction = Vector3(cosf(gt), -1.0f, sinf(gt));
+		lightDesc.direction = Vector3(1, -1.0f, 1);
 
 		objectShader->PushLightData(lightDesc);
 		terrainShader->PushLightData(lightDesc);

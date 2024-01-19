@@ -132,23 +132,6 @@ bool Texture::Load(const std::wstring& path)
     return false;
 }
 
-void Texture::LoadDefaultFlagTexture(const std::wstring& path)
-{
-    DirectX::TexMetadata md;
-    DirectX::ScratchImage _img;
-
-    HRESULT hr = ::LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, &md, _img);
-    if (FAILED(hr))
-		Utils::ShowErrorMessage(hr);
-
-    hr = ::CreateShaderResourceView(Global::g_device.Get(), _img.GetImages(), _img.GetImageCount(), md, shaderResourceView.GetAddressOf());
-    if (FAILED(hr))
-        Utils::ShowErrorMessage(hr);
-
-    size.x = md.width;
-    size.y = md.height;
-}
-
 void Texture::CreateTexture(int width, int height)
 {
     D3D11_TEXTURE2D_DESC desc;
@@ -279,7 +262,7 @@ void Texture::GetTextureRGBAData(std::vector<BYTE>& colors)
     }
 }
 
-void Texture::CreateCubemapTexture(const std::wstring& path)
+void Texture::LoadCubemapTexture(const std::wstring& path)
 {
     this->path = path;
 
@@ -375,4 +358,56 @@ void Texture::CreateCubemapTexture(const std::wstring& path)
     }
 
     return;
+}
+
+void Texture::CreateCubemapTexture(float width, float hight)
+{
+    D3D11_TEXTURE2D_DESC desc;
+	D3D11_SUBRESOURCE_DATA data;
+	ZeroMemory(&desc, sizeof(desc));
+	ZeroMemory(&data, sizeof(data));
+
+	BYTE* buf = new BYTE[width * hight * 4];
+
+    for (int i = 0; i < width * hight * 4; i)
+    {
+		buf[i + 0] = 0;
+		buf[i + 1] = 0;
+		buf[i + 2] = 0;
+		buf[i + 3] = 0;
+
+		i += 4;
+	}
+
+	data.pSysMem = (void*)buf;
+	data.SysMemPitch = width * 4;
+	data.SysMemSlicePitch = 0;
+
+	desc.Width = width;
+	desc.Height = hight;
+	desc.MipLevels = 1;
+	desc.ArraySize = 6;
+	desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.SampleDesc.Quality = 0;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+	desc.CPUAccessFlags = 0;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_TEXTURECUBE;
+
+	size.x = width;
+	size.y = hight;
+
+	ComPtr<ID3D11Texture2D> texture;
+	HRESULT hr = Global::g_device->CreateTexture2D(&desc, &data, texture.ReleaseAndGetAddressOf());
+
+	if (FAILED(hr))
+		Utils::ShowErrorMessage(hr);
+
+	hr = Global::g_device->CreateShaderResourceView(texture.Get(), nullptr, shaderResourceView.ReleaseAndGetAddressOf());
+
+	if (FAILED(hr))
+		Utils::ShowErrorMessage(hr);
+
+	delete[] buf;
 }

@@ -4,6 +4,7 @@
 *.lib
 *.dll
 [Rr]es/[Aa]ssets/
+[Rr]es/[Tt]extures/
 [Oo]utput/
 
 ### VisualStudioCode ###

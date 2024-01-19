@@ -44,7 +44,7 @@ PNFROutput Object_VS(PNCTVertex input)
 {
     PNFROutput output = (PNFROutput) 0;
     
-    float4 vWorldPos = mul(float4(input.position.xyz, 1.0f), World);
+    float4 vWorldPos = mul(input.position, World);
     float4 vViewPos = mul(vWorldPos, View);
     output.position = mul(vViewPos, Projection);
     float3 Incident = normalize(vWorldPos.xyz - GetCameraPosition());
@@ -62,12 +62,11 @@ float4 Object_PS(PNFROutput input) : SV_TARGET
     float4 ReflectedColor = CubeMapTexture.Sample(ClampSampler, input.Reflect);
     float4 RefractedColor = CubeMapTexture.Sample(ClampSampler, input.Refraction);
     
-    // ref_at_norm_incidence = 1
-    float R0 = pow(1.0 - 1, 2.0) / pow(1.0 + 1, 2.0);
+    float R0 = pow(1.0 - 1.33f, 2.0) / pow(1.0 + 1.33f, 2.0);
     float fresnel = ComputeFresnel_Map(input.Reflect, input.normal, R0);
     
     float4 color = lerp(RefractedColor, ReflectedColor, fresnel * 2);
-    color.a = 1.0f;
+    color.a = 1.f;
     
     return color;
 }
@@ -88,4 +87,4 @@ technique11 T0
         SetVertexShader(CompileShader(vs_5_0, Object_VS()));
         SetPixelShader(CompileShader(ps_5_0, Object_PS()));
     }
-};
+}; 
