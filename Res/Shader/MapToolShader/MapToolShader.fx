@@ -46,8 +46,7 @@ float4 PS(PNCTOutput input) : SV_TARGET
     float val = dot(normalize(input.normal), -GlobalLight.direction);
     result = result * val * GlobalLight.diffuse;
     
-    return GetAlbedo(input.uv, input.shadow);
-    //return result;
+    return result * GetAlbedo(input.uv, input.shadow);
 }
 
 float4 PS_RED(PNCTOutput input) : SV_TARGET

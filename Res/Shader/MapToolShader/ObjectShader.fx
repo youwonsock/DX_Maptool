@@ -106,9 +106,7 @@ float4 PS(MeshOutput input) : SV_TARGET
     float4 map = NormalMap.Sample(LinearSampler, input.uv);
     float3 tangentSpaceNormal = (map * 2.0f) - 1.0f;
     
-    //return ComputeLight(tangentSpaceNormal, input.uv, input.eye, input.lightDir);
-    
-    return GetAlbedo(input.uv, input.shadow);
+    return ComputeLight(tangentSpaceNormal, input.uv, input.eye, input.lightDir) * GetAlbedo(input.uv, input.shadow);
 }
 
 float4 PS_Depth(MeshOutput input) : SV_TARGET
