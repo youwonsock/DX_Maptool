@@ -6,6 +6,7 @@
 Texture2D DiffuseMap;
 Texture2D SpecularMap;
 Texture2D NormalMap;
+Texture2D ShadowMap;
 
 /// Struct ///
 
@@ -121,8 +122,26 @@ float4 ComputeLight(float3 normal, float2 uv, float3 eye, float3 lightDirection)
         emissiveColor = GlobalLight.emissive * Matreal.emissive * emissive;
     }
     
-    float3 color = ambientColor + diffuseColor + specularColor + emissiveColor;
+    float4 color = ambientColor + diffuseColor + specularColor + emissiveColor;
     return defaultColor * float4(color.xyz, 1.0);
+}
+
+float4 GetAlbedo(float2 uv, float4 shadow)
+{
+    float4 albedo = DiffuseMap.Sample(LinearSampler, uv);
+    
+    float3 vShadowProj;
+    vShadowProj.xy = shadow.xy / shadow.w;
+    float shadowMap = ShadowMap.Sample(ClampSampler, vShadowProj.xy);
+    
+    float depth = shadow.z;// * 1.0f / (1300.0f - 1.0f) + -1.0f / (1300.0f - 1.0f);
+    
+    if (shadowMap + 0.006f <= depth)
+    {
+        albedo = albedo * float4(0.5f, 0.5f, 0.5f, 1.0f);
+    }
+    
+    return albedo;
 }
 
 float3x3 ComputeTBN(float3 normal, float3 tangent)

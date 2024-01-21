@@ -448,3 +448,18 @@ void Shader::PushInstancedTweenData(const InstancedTweenDesc& desc)
 	instancedTweenEffectBuffer->SetConstantBuffer(instancedTweenBuffer->GetConstantBuffer().Get());
 }
 
+void Shader::PushShadowData(const ShadowDesc& desc)
+{
+	if (shadowEffectBuffer == nullptr)
+	{
+		shadowBuffer = std::make_shared<ConstantBuffer<ShadowDesc>>(Global::g_device, Global::g_immediateContext);
+		shadowBuffer->Create();
+		shadowEffectBuffer = GetConstantBuffer("ShadowBuffer");
+	}
+
+	shadowDesc = desc;
+
+	shadowBuffer->CopyData(desc);
+	shadowEffectBuffer->SetConstantBuffer(shadowBuffer->GetConstantBuffer().Get());
+}
+

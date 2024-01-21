@@ -14,6 +14,9 @@ public:
 	Vector3 Project(const Vector3& pos, const Matrix& world, const Matrix& view, const Matrix& projection);
 	Vector3 Unproject(const Vector3& pos, const Matrix& world, const Matrix& view, const Matrix& projection);
 
+	void SetWidth(float width) { viewport.Width = width; }
+	void SetHeight(float height) { viewport.Height = height; }
+
 	Viewport();
 	Viewport(float width, float height, float x = 0, float y = 0, float minDepth = 0, float maxDepth = 1);
 	~Viewport();

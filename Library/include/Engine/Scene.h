@@ -24,5 +24,8 @@ public:
 	virtual void Add(std::shared_ptr<GameObject> gameObject);
 	virtual void Remove(std::shared_ptr<GameObject> gameObject);
 	virtual void ClearScene();
+
+	//shadow
+	void RenderShadowMap();
 };
 

@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "MapRenderer.h"
 
+#include "SpaceDivideTree.h"
+#include "ObjectManager.h"
+#include "Engine/ModelRenderer.h"
+
 void MapRenderer::Init()
 {
 	terrainShader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
@@ -26,6 +30,8 @@ void MapRenderer::Init()
 	box = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
 
 	mappingMesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
+
+	depthMapShadow.Init();
 }
 
 void MapRenderer::Render()
@@ -42,7 +48,7 @@ void MapRenderer::Render()
 
 	// 환경 매핑
 	{
-		transformDesc.World = Matrix::CreateScale(100);
+		transformDesc.World = Matrix::CreateScale(0);
 
 		skyboxShader->PushTransformData(transformDesc);
 
@@ -54,6 +60,35 @@ void MapRenderer::Render()
 
 		skyboxShader->DrawIndexed(0, 1, mappingMesh->GetIndexBuffer()->GetIndexCount());
 	}
+
+
+}
+
+void MapRenderer::RenderShadow()
+{
+	depthMapShadow.renderTarget.Begin();
+
+	terrainShader->PushGlobalData(depthMapShadow.lightView, depthMapShadow.lightProj);
+	objectShader->PushGlobalData(depthMapShadow.lightView, depthMapShadow.lightProj);
+
+	SceneManager::GetInstance().GetCurrentScene()->RenderShadowMap();
+
+	depthMapShadow.renderTarget.End();
+
+	ShadowDesc desc;
+	desc.shadowViewProjection = depthMapShadow.shadowMatrix;
+	terrainShader->PushShadowData(desc);
+	objectShader->PushShadowData(desc);
+
+	terrainShader->GetSRV("ShadowMap")->SetResource(depthMapShadow.renderTarget.textureSRV.Get());
+	objectShader->GetSRV("ShadowMap")->SetResource(depthMapShadow.renderTarget.textureSRV.Get() );
+
+	// set view, proj again (temp)
+	view = CameraManager::GetInstance().GetMainCamera()->viewMatrix;
+	proj = CameraManager::GetInstance().GetMainCamera()->projectionMatrix;
+
+	terrainShader->PushGlobalData(view, proj);
+	objectShader->PushGlobalData(view, proj);
 }
 
 void MapRenderer::Update()

@@ -1,6 +1,10 @@
 #ifndef _MAP_TOOL_GLOBAL_FX_
 #define _MAP_TOOL_GLOBAL_FX_
 
+#define MAX_MODEL_TRANSFORMS 250
+#define MAX_MODEL_KEYFRAMES 500
+#define MAX_MODEL_INSTANCE 500
+
 cbuffer GlobalBuffer
 {
     matrix View;
@@ -14,6 +18,11 @@ cbuffer TransformBuffer
     matrix World;
 };
 
+cbuffer ShadowBuffer
+{
+    matrix ShadowViewProjection;
+};
+
 /// Vertex Input ///
 
 struct VertexModel
@@ -24,8 +33,8 @@ struct VertexModel
     float3 tangent : TANGENT;
     
     // skinning animation
-    //float4 blendIndices : BLENDINDICES;
-    //float4 blendWeights : BLENDWEIGHT;
+    // float4 blendIndices : BLENDINDICES;
+    // float4 blendWeights : BLENDWEIGHT;
     
     uint instanceID : SV_INSTANCEID;
     matrix world : INST;
@@ -52,7 +61,10 @@ struct MeshOutput
     float3 eye : EYE;
     float3 lightDir : LIGHTDIR;
     
-    float3 worldPosition : POSITION1;
+    float4 color : COLOR; // for depth
+    float4 shadow : SHADOW;
+    
+    float4 worldPosition : POSITION1;
     
     //float3 tangent : TANGENT;
 };
@@ -61,8 +73,10 @@ struct PNCTOutput
 {
     float4 position : SV_POSITION;
     float3 normal : NORMAL;
-    float4 color : COLOR;
+    float4 color : COLOR; // for depth
     float2 uv : TEXCOORD;
+    
+    float4 shadow : SHADOW;
 };
 
 /// Vertex Output ///

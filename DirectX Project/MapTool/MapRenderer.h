@@ -1,4 +1,10 @@
 #pragma once
+
+class SpaceDivideTree;
+class ObjectManager;
+
+#include "DepthMapShadow.h"
+
 class MapRenderer
 {
 private:
@@ -22,10 +28,15 @@ private:
 	// 환경 매핑
 	std::shared_ptr<Mesh> mappingMesh;
 
+	// 그림자
+	DepthMapShadow depthMapShadow;
+
 public:
 	void Update();
 	void Init();
 	void Render();
+
+	void RenderShadow();
 
 	MapRenderer();
 	~MapRenderer();

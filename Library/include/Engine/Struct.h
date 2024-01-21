@@ -125,3 +125,8 @@ struct InstancedKeyFrameDesc
 {
 	KeyframeDesc keyframes[MAX_MODEL_INSTANCE];
 };
+
+struct ShadowDesc
+{
+	Matrix shadowViewProjection = Matrix::Identity;
+}; 

@@ -10,8 +10,10 @@
 #include "Transform.h"
 #include "Shader.h"
 
-void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObjects)
+void InstancingManager::Render(std::vector<std::shared_ptr<GameObject>>& gameObjects, bool renderShadow)
 {
+	this->renderShadow = renderShadow;
+
 	ClearData();
 	ClearBuffer();
 
@@ -67,6 +69,8 @@ void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObje
 		cache[instanceID].push_back(gameObject);
 	}
 
+	// object shader pass 설정, view, proj 설정
+
 	for (auto& pair : cache)
 	{
 		std::shared_ptr<InstancedKeyFrameDesc> keyFramesDesc = std::make_shared<InstancedKeyFrameDesc>();
@@ -86,10 +90,14 @@ void InstancingManager::RenderModelRenderer(std::vector<std::shared_ptr<GameObje
 			gameObj->GetModelRenderer()->UpdateKeyframeDesc();
 			keyFramesDesc->keyframes[i] = gameObj->GetModelRenderer()->GetKeyFrameDesc();
 		}
-		gameObjects[0]->GetModelRenderer()->GetShader()->PushInstancedKeyFrameData(*(keyFramesDesc.get()));
+
+		auto modelRenderer = gameObjects[0]->GetModelRenderer();
+
+		modelRenderer->SetPass(renderShadow ? 2 : 0);
+		modelRenderer->GetShader()->PushInstancedKeyFrameData(*(keyFramesDesc.get()));
 
 		std::shared_ptr<InstancingBuffer>& buffer = buffers[instanceID];
-		gameObjects[0]->GetModelRenderer()->RenderInstancing(buffer);
+		modelRenderer->RenderInstancing(buffer);
 	}
 }
 

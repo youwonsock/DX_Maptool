@@ -110,3 +110,13 @@ void Scene::ClearScene()
 	lights.clear();
 }
 
+void Scene::RenderShadowMap()
+{
+	std::vector<std::shared_ptr<GameObject>> temp;
+
+	for (auto& gameObject : gameObjects)
+		temp.push_back(gameObject);
+
+	InstancingManager::GetInstance().Render(temp, true);
+}
+

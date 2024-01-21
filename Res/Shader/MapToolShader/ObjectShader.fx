@@ -2,16 +2,14 @@
  
 // instancing 적용 시 월드 행렬 변경 필요 (별도의 쉐이더 함수를 만들까?)
 
-#define MAX_MODEL_TRANSFORMS 250
-#define MAX_MODEL_KEYFRAMES 500
-#define MAX_MODEL_INSTANCE 500
-
 MeshOutput VS_Model(VertexModel input)
 {
-    MeshOutput output;
+    MeshOutput output = (MeshOutput) 0;
 	
     output.position = mul(input.position, input.world);
-    output.worldPosition = output.position.xyz;
+    //output.position = mul(input.position, World);
+    
+    output.worldPosition = output.position;
     output.position = mul(output.position, ViewProjection);
     
     output.uv = input.uv;
@@ -20,9 +18,14 @@ MeshOutput VS_Model(VertexModel input)
     float3 tangent = mul(input.tangent, (float3x3) input.world);
     float3x3 TBNMat = ComputeTBN(normal, tangent);
     
-    output.eye = normalize(GetCameraPosition() - output.worldPosition);
+    float depth = output.position.z;// * 1.0f / (1300.0f - 1.0f) + -1.0f / (1300.0f - 1.0f);
+    output.color = float4(depth, depth, depth, 1); // depth value
+    
+    output.eye = normalize(GetCameraPosition() - output.worldPosition.xyz);
     output.eye = mul(output.eye, TBNMat);
     output.lightDir = mul(GlobalLight.direction, TBNMat);
+    
+    output.shadow = mul(output.worldPosition, ShadowViewProjection);
     
     return output;
 }
@@ -71,19 +74,21 @@ matrix GetAnimationMatrix(VertexModel input)
 
 MeshOutput VS_Animation(VertexModel input)
 {
-    MeshOutput output;
+    MeshOutput output = (MeshOutput)0;
     
     matrix m = GetAnimationMatrix(input);
     output.position = mul(input.position, m);
     output.position = mul(output.position, input.world);
-    output.worldPosition = output.position.xyz;
+    output.worldPosition = output.position;
     output.position = mul(output.position, ViewProjection);
     
     output.uv = input.uv;
     
     //temp
-    output.eye = normalize(GetCameraPosition() - output.worldPosition);
+    output.eye = normalize(GetCameraPosition() - output.worldPosition.xyz);
     output.lightDir = mul(GlobalLight.direction, (float3x3) input.world);
+    
+    output.shadow = mul(output.worldPosition, ShadowViewProjection);
     
     //output.normal = mul(input.normal, (float3x3) input.world);
     //output.tangent = mul(input.tangent, (float3x3) input.world);
@@ -101,12 +106,20 @@ float4 PS(MeshOutput input) : SV_TARGET
     float4 map = NormalMap.Sample(LinearSampler, input.uv);
     float3 tangentSpaceNormal = (map * 2.0f) - 1.0f;
     
-    return ComputeLight(tangentSpaceNormal, input.uv, input.eye, input.lightDir);
+    //return ComputeLight(tangentSpaceNormal, input.uv, input.eye, input.lightDir);
+    
+    return GetAlbedo(input.uv, input.shadow);
 }
 
+float4 PS_Depth(MeshOutput input) : SV_TARGET
+{
+    return input.color;
+}
 
 technique11 T0
 {
     PASS_VP(P0, VS_Model, PS)
     PASS_VP(P1, VS_Animation, PS)
+
+    PASS_VP(P2, VS_Model, PS_Depth)
 };

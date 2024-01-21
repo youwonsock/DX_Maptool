@@ -6,7 +6,8 @@ class DebugDrawer;
 
 class ObjectManager
 {
-private:
+//private:
+public:
 	std::shared_ptr<Shader> shader = nullptr;
 	std::shared_ptr<GameObject> pickObject = nullptr;
 

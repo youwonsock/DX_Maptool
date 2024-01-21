@@ -51,6 +51,7 @@ public:
 	void PushInstancedKeyFrameData(const InstancedKeyFrameDesc& desc);
 	void PushTweenData(const TweenDesc& desc);
 	void PushInstancedTweenData(const InstancedTweenDesc& desc);
+	void PushShadowData(const ShadowDesc& desc);
 
 	// resource base override
 	virtual bool Load(const std::wstring& path) override;
@@ -74,6 +75,7 @@ private:
 	std::shared_ptr<ConstantBuffer<TweenDesc>> tweenBuffer							= nullptr;
 	std::shared_ptr<ConstantBuffer<InstancedTweenDesc>> instancedTweenBuffer		= nullptr;
 	std::shared_ptr<ConstantBuffer<InstancedKeyFrameDesc>> instancedKeyframeBuffer	= nullptr;
+	std::shared_ptr<ConstantBuffer<ShadowDesc>> shadowBuffer						= nullptr;
 
 	ComPtr<ID3DX11EffectConstantBuffer> globalEffectBuffer				= nullptr;
 	ComPtr<ID3DX11EffectConstantBuffer> transformEffectBuffer			= nullptr;
@@ -84,6 +86,7 @@ private:
 	ComPtr<ID3DX11EffectConstantBuffer> tweenEffectBuffer				= nullptr;
 	ComPtr<ID3DX11EffectConstantBuffer> instancedTweenEffectBuffer		= nullptr;
 	ComPtr<ID3DX11EffectConstantBuffer> instancedKeyframeEffectBuffer	= nullptr;
+	ComPtr<ID3DX11EffectConstantBuffer> shadowEffectBuffer				= nullptr;
 
 	TransformDesc transformDesc;
 	GlobalDesc globalDesc;
@@ -94,4 +97,5 @@ private:
 	TweenDesc tweenDesc;
 	InstancedTweenDesc instancedTweenDesc;
 	InstancedKeyFrameDesc instancedKeyframeDesc;
+	ShadowDesc shadowDesc;
 };

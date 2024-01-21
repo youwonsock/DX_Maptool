@@ -98,6 +98,8 @@ void Terrain::Update()
 
 	// normal test
 	//CalcPerVertexNormalsFastLookup();
+
+
 }
 
 bool save = false;
@@ -265,6 +267,8 @@ void Terrain::PostUpdate()
 
 void Terrain::Render()
 {
+	mapRenderer->RenderShadow();
+
 	spaceDivideTree->Render();
 
 	mapRenderer->Render();
@@ -340,7 +344,7 @@ void Terrain::LoadMapData(std::wstring mapDataPath)
 		shader = ResourceManager::GetInstance().Load<Shader>(L"MapToolShader", L"Shader/MapToolShader/MapToolShader.fx");
 
 		texture = ResourceManager::GetInstance().Load<Texture>(L"MapToolTexture", baseTexturePath, false);
-		shader->GetSRV("MapBaseTexture")->SetResource(texture->GetShaderResourceView().Get());
+		shader->GetSRV("DiffuseMap")->SetResource(texture->GetShaderResourceView().Get());
 	}
 
 	// height map

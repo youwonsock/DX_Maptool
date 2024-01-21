@@ -2,7 +2,6 @@
 
 #include "Types.h"
 #include "Viewport.h"
-#include "RenderTarget.h"
 
 class Graphics
 {

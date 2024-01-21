@@ -15,6 +15,8 @@ private:
 	InstancingManager() {};
 
 	std::map<InstanceID, std::shared_ptr<InstancingBuffer>> buffers;
+
+	bool renderShadow = false;
 public:
 
 
@@ -26,7 +28,7 @@ private:
 	void AddData(InstanceID instanceID, InstancingData& data);
 
 public:
-	void Render(std::vector<std::shared_ptr<GameObject>>& gameObjects);
+	void Render(std::vector<std::shared_ptr<GameObject>>& gameObjects, bool renderShadow = false);
 	void ClearData();
 	void ClearBuffer();
 };

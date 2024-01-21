@@ -3,6 +3,7 @@
 
 DepthMapShadow::DepthMapShadow()
 {
+
 }
 
 DepthMapShadow::~DepthMapShadow()
@@ -17,12 +18,11 @@ void DepthMapShadow::Init()
 	lightProj = Matrix::CreateOrthographic(viewDistance, viewDistance, 0.1f, 100.0f);
 
 
-}
+	textureMatrix._11 = 0.5f; textureMatrix._22 = -0.5f;
+	textureMatrix._41 = 0.5f; textureMatrix._42 = 0.5f;
+	renderTarget.Create(1024, 1024);
 
-void DepthMapShadow::Update()
-{
-}
+	shadowMatrix = lightView * lightProj * textureMatrix;
 
-void DepthMapShadow::Render()
-{
+
 }
