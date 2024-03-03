@@ -94,7 +94,6 @@ void ObjectManager::ShowObjectUI()
 	// open Dialog Simple`
 	if (ImGui::Button("Load FBX File"))
 		ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", "FBX files(*.fbx *.FBX){ .fbx, .FBX}", "../../Res/Assets/");
-	ImGui::Checkbox("Use FBXSDK", &useFBXSDK);
 
 
 	// display
@@ -117,9 +116,7 @@ void ObjectManager::ShowObjectUI()
 			converter->ExportMaterialData(wFileName + L"/" + wFileName);
 			converter->ExportModelData(wFileName + L"/" + wFileName);
 
-			UseLib type = UseLib::ASSIMP;
-			if (useFBXSDK)
-				type = UseLib::FBXSDK;
+			UseLib type = UseLib::FBXSDK;
 			converter->ExportAnimationData(wFileName + L"/" + wFileName, 0, type);
 
 			ReadObjectModelNameList();

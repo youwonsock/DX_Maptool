@@ -17,17 +17,16 @@ void MapTool::Init()
 
 	// skybox
 	{
-		//map->AddComponent(std::make_shared<SkyBox>());
+		map->AddComponent(std::make_shared<SkyBox>());
 	}
 		
-	
 	map->Init();
 
 	// camera
 	{
 		cameraObject = std::make_shared<GameObject>();
 		cameraObject->AddComponent(std::make_shared<TestCamera>());
-		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 0, 0));
+		cameraObject->GetTransform()->SetWorldPosition(Vector3(0, 50, -150));
 		cameraObject->GetTransform()->SetWorldRotation(Vector3(0, 0, 0));
 
 		CameraManager::GetInstance().AddCamera(L"MainCamera", cameraObject);

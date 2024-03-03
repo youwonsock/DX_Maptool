@@ -5,6 +5,9 @@
 #include "ObjectManager.h"
 #include "Engine/ModelRenderer.h"
 
+// map renderer의 skybox와 환경 매핑은 skybox 오브젝트로 이전 하고,
+// shadow는 manager를 만들거나 ShadowRenderer를 만들어 이전하자.
+
 void MapRenderer::Init()
 {
 	terrainShader = ResourceManager::GetInstance().Get<Shader>(L"MapToolShader");
@@ -29,37 +32,37 @@ void MapRenderer::Init()
 
 	box = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
 
-	mappingMesh = ResourceManager::GetInstance().Get<Mesh>(L"Sphere");
+	mappingMesh = ResourceManager::GetInstance().Get<Mesh>(L"Cube");
 
 	depthMapShadow.Init();
 }
 
 void MapRenderer::Render()
 {
-	UINT stride = box->GetVertexBuffer()->GetStride();
-	UINT offset = box->GetVertexBuffer()->GetOffset();
+	//UINT stride = box->GetVertexBuffer()->GetStride();
+	//UINT offset = box->GetVertexBuffer()->GetOffset();
 
-	Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//Global::g_immediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	Global::g_immediateContext->IASetVertexBuffers(0, 1, box->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
-	Global::g_immediateContext->IASetIndexBuffer(box->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+	//Global::g_immediateContext->IASetVertexBuffers(0, 1, box->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+	//Global::g_immediateContext->IASetIndexBuffer(box->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
-	skyboxShader->DrawIndexed(0, 0, box->GetIndexBuffer()->GetIndexCount());
+	//skyboxShader->DrawIndexed(0, 0, box->GetIndexBuffer()->GetIndexCount());
 
-	// 환경 매핑
-	{
-		transformDesc.World = Matrix::CreateScale(0);
+	//// 환경 매핑
+	//{
+	//	transformDesc.World = Matrix::CreateScale(Vector3(0,1,0));
 
-		skyboxShader->PushTransformData(transformDesc);
+	//	skyboxShader->PushTransformData(transformDesc);
 
-		stride = mappingMesh->GetVertexBuffer()->GetStride();
-		offset = mappingMesh->GetVertexBuffer()->GetOffset();
+	//	stride = mappingMesh->GetVertexBuffer()->GetStride();
+	//	offset = mappingMesh->GetVertexBuffer()->GetOffset();
 
-		Global::g_immediateContext->IASetVertexBuffers(0, 1, mappingMesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
-		Global::g_immediateContext->IASetIndexBuffer(mappingMesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+	//	Global::g_immediateContext->IASetVertexBuffers(0, 1, mappingMesh->GetVertexBuffer()->GetVertexBuffer().GetAddressOf(), &stride, &offset);
+	//	Global::g_immediateContext->IASetIndexBuffer(mappingMesh->GetIndexBuffer()->GetIndexBuffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 
-		skyboxShader->DrawIndexed(0, 1, mappingMesh->GetIndexBuffer()->GetIndexCount());
-	}
+	//	skyboxShader->DrawIndexed(0, 1, mappingMesh->GetIndexBuffer()->GetIndexCount());
+	//}
 
 
 }
@@ -71,7 +74,7 @@ void MapRenderer::RenderShadow()
 	terrainShader->PushGlobalData(depthMapShadow.lightView, depthMapShadow.lightProj);
 	objectShader->PushGlobalData(depthMapShadow.lightView, depthMapShadow.lightProj);
 
-	SceneManager::GetInstance().GetCurrentScene()->RenderShadowMap();
+	SceneManager::GetInstance().GetCurrentScene()->Render();
 
 	depthMapShadow.renderTarget.End();
 

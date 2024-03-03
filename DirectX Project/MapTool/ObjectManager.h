@@ -17,7 +17,6 @@ public:
 	int selectedModelIdx = -1;
 	int objectCount = 0;
 	int selectedObjectIdx = -1;
-	bool useFBXSDK = false;
 
 public:
 

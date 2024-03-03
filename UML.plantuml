@@ -1,0 +1,48 @@
+
+@startuml
+
+	' Main Components
+    class Component
+    class MonoBehaviour
+    class Terrain
+    
+    ' Draw SkyBox and Evironment Mapping   
+    ' SkyBox 랜더링과 환경 매핑을 담당하는 클래스
+    class SkyBox
+
+    ' Terrain Compos
+    class ObjectManager
+    class HeightMap
+    class Picking
+    class Splatting
+
+    ' Tree
+    class SectionNode
+    class SpaceDivideTree
+    class StaticLOD
+
+    ' Renderer
+    ' 싱글톤이 아니라 그냥 Terrain에 박아도 될듯 
+    class EnvironmentRenderer << (S,#FF7700) Singleton >>
+
+    Component <|-- MonoBehaviour
+    MonoBehaviour <|-- Terrain
+    MonoBehaviour <|-- SkyBox
+
+    Terrain *-- HeightMap
+    Terrain *-- Picking
+    Terrain *-- Splatting
+    Terrain *-- SpaceDivideTree
+
+    ' 나중에 EnvironmentRenderer(singleton)를 만들어 쉐도우 기능을 이전하고 환경매핑은 skybox에서 
+    ' mapRenderer는 삭제 예정
+    Terrain *-- mapRenderer 
+
+    SpaceDivideTree *-- SectionNode
+    SpaceDivideTree *-- StaticLOD
+
+    ' 현재 map에 배치 되는 object는 node와 연관성이 없으니 ObjectManager를 이전해도 무방할듯
+    ' 하지만 나중에 object를 배치할때 node를 참조해야 할수도 있으니 일단 연결
+    SpaceDivideTree *-- ObjectManager 
+
+@enduml
