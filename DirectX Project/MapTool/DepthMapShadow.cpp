@@ -14,7 +14,7 @@ void DepthMapShadow::Init()
 {
 	lightView = Matrix::CreateLookAt(Vector3(100, 100, 100), Vector3(0, 0, 0), Vector3(0, 1, 0)); // light direction과 일치하게 생성
 	
-	float viewDistance = 512; // 129*1 + 129 * 1은 terrain의 전체 크기(모든 오브젝트가 깊이맵에 들어오게 하려고)
+	float viewDistance = 129; // 129*1 + 129 * 1은 terrain의 전체 크기(모든 오브젝트가 깊이맵에 들어오게 하려고)
 	lightProj = Matrix::CreateOrthographic(viewDistance, viewDistance, 0.1f, 500.0f);
 
 
