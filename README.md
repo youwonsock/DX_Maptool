@@ -18,14 +18,8 @@
 <p>
 <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Microsoft-DirectX-Logo-wordmark.svg" height="80">
 </p>
-<p>
-  ![스크린샷 2024-05-08 024741](https://github.com/youwonsock/DX_Maptool/assets/46276141/c4935dbe-ec4b-4aa6-a079-8dc77cd4f5f2)
-</p>
-<p>
-  ![스크린샷 2024-05-08 024549](https://github.com/youwonsock/DX_Maptool/assets/46276141/5c1f9e63-0ee1-4612-9689-87cff0ba923d)
-</p>
 
-<b><h2>Periods</h2></b>
+## Periods
 
 * 2023-12 - 2024-02
 
