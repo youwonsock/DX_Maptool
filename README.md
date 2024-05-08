@@ -168,18 +168,18 @@ Ray와 Node의 OBB 박스와 1차 검사 후 충돌한 Node의 Face와 검사해
 
 ### Animation, Instansing
 ![스크린샷 2024-05-07 052204](https://github.com/youwonsock/DX_Maptool/assets/46276141/760739fd-58e9-43d2-8e7b-c13f05e6d444)
-Texture에 최종 애니메이션 행렬을 저장 후 Shader에서 input데이터를 이용해 계산하는 방식으로 Skinning animation을 구현하였습니다.
+모든 Object를 vector에 저장 뒤 같은 모델을 사용하는 인스턴스 별로 다시 나눠서 Draw합니다. 
 
 ![스크린샷 2024-05-07 052413](https://github.com/youwonsock/DX_Maptool/assets/46276141/7b012611-386c-45b6-b570-06c5cfd4abc2)
-모든 Object를 vector에 저장 뒤 같은 모델을 사용하는 인스턴스 별로 다시 나눠서 Draw합니다. 
+Texture에 최종 애니메이션 행렬을 저장 후 Shader에서 input데이터를 이용해 계산하는 방식으로 Skinning animation을 구현하였습니다.
 
 
 
 ### Normal Mapping, Environment Mapping
 ![스크린샷 2024-05-08 223249](https://github.com/youwonsock/DX_Maptool/assets/46276141/55003ea8-8d95-4903-a2ce-88db5de5e210)
+![스크린샷 2024-05-08 223921](https://github.com/youwonsock/DX_Maptool/assets/46276141/6789476e-6a57-4b2f-be32-18e1b7f931df)
 라이트 백터를 Tangent Space로 변환시킨 뒤 이미지에서 추출한 TBN을 이용해 세이더에서 처리합니다.
 
-![스크린샷 2024-05-08 223921](https://github.com/youwonsock/DX_Maptool/assets/46276141/6789476e-6a57-4b2f-be32-18e1b7f931df)
 
 
 ### Depthmap Shadow
