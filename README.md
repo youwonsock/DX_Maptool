@@ -5,8 +5,6 @@
 * GitHub : https://github.com/youwonsock
 * Mail : qazwsx233434@gmail.com
 
-## Youtube
-
 <b><h2>Platforms</h2></b>
 
 <p>
